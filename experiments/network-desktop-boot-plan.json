@@ -15,7 +15,7 @@
       ],
       "gitnexus": [
         "The public Oriole tree is an evidence snapshot; the normal desktop integration boundary is the device package install tree and systemd/network manager handoff.",
-        "The private handoff script must create oriole-bringup-serial.service before /run/oriole-stage-continue."
+        "The handoff script in experiments/serial-input30-gui-handoff.sh creates oriole-bringup-serial.service before /run/oriole-stage-continue."
       ],
       "ast": [
         "The smoke runner has no mutation path by default; its optional inputs are endpoint and URL only.",
