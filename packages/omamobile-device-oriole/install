@@ -27,3 +27,11 @@ stage 644 device.conf usr/share/omamobile/device.conf
 stage 644 etc/omamobile-mirrorlist etc/pacman.d/omamobile-mirrorlist
 stage 644 LICENSE usr/share/licenses/omamobile-device-oriole/LICENSE
 stage 644 version usr/share/omamobile/device-oriole/version
+stage 644 optional/README.md usr/share/omamobile/device-oriole/optional/README.md
+stage 644 optional/wifi/90-bcmdhd-unmanaged.conf usr/share/omamobile/device-oriole/optional/wifi/90-bcmdhd-unmanaged.conf
+stage 644 optional/camera/oriole-camera.modules-load usr/share/omamobile/device-oriole/optional/camera/oriole-camera.modules-load
+stage 644 optional/camera/oriole-camera.modprobe usr/share/omamobile/device-oriole/optional/camera/oriole-camera.modprobe
+stage 644 optional/camera/90-oriole-camera.rules usr/share/omamobile/device-oriole/optional/camera/90-oriole-camera.rules
+stage 644 optional/camera/90-oriole-camera.wireplumber.conf usr/share/omamobile/device-oriole/optional/camera/90-oriole-camera.wireplumber.conf
+stage 644 optional/performance/90-oriole-sched.conf usr/share/omamobile/device-oriole/optional/performance/90-oriole-sched.conf
+stage 644 optional/performance/oriole-cpufreq-ratelimit.service usr/share/omamobile/device-oriole/optional/performance/oriole-cpufreq-ratelimit.service

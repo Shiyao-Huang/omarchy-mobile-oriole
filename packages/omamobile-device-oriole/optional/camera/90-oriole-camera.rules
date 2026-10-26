@@ -1,0 +1,4 @@
+# SPDX-License-Identifier: MIT
+# The distro rules cover udmabuf but not the system dma-buf heap used by the
+# GS101 software ISP.
+SUBSYSTEM=="dma_heap", KERNEL=="system", GROUP="video", MODE="0660"

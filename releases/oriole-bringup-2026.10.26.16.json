@@ -1,0 +1,37 @@
+{
+  "release": "oriole-bringup-2026.10.26.16",
+  "kind": "optional-gpu-network-camera-profiles-checkpoint",
+  "daily_use_ready": false,
+  "one_click_full_install_ready": false,
+  "device": "Pixel 6 oriole",
+  "changes": [
+    {
+      "component": "optional runtime profiles",
+      "status": "offline profile and package validation passed; live hardware gates remain open",
+      "evidence": [
+        "packages/omamobile-device-oriole/optional/",
+        "experiments/test-oriole-optional-profiles.py",
+        "experiments/gpu-g15-mmu-init-evidence.json",
+        "experiments/wifi-w3-association-evidence.json"
+      ],
+      "proved": [
+        "The package can carry reviewed BCM4389 helper-interface isolation without exposing credentials",
+        "The camera profile exposes the system dma-buf heap, hides raw CSIS nodes from WirePlumber and keeps the known failing GN1 unbound",
+        "The performance profile carries the ACPM schedutil rate limit and is staged inactive until physical and thermal acceptance"
+      ],
+      "limits": [
+        "No optional profile was applied to a phone in this checkpoint",
+        "GPU DVFS and first-draw fixes still require the exact GS101 kernel build and normal boot",
+        "Front/ultra-wide capture, China Mobile 4G/5G registration and sustained Agent traffic remain unverified"
+      ]
+    }
+  ],
+  "rollback": {
+    "boot_images_changed": false,
+    "radio_state": "no phone mutation performed",
+    "partition_writes": "none"
+  },
+  "publication": "No vendor firmware, calibration, credentials, private logs, MAC addresses, SSIDs or serial numbers are included.",
+  "supersedes": "oriole-bringup-2026.10.26.15",
+  "next_gate": "Build the exact GS101 kernel, connect Pixel 6 to Mac4, validate GPU first-draw and CPU rate behavior, then apply one optional profile at a time with watchdog and rollback."
+}

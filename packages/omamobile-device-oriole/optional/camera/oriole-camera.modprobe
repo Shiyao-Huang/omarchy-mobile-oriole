@@ -1,0 +1,4 @@
+# SPDX-License-Identifier: MIT
+# The GN1 main sensor is not usable on the current GS101 CSIS path. Keep it
+# from binding so applications see only the working camera candidates.
+blacklist s5kgn1

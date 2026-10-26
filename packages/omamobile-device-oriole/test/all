@@ -66,7 +66,15 @@ for f in usr/bin/reboot-to \
          usr/share/omamobile/device.conf \
          usr/share/omamobile/device-oriole/version \
          usr/share/licenses/omamobile-device-oriole/LICENSE \
-         etc/pacman.d/omamobile-mirrorlist; do
+         etc/pacman.d/omamobile-mirrorlist \
+         usr/share/omamobile/device-oriole/optional/README.md \
+         usr/share/omamobile/device-oriole/optional/wifi/90-bcmdhd-unmanaged.conf \
+         usr/share/omamobile/device-oriole/optional/camera/oriole-camera.modules-load \
+         usr/share/omamobile/device-oriole/optional/camera/oriole-camera.modprobe \
+         usr/share/omamobile/device-oriole/optional/camera/90-oriole-camera.rules \
+         usr/share/omamobile/device-oriole/optional/camera/90-oriole-camera.wireplumber.conf \
+         usr/share/omamobile/device-oriole/optional/performance/90-oriole-sched.conf \
+         usr/share/omamobile/device-oriole/optional/performance/oriole-cpufreq-ratelimit.service; do
   [[ -f $tmp/root/$f ]] || fail "install stages $f"
 done
 [[ -x $tmp/root/usr/bin/omamobile-network-smoke ]] || fail "network smoke tool is executable"

@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: MIT
+# ACPM-backed cpufreq changes are expensive IPCs. Wait for cpufreq-dt to
+# expose schedutil, then limit updates to 10 ms. This is opt-in until the
+# physical touch and thermal gates pass.
+[Unit]
+Description=Oriole schedutil ACPM update limit
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/sh -c 'f=/sys/devices/system/cpu/cpufreq/schedutil/rate_limit_us; i=0; while [ ! -e "$f" ] && [ "$i" -lt 60 ]; do sleep 0.5; i=$((i+1)); done; [ -e "$f" ] && echo 10000 > "$f"'
+
+[Install]
+WantedBy=multi-user.target
