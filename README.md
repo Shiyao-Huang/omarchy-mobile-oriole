@@ -32,6 +32,8 @@ python3 experiments/test-oriole-optional-profile.py
 
 A real hardware run needs the exact configured Linux kernel, the user's own factory image and private calibration backups. Read `AGENTS.md`, `CONTRIBUTING.md` and the relevant plan before any phone operation. Keep Android slot A as the recovery path and never flash an unsuffixed partition. The next network gate is [network-desktop-boot-plan](experiments/network-desktop-boot-plan.json); the diagnostic Wi-Fi result does not close it. After a normal desktop boot, run `omamobile-network-recover --check --attempts 3` to diagnose the route used by Agent tools. After a controlled link loss, run `omamobile-network-recover --reconnect wifi` (or `usb`/`cellular`) to retry an existing NetworkManager device, then rerun the check. It never creates profiles, asks for passwords, prints credentials, or activates a radio unless you explicitly request `--reconnect`.
 
+When a Linux builder is unavailable locally, manually trigger [`.github/workflows/oriole-gs101-build.yml`](.github/workflows/oriole-gs101-build.yml). It checks out the pinned GS101/Nura sources, applies the 38 patches, merges the Oriole fragment and uploads only public kernel build artifacts and logs.
+
 ## Evidence policy
 
 The user journey is the acceptance oracle: boot, recover from a failed or interrupted experiment, reach the desktop, touch the UI, connect Wi-Fi and run a small Agent workload. Unit tests cover deterministic contracts; source/build checks cover the kernel boundary; hardware evidence covers only the stated run. A passing source test never upgrades an unverified camera, modem or network claim.

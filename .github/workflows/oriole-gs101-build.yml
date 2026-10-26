@@ -1,0 +1,66 @@
+name: Oriole GS101 kernel build
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  kernel:
+    name: Build pinned GS101 kernel
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: Check out this repository
+        uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y \
+            bc bison flex libelf-dev libssl-dev \
+            gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu \
+            python3 rsync cpio
+
+      - name: Check out the exact GS101 source
+        uses: actions/checkout@v4
+        with:
+          repository: m8l8th814n-eng/gs101-mainline
+          ref: 850061c79264d018317e9f849701f165e138e20c
+          path: build/kernel
+
+      - name: Check out the exact Nura patch source
+        uses: actions/checkout@v4
+        with:
+          repository: TheNoswad/pixel6-mainline-nura
+          ref: a74e18dec7598f65cd504f0c75c10b8d7fc4422b
+          path: build/nura
+
+      - name: Apply the pinned Oriole patch series
+        run: tools/prepare-oriole-kernel --apply "$GITHUB_WORKSPACE/build/nura" "$GITHUB_WORKSPACE/build/kernel"
+
+      - name: Merge the Oriole kernel configuration
+        working-directory: build/kernel
+        run: |
+          make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- LLVM=1 defconfig
+          scripts/kconfig/merge_config.sh -m .config \
+            "$GITHUB_WORKSPACE/kernel/configs/oriole-gs101-mainline.fragment"
+          make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- LLVM=1 olddefconfig
+
+      - name: Build Image, modules and device trees
+        working-directory: build/kernel
+        run: |
+          make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- LLVM=1 -j"$(nproc)" \
+            Image modules dtbs 2>&1 | tee "$GITHUB_WORKSPACE/kernel-build.log"
+
+      - name: Upload non-sensitive build evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: oriole-gs101-build-evidence
+          if-no-files-found: ignore
+          path: |
+            kernel-build.log
+            build/kernel/arch/arm64/boot/Image
+            build/kernel/arch/arm64/boot/dts/exynos/google/gs101-oriole.dtb
