@@ -11,7 +11,7 @@ This repository publishes the Pixel 6 native Omarchy port as a source and eviden
 - `drivers/`: GPL-licensed touchscreen source and the source changes under test.
 - `experiments/`: six-field plans, source tests, build evidence and recovery records. Each result states what it proves and what it does not prove.
 - `releases/`: dated checkpoint manifests. The latest is [oriole-bringup-2026.10.26.9](releases/oriole-bringup-2026.10.26.9.json).
-- `tools/`: read-only collectors and guarded helpers.
+- `tools/`: read-only collectors and guarded helpers. `tools/phone-network-smoke` checks a normal desktop boot for Wi-Fi, IPv4, route, DNS and HTTPS without printing credentials or radio identifiers.
 
 ## Reproduce the offline checks
 
@@ -25,7 +25,7 @@ python3 experiments/test-cpu-m3-rate-guard.py
 python3 experiments/test-wifi-w3-join.py experiments/wifi-w3-fixture/brcmfmac
 ```
 
-A real hardware run needs the exact configured Linux kernel, the user's own factory image and private calibration backups. Read `AGENTS.md`, `CONTRIBUTING.md` and the relevant plan before any phone operation. Keep Android slot A as the recovery path and never flash an unsuffixed partition.
+A real hardware run needs the exact configured Linux kernel, the user's own factory image and private calibration backups. Read `AGENTS.md`, `CONTRIBUTING.md` and the relevant plan before any phone operation. Keep Android slot A as the recovery path and never flash an unsuffixed partition. The next network gate is [network-desktop-boot-plan](experiments/network-desktop-boot-plan.json); the diagnostic Wi-Fi result does not close it.
 
 ## Evidence policy
 

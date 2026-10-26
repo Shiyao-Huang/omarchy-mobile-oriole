@@ -8,20 +8,19 @@ cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 destination=${1:?Usage: ./install DESTDIR [BUILDDIR]}
 build=${2:-build}
 [[ $destination == /* && $destination != "/" ]] || { echo "Use an absolute staging directory" >&2; exit 1; }
-install -Dm755 "$build/reboot-to" "$destination/usr/bin/reboot-to"
-install -Dm644 vendor/udev/rules.d/10-omamobile-storage.rules \
-  "$destination/usr/lib/udev/rules.d/10-omamobile-storage.rules"
-install -Dm644 vendor/systemd/network/20-usb-gadget.network \
-  "$destination/usr/lib/systemd/network/20-usb-gadget.network"
-install -Dm644 vendor/systemd/logind.conf.d/10-omamobile-lid.conf \
-  "$destination/usr/lib/systemd/logind.conf.d/10-omamobile-lid.conf"
-install -Dm644 vendor/systemd/logind.conf.d/10-omamobile-power-key.conf \
-  "$destination/usr/lib/systemd/logind.conf.d/10-omamobile-power-key.conf"
-install -Dm644 vendor/NetworkManager/conf.d/10-omamobile-usb.conf \
-  "$destination/usr/lib/NetworkManager/conf.d/10-omamobile-usb.conf"
-install -Dm644 device.conf \
-  "$destination/usr/share/omamobile/device.conf"
-install -Dm644 etc/omamobile-mirrorlist \
-  "$destination/etc/pacman.d/omamobile-mirrorlist"
-install -Dm644 LICENSE "$destination/usr/share/licenses/omamobile-device-oriole/LICENSE"
-install -Dm644 version "$destination/usr/share/omamobile/device-oriole/version"
+stage() {
+  local mode=$1 source=$2 target=$3
+  mkdir -p "$destination/$(dirname -- "$target")"
+  install -m "$mode" "$source" "$destination/$target"
+}
+stage 755 "$build/reboot-to" usr/bin/reboot-to
+stage 644 vendor/udev/rules.d/10-omamobile-storage.rules usr/lib/udev/rules.d/10-omamobile-storage.rules
+stage 644 vendor/systemd/network/20-usb-gadget.network usr/lib/systemd/network/20-usb-gadget.network
+stage 644 vendor/systemd/logind.conf.d/10-omamobile-lid.conf usr/lib/systemd/logind.conf.d/10-omamobile-lid.conf
+stage 644 vendor/systemd/logind.conf.d/10-omamobile-power-key.conf usr/lib/systemd/logind.conf.d/10-omamobile-power-key.conf
+stage 644 vendor/NetworkManager/conf.d/10-omamobile-usb.conf usr/lib/NetworkManager/conf.d/10-omamobile-usb.conf
+stage 755 vendor/systemd/system/omamobile-network-smoke usr/bin/omamobile-network-smoke
+stage 644 device.conf usr/share/omamobile/device.conf
+stage 644 etc/omamobile-mirrorlist etc/pacman.d/omamobile-mirrorlist
+stage 644 LICENSE usr/share/licenses/omamobile-device-oriole/LICENSE
+stage 644 version usr/share/omamobile/device-oriole/version

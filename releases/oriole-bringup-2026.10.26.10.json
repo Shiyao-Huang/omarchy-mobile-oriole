@@ -1,0 +1,37 @@
+{
+  "release": "oriole-bringup-2026.10.26.10",
+  "kind": "source-and-evidence-checkpoint",
+  "daily_use_ready": false,
+  "one_click_full_install_ready": false,
+  "device": "Pixel 6 oriole",
+  "kernel": "7.3.0-rc6-omamobile-oriole-m1",
+  "changes": [
+    {
+      "component": "normal desktop network acceptance",
+      "status": "tooling and gated plan added; hardware gate still open",
+      "evidence": [
+        "experiments/network-desktop-boot-plan.json",
+        "tools/phone-network-smoke",
+        "packages/omamobile-device-oriole/test/all"
+      ],
+      "proved": [
+        "The device package stages a read-only network smoke tool",
+        "The smoke tool distinguishes wireless interface, IPv4, route, DNS and HTTPS failures",
+        "Package staging works with the portable install helper used by the offline test"
+      ],
+      "limits": [
+        "No cold normal-desktop run was captured in this checkpoint",
+        "Diagnostic Wi-Fi association evidence remains separate from desktop acceptance",
+        "No cellular or camera claim is changed"
+      ]
+    }
+  ],
+  "rollback": {
+    "boot_images_changed": false,
+    "radio_state": "no phone mutation performed",
+    "partition_writes": "none"
+  },
+  "publication": "No vendor firmware, calibration, credentials, private logs, MAC addresses, SSIDs or serial numbers are included.",
+  "supersedes": "oriole-bringup-2026.10.26.9",
+  "next_gate": "Restore the serial handoff, cold-boot normal Omarchy, run the smoke tool, and capture DHCP/DNS/HTTPS plus one reconnect."
+}

@@ -59,12 +59,15 @@ for f in usr/bin/reboot-to \
          usr/lib/systemd/logind.conf.d/10-omamobile-lid.conf \
          usr/lib/systemd/logind.conf.d/10-omamobile-power-key.conf \
          usr/lib/NetworkManager/conf.d/10-omamobile-usb.conf \
+         usr/bin/omamobile-network-smoke \
          usr/share/omamobile/device.conf \
          usr/share/omamobile/device-oriole/version \
          usr/share/licenses/omamobile-device-oriole/LICENSE \
          etc/pacman.d/omamobile-mirrorlist; do
   [[ -f $tmp/root/$f ]] || fail "install stages $f"
 done
+[[ -x $tmp/root/usr/bin/omamobile-network-smoke ]] || fail "network smoke tool is executable"
+pass "network smoke tool staged"
 grep -q 'KERNEL=="sda", MODE="0000"' "$tmp/root/usr/lib/udev/rules.d/10-omamobile-storage.rules" \
   || fail "the whole-disk node is made inaccessible"
 grep -q 'ID_PART_ENTRY_NAME}!="userdata"' "$tmp/root/usr/lib/udev/rules.d/10-omamobile-storage.rules" \

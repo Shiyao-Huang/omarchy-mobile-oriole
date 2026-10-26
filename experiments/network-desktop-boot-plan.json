@@ -1,0 +1,61 @@
+{
+  "claim": "A cold boot into normal Omarchy loads the Oriole Wi-Fi stack and provides a usable network path to an Agent.",
+  "oracle": "After a cold boot, the phone reaches the graphical session, a wireless interface is present, the user can select an authorized network without a stored credential in the image, DHCP installs a route, DNS resolves, HTTPS reaches the endpoint, and a controlled link recovery repeats the check.",
+  "validation": {
+    "user_journey": {
+      "scenario": "The user starts an Agent from the Omarchy desktop, the Wi-Fi link drops once, and the Agent resumes after reconnect; if the driver or firmware is absent, the desktop reports a clear network-unavailable state and keeps USB recovery available.",
+      "expected": "The user sees a connected network and can run the Agent API request, or sees an actionable failure without losing the Android A recovery path."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "The normal boot service never stores or prints SSIDs, MAC addresses, passwords or modem data.",
+        "The service is fail-closed when the exact Oriole modules or user-supplied firmware are absent.",
+        "USB serial recovery is created before any handoff to systemd and remains available when Wi-Fi startup fails.",
+        "No modem, calibration, persist, efs, vbmeta or slot-A path is touched."
+      ],
+      "gitnexus": [
+        "The public Oriole tree is an evidence snapshot; the normal desktop integration boundary is the device package install tree and systemd/network manager handoff.",
+        "The private handoff script must create oriole-bringup-serial.service before /run/oriole-stage-continue."
+      ],
+      "ast": [
+        "The smoke runner has no mutation path by default; its optional inputs are endpoint and URL only.",
+        "The package install script stages the runner without enabling a radio service."
+      ]
+    },
+    "unit": {
+      "red": "The package previously had no normal-boot network acceptance command and the install script relied on GNU-only install -D behavior.",
+      "green": "The portable package staging path and read-only smoke runner parse and package successfully.",
+      "cases": [
+        "no wireless interface",
+        "wireless interface without IPv4",
+        "wireless interface without default route",
+        "DNS failure",
+        "HTTPS failure",
+        "successful smoke path with sanitized output"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "cold boot -> systemd handoff -> device package -> kernel modules/firmware -> NetworkManager -> DHCP/DNS/HTTPS",
+        "USB serial recovery remains available if the network path fails"
+      ],
+      "faults": [
+        "missing module or firmware",
+        "AP association failure",
+        "DHCP timeout",
+        "DNS failure",
+        "link down/up reconnect",
+        "desktop handoff before serial service creation"
+      ],
+      "evidence": [
+        "Diagnostic W3 association evidence proves the radio path only; this plan remains open until a cold normal desktop run is captured."
+      ]
+    }
+  },
+  "limitations": [
+    "The public repository does not contain proprietary Broadcom firmware or user credentials.",
+    "The current phone session has USB serial but no usb0/SSH, so the cold desktop gate has not run in this turn.",
+    "Cellular data and camera are separate gates and are not upgraded by Wi-Fi evidence."
+  ],
+  "exit_gate": "Create the serial service before handoff, boot the same verified kernel into normal Omarchy, run omamobile-network-smoke, capture DHCP/DNS/HTTPS and one reconnect, then re-run the user journey."
+}
