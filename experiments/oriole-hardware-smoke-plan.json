@@ -1,0 +1,57 @@
+{
+  "claim": "A single read-only snapshot can separate missing GPU, CPU scaling, network, cellular, camera and touch devices before functional tests.",
+  "oracle": "The snapshot emits valid JSON with explicit presence lists and bounded metrics, never starts hardware and never includes identifying fields.",
+  "validation": {
+    "user_journey": {
+      "scenario": "After a boot or a failed Agent launch, the maintainer runs the snapshot before touching the phone again.",
+      "expected": "The maintainer can see whether the relevant device node or interface exists and chooses the next gate without guessing."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Only sysfs, procfs and device-node presence are read.",
+        "No module, radio, route, camera frame or GPU job is started.",
+        "Presence is labelled as diagnostic evidence and never as feature acceptance."
+      ],
+      "gitnexus": [
+        "The package stages the same snapshot used by the public tools copy.",
+        "The snapshot has no boot, modem, flash or network-configuration caller."
+      ],
+      "ast": [
+        "The script has no write calls or shell execution path.",
+        "Test roots are injectable fixtures, while phone defaults remain /sys and /dev."
+      ]
+    },
+    "unit": {
+      "red": "Existing readiness output did not expose cellular control nodes, CPU governors or media nodes in one bounded report.",
+      "green": "Fixtures cover render, Wi-Fi, USB, cellular control, camera, input and schedutil presence with JSON parsing and redaction.",
+      "cases": [
+        "all optional roots absent",
+        "GPU render node present",
+        "Wi-Fi and USB interfaces present",
+        "cellular control node present",
+        "camera video/media nodes present",
+        "CPU governor present"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "Omarchy phone -> /sys and /dev -> JSON report",
+        "package staging -> installed executable"
+      ],
+      "faults": [
+        "missing GPU node",
+        "missing cellular node",
+        "missing camera node",
+        "missing cpufreq policy"
+      ],
+      "evidence": [
+        "Offline fixture and Oriole package tests pass; live phone execution remains pending."
+      ]
+    }
+  },
+  "limitations": [
+    "Presence does not prove smooth frames, registration, camera capture or touch usability.",
+    "The report does not query modem identities or carrier state."
+  ],
+  "exit_gate": "Run on a cold normal Omarchy boot, compare with independent sysfs reads, then proceed to GPU frame, Wi-Fi reconnect, China Mobile bearer and camera capture gates."
+}

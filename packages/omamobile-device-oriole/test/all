@@ -61,6 +61,7 @@ for f in usr/bin/reboot-to \
          usr/lib/NetworkManager/conf.d/10-omamobile-usb.conf \
          usr/bin/omamobile-network-smoke \
          usr/bin/omamobile-agent-network-smoke \
+         usr/bin/oriole-hardware-smoke \
          usr/share/omamobile/device.conf \
          usr/share/omamobile/device-oriole/version \
          usr/share/licenses/omamobile-device-oriole/LICENSE \
@@ -74,6 +75,11 @@ cmp -s vendor/systemd/system/omamobile-agent-network-smoke \
 pass "Agent network smoke tool matches the tools copy"
 [[ -x $tmp/root/usr/bin/omamobile-agent-network-smoke ]] || fail "Agent network smoke tool is executable"
 pass "Agent network smoke tool staged"
+cmp -s vendor/systemd/system/oriole-hardware-smoke \
+  ../../tools/oriole-hardware-smoke.py || fail "hardware smoke tool drifted from tools copy"
+pass "hardware smoke tool matches the tools copy"
+[[ -x $tmp/root/usr/bin/oriole-hardware-smoke ]] || fail "hardware smoke tool is executable"
+pass "hardware smoke tool staged"
 grep -q 'KERNEL=="sda", MODE="0000"' "$tmp/root/usr/lib/udev/rules.d/10-omamobile-storage.rules" \
   || fail "the whole-disk node is made inaccessible"
 grep -q 'ID_PART_ENTRY_NAME}!="userdata"' "$tmp/root/usr/lib/udev/rules.d/10-omamobile-storage.rules" \

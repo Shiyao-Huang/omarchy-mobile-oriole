@@ -1,0 +1,35 @@
+{
+  "release": "oriole-bringup-2026.10.26.14",
+  "kind": "readiness-tool-and-evidence-checkpoint",
+  "daily_use_ready": false,
+  "one_click_full_install_ready": false,
+  "device": "Pixel 6 oriole",
+  "changes": [
+    {
+      "component": "hardware readiness snapshot",
+      "status": "offline fixture and package validation passed; live hardware gate remains open",
+      "evidence": [
+        "tools/oriole-hardware-smoke.py",
+        "experiments/test-oriole-hardware-smoke.py",
+        "experiments/oriole-hardware-smoke-plan.json"
+      ],
+      "proved": [
+        "GPU render nodes, DRM drivers and devfreq fields are reported separately from CPU governors",
+        "Wi-Fi, USB/ethernet and cellular candidate interfaces are distinguished",
+        "Cellular control nodes, camera nodes and input event nodes are visible in one redacted JSON report"
+      ],
+      "limits": [
+        "No phone was connected in this checkpoint",
+        "No GPU frame benchmark, mobile registration, camera capture or touch journey was run"
+      ]
+    }
+  ],
+  "rollback": {
+    "boot_images_changed": false,
+    "radio_state": "no phone mutation performed",
+    "partition_writes": "none"
+  },
+  "publication": "No vendor firmware, calibration, credentials, private logs, MAC addresses, SSIDs or serial numbers are included.",
+  "supersedes": "oriole-bringup-2026.10.26.13",
+  "next_gate": "Connect Pixel 6 to Mac4, boot the prepared GS101 image through serial recovery, and run the snapshot before functional GPU, Wi-Fi, cellular and camera tests."
+}
