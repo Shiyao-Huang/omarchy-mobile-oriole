@@ -36,8 +36,9 @@ case "${1:-}" in
 esac
 
 if [[ ${1:-} == --rollback ]]; then
-  backup=$(find "$state/backups" -mindepth 1 -maxdepth 1 -type d -name 'backup.*' -print 2>/dev/null | sort | tail -n 1)
+  backup=$(cat "$state/latest" 2>/dev/null || true)
   [[ -n ${backup:-} ]] || { echo 'FAIL no saved Oriole profile backup'; exit 3; }
+  [[ -d "$backup" ]] || { echo 'FAIL saved Oriole profile backup is missing'; exit 3; }
   while IFS=$'\t' read -r rel had; do
     [[ -n "$rel" ]] || continue
     dest="$etc/$rel"
@@ -99,5 +100,6 @@ for rel in "${files[@]}"; do
   fi
   install -Dm644 "$src" "$dest"
 done
+printf '%s\n' "$backup" > "$state/latest"
 printf 'PASS applied profile=%s backup=%s\n' "$profile" "$(basename -- "$backup")"
 printf '%s\n' 'INFO reload or reboot only after the matching hardware gate and watchdog are ready'
