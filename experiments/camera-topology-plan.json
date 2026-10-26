@@ -1,0 +1,53 @@
+{
+  "claim": "The Oriole userspace can identify the supported front/ultra-wide camera topology without treating the unsupported GN1 path as working.",
+  "oracle": "A read-only probe identifies IMX355 or IMX386 nodes, reports media topology counts and leaves frame capture as a separate gate.",
+  "validation": {
+    "user_journey": {
+      "scenario": "The user opens a camera tool after a normal Omarchy boot and needs to know whether a usable sensor is present.",
+      "expected": "The user sees a supported sensor or a clear topology failure; the probe does not hang the camera pipeline or start capture."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Only sysfs video/media node names are read.",
+        "The GN1 main sensor is labelled unsupported until CSIS frame errors are fixed.",
+        "No stream, frame, sensor power transition or camera service restart occurs."
+      ],
+      "gitnexus": [
+        "The package stages the probe beside the inactive camera profile and does not enable it from boot."
+      ],
+      "ast": [
+        "Sensor classification is limited to IMX355, IMX386 and S5KGN1; unknown nodes remain unknown."
+      ]
+    },
+    "unit": {
+      "red": "The public tree had camera profile inputs but no user-facing topology check.",
+      "green": "Fixtures cover IMX355 success, GN1 rejection and absent media nodes.",
+      "cases": [
+        "front IMX355",
+        "ultra-wide IMX386",
+        "unsupported GN1",
+        "no media/video nodes"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "GS101 CSIS and sensor drivers -> /sys/class/video4linux",
+        "camera topology -> libcamera frame capture"
+      ],
+      "faults": [
+        "missing sensor driver",
+        "raw CSIS only",
+        "unsupported GN1 frame errors",
+        "capture timeout"
+      ],
+      "evidence": [
+        "Offline fixture passes; live supported-sensor frame capture remains pending."
+      ]
+    }
+  },
+  "limitations": [
+    "Topology presence does not prove a frame can be captured.",
+    "The main GN1 camera remains intentionally unsupported in this checkpoint."
+  ],
+  "exit_gate": "Run the topology probe after a cold normal boot, then perform one attended IMX355 or IMX386 preview and still capture with a watchdog and rollback path."
+}

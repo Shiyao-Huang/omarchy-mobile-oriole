@@ -24,7 +24,10 @@ the exact M8 tree and all 38 Nura patches apply cleanly. This remains a source
 checkpoint; the Mac cannot produce the required Linux kernel build because it
 has no GNU Make 4+ or case-sensitive build filesystem.
 
-After preparation, merge `kernel/configs/oriole-gs101-mainline.fragment`, run
-the project's Linux build in a Linux environment with GNU Make 4+, and keep
-the output separate from other kernel worktrees. Do not flash until the build,
-serial recovery and slot-B safeguards have been reviewed.
+After preparation, the public Linux workflow applies the verified GS101
+Panfrost cold-start MMU fix from `experiments/apply-gpu-g15.py` and runs its
+failure-injection test before building. Merge
+`kernel/configs/oriole-gs101-mainline.fragment`, run the project's Linux build
+in a Linux environment with GNU Make 4+, and keep the output separate from
+other kernel worktrees. Do not flash until the build, serial recovery and
+slot-B safeguards have been reviewed.

@@ -12,7 +12,7 @@ This repository publishes the Pixel 6 native Omarchy port as a source and eviden
 - `drivers/`: GPL-licensed touchscreen source and the source changes under test.
 - `experiments/`: six-field plans, source tests, build evidence and recovery records. Each result states what it proves and what it does not prove. [`oriole-full-hardware-gate-plan.json`](experiments/oriole-full-hardware-gate-plan.json) is the combined GPU, Wi-Fi, cellular and camera acceptance path.
 - `releases/`: dated checkpoint manifests. The latest is [oriole-bringup-2026.10.26.20](releases/oriole-bringup-2026.10.26.20.json).
-- `tools/`: read-only collectors and guarded helpers. `tools/phone-network-smoke` checks a normal desktop boot for Wi-Fi, IPv4, route, DNS and HTTPS without printing credentials or radio identifiers. `tools/agent-network-smoke` checks the active Wi-Fi, USB-shared or cellular route against GitHub, Anthropic and npm endpoints so an Agent launch can distinguish missing hardware, routing, DNS and remote-service failures. `tools/omamobile-network-recover --check` is the default preflight; `--reconnect wifi|usb|cellular` is an explicit retry of an existing NetworkManager device.
+- `tools/`: read-only collectors and guarded helpers. `tools/phone-network-smoke` checks a normal desktop boot for Wi-Fi, IPv4/IPv6, route, DNS and HTTPS without printing credentials or radio identifiers. `tools/agent-network-smoke` checks the active Wi-Fi, USB-shared or cellular route against GitHub, Anthropic and npm endpoints so an Agent launch can distinguish missing hardware, routing, DNS and remote-service failures. `tools/oriole-cellular-smoke` reports ModemManager registration, access technology and bearer state without activating the modem. `tools/oriole-camera-smoke` classifies the supported IMX355/IMX386 topology without starting capture. `tools/omamobile-network-recover --check` is the default preflight; `--reconnect wifi|usb|cellular` is an explicit retry of an existing NetworkManager device.
 
 ## Reproduce the offline checks
 
@@ -26,6 +26,10 @@ python3 experiments/test-cpu-m3-rate-guard.py
 python3 experiments/test-wifi-w3-join.py experiments/wifi-w3-fixture/brcmfmac
 python3 experiments/test-agent-network-smoke.py
 python3 experiments/test-network-recover.py
+python3 experiments/test-phone-network-smoke.py
+python3 experiments/test-oriole-cellular-smoke.py
+python3 experiments/test-oriole-camera-smoke.py
+python3 experiments/test-oriole-hardware-smoke.py
 python3 experiments/test-oriole-optional-profiles.py
 python3 experiments/test-oriole-optional-profile.py
 python3 experiments/test-oriole-host-preflight.py
@@ -33,7 +37,7 @@ python3 experiments/test-oriole-host-preflight.py
 
 A real hardware run needs the exact configured Linux kernel, the user's own factory image and private calibration backups. Read `AGENTS.md`, `CONTRIBUTING.md` and the relevant plan before any phone operation. Keep Android slot A as the recovery path and never flash an unsuffixed partition. The next network gate is [network-desktop-boot-plan](experiments/network-desktop-boot-plan.json); the diagnostic Wi-Fi result does not close it. After a normal desktop boot, run `omamobile-network-recover --check --attempts 3` to diagnose the route used by Agent tools. The probe checks IPv4 or IPv6 and calls the public GitHub Release metadata endpoint used by mise for Claude Code, so a failure can be separated into route, DNS, TLS/HTTPS or GitHub API layers. After a controlled link loss, run `omamobile-network-recover --reconnect wifi` (or `usb`/`cellular`) to retry an existing NetworkManager device, then rerun the check. It never creates profiles, asks for passwords, prints credentials, or activates a radio unless you explicitly request `--reconnect`.
 
-When a Linux builder is unavailable locally, manually trigger [`.github/workflows/oriole-gs101-build.yml`](.github/workflows/oriole-gs101-build.yml). It checks out the pinned GS101/Nura sources, applies the 38 patches, merges the Oriole fragment and uploads only public kernel build artifacts and logs.
+When a Linux builder is unavailable locally, manually trigger [`.github/workflows/oriole-gs101-build.yml`](.github/workflows/oriole-gs101-build.yml). It checks out the pinned GS101/Nura sources, applies the 38 patches plus the verified Panfrost cold-start MMU fix, merges the Oriole fragment and uploads only public kernel build artifacts and logs.
 
 On Mac4, run `tools/oriole-host-preflight --phone` before connecting the phone and `tools/oriole-host-preflight --build` before attempting a local kernel build. It reports missing host tools without querying devices or printing identifiers.
 

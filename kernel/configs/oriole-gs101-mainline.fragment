@@ -3,6 +3,9 @@
 # Merge this fragment after the exact source commit and the 38-device patch
 # series. It intentionally does not contain firmware paths or calibration.
 CONFIG_DRM_GS101=m
+CONFIG_DRM_PANFROST=m
+CONFIG_PM_DEVFREQ=y
+CONFIG_DEVFREQ_GOV_SIMPLE_ONDEMAND=m
 CONFIG_PCIE_GS101=y
 CONFIG_BCMDHD=m
 CONFIG_BCMDHD_PCIE=y

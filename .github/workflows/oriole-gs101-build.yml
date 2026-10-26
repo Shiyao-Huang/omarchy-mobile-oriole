@@ -21,7 +21,7 @@ jobs:
           sudo apt-get install --no-install-recommends -y \
             bc bison flex libelf-dev libssl-dev \
             gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu \
-            python3 rsync cpio
+            python3 rsync cpio clang
 
       - name: Check out the exact GS101 source
         uses: actions/checkout@v4
@@ -39,6 +39,16 @@ jobs:
 
       - name: Apply the pinned Oriole patch series
         run: tools/prepare-oriole-kernel --apply "$GITHUB_WORKSPACE/build/nura" "$GITHUB_WORKSPACE/build/kernel"
+
+      - name: Apply the verified GS101 Panfrost cold-start fix
+        working-directory: build/kernel
+        run: |
+          mmu=drivers/gpu/drm/panfrost/panfrost_mmu.c
+          python3 "$GITHUB_WORKSPACE/experiments/test-gpu-g15-mmu.py" "$mmu"
+          tmp=$(mktemp)
+          python3 "$GITHUB_WORKSPACE/experiments/apply-gpu-g15.py" "$mmu" "$tmp"
+          mv "$tmp" "$mmu"
+          sha256sum "$mmu" | tee "$GITHUB_WORKSPACE/panfrost-mmu-g15.sha256"
 
       - name: Merge the Oriole kernel configuration
         working-directory: build/kernel
@@ -62,5 +72,6 @@ jobs:
           if-no-files-found: ignore
           path: |
             kernel-build.log
+            panfrost-mmu-g15.sha256
             build/kernel/arch/arm64/boot/Image
             build/kernel/arch/arm64/boot/dts/exynos/google/gs101-oriole.dtb

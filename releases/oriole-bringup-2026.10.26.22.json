@@ -1,0 +1,71 @@
+{
+  "release": "oriole-bringup-2026.10.26.22",
+  "kind": "cellular-camera-gates-and-gpu-readiness",
+  "daily_use_ready": false,
+  "one_click_full_install_ready": false,
+  "device": "Pixel 6 oriole",
+  "changes": [
+    {
+      "component": "GPU readiness",
+      "status": "kernel configuration now requires Panfrost and devfreq options; the Linux workflow applies and tests the verified cold-start MMU fix; hardware snapshot distinguishes Panfrost from a missing/software renderer",
+      "evidence": [
+        "kernel/configs/oriole-gs101-mainline.fragment",
+        "tools/check-oriole-kernel-source",
+        "tools/oriole-hardware-smoke.py",
+        "experiments/test-oriole-hardware-smoke.py",
+        ".github/workflows/oriole-gs101-build.yml",
+        "experiments/apply-gpu-g15.py",
+        "experiments/test-gpu-g15-mmu.py"
+      ],
+      "proved": [
+        "The source/configuration gate cannot silently omit Panfrost or simple-on-demand devfreq",
+        "The snapshot reports hardware-panfrost only when a render node and Panfrost driver are both visible"
+      ],
+      "limits": [
+        "The workflow has not run on GitHub and no new cold desktop frame test was run"
+      ]
+    },
+    {
+      "component": "Wi-Fi and Agent network",
+      "status": "read-only Wi-Fi smoke now accepts IPv4 or IPv6; fixture passes",
+      "evidence": [
+        "tools/phone-network-smoke",
+        "experiments/test-phone-network-smoke.py"
+      ],
+      "proved": [
+        "A Wi-Fi-only gate can diagnose either address family without falling back to USB"
+      ],
+      "limits": [
+        "No cold Omarchy Wi-Fi run was available"
+      ]
+    },
+    {
+      "component": "cellular and camera diagnostics",
+      "status": "read-only probes and package staging pass; live gates remain open",
+      "evidence": [
+        "tools/oriole-cellular-smoke",
+        "experiments/test-oriole-cellular-smoke.py",
+        "tools/oriole-camera-smoke",
+        "experiments/test-oriole-camera-smoke.py",
+        "experiments/cellular-runtime-smoke-plan.json",
+        "experiments/camera-topology-plan.json"
+      ],
+      "proved": [
+        "Cellular success requires registration plus a connected bearer and never prints IMEI/APN data",
+        "Camera topology accepts IMX355/IMX386 and explicitly rejects GN1 as unsupported"
+      ],
+      "limits": [
+        "The CPIF/S5123 modem is still not activated or built into a verified phone image",
+        "No China Mobile 4G/5G bearer or camera frame was captured"
+      ]
+    }
+  ],
+  "rollback": {
+    "boot_images_changed": false,
+    "radio_state": "no phone mutation performed",
+    "partition_writes": "none"
+  },
+  "publication": "No vendor firmware, calibration, credentials, private logs, MAC addresses, SSIDs, IMEIs or serial numbers are included.",
+  "supersedes": "oriole-bringup-2026.10.26.21",
+  "next_gate": "Build the exact GS101 image in Linux, connect Pixel 6 to Mac4, then run cold GPU/Wi-Fi checks followed by attended China Mobile bearer and supported-camera capture gates."
+}

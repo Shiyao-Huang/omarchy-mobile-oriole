@@ -1,0 +1,41 @@
+#!/bin/bash
+# SPDX-License-Identifier: MIT
+# Read-only camera topology check. It never opens a stream or captures a
+# frame; the supported-sensor capture gate is deliberately separate.
+set -euo pipefail
+
+sys_root=${ORIOLE_SYS_ROOT:-/sys}
+video_root="$sys_root/class/video4linux"
+media_root="$sys_root/class/media"
+if [[ ! -d "$video_root" && ! -d "$media_root" ]]; then
+  echo 'FAIL no media or video nodes'
+  exit 3
+fi
+
+video_count=0
+supported=0
+for node in "$video_root"/video*; do
+  [[ -e "$node" ]] || continue
+  video_count=$((video_count + 1))
+  name=$(cat "$node/name" 2>/dev/null || printf unknown)
+  name_lc=$(printf '%s' "$name" | tr '[:upper:]' '[:lower:]')
+  case "$name_lc" in
+    *imx355*) sensor=front-imx355; supported=1 ;;
+    *imx386*) sensor=ultrawide-imx386; supported=1 ;;
+    *s5kgn1*) sensor=main-gn1-unsupported ;;
+    *) sensor=unknown ;;
+  esac
+  echo "INFO node=${node##*/} sensor=$sensor"
+done
+
+media_count=0
+for node in "$media_root"/media*; do
+  [[ -e "$node" ]] || continue
+  media_count=$((media_count + 1))
+done
+echo "INFO video_count=$video_count media_count=$media_count"
+if (( supported == 0 )); then
+  echo 'FAIL no supported IMX355 or IMX386 camera node'
+  exit 4
+fi
+echo 'PASS supported camera topology present; frame capture remains a separate gate'

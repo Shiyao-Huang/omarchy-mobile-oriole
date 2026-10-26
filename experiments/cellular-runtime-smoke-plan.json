@@ -1,0 +1,54 @@
+{
+  "claim": "The Oriole userspace can distinguish a registered 4G/5G modem with an attached data bearer from a modem that is merely enumerated.",
+  "oracle": "A read-only probe reports registration state, access technology and a connected bearer without printing identifiers or creating an APN/bearer.",
+  "validation": {
+    "user_journey": {
+      "scenario": "The user inserts the China Mobile SIM, boots Omarchy and checks mobile data before launching an Agent.",
+      "expected": "The user sees registered plus LTE/5G access and a connected bearer, or receives a specific registration/bearer failure while Wi-Fi/USB recovery remains available."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "The probe only invokes ModemManager read operations.",
+        "It never sends connect, disconnect, reset or APN commands.",
+        "IMEI, SIM identifiers, bearer addresses and APN values are never printed."
+      ],
+      "gitnexus": [
+        "The package install boundary stages the probe; no boot, flash, modem-power or partition path imports it."
+      ],
+      "ast": [
+        "Registration and bearer state are separate booleans; a control node alone cannot pass."
+      ]
+    },
+    "unit": {
+      "red": "The public tree had only cdc-wdm presence and no registration/bearer readout.",
+      "green": "Fixtures cover LTE registration plus connected bearer, searching registration, no modem and identifier redaction.",
+      "cases": [
+        "no ModemManager modem",
+        "registered LTE with connected bearer",
+        "registered 5G access technology",
+        "searching or denied registration",
+        "registered modem with no connected bearer"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "CPIF/S5123 -> ModemManager -> bearer",
+        "cellular bearer -> default route -> Agent HTTPS probe"
+      ],
+      "faults": [
+        "missing CPIF driver",
+        "SIM not registered",
+        "APN/bearer absent",
+        "route/DNS/HTTPS failure"
+      ],
+      "evidence": [
+        "Offline fixture passes; live China Mobile registration and 4G/5G traffic remain pending."
+      ]
+    }
+  },
+  "limitations": [
+    "This probe cannot provide the CPIF kernel driver, firmware or carrier APN.",
+    "A live LTE/5G status still needs an attended phone run and an independent HTTPS request."
+  ],
+  "exit_gate": "Run the probe on a cold Omarchy boot with the SIM inserted, then run the Agent network probe while Wi-Fi is disabled and record the access technology and HTTPS result."
+}

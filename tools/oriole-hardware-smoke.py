@@ -38,6 +38,14 @@ if drm.exists():
         if target:
             drm_drivers[driver.parents[1].name] = target
 
+gpu_driver = next((name for name in drm_drivers.values() if name == "panfrost"), None)
+if gpu_driver and names(DEV / "dri" / "renderD*"):
+    gpu_acceleration = "hardware-panfrost"
+elif names(DEV / "dri" / "renderD*"):
+    gpu_acceleration = "render-node-unknown-driver"
+else:
+    gpu_acceleration = "missing-render-node"
+
 governors = {}
 cpufreq = SYS / "devices/system/cpu/cpufreq"
 if cpufreq.exists():
@@ -57,6 +65,7 @@ data = {
     "gpu": {
         "render_nodes": names(DEV / "dri" / "renderD*"),
         "drm_drivers": drm_drivers,
+        "acceleration": gpu_acceleration,
         "devfreq_current_hz": read(SYS / "class/devfreq/1c500000.gpu/cur_freq"),
         "devfreq_max_hz": read(SYS / "class/devfreq/1c500000.gpu/max_freq"),
     },

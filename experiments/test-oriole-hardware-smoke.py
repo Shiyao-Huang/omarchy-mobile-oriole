@@ -28,6 +28,10 @@ with tempfile.TemporaryDirectory() as td:
     (root / "proc/loadavg").write_text("0.01 0.02 0.03 1/100 42\n")
     (dev / "dri").mkdir(parents=True)
     (dev / "dri/renderD128").touch()
+    drm_driver = sys / "class/drm/card0/device/driver"
+    drm_driver.parent.mkdir(parents=True)
+    (sys / "drivers/gpu/panfrost").mkdir(parents=True)
+    drm_driver.symlink_to(sys / "drivers/gpu/panfrost")
     (dev / "cdc-wdm0").touch()
     (dev / "video0").touch()
     (dev / "media0").touch()
@@ -39,6 +43,7 @@ with tempfile.TemporaryDirectory() as td:
                             capture_output=True, check=True)
     data = json.loads(result.stdout)
     assert data["gpu"]["render_nodes"] == ["renderD128"]
+    assert data["gpu"]["acceleration"] == "hardware-panfrost"
     assert data["network"]["wireless"] == ["wlan0"]
     assert data["network"]["usb_or_ethernet"] == ["usb0"]
     assert data["cellular"]["control_nodes"] == ["cdc-wdm0"]

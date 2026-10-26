@@ -62,6 +62,8 @@ for f in usr/bin/reboot-to \
          usr/bin/omamobile-network-smoke \
          usr/bin/omamobile-agent-network-smoke \
          usr/bin/omamobile-network-recover \
+         usr/bin/oriole-cellular-smoke \
+         usr/bin/oriole-camera-smoke \
          usr/bin/oriole-hardware-smoke \
          usr/bin/oriole-optional-profile \
          usr/share/omamobile/device.conf \
@@ -90,6 +92,16 @@ cmp -s vendor/systemd/system/omamobile-network-recover \
 pass "network recovery tool matches tools copy"
 [[ -x $tmp/root/usr/bin/omamobile-network-recover ]] || fail "network recovery tool is executable"
 pass "network recovery tool staged"
+cmp -s vendor/systemd/system/oriole-cellular-smoke \
+  ../../tools/oriole-cellular-smoke || fail "cellular smoke tool drifted from tools copy"
+pass "cellular smoke tool matches tools copy"
+[[ -x $tmp/root/usr/bin/oriole-cellular-smoke ]] || fail "cellular smoke tool is executable"
+pass "cellular smoke tool staged"
+cmp -s vendor/systemd/system/oriole-camera-smoke \
+  ../../tools/oriole-camera-smoke || fail "camera smoke tool drifted from tools copy"
+pass "camera smoke tool matches tools copy"
+[[ -x $tmp/root/usr/bin/oriole-camera-smoke ]] || fail "camera smoke tool is executable"
+pass "camera smoke tool staged"
 cmp -s vendor/systemd/system/oriole-hardware-smoke \
   ../../tools/oriole-hardware-smoke.py || fail "hardware smoke tool drifted from tools copy"
 pass "hardware smoke tool matches the tools copy"

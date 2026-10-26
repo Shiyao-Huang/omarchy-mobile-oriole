@@ -1,0 +1,68 @@
+#!/bin/bash
+# SPDX-License-Identifier: MIT
+# Read-only ModemManager/NetworkManager boundary check for Oriole.
+# It never enables a modem, creates a bearer, changes an APN, or prints
+# identifiers. A registered modem without a connected bearer is a failure.
+set -euo pipefail
+
+command -v mmcli >/dev/null 2>&1 || { echo 'FAIL missing command: mmcli'; exit 2; }
+modems=$(mmcli --list-modems 2>/dev/null || true)
+ids=$(printf '%s\n' "$modems" | sed -nE 's#.*(/Modem/([0-9]+)).*#\2#p' | sort -n | uniq)
+if [[ -z "$ids" ]]; then
+  echo 'FAIL no ModemManager modem'
+  exit 3
+fi
+
+value() {
+  local key=$1 data=$2
+  awk -F': ' -v wanted="$key" '$1 == wanted {
+    value=$2
+    gsub(/^'"'"'|'"'"'$/, "", value)
+    print value
+    exit
+  }' <<<"$data"
+}
+
+registered=0
+bearer=0
+modem_count=0
+for id in $ids; do
+  modem_count=$((modem_count + 1))
+  data=$(mmcli --modem "$id" --output-keyvalue 2>/dev/null || true)
+  [[ -n "$data" ]] || { echo "FAIL modem=$id status=unreadable"; continue; }
+  state=$(value modem.generic.state "$data")
+  registration=$(value modem.3gpp.registration-state "$data")
+  access=$(value modem.generic.access-technologies "$data")
+  packet=$(value modem.3gpp.packet-service-state "$data")
+  [[ -n "$state" ]] || state=unknown
+  [[ -n "$registration" ]] || registration=unknown
+  [[ -n "$access" ]] || access=unknown
+  [[ -n "$packet" ]] || packet=unknown
+  echo "INFO modem=$id state=$state registration=$registration access=$access packet=$packet"
+  case "$registration" in
+    home|roaming|registered) registered=1 ;;
+  esac
+
+  # Inspect only the connected boolean; never print bearer addresses or APNs.
+  bearer_ids=$(printf '%s\n' "$data" | sed -nE 's#.*(/Bearer/([0-9]+)).*#\2#p' | sort -n | uniq)
+  for bearer_id in $bearer_ids; do
+    bearer_data=$(mmcli --bearer "$bearer_id" --output-keyvalue 2>/dev/null || true)
+    connected=$(value bearer.status.connected "$bearer_data")
+    if [[ $connected == yes || $connected == true ]]; then
+      bearer=1
+      echo "PASS modem=$id bearer=connected"
+      break
+    fi
+  done
+done
+
+echo "INFO modem_count=$modem_count"
+if (( registered == 0 )); then
+  echo 'FAIL cellular registration unavailable'
+  exit 4
+fi
+if (( bearer == 0 )); then
+  echo 'FAIL cellular bearer unavailable'
+  exit 5
+fi
+echo 'PASS cellular registration and bearer present'

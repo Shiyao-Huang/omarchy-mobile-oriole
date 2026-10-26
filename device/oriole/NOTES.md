@@ -15,13 +15,15 @@ The device package now includes a read-only Agent connectivity probe. It reports
 
 The package also includes `omamobile-network-recover`. Its default `--check` path is read-only. An explicit `--reconnect wifi|usb|cellular` retries only an existing NetworkManager device and then delegates to the same Agent probe; it does not create profiles or handle credentials. This gives the normal desktop a bounded recovery step after a transient link loss while keeping Wi-Fi association, cellular bearer and cold-boot acceptance as separate hardware gates.
 
+The package now includes `oriole-cellular-smoke`, which reads only ModemManager key/value state and requires both registration and a connected bearer; it never creates an APN or bearer. `oriole-camera-smoke` classifies IMX355 and IMX386 nodes without opening a stream, while explicitly labelling GN1 unsupported. These probes make the next live 4G/5G and camera gates reproducible without widening the hardware write surface.
+
 The optional profiles under `packages/omamobile-device-oriole/optional/` carry the Pixel 6 reference fixes for BCM4389 helper-interface isolation, the libcamera system dma-buf heap/raw-CSIS policy, the unusable GN1 blacklist, and the ACPM schedutil update limit. They are staged under `/usr/share/omamobile/device-oriole/optional/` and remain inactive until the corresponding cold-boot, camera and thermal gates are approved.
 
 `oriole-optional-profile --apply wifi|camera|performance` copies one profile into the normal system configuration and records a backup; `--rollback` restores the newest backup. It never reloads a module or restarts a service, so the operator can arm a watchdog and validate one change per boot.
 
 The source boundary is now explicit: the current Omarchy kernel head is rejected for Oriole because it lacks the Pixel 6 GS101 driver baseline. `tools/check-oriole-kernel-source` accepts M8's `850061c7` tree only when the GS101 DRM/Panfrost, BCM4389 PCIe, CPIF modem and MIPI-CSIS/IMX355/IMX386 paths are present. The corresponding configuration fragment is kept under `kernel/configs/`; this source check does not build or boot a phone.
 
-The latest evidence is [oriole-bringup-2026.10.26.21](../../releases/oriole-bringup-2026.10.26.21.json). Private partition images, factory firmware, calibration, serial numbers, credentials and host logs are deliberately excluded.
+The latest evidence is [oriole-bringup-2026.10.26.22](../../releases/oriole-bringup-2026.10.26.22.json). Private partition images, factory firmware, calibration, serial numbers, credentials and host logs are deliberately excluded.
 
 ## Device facts
 

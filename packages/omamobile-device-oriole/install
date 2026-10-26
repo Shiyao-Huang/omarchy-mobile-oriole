@@ -22,6 +22,8 @@ stage 644 vendor/NetworkManager/conf.d/10-omamobile-usb.conf usr/lib/NetworkMana
 stage 755 vendor/systemd/system/omamobile-network-smoke usr/bin/omamobile-network-smoke
 stage 755 vendor/systemd/system/omamobile-agent-network-smoke usr/bin/omamobile-agent-network-smoke
 stage 755 vendor/systemd/system/omamobile-network-recover usr/bin/omamobile-network-recover
+stage 755 vendor/systemd/system/oriole-cellular-smoke usr/bin/oriole-cellular-smoke
+stage 755 vendor/systemd/system/oriole-camera-smoke usr/bin/oriole-camera-smoke
 stage 755 vendor/systemd/system/oriole-hardware-smoke usr/bin/oriole-hardware-smoke
 stage 755 vendor/systemd/system/oriole-optional-profile usr/bin/oriole-optional-profile
 stage 644 device.conf usr/share/omamobile/device.conf
