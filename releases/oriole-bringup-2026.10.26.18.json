@@ -1,0 +1,34 @@
+{
+  "release": "oriole-bringup-2026.10.26.18",
+  "kind": "performance-observability-checkpoint",
+  "daily_use_ready": false,
+  "one_click_full_install_ready": false,
+  "device": "Pixel 6 oriole",
+  "changes": [
+    {
+      "component": "GPU/CPU runtime snapshot",
+      "status": "offline fixture and package validation passed; live hardware gate remains open",
+      "evidence": [
+        "tools/oriole-hardware-smoke.py",
+        "experiments/test-oriole-hardware-smoke.py"
+      ],
+      "proved": [
+        "The redacted snapshot reports GPU devfreq, CPU governors, schedutil rate limit and RT uclamp separately",
+        "The same snapshot remains read-only and package-staged"
+      ],
+      "limits": [
+        "No frame-time or physical touch-latency benchmark was run",
+        "No phone was connected in this checkpoint",
+        "GPU DVFS, Wi-Fi, China Mobile 4G/5G and camera capture remain unverified"
+      ]
+    }
+  ],
+  "rollback": {
+    "boot_images_changed": false,
+    "radio_state": "no phone mutation performed",
+    "partition_writes": "none"
+  },
+  "publication": "No vendor firmware, calibration, credentials, private logs, MAC addresses, SSIDs or serial numbers are included.",
+  "supersedes": "oriole-bringup-2026.10.26.17",
+  "next_gate": "Run the snapshot after a cold normal Omarchy boot, then compare GPU frequency, CPU rate limit and frame-time before and after the performance profile."
+}

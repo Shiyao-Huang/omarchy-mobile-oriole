@@ -7,6 +7,7 @@ from pathlib import Path
 
 SYS = Path(os.environ.get("ORIOLE_SYS_ROOT", "/sys"))
 DEV = Path(os.environ.get("ORIOLE_DEV_ROOT", "/dev"))
+PROC = Path(os.environ.get("ORIOLE_PROC_ROOT", "/proc"))
 
 def read(path):
     try:
@@ -62,7 +63,9 @@ data = {
     "cpu": {
         "online": read(SYS / "devices/system/cpu/online"),
         "governors": governors,
-        "loadavg": read(Path("/proc/loadavg")),
+        "schedutil_rate_limit_us": read(SYS / "devices/system/cpu/cpufreq/schedutil/rate_limit_us"),
+        "rt_uclamp_min": read(PROC / "sys/kernel/sched_util_clamp_min_rt_default"),
+        "loadavg": read(PROC / "loadavg"),
     },
     "network": {
         "interfaces": interfaces,
