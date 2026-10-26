@@ -1,0 +1,55 @@
+#!/bin/bash
+# SPDX-License-Identifier: MIT
+# Check or apply the pinned Oriole GS101 kernel patch series.
+# Usage: prepare-oriole-kernel [--apply] NURA_CHECKOUT GS101_CHECKOUT
+set -euo pipefail
+
+apply=0
+if [[ ${1:-} == --apply ]]; then
+  apply=1
+  shift
+fi
+nura=${1:?Usage: prepare-oriole-kernel [--apply] NURA_CHECKOUT GS101_CHECKOUT}
+src=${2:?Usage: prepare-oriole-kernel [--apply] NURA_CHECKOUT GS101_CHECKOUT}
+nura_expected=a74e18dec7598f65cd504f0c75c10b8d7fc4422b
+kernel_expected=850061c79264d018317e9f849701f165e138e20c
+
+nura_actual=$(git -C "$nura" rev-parse HEAD 2>/dev/null || true)
+kernel_actual=$(git -C "$src" rev-parse HEAD 2>/dev/null || true)
+[[ "$nura_actual" == "$nura_expected" ]] || { echo "FAIL Nura revision mismatch"; exit 2; }
+[[ "$kernel_actual" == "$kernel_expected" ]] || { echo "FAIL GS101 revision mismatch"; exit 3; }
+
+patch_dir=$nura/device/testing/linux-postmarketos-gs101
+patches=()
+while IFS= read -r patch; do
+  patches[${#patches[@]}]=$patch
+done < <(find "$patch_dir" -maxdepth 1 -type f -name '[0-9][0-9][0-9][0-9]-*.patch' | sort)
+[[ ${#patches[@]} -eq 38 ]] || { echo "FAIL expected 38 kernel patches, found ${#patches[@]}"; exit 4; }
+
+work=$src
+cleanup() {
+  if [[ "$work" != "$src" ]]; then
+    git -C "$src" worktree remove --force "$work" >/dev/null 2>&1 || true
+  fi
+}
+trap cleanup EXIT
+if (( ! apply )); then
+  work=$(mktemp -d "${TMPDIR:-/tmp}/oriole-kernel-check.XXXXXX")
+  rmdir "$work"
+  git -C "$src" worktree add --detach "$work" "$kernel_expected" >/dev/null
+fi
+
+for patch in "${patches[@]}"; do
+  if (( apply )); then
+    git -C "$work" apply --index "$patch"
+  else
+    git -C "$work" apply --index "$patch"
+  fi
+done
+
+if (( apply )); then
+  echo 'PASS applied 38 Oriole GS101 kernel patches'
+else
+  echo 'PASS 38 Oriole GS101 kernel patches apply cleanly'
+  echo 'INFO read-only check; use --apply only in a disposable worktree'
+fi

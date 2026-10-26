@@ -11,7 +11,7 @@ This repository publishes the Pixel 6 native Omarchy port as a source and eviden
 - `packages/omamobile-device-oriole/`: conservative device package skeleton adapted to the GS101 layout.
 - `drivers/`: GPL-licensed touchscreen source and the source changes under test.
 - `experiments/`: six-field plans, source tests, build evidence and recovery records. Each result states what it proves and what it does not prove.
-- `releases/`: dated checkpoint manifests. The latest is [oriole-bringup-2026.10.26.12](releases/oriole-bringup-2026.10.26.12.json).
+- `releases/`: dated checkpoint manifests. The latest is [oriole-bringup-2026.10.26.13](releases/oriole-bringup-2026.10.26.13.json).
 - `tools/`: read-only collectors and guarded helpers. `tools/phone-network-smoke` checks a normal desktop boot for Wi-Fi, IPv4, route, DNS and HTTPS without printing credentials or radio identifiers. `tools/agent-network-smoke` checks the active Wi-Fi, USB-shared or cellular route against GitHub, Anthropic and npm endpoints so an Agent launch can distinguish missing hardware, routing, DNS and remote-service failures.
 
 ## Reproduce the offline checks

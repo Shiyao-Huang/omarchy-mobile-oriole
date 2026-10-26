@@ -1,0 +1,16 @@
+{
+  "classification": "observed offline patch-series preparation",
+  "nura_revision": "a74e18dec7598f65cd504f0c75c10b8d7fc4422b",
+  "gs101_revision": "850061c79264d018317e9f849701f165e138e20c",
+  "patch_count": 38,
+  "result": "PASS in a clean GS101 worktree; all patches apply in numeric order and the disposable apply path produced 43 changed files",
+  "validation": {
+    "unit": "tools/prepare-oriole-kernel checks both revisions and the 38-patch count",
+    "end_to_end": "not run; the Mac has no GNU Make 4+ and no Pixel 6 is connected"
+  },
+  "limits": [
+    "Patch application is not a kernel build or boot result.",
+    "No proprietary firmware, modem NV, calibration, reboot or flash is included."
+  ],
+  "next_gate": "Run a Linux kernel build with GNU Make 4+, then validate the image through serial recovery before a human-approved slot-B boot."
+}
