@@ -61,6 +61,7 @@ for f in usr/bin/reboot-to \
          usr/lib/NetworkManager/conf.d/10-omamobile-usb.conf \
          usr/bin/omamobile-network-smoke \
          usr/bin/omamobile-agent-network-smoke \
+         usr/bin/omamobile-network-recover \
          usr/bin/oriole-hardware-smoke \
          usr/share/omamobile/device.conf \
          usr/share/omamobile/device-oriole/version \
@@ -75,6 +76,11 @@ cmp -s vendor/systemd/system/omamobile-agent-network-smoke \
 pass "Agent network smoke tool matches the tools copy"
 [[ -x $tmp/root/usr/bin/omamobile-agent-network-smoke ]] || fail "Agent network smoke tool is executable"
 pass "Agent network smoke tool staged"
+cmp -s vendor/systemd/system/omamobile-network-recover \
+  ../../tools/omamobile-network-recover || fail "network recovery tool drifted from tools copy"
+pass "network recovery tool matches tools copy"
+[[ -x $tmp/root/usr/bin/omamobile-network-recover ]] || fail "network recovery tool is executable"
+pass "network recovery tool staged"
 cmp -s vendor/systemd/system/oriole-hardware-smoke \
   ../../tools/oriole-hardware-smoke.py || fail "hardware smoke tool drifted from tools copy"
 pass "hardware smoke tool matches the tools copy"

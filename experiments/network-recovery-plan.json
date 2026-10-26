@@ -1,0 +1,61 @@
+{
+  "claim": "A normal Omarchy user can recover an already configured NetworkManager link before launching an Agent, while a missing route remains classified by the existing smoke probe.",
+  "oracle": "The default command is read-only; an explicit reconnect selects only a saved device of the requested transport, never creates a profile or prints credentials, and then reports route, DNS and HTTPS status.",
+  "validation": {
+    "user_journey": {
+      "scenario": "The user opens an Agent after Wi-Fi coverage or USB sharing was interrupted, runs the recovery command, and retries the workload.",
+      "expected": "A saved connection is retried when explicitly requested; if recovery cannot produce a route, the output identifies the failing layer and keeps the operator's next action clear."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "--check never invokes NetworkManager mutation.",
+        "--reconnect accepts only wifi, usb, cellular or any and uses an existing device; it never creates a profile or accepts a password.",
+        "Device and transport output is sanitized; SSIDs, MAC addresses, credentials, IMEI and full routes are not printed.",
+        "The existing bounded Agent probe remains the final oracle for address, DNS and HTTPS."
+      ],
+      "gitnexus": [
+        "The package install boundary stages the recovery wrapper beside the same Agent probe used by the host tools copy.",
+        "No boot, modem, calibration, slot-success or flash path imports the wrapper."
+      ],
+      "ast": [
+        "The only NetworkManager mutation is nmcli device connect after an explicit --reconnect argument.",
+        "The wrapper delegates all endpoint checks and retry bounds to agent-network-smoke."
+      ]
+    },
+    "unit": {
+      "red": "The package had a read-only diagnostic but no supported way to retry a saved connection after a transient link loss.",
+      "green": "Fixtures cover a disconnected Wi-Fi device, explicit reconnect, delegation to the smoke probe and output redaction.",
+      "cases": [
+        "default check does not call nmcli connect",
+        "wifi reconnect",
+        "USB reconnect",
+        "cellular reconnect",
+        "no matching device",
+        "NetworkManager refusal",
+        "smoke probe route/DNS/HTTPS failure"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "Omarchy shell -> NetworkManager saved device -> DHCP/DNS/HTTPS",
+        "package staging -> installed recovery executable"
+      ],
+      "faults": [
+        "link loss",
+        "missing saved profile",
+        "NetworkManager refusal",
+        "DNS timeout",
+        "Agent endpoint failure"
+      ],
+      "evidence": [
+        "Offline fixture and package tests pass; live Pixel 6 normal-desktop execution remains pending."
+      ]
+    }
+  },
+  "limitations": [
+    "The wrapper cannot create Wi-Fi credentials, infer an APN or repair a missing kernel driver/firmware.",
+    "Cellular reconnect may incur carrier data usage and is intentionally operator initiated.",
+    "A successful smoke probe does not prove an authenticated Agent API request."
+  ],
+  "exit_gate": "Run --check after a cold normal Omarchy boot, then explicitly reconnect the authorized Wi-Fi or USB path after one controlled disconnect and rerun one Agent API request."
+}

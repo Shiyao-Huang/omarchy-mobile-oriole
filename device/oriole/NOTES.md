@@ -13,9 +13,11 @@ The association evidence is [wifi-w3-association-evidence](../../experiments/wif
 
 The device package now includes a read-only Agent connectivity probe. It reports the active transport (Wi-Fi, USB-shared or cellular), IPv4, route, DNS and HTTPS reachability for the public GitHub, Anthropic and npm endpoints, with bounded retries. This diagnoses the failure layer behind Agent installers such as mise without configuring a network or exposing credentials. It is a userspace diagnostic only; it does not close the cold Omarchy desktop gate.
 
+The package also includes `omamobile-network-recover`. Its default `--check` path is read-only. An explicit `--reconnect wifi|usb|cellular` retries only an existing NetworkManager device and then delegates to the same Agent probe; it does not create profiles or handle credentials. This gives the normal desktop a bounded recovery step after a transient link loss while keeping Wi-Fi association, cellular bearer and cold-boot acceptance as separate hardware gates.
+
 The source boundary is now explicit: the current Omarchy kernel head is rejected for Oriole because it lacks the Pixel 6 GS101 driver baseline. `tools/check-oriole-kernel-source` accepts M8's `850061c7` tree only when the GS101 DRM/Panfrost, BCM4389 PCIe, CPIF modem and MIPI-CSIS/IMX355/IMX386 paths are present. The corresponding configuration fragment is kept under `kernel/configs/`; this source check does not build or boot a phone.
 
-The latest evidence is [oriole-bringup-2026.10.26.14](../../releases/oriole-bringup-2026.10.26.14.json). Private partition images, factory firmware, calibration, serial numbers, credentials and host logs are deliberately excluded.
+The latest evidence is [oriole-bringup-2026.10.26.15](../../releases/oriole-bringup-2026.10.26.15.json). Private partition images, factory firmware, calibration, serial numbers, credentials and host logs are deliberately excluded.
 
 ## Device facts
 

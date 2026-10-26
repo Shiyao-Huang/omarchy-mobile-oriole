@@ -21,6 +21,7 @@ stage 644 vendor/systemd/logind.conf.d/10-omamobile-power-key.conf usr/lib/syste
 stage 644 vendor/NetworkManager/conf.d/10-omamobile-usb.conf usr/lib/NetworkManager/conf.d/10-omamobile-usb.conf
 stage 755 vendor/systemd/system/omamobile-network-smoke usr/bin/omamobile-network-smoke
 stage 755 vendor/systemd/system/omamobile-agent-network-smoke usr/bin/omamobile-agent-network-smoke
+stage 755 vendor/systemd/system/omamobile-network-recover usr/bin/omamobile-network-recover
 stage 755 vendor/systemd/system/oriole-hardware-smoke usr/bin/oriole-hardware-smoke
 stage 644 device.conf usr/share/omamobile/device.conf
 stage 644 etc/omamobile-mirrorlist etc/pacman.d/omamobile-mirrorlist

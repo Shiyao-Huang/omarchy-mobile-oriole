@@ -1,0 +1,36 @@
+{
+  "release": "oriole-bringup-2026.10.26.15",
+  "kind": "network-recovery-tool-and-evidence-checkpoint",
+  "daily_use_ready": false,
+  "one_click_full_install_ready": false,
+  "device": "Pixel 6 oriole",
+  "changes": [
+    {
+      "component": "normal desktop network recovery",
+      "status": "offline fixture and package validation passed; live Pixel 6 gate remains open",
+      "evidence": [
+        "tools/omamobile-network-recover",
+        "experiments/test-network-recover.py",
+        "experiments/network-recovery-plan.json"
+      ],
+      "proved": [
+        "The default check delegates to the existing bounded Agent probe without mutating NetworkManager",
+        "An explicit transport retry selects an existing NetworkManager device and delegates to the same route/DNS/HTTPS checks",
+        "The package stages the same recovery tool and keeps output free of credentials and radio identifiers"
+      ],
+      "limits": [
+        "No phone was connected in this checkpoint",
+        "No saved Wi-Fi profile, cellular bearer, modem firmware or APN was created",
+        "Cold Omarchy boot, China Mobile data and one authenticated Agent request remain unverified"
+      ]
+    }
+  ],
+  "rollback": {
+    "boot_images_changed": false,
+    "radio_state": "no phone mutation performed",
+    "partition_writes": "none"
+  },
+  "publication": "No vendor firmware, calibration, credentials, private logs, MAC addresses, SSIDs or serial numbers are included.",
+  "supersedes": "oriole-bringup-2026.10.26.14",
+  "next_gate": "Connect Pixel 6 to Mac4, boot the prepared GS101 image through serial recovery, run --check after a cold Omarchy desktop boot, then perform one explicit Wi-Fi or USB reconnect and one Agent API request."
+}

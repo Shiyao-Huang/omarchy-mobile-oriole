@@ -1,0 +1,94 @@
+#!/bin/bash
+# SPDX-License-Identifier: MIT
+# Recover an already configured NetworkManager connection, then run the
+# read-only Agent connectivity probe. No credentials or profiles are printed.
+set -euo pipefail
+
+mode=check
+transport=any
+attempts=3
+delay=2
+
+usage() {
+  cat <<'EOF'
+Usage: omamobile-network-recover [--check|--reconnect TRANSPORT]
+                                 [--attempts N] [--delay SECONDS]
+
+--check                 inspect the current route (the default)
+--reconnect TRANSPORT   reconnect a saved NetworkManager device: wifi, usb,
+                        cellular, or any. It never creates a profile or asks
+                        for a password.
+EOF
+}
+
+while (($#)); do
+  case "$1" in
+    --check) mode=check; shift ;;
+    --reconnect)
+      case "${2:-}" in wifi|usb|cellular|any) transport=$2 ;; *)
+        echo 'FAIL --reconnect needs wifi, usb, cellular or any' >&2; exit 2 ;;
+      esac
+      mode=reconnect; shift 2 ;;
+    --attempts)
+      [[ ${2:-} =~ ^[1-9][0-9]*$ ]] || { echo 'FAIL --attempts needs a positive integer' >&2; exit 2; }
+      attempts=$2; shift 2 ;;
+    --delay)
+      [[ ${2:-} =~ ^[0-9]+([.][0-9]+)?$ ]] || { echo 'FAIL --delay needs seconds' >&2; exit 2; }
+      delay=$2; shift 2 ;;
+    -h|--help) usage; exit 0 ;;
+    *) echo "FAIL unknown option: $1" >&2; usage >&2; exit 2 ;;
+  esac
+done
+
+for cmd in nmcli ip; do
+  command -v "$cmd" >/dev/null 2>&1 || { echo "FAIL missing command: $cmd"; exit 2; }
+done
+
+classify() {
+  case "$1" in
+    wlan*|wifi*) printf 'wifi' ;;
+    wwan*|rmnet*|ccmni*|pdp*) printf 'cellular' ;;
+    usb*|en*|eth*) printf 'usb' ;;
+    *) printf 'other' ;;
+  esac
+}
+
+device_for() {
+  local dev type state kind
+  while IFS=: read -r dev type state _; do
+    [[ -n "$dev" ]] || continue
+    kind=$(classify "$dev")
+    [[ $state == connected ]] || continue
+    if [[ $transport == any || $kind == "$transport" ]]; then
+      printf '%s\n' "$dev"
+      return 0
+    fi
+  done < <(nmcli --terse --escape no --fields DEVICE,TYPE,STATE device status 2>/dev/null)
+  return 1
+}
+
+if [[ $mode == reconnect ]]; then
+  dev=$(device_for 2>/dev/null || true)
+  if [[ -z ${dev:-} ]]; then
+    while IFS=: read -r candidate _type _state _rest; do
+      [[ -n "$candidate" ]] || continue
+      kind=$(classify "$candidate")
+      if [[ $transport == any || $kind == "$transport" ]]; then
+        dev=$candidate
+        break
+      fi
+    done < <(nmcli --terse --escape no --fields DEVICE,TYPE,STATE device status 2>/dev/null)
+  fi
+  [[ -n ${dev:-} ]] || { echo "FAIL no ${transport} NetworkManager device"; exit 3; }
+  echo "INFO reconnect requested transport=$(classify "$dev")"
+  if ! nmcli --wait 15 device connect "$dev" >/dev/null 2>&1; then
+    echo "FAIL NetworkManager could not connect transport=$(classify "$dev")"
+    exit 4
+  fi
+  echo "PASS NetworkManager accepted reconnect transport=$(classify "$dev")"
+fi
+
+probe="$(dirname -- "$0")/omamobile-agent-network-smoke"
+[[ -x $probe ]] || probe="$(dirname -- "$0")/agent-network-smoke"
+[[ -x $probe ]] || { echo 'FAIL Agent network probe is not installed' >&2; exit 5; }
+exec "$probe" --attempts "$attempts" --delay "$delay"
