@@ -1,0 +1,34 @@
+{
+  "release": "oriole-bringup-2026.10.26.19",
+  "kind": "online-gs101-source-recheck",
+  "daily_use_ready": false,
+  "one_click_full_install_ready": false,
+  "device": "Pixel 6 oriole",
+  "changes": [
+    {
+      "component": "GS101 kernel source boundary",
+      "status": "exact source and 38-patch apply passed in an isolated temporary checkout; build and hardware gates remain open",
+      "evidence": [
+        "experiments/gs101-online-source-check.json",
+        "tools/check-oriole-kernel-source",
+        "tools/prepare-oriole-kernel"
+      ],
+      "proved": [
+        "The exact M8 GS101 source contains the required GPU, BCM4389, CPIF and camera paths",
+        "The exact Nura 38-patch series applies cleanly in numeric order"
+      ],
+      "limits": [
+        "No Linux kernel build was possible on the current Mac",
+        "No boot image, firmware, modem registration, camera capture or physical performance test was run"
+      ]
+    }
+  ],
+  "rollback": {
+    "boot_images_changed": false,
+    "radio_state": "no phone mutation performed",
+    "partition_writes": "none"
+  },
+  "publication": "No vendor firmware, calibration, credentials, private logs, MAC addresses, SSIDs or serial numbers are included.",
+  "supersedes": "oriole-bringup-2026.10.26.18",
+  "next_gate": "Use a Linux host with GNU Make 4+ and a case-sensitive filesystem to build the exact source, then connect Pixel 6 for serial-recovery validation."
+}

@@ -18,6 +18,12 @@ script never fetches firmware, reads modem partitions, changes a phone or
 creates a boot image. The M8 tree's `bcmdhd`, CPIF and camera code still need
 the user's own factory firmware/calibration and separate hardware gates.
 
+The online source recheck is recorded in
+[`experiments/gs101-online-source-check.json`](../experiments/gs101-online-source-check.json):
+the exact M8 tree and all 38 Nura patches apply cleanly. This remains a source
+checkpoint; the Mac cannot produce the required Linux kernel build because it
+has no GNU Make 4+ or case-sensitive build filesystem.
+
 After preparation, merge `kernel/configs/oriole-gs101-mainline.fragment`, run
 the project's Linux build in a Linux environment with GNU Make 4+, and keep
 the output separate from other kernel worktrees. Do not flash until the build,

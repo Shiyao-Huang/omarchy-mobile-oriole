@@ -11,7 +11,7 @@ This repository publishes the Pixel 6 native Omarchy port as a source and eviden
 - `packages/omamobile-device-oriole/`: conservative device package skeleton adapted to the GS101 layout. Its `optional/` profiles carry the reviewed BCM4389, camera and ACPM schedutil settings without enabling them before the matching hardware gates pass. `oriole-optional-profile --apply ...` applies one profile with a saved rollback.
 - `drivers/`: GPL-licensed touchscreen source and the source changes under test.
 - `experiments/`: six-field plans, source tests, build evidence and recovery records. Each result states what it proves and what it does not prove. [`oriole-full-hardware-gate-plan.json`](experiments/oriole-full-hardware-gate-plan.json) is the combined GPU, Wi-Fi, cellular and camera acceptance path.
-- `releases/`: dated checkpoint manifests. The latest is [oriole-bringup-2026.10.26.18](releases/oriole-bringup-2026.10.26.18.json).
+- `releases/`: dated checkpoint manifests. The latest is [oriole-bringup-2026.10.26.19](releases/oriole-bringup-2026.10.26.19.json).
 - `tools/`: read-only collectors and guarded helpers. `tools/phone-network-smoke` checks a normal desktop boot for Wi-Fi, IPv4, route, DNS and HTTPS without printing credentials or radio identifiers. `tools/agent-network-smoke` checks the active Wi-Fi, USB-shared or cellular route against GitHub, Anthropic and npm endpoints so an Agent launch can distinguish missing hardware, routing, DNS and remote-service failures. `tools/omamobile-network-recover --check` is the default preflight; `--reconnect wifi|usb|cellular` is an explicit retry of an existing NetworkManager device.
 
 ## Reproduce the offline checks

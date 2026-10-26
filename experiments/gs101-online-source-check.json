@@ -1,0 +1,24 @@
+{
+  "classification": "observed online pinned-source recheck",
+  "source": "https://github.com/m8l8th814n-eng/gs101-mainline",
+  "reference_commit": "850061c79264d018317e9f849701f165e138e20c",
+  "nura_patch_reference": "a74e18dec7598f65cd504f0c75c10b8d7fc4422b",
+  "checks": {
+    "source_paths": "PASS",
+    "gpu_wifi_cellular_camera_paths": "PASS",
+    "patch_series": "PASS; all 38 patches applied in numeric order in a disposable worktree",
+    "working_tree": "isolated temporary checkout; public repository unchanged"
+  },
+  "validation": {
+    "code_reasoning": "The checker accepted the exact GS101 paths; the preparation helper accepted the exact M8/Nura revisions and 38-patch count.",
+    "unit": "tools/check-oriole-kernel-source and tools/prepare-oriole-kernel completed successfully.",
+    "end_to_end": "Not run: no GNU Make 4+ Linux build host and no Pixel 6 connected.",
+    "user_journey": "Not run: source preparation cannot prove cold boot, touch responsiveness, network service, SIM registration or camera capture."
+  },
+  "limitations": [
+    "The Mac checkout emitted case-collision warnings for Linux paths; no build was attempted on this case-insensitive filesystem.",
+    "No merged .config, Image, modules, firmware package or boot image was produced.",
+    "No modem, radio, camera or partition state was changed."
+  ],
+  "exit_gate": "Repeat the same source preparation on a Linux host with GNU Make 4+, build Image/modules/DTBs, then perform a human-approved slot-B serial-recovery boot."
+}
