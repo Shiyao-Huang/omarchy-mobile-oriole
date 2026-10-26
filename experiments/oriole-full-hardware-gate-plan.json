@@ -1,0 +1,64 @@
+{
+  "claim": "A cold normal Omarchy boot on Pixel 6 is usable as a mobile Agent node with responsive GPU rendering, Wi-Fi recovery, China Mobile data and at least the supported cameras.",
+  "oracle": "The user can boot to the graphical desktop, open and type in an Agent terminal without a first-launch stall, join authorized Wi-Fi and resume after one link drop, register the inserted China Mobile SIM with a 4G or 5G bearer and complete one HTTPS Agent request, and capture a frame from the supported front or ultra-wide camera.",
+  "validation": {
+    "user_journey": {
+      "scenario": "From a cold boot away from the laptop, the user touches the desktop, opens an Agent terminal, joins Wi-Fi, briefly loses coverage, then checks mobile data and camera access.",
+      "expected": "The desktop stays responsive, the Agent request either succeeds or reports a specific layer failure, Wi-Fi reconnects without losing USB recovery, mobile registration is visible without exposing identifiers, and camera preview/capture works for a supported sensor."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Slot A Android remains the recovery path; hardware trials write only approved slot-B images and userdata through the project tools.",
+        "No public artifact contains firmware, calibration, IMEI, serial number, MAC address, SSID or credentials.",
+        "GPU, Wi-Fi, cellular and camera are enabled one at a time with a watchdog and serial log before the next gate.",
+        "The main GN1 camera remains excluded until its CSIS frame errors are fixed; front IMX355 and ultra-wide IMX386 are the initial camera oracle.",
+        "Cellular data is not inferred from a cdc-wdm node: registration, bearer, route and HTTPS are all required."
+      ],
+      "gitnexus": [
+        "The public device package stages read-only probes and inactive optional profiles; no profile is enabled by an unrelated boot path.",
+        "The GS101 source checker and preparation script are the only public kernel source boundary; firmware and modem NV remain outside the repository."
+      ],
+      "ast": [
+        "The hardware snapshot separates render nodes, devfreq, CPU rate limits, network interfaces, cellular control nodes and camera nodes.",
+        "The Agent probe independently checks IPv4, DNS and HTTPS, so an interface node cannot be mistaken for usable service traffic."
+      ]
+    },
+    "unit": {
+      "red": "Offline fixtures intentionally fail when a route, renderer, camera node or cellular control node is absent.",
+      "green": "Network, snapshot, optional-profile and apply/rollback fixtures pass; kernel and libcamera contracts must pass in their own source trees.",
+      "cases": [
+        "no GPU render node or software renderer",
+        "missing Wi-Fi interface, route, DNS or HTTPS",
+        "Wi-Fi reconnect failure",
+        "cellular control node without registered bearer",
+        "unsupported GN1 camera only",
+        "optional profile rollback after an interrupted change"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "GS101 kernel and private firmware -> systemd/Hyprland -> touch and GPU",
+        "BCM4389 -> NetworkManager -> DHCP/DNS/HTTPS",
+        "S5123 CPIF -> ModemManager/NetworkManager -> China Mobile bearer",
+        "GS101 CSIS and IMX355/IMX386 -> libcamera -> preview/capture"
+      ],
+      "faults": [
+        "first GPU job timeout",
+        "Wi-Fi association or reconnect timeout",
+        "SIM absent or registration timeout",
+        "APN/bearer failure",
+        "camera stream timeout",
+        "USB/serial loss or watchdog reset"
+      ],
+      "evidence": [
+        "Existing diagnostic evidence proves GPU first draw on two boots and Wi-Fi association/reconnect; the cold normal desktop, cellular and camera gates remain open."
+      ]
+    }
+  },
+  "limitations": [
+    "A source build or device-node snapshot cannot prove physical smoothness, SIM registration or camera frames.",
+    "The current public tree does not redistribute Google's firmware or the modem's per-phone NV data.",
+    "The main rear GN1 sensor remains unsupported in the reference path."
+  ],
+  "exit_gate": "All four user-visible journeys pass on the same cold boot series, with a fresh serial recovery check after each fault and redacted evidence recorded in a new release manifest."
+}
