@@ -1,0 +1,103 @@
+#!/bin/bash
+# SPDX-License-Identifier: MIT
+# Apply or roll back one Oriole runtime profile. This only copies config
+# files; it never reloads a module, restarts a service or reboots the phone.
+set -euo pipefail
+
+root=${ORIOLE_OPTIONAL_ROOT:-/usr/share/omamobile/device-oriole/optional}
+etc=${ORIOLE_ETC_ROOT:-/etc}
+state=${ORIOLE_STATE_ROOT:-/var/lib/omamobile/oriole-optional}
+profile=${2:-}
+
+usage() {
+  cat <<'EOF'
+Usage: oriole-optional-profile --list
+       oriole-optional-profile --apply wifi|camera|performance
+       oriole-optional-profile --rollback
+
+Apply copies config files and saves overwritten files. It does not reload
+NetworkManager, load camera modules, change sysctls, restart services or
+reboot. Rollback restores the newest saved set.
+EOF
+}
+
+[[ $EUID -eq 0 ]] || { echo 'FAIL root is required to apply a profile' >&2; exit 2; }
+case "${1:-}" in
+  --list)
+    printf '%s\n' wifi camera performance
+    exit 0
+    ;;
+  --apply)
+    case "$profile" in wifi|camera|performance) ;; *) echo 'FAIL profile must be wifi, camera or performance' >&2; exit 2 ;; esac
+    ;;
+  --rollback)
+    ;;
+  *) usage >&2; exit 2 ;;
+esac
+
+if [[ ${1:-} == --rollback ]]; then
+  backup=$(find "$state/backups" -mindepth 1 -maxdepth 1 -type d -name 'backup.*' -print 2>/dev/null | sort | tail -n 1)
+  [[ -n ${backup:-} ]] || { echo 'FAIL no saved Oriole profile backup'; exit 3; }
+  while IFS=$'\t' read -r rel had; do
+    [[ -n "$rel" ]] || continue
+    dest="$etc/$rel"
+    if [[ $had == yes ]]; then
+      install -Dm644 "$backup/files/$rel" "$dest"
+    else
+      rm -f "$dest"
+    fi
+  done < "$backup/manifest"
+  echo "PASS rolled back $(basename -- "$backup")"
+  exit 0
+fi
+
+case "$profile" in
+  wifi)
+    files=(
+      'NetworkManager/conf.d/90-bcmdhd-unmanaged.conf'
+    )
+    ;;
+  camera)
+    files=(
+      'modules-load.d/oriole-camera.conf'
+      'modprobe.d/oriole-camera.conf'
+      'udev/rules.d/90-oriole-camera.rules'
+      'wireplumber/90-oriole-camera.conf'
+    )
+    ;;
+  performance)
+    files=(
+      'sysctl.d/90-oriole-sched.conf'
+      'systemd/system/oriole-cpufreq-ratelimit.service'
+    )
+    ;;
+esac
+
+backup_root="$state/backups"
+mkdir -p "$backup_root"
+backup=$(mktemp -d "$backup_root/backup.XXXXXX")
+mkdir -p "$backup/files"
+: > "$backup/manifest"
+for rel in "${files[@]}"; do
+  src="$root/$profile/$(basename -- "$rel")"
+  # WirePlumber and systemd names are stored flat in the profile directory.
+  [[ -f "$src" ]] || {
+    case "$rel" in
+      NetworkManager/*) src="$root/wifi/$(basename -- "$rel")" ;;
+      modules-load.d/*|modprobe.d/*|udev/*|wireplumber/*) src="$root/camera/$(basename -- "$rel")" ;;
+      sysctl.d/*|systemd/*) src="$root/performance/$(basename -- "$rel")" ;;
+    esac
+  }
+  [[ -f "$src" ]] || { echo "FAIL missing profile file: $src" >&2; exit 4; }
+  dest="$etc/$rel"
+  if [[ -e "$dest" ]]; then
+    mkdir -p "$backup/files/$(dirname -- "$rel")"
+    cp -a "$dest" "$backup/files/$rel"
+    printf '%s\tyes\n' "$rel" >> "$backup/manifest"
+  else
+    printf '%s\tno\n' "$rel" >> "$backup/manifest"
+  fi
+  install -Dm644 "$src" "$dest"
+done
+printf 'PASS applied profile=%s backup=%s\n' "$profile" "$(basename -- "$backup")"
+printf '%s\n' 'INFO reload or reboot only after the matching hardware gate and watchdog are ready'

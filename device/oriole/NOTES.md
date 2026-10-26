@@ -17,9 +17,11 @@ The package also includes `omamobile-network-recover`. Its default `--check` pat
 
 The optional profiles under `packages/omamobile-device-oriole/optional/` carry the Pixel 6 reference fixes for BCM4389 helper-interface isolation, the libcamera system dma-buf heap/raw-CSIS policy, the unusable GN1 blacklist, and the ACPM schedutil update limit. They are staged under `/usr/share/omamobile/device-oriole/optional/` and remain inactive until the corresponding cold-boot, camera and thermal gates are approved.
 
+`oriole-optional-profile --apply wifi|camera|performance` copies one profile into the normal system configuration and records a backup; `--rollback` restores the newest backup. It never reloads a module or restarts a service, so the operator can arm a watchdog and validate one change per boot.
+
 The source boundary is now explicit: the current Omarchy kernel head is rejected for Oriole because it lacks the Pixel 6 GS101 driver baseline. `tools/check-oriole-kernel-source` accepts M8's `850061c7` tree only when the GS101 DRM/Panfrost, BCM4389 PCIe, CPIF modem and MIPI-CSIS/IMX355/IMX386 paths are present. The corresponding configuration fragment is kept under `kernel/configs/`; this source check does not build or boot a phone.
 
-The latest evidence is [oriole-bringup-2026.10.26.16](../../releases/oriole-bringup-2026.10.26.16.json). Private partition images, factory firmware, calibration, serial numbers, credentials and host logs are deliberately excluded.
+The latest evidence is [oriole-bringup-2026.10.26.17](../../releases/oriole-bringup-2026.10.26.17.json). Private partition images, factory firmware, calibration, serial numbers, credentials and host logs are deliberately excluded.
 
 ## Device facts
 

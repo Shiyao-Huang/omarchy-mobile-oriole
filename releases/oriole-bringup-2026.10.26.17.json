@@ -1,0 +1,36 @@
+{
+  "release": "oriole-bringup-2026.10.26.17",
+  "kind": "reversible-optional-profile-application-checkpoint",
+  "daily_use_ready": false,
+  "one_click_full_install_ready": false,
+  "device": "Pixel 6 oriole",
+  "changes": [
+    {
+      "component": "reversible runtime profile application",
+      "status": "offline apply/rollback fixtures and package validation passed; live hardware gates remain open",
+      "evidence": [
+        "tools/oriole-optional-profile",
+        "experiments/test-oriole-optional-profile.py",
+        "packages/omamobile-device-oriole/vendor/systemd/system/oriole-optional-profile"
+      ],
+      "proved": [
+        "Wi-Fi, camera and performance profiles can be applied one at a time",
+        "Overwritten files are backed up and the newest saved set can be restored",
+        "Applying a profile does not reload modules, restart services or reboot"
+      ],
+      "limits": [
+        "No profile was applied to a phone in this checkpoint",
+        "A profile can only prepare the normal boot; it cannot provide missing kernel drivers or proprietary firmware",
+        "GPU smoothness, China Mobile 4G/5G and camera capture remain unverified"
+      ]
+    }
+  ],
+  "rollback": {
+    "boot_images_changed": false,
+    "radio_state": "no phone mutation performed",
+    "partition_writes": "none"
+  },
+  "publication": "No vendor firmware, calibration, credentials, private logs, MAC addresses, SSIDs or serial numbers are included.",
+  "supersedes": "oriole-bringup-2026.10.26.16",
+  "next_gate": "Connect Pixel 6 to Mac4, run the GPU and hardware snapshot gates, then apply exactly one profile with watchdog and verify rollback before the next profile."
+}
