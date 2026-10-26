@@ -30,13 +30,14 @@ else
   exit 2
 fi
 """)
-    write_bin(fakebin, "getent", """[ "$1" = ahostsv4 ] && exit 0; exit 2""")
+    write_bin(fakebin, "getent", """[ "$1" = ahosts ] && exit 0; exit 2""")
     write_bin(fakebin, "curl", """printf 401""")
     env = dict(os.environ, PATH=str(fakebin) + os.pathsep + os.environ["PATH"])
     result = subprocess.run([str(SCRIPT)], env=env, text=True, capture_output=True)
     assert result.returncode == 0, result.stderr + result.stdout
     assert "PASS Agent network smoke test" in result.stdout
     assert "transport=wifi" in result.stdout
+    assert "PASS HTTPS transport: github-release status=401" in result.stdout
     assert "SSID" not in result.stdout and "MAC" not in result.stdout
 
     write_bin(fakebin, "curl", """exit 1""")
@@ -44,4 +45,21 @@ fi
                             text=True, capture_output=True)
     assert result.returncode != 0
     assert "FAIL HTTPS transport" in result.stdout
+
+    # IPv6-only mobile connectivity is valid and should use the same checks.
+    write_bin(fakebin, "ip", """
+if [ "$1" = "-4" ] && [ "$2" = "route" ]; then
+  exit 0
+elif [ "$1" = "-6" ] && [ "$2" = "route" ]; then
+  echo 'default via 2001:db8::1 dev wlan0'
+elif [ "$1" = "-6" ] && [ "$2" = "addr" ]; then
+  echo '    inet6 2001:db8::10/64 scope global wlan0'
+else
+  exit 2
+fi
+""")
+    write_bin(fakebin, "curl", """printf 204""")
+    result = subprocess.run([str(SCRIPT)], env=env, text=True, capture_output=True)
+    assert result.returncode == 0, result.stderr + result.stdout
+    assert "family=IPv6" in result.stdout
 print("PASS Agent connectivity probe success, retry failure and redaction fixtures")

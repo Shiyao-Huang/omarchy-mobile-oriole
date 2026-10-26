@@ -28,11 +28,14 @@ python3 experiments/test-agent-network-smoke.py
 python3 experiments/test-network-recover.py
 python3 experiments/test-oriole-optional-profiles.py
 python3 experiments/test-oriole-optional-profile.py
+python3 experiments/test-oriole-host-preflight.py
 ```
 
-A real hardware run needs the exact configured Linux kernel, the user's own factory image and private calibration backups. Read `AGENTS.md`, `CONTRIBUTING.md` and the relevant plan before any phone operation. Keep Android slot A as the recovery path and never flash an unsuffixed partition. The next network gate is [network-desktop-boot-plan](experiments/network-desktop-boot-plan.json); the diagnostic Wi-Fi result does not close it. After a normal desktop boot, run `omamobile-network-recover --check --attempts 3` to diagnose the route used by Agent tools. After a controlled link loss, run `omamobile-network-recover --reconnect wifi` (or `usb`/`cellular`) to retry an existing NetworkManager device, then rerun the check. It never creates profiles, asks for passwords, prints credentials, or activates a radio unless you explicitly request `--reconnect`.
+A real hardware run needs the exact configured Linux kernel, the user's own factory image and private calibration backups. Read `AGENTS.md`, `CONTRIBUTING.md` and the relevant plan before any phone operation. Keep Android slot A as the recovery path and never flash an unsuffixed partition. The next network gate is [network-desktop-boot-plan](experiments/network-desktop-boot-plan.json); the diagnostic Wi-Fi result does not close it. After a normal desktop boot, run `omamobile-network-recover --check --attempts 3` to diagnose the route used by Agent tools. The probe checks IPv4 or IPv6 and calls the public GitHub Release metadata endpoint used by mise for Claude Code, so a failure can be separated into route, DNS, TLS/HTTPS or GitHub API layers. After a controlled link loss, run `omamobile-network-recover --reconnect wifi` (or `usb`/`cellular`) to retry an existing NetworkManager device, then rerun the check. It never creates profiles, asks for passwords, prints credentials, or activates a radio unless you explicitly request `--reconnect`.
 
 When a Linux builder is unavailable locally, manually trigger [`.github/workflows/oriole-gs101-build.yml`](.github/workflows/oriole-gs101-build.yml). It checks out the pinned GS101/Nura sources, applies the 38 patches, merges the Oriole fragment and uploads only public kernel build artifacts and logs.
+
+On Mac4, run `tools/oriole-host-preflight --phone` before connecting the phone and `tools/oriole-host-preflight --build` before attempting a local kernel build. It reports missing host tools without querying devices or printing identifiers.
 
 ## Evidence policy
 

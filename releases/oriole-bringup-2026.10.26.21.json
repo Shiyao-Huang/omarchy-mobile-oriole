@@ -1,0 +1,52 @@
+{
+  "release": "oriole-bringup-2026.10.26.21",
+  "kind": "host-preflight-and-agent-network-diagnostics",
+  "daily_use_ready": false,
+  "one_click_full_install_ready": false,
+  "device": "Pixel 6 oriole",
+  "changes": [
+    {
+      "component": "host preflight",
+      "status": "offline fixture passed; current Mac4 lacks adb, fastboot, aarch64-linux-gnu-gcc, GNU Make 4+ and a case-sensitive build filesystem",
+      "evidence": [
+        "tools/oriole-host-preflight",
+        "experiments/test-oriole-host-preflight.py"
+      ],
+      "proved": [
+        "The preflight reports missing host prerequisites without querying the phone or printing identifiers"
+      ],
+      "limits": [
+        "It does not install host tools or build a kernel"
+      ]
+    },
+    {
+      "component": "Agent network diagnostics",
+      "status": "offline fixture and Oriole package validation passed; live normal-desktop gate remains open",
+      "evidence": [
+        "tools/agent-network-smoke",
+        "tools/omamobile-network-recover",
+        "experiments/test-agent-network-smoke.py",
+        "experiments/test-network-recover.py",
+        "experiments/agent-network-smoke-plan.json"
+      ],
+      "proved": [
+        "The probe accepts IPv4 or IPv6 default routes",
+        "It checks GitHub API, Claude Code GitHub Release metadata, Anthropic and npm over HTTPS",
+        "The explicit recovery wrapper still retries only an existing NetworkManager device"
+      ],
+      "limits": [
+        "No Pixel 6 cold Omarchy desktop run was possible in this checkpoint",
+        "No Wi-Fi credential, China Mobile APN, modem bearer or authenticated Agent request was created or tested",
+        "A reachable GitHub API can still return a rate-limit or application error"
+      ]
+    }
+  ],
+  "rollback": {
+    "boot_images_changed": false,
+    "radio_state": "no phone mutation performed",
+    "partition_writes": "none"
+  },
+  "publication": "No vendor firmware, calibration, credentials, private logs, MAC addresses, SSIDs, IMEIs or serial numbers are included.",
+  "supersedes": "oriole-bringup-2026.10.26.20",
+  "next_gate": "Push only after review approval, run the Linux build workflow, connect Pixel 6 to Mac4, then run the normal-desktop network probe and one controlled reconnect before testing cellular data."
+}

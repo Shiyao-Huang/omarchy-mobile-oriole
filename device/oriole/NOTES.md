@@ -11,7 +11,7 @@ Wi-Fi W2 brought up the GS101 PCIe path, BCM4389 firmware and `wlan0`; W3 fixes 
 
 The association evidence is [wifi-w3-association-evidence](../../experiments/wifi-w3-association-evidence.json), with the gated plan in [wifi-w3-association-plan](../../experiments/wifi-w3-association-plan.json). The authorized network name, credentials, BSSID, MAC address and private serial logs are intentionally excluded.
 
-The device package now includes a read-only Agent connectivity probe. It reports the active transport (Wi-Fi, USB-shared or cellular), IPv4, route, DNS and HTTPS reachability for the public GitHub, Anthropic and npm endpoints, with bounded retries. This diagnoses the failure layer behind Agent installers such as mise without configuring a network or exposing credentials. It is a userspace diagnostic only; it does not close the cold Omarchy desktop gate.
+The device package now includes a read-only Agent connectivity probe. It reports the active transport (Wi-Fi, USB-shared or cellular), IPv4 or IPv6 route, DNS and HTTPS reachability for the public GitHub API, the Claude Code GitHub Release endpoint, Anthropic and npm, with bounded retries. This diagnoses the failure layer behind Agent installers such as mise without configuring a network or exposing credentials. It is a userspace diagnostic only; it does not close the cold Omarchy desktop gate.
 
 The package also includes `omamobile-network-recover`. Its default `--check` path is read-only. An explicit `--reconnect wifi|usb|cellular` retries only an existing NetworkManager device and then delegates to the same Agent probe; it does not create profiles or handle credentials. This gives the normal desktop a bounded recovery step after a transient link loss while keeping Wi-Fi association, cellular bearer and cold-boot acceptance as separate hardware gates.
 
@@ -21,7 +21,7 @@ The optional profiles under `packages/omamobile-device-oriole/optional/` carry t
 
 The source boundary is now explicit: the current Omarchy kernel head is rejected for Oriole because it lacks the Pixel 6 GS101 driver baseline. `tools/check-oriole-kernel-source` accepts M8's `850061c7` tree only when the GS101 DRM/Panfrost, BCM4389 PCIe, CPIF modem and MIPI-CSIS/IMX355/IMX386 paths are present. The corresponding configuration fragment is kept under `kernel/configs/`; this source check does not build or boot a phone.
 
-The latest evidence is [oriole-bringup-2026.10.26.20](../../releases/oriole-bringup-2026.10.26.20.json). Private partition images, factory firmware, calibration, serial numbers, credentials and host logs are deliberately excluded.
+The latest evidence is [oriole-bringup-2026.10.26.21](../../releases/oriole-bringup-2026.10.26.21.json). Private partition images, factory firmware, calibration, serial numbers, credentials and host logs are deliberately excluded.
 
 ## Device facts
 

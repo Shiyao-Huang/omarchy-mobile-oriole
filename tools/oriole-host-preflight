@@ -1,0 +1,74 @@
+#!/bin/bash
+# SPDX-License-Identifier: MIT
+# Check whether a host can perform Oriole phone or Linux-build work.
+# This does not enumerate devices or open a network connection to a phone.
+set -euo pipefail
+
+mode=all
+case "${1:-}" in
+  ''|--all) mode=all ;;
+  --phone) mode=phone ;;
+  --build) mode=build ;;
+  -h|--help)
+    cat <<'EOF'
+Usage: oriole-host-preflight [--phone|--build|--all]
+Checks host tools only; it does not query a phone or install packages.
+EOF
+    exit 0
+    ;;
+  *) echo "FAIL unknown option: $1" >&2; exit 2 ;;
+esac
+
+fail=0
+need() {
+  if command -v "$1" >/dev/null 2>&1; then
+    echo "PASS tool=$1"
+  else
+    echo "FAIL missing tool=$1"
+    fail=1
+  fi
+}
+
+if [[ $mode == phone || $mode == all ]]; then
+  need adb
+  need fastboot
+fi
+
+if [[ $mode == build || $mode == all ]]; then
+  need git
+  need make
+  need clang
+  need aarch64-linux-gnu-gcc
+  if command -v make >/dev/null 2>&1; then
+    make_version=$(make --version 2>/dev/null | awk 'NR==1 {print $3}')
+    if [[ $make_version =~ ^([0-9]+)[.]([0-9]+) ]]; then
+      if (( ${BASH_REMATCH[1]} > 4 || ( ${BASH_REMATCH[1]} == 4 && ${BASH_REMATCH[2]} >= 0 ) )); then
+        echo "PASS GNU make=$make_version"
+      else
+        echo "FAIL GNU make>=4.0 required (found $make_version)"
+        fail=1
+      fi
+    else
+      echo 'FAIL unable to parse make version'
+      fail=1
+    fi
+  fi
+  if [[ ${ORIOLE_CASE_CHECK:-required} == skip ]]; then
+    echo 'INFO build filesystem case check skipped'
+  else
+    probe=$(mktemp -d "${TMPDIR:-/tmp}/oriole-case.XXXXXX")
+    trap 'rm -rf "$probe"' EXIT
+    touch "$probe/A"
+    if [[ -e "$probe/a" ]]; then
+      echo 'FAIL build filesystem is case-insensitive'
+      fail=1
+    else
+      echo 'PASS build filesystem is case-sensitive'
+    fi
+  fi
+fi
+
+if (( fail )); then
+  exit 1
+fi
+echo 'PASS Oriole host preflight'

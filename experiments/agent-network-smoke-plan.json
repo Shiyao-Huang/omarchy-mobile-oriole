@@ -1,6 +1,6 @@
 {
   "claim": "An Omarchy Agent launch can distinguish a missing transport, route, DNS or remote-service failure without mutating radio state.",
-  "oracle": "The probe reports one active default-route transport, an IPv4 address, DNS results and HTTPS status for GitHub, Anthropic and npm; a link or service failure is named and retried within the configured bound.",
+  "oracle": "The probe reports one active default-route transport, an IPv4 or IPv6 address, DNS results and HTTPS status for GitHub, the Claude Code GitHub Release endpoint, Anthropic and npm; a link or service failure is named and retried within the configured bound.",
   "validation": {
     "user_journey": {
       "scenario": "The user opens an Agent while Wi-Fi is unavailable, then reconnects over Wi-Fi, USB-shared internet or cellular data.",
@@ -26,7 +26,7 @@
       "green": "Fixtures cover Wi-Fi success with an authenticated HTTP response, bounded HTTPS retry failure and output redaction.",
       "cases": [
         "missing default route",
-        "missing IPv4",
+        "missing IPv4 or IPv6 address",
         "DNS failure",
         "HTTPS transport failure",
         "Wi-Fi, USB or cellular interface name classification"
@@ -51,7 +51,7 @@
   },
   "limitations": [
     "The probe cannot establish a SIM bearer or repair missing kernel firmware.",
-    "A successful HTTP response does not prove authenticated Agent API access.",
+    "A successful HTTP response does not prove authenticated Agent API access or that GitHub has not rate-limited the caller.",
     "No phone was connected for this checkpoint."
   ],
   "exit_gate": "Run the probe after a cold normal Omarchy boot on the Pixel 6, then repeat after a controlled Wi-Fi reconnect and one Agent API request."

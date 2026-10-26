@@ -7,7 +7,15 @@ set -euo pipefail
 
 attempts=1
 delay=2
-endpoints=(api.github.com api.anthropic.com registry.npmjs.org)
+# Public services used by the Agent bootstrap path. The release endpoint is
+# explicit so a mise/Claude Code GitHub API failure is distinguishable from a
+# generic Internet failure.
+endpoints=(
+  'github-api|api.github.com|https://api.github.com/'
+  'github-release|api.github.com|https://api.github.com/repos/anthropics/claude-code/releases/latest'
+  'anthropic-api|api.anthropic.com|https://api.anthropic.com/'
+  'npm-registry|registry.npmjs.org|https://registry.npmjs.org/'
+)
 
 usage() {
   cat <<'EOF'
@@ -46,30 +54,41 @@ transport_for() {
 }
 
 check_once() {
-  local route dev state
+  local route dev state family addr_re
+  family=4
   route=$(ip -4 route show default 2>/dev/null | awk 'NR==1 {print; exit}')
+  if [[ -z "$route" ]]; then
+    family=6
+    route=$(ip -6 route show default 2>/dev/null | awk 'NR==1 {print; exit}')
+  fi
   dev=$(awk '{for (i=1;i<NF;i++) if ($i == "dev") {print $(i+1); exit}}' <<<"$route")
-  [[ -n "$dev" ]] || { echo 'FAIL no IPv4 default route'; return 1; }
+  [[ -n "$dev" ]] || { echo 'FAIL no IPv4 or IPv6 default route'; return 1; }
   state=$(cat "/sys/class/net/$dev/operstate" 2>/dev/null || printf unknown)
-  echo "INFO transport=$(transport_for "$dev") interface=$dev state=$state"
-  if ! ip -4 addr show dev "$dev" scope global | grep -Eq 'inet [0-9]+(\.[0-9]+){3}'; then
-    echo "FAIL interface=$dev has no IPv4 address"
+  echo "INFO transport=$(transport_for "$dev") interface=$dev family=IPv$family state=$state"
+  if [[ $family == 6 ]]; then
+    addr_re='inet6 [0-9A-Fa-f:.]+'
+  else
+    addr_re='inet [0-9]+(\.[0-9]+){3}'
+  fi
+  if ! ip -"$family" addr show dev "$dev" scope global | grep -Eq "$addr_re"; then
+    echo "FAIL interface=$dev has no IPv$family address"
     return 1
   fi
-  echo 'PASS IPv4 address present'
+  echo "PASS IPv$family address present"
 
-  local host status
-  for host in "${endpoints[@]}"; do
-    if ! getent ahostsv4 "$host" >/dev/null; then
-      echo "FAIL DNS resolution: $host"
+  local label host url status endpoint
+  for endpoint in "${endpoints[@]}"; do
+    IFS='|' read -r label host url <<<"$endpoint"
+    if ! getent ahosts "$host" >/dev/null; then
+      echo "FAIL DNS resolution: $label ($host)"
       return 1
     fi
-    echo "PASS DNS resolution: $host"
+    echo "PASS DNS resolution: $label"
     status=$(curl --silent --show-error --connect-timeout 5 --max-time 15 \
-      --output /dev/null --write-out '%{http_code}' "https://$host/" 2>/dev/null || printf 000)
+      --output /dev/null --write-out '%{http_code}' "$url" 2>/dev/null || printf 000)
     case "$status" in
-      2*|3*|4*) echo "PASS HTTPS transport: $host status=$status" ;;
-      *) echo "FAIL HTTPS transport: $host status=$status"; return 1 ;;
+      2*|3*|4*) echo "PASS HTTPS transport: $label status=$status" ;;
+      *) echo "FAIL HTTPS transport: $label status=$status"; return 1 ;;
     esac
   done
   echo 'PASS Agent network smoke test'
