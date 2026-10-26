@@ -1,0 +1,58 @@
+#!/bin/bash
+# SPDX-License-Identifier: MIT
+# Verify that a kernel checkout is the GS101 Pixel 6 source boundary needed by
+# the GPU, Wi-Fi, modem and camera work. This is read-only: it never patches,
+# builds, flashes or loads a kernel.
+set -euo pipefail
+
+src=${1:?Usage: check-oriole-kernel-source KERNEL_DIR [CONFIG]}
+config=${2:-$src/.config}
+expected=850061c79264d018317e9f849701f165e138e20c
+
+[[ -d "$src" ]] || { echo "FAIL source directory missing"; exit 2; }
+actual=$(git -C "$src" rev-parse HEAD 2>/dev/null || true)
+[[ "$actual" == "$expected" ]] || {
+  echo "FAIL kernel commit is not the required GS101 baseline"
+  echo "INFO expected=$expected"
+  echo "INFO actual=${actual:-unknown}"
+  exit 3
+}
+
+paths=(
+  arch/arm64/boot/dts/exynos/google/gs101-oriole.dts
+  drivers/gpu/drm/gs101/gs101_drm_drv.c
+  drivers/gpu/drm/panfrost/panfrost_drv.c
+  drivers/pci/controller/dwc/pcie-gs101.c
+  bcmdhd/Kbuild
+  modem/Kbuild
+  drivers/media/platform/samsung/gs101-mipi-csis.c
+  drivers/media/i2c/imx355.c
+  drivers/media/i2c/imx386.c
+)
+for path in "${paths[@]}"; do
+  [[ -e "$src/$path" ]] || { echo "FAIL missing source: $path"; exit 4; }
+done
+echo 'PASS GS101 source paths present'
+
+if [[ ! -f "$config" ]]; then
+  echo "WARN config not found: provide a merged .config for option checks"
+  echo 'PASS source boundary only'
+  exit 0
+fi
+
+options=(
+  'CONFIG_DRM_GS101=m'
+  'CONFIG_PCIE_GS101=y'
+  'CONFIG_BCMDHD=m'
+  'CONFIG_BCMDHD_PCIE=y'
+  'CONFIG_VIDEO_GS101_MIPI_CSIS=m'
+  'CONFIG_VIDEO_IMX355=m'
+  'CONFIG_VIDEO_IMX386=m'
+  'CONFIG_EXYNOS_MODEM_IF=m'
+  'CONFIG_SHM_IPC=m'
+)
+for option in "${options[@]}"; do
+  grep -qx "$option" "$config" || { echo "FAIL config: $option"; exit 5; }
+done
+echo 'PASS GPU, Wi-Fi, modem and camera config options'
+echo 'PASS Oriole GS101 kernel source check'

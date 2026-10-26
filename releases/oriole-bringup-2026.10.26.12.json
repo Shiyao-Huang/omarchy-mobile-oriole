@@ -1,0 +1,37 @@
+{
+  "release": "oriole-bringup-2026.10.26.12",
+  "kind": "source-boundary-and-evidence-checkpoint",
+  "daily_use_ready": false,
+  "one_click_full_install_ready": false,
+  "device": "Pixel 6 oriole",
+  "changes": [
+    {
+      "component": "GS101 kernel source boundary",
+      "status": "offline source check passed; current Omarchy kernel rejected",
+      "evidence": [
+        "kernel/configs/oriole-gs101-mainline.fragment",
+        "tools/check-oriole-kernel-source",
+        "experiments/gs101-kernel-source-evidence.json",
+        "experiments/gs101-kernel-integration-plan.json"
+      ],
+      "proved": [
+        "M8's exact GS101 baseline contains the Oriole GPU, BCM4389 PCIe Wi-Fi, CPIF modem and GS101 camera source paths",
+        "The required hardware configuration fragment is explicit",
+        "The existing GS201-oriented Omarchy head is rejected before any build or phone operation"
+      ],
+      "limits": [
+        "No kernel image was built in this checkpoint",
+        "No phone reboot, boot or flash was performed",
+        "Firmware, modem NV, calibration, cellular registration and camera capture remain open"
+      ]
+    }
+  ],
+  "rollback": {
+    "boot_images_changed": false,
+    "radio_state": "no phone mutation performed",
+    "partition_writes": "none"
+  },
+  "publication": "No vendor firmware, calibration, credentials, private logs, MAC addresses, SSIDs or serial numbers are included.",
+  "supersedes": "oriole-bringup-2026.10.26.11",
+  "next_gate": "Build M8's GS101 kernel with the fragment and Omarchy initramfs/userspace in separate outputs, then run a human-approved slot-B boot with serial recovery."
+}

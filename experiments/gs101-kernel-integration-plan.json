@@ -1,0 +1,59 @@
+{
+  "claim": "The Pixel 6 Omarchy image is built from a GS101 kernel that contains the device's GPU, Wi-Fi, modem and camera drivers before any phone boot test.",
+  "oracle": "A source checkout is exactly M8 commit 850061c79264d018317e9f849701f165e138e20c, required driver paths exist, and the merged configuration enables Panfrost/GS101 display, BCM4389 PCIe Wi-Fi, CPIF modem and GS101 camera modules.",
+  "validation": {
+    "user_journey": {
+      "scenario": "The user boots Omarchy, opens an Agent, leaves Wi-Fi coverage, inserts a China Mobile SIM and opens the camera; Android slot A remains the recovery path if a driver stage fails.",
+      "expected": "The desktop starts without the known GPU stall, Wi-Fi and cellular interfaces can be diagnosed independently, and camera enumeration is possible before a capture is attempted. A failed stage leaves USB serial recovery available."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "The source checker is read-only and never changes a kernel tree or phone partition.",
+        "Only a named GS101 source baseline is accepted; the current GS201-oriented Omarchy tree is rejected.",
+        "Firmware, modem NV, calibration and credentials stay outside the public repository."
+      ],
+      "gitnexus": [
+        "The kernel boundary owns device-tree and driver support; the Omarchy device package owns userspace handoff and network diagnostics.",
+        "GPU, Wi-Fi, modem and camera are separate gates and cannot be promoted from display-only evidence."
+      ],
+      "ast": [
+        "The checker has no write, reboot, flash, module-load or network-configuration operation.",
+        "Every required source path and configuration option is checked explicitly."
+      ]
+    },
+    "unit": {
+      "red": "The existing Omarchy kernel tree lacks the GS101 PCIe host, CPIF modem and GS101 MIPI-CSIS paths required by the Pixel 6 hardware.",
+      "green": "The checker accepts the exact GS101 baseline with the hardware fragment and rejects a wrong commit or missing option.",
+      "cases": [
+        "wrong kernel commit",
+        "missing GPU path",
+        "missing Wi-Fi path",
+        "missing modem path",
+        "missing camera path",
+        "missing merged configuration"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "exact kernel source -> merged arm64 config -> kernel/image build",
+        "kernel modules and device tree -> Omarchy userspace -> GPU/Wi-Fi/modem/camera devices"
+      ],
+      "faults": [
+        "source tree mismatch",
+        "module or firmware absent",
+        "PCIe link failure",
+        "CPIF registration failure",
+        "MIPI camera enumeration failure"
+      ],
+      "evidence": [
+        "M8 GS101 source and Nura hardware notes provide the reference boundary; Pixel 6 cold boot, mobile data and camera capture remain pending."
+      ]
+    }
+  },
+  "limitations": [
+    "The source check does not prove the device boots or that proprietary firmware is present.",
+    "The reference supports front and ultra-wide cameras; the rear GN1 camera remains unsupported.",
+    "Cellular support still requires tinycbd, read-only phone partitions and Shannon ModemManager integration."
+  ],
+  "exit_gate": "Build the exact kernel and userspace in an isolated output directory, run static checks, then perform a human-approved slot-B boot with serial recovery and validate GPU, Wi-Fi reconnect, China Mobile registration/data and one supported camera capture."
+}

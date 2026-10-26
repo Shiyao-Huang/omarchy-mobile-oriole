@@ -1,0 +1,27 @@
+{
+  "classification": "observed offline source-boundary check",
+  "reference_commit": "850061c79264d018317e9f849701f165e138e20c",
+  "checks": {
+    "gs101_reference": {
+      "source_paths": "PASS",
+      "config_fragment": "PASS",
+      "gpu": "GS101 DRM and Panfrost paths present",
+      "wifi": "BCM4389 bcmdhd PCIe path present",
+      "cellular": "CPIF modem paths present",
+      "camera": "GS101 MIPI-CSIS, IMX355 and IMX386 paths present"
+    },
+    "current_omarchy_head": {
+      "result": "REJECTED",
+      "reason": "not the required GS101 baseline; no source mutation performed"
+    }
+  },
+  "validation": {
+    "unit": "tools/check-oriole-kernel-source passed against the reference source and rejected the current Omarchy head",
+    "end_to_end": "not run; no phone connected and no image built in this checkpoint"
+  },
+  "limitations": [
+    "The checker proves source and configuration boundaries only.",
+    "It does not prove kernel build, proprietary firmware extraction, boot, modem registration, camera capture or GPU frame time."
+  ],
+  "next_gate": "Build the exact GS101 kernel and userspace in a separate output directory, then perform a human-approved slot-B boot with serial recovery."
+}
