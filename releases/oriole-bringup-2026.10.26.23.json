@@ -1,0 +1,73 @@
+{
+  "release": "oriole-bringup-2026.10.26.23",
+  "kind": "network-probe-correction-and-live-gate",
+  "daily_use_ready": false,
+  "one_click_full_install_ready": false,
+  "device": "Pixel 6 oriole",
+  "claim": "The network acceptance tools distinguish a usable Wi-Fi or cellular route from a stale address, and the remaining live checks are explicit.",
+  "oracle": "A normal Omarchy boot reports an interface with an address and matching default route, resolves the Agent endpoints, completes HTTPS, recovers after one controlled reconnect, and separately reports China Mobile registration plus a connected bearer.",
+  "validation": {
+    "user_journey": {
+      "scenario": "The operator starts an Agent from Omarchy, the active link drops, then reconnects; if the Mac handoff is unavailable, USB serial recovery remains the next action.",
+      "expected": "The user gets a clear route/DNS/HTTPS result and a bounded reconnect path, or a specific live-device blocker without losing Android slot A."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "IPv4 or IPv6 is selected only when both a global address and a default route exist on the same interface.",
+        "The probes never print SSIDs, credentials, IMEI, APN, bearer addresses or serial numbers.",
+        "Wi-Fi, cellular, GPU and camera claims remain separate gates."
+      ],
+      "gitnexus": [
+        "The device package stages the read-only probes; the live acceptance boundary is cold Omarchy -> NetworkManager/ModemManager -> HTTPS."
+      ],
+      "ast": [
+        "The phone-network-smoke fixture covers IPv4, IPv6, missing route, DNS failure and HTTPS failure paths."
+      ]
+    },
+    "unit": {
+      "red": "The Wi-Fi probe could select an IPv4 address left behind without an IPv4 default route.",
+      "green": "python3 experiments/test-phone-network-smoke.py passes after requiring address and matching default route.",
+      "cases": [
+        "IPv4 address plus route",
+        "IPv6 address plus route",
+        "stale IPv4 without route",
+        "no address",
+        "DNS failure",
+        "HTTPS failure"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "cold Omarchy -> NetworkManager -> Wi-Fi or cellular route -> DNS -> HTTPS",
+        "ModemManager registration -> connected cellular bearer"
+      ],
+      "faults": [
+        "Mac4 locked",
+        "missing adb/fastboot on current host",
+        "no wireless interface",
+        "stale address",
+        "missing route",
+        "DNS failure",
+        "HTTPS failure",
+        "unregistered modem",
+        "missing bearer"
+      ],
+      "evidence": [
+        "Offline network, recovery, Agent and cellular fixtures pass. Mac4 is currently reported locked by UU remote, so no live Pixel readout is available."
+      ]
+    }
+  },
+  "limitations": [
+    "No live cold Omarchy Wi-Fi run was captured in this checkpoint.",
+    "China Mobile 4G/5G registration, bearer traffic and camera frame capture remain unverified.",
+    "The current host lacks adb and fastboot; the Linux builder and Mac4 are still required for a flashable image."
+  ],
+  "rollback": {
+    "boot_images_changed": false,
+    "radio_state": "no phone mutation performed",
+    "partition_writes": "none"
+  },
+  "publication": "No vendor firmware, calibration, credentials, private logs, MAC addresses, SSIDs, IMEIs or serial numbers are included.",
+  "supersedes": "oriole-bringup-2026.10.26.22",
+  "next_gate": "Unlock Mac4 and keep it awake, run oriole-host-preflight --phone, then capture cold Omarchy GPU/Wi-Fi evidence before the attended China Mobile and camera gates."
+}
