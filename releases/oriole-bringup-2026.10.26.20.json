@@ -1,0 +1,34 @@
+{
+  "release": "oriole-bringup-2026.10.26.20",
+  "kind": "reproducible-linux-build-workflow",
+  "daily_use_ready": false,
+  "one_click_full_install_ready": false,
+  "device": "Pixel 6 oriole",
+  "changes": [
+    {
+      "component": "Linux build availability",
+      "status": "manual GitHub Linux workflow added and contract-checked; workflow execution and phone gates remain open",
+      "evidence": [
+        ".github/workflows/oriole-gs101-build.yml",
+        "experiments/gs101-online-source-check.json"
+      ],
+      "proved": [
+        "A manual workflow fixes the exact GS101 and Nura revisions",
+        "The workflow applies all 38 patches, merges the Oriole fragment and requests Image/modules/DTBs",
+        "Only public kernel build artifacts and logs are uploaded"
+      ],
+      "limits": [
+        "The workflow has not run because the local branch is not yet pushed",
+        "No firmware, boot image, modem registration, camera capture or physical performance test was run"
+      ]
+    }
+  ],
+  "rollback": {
+    "boot_images_changed": false,
+    "radio_state": "no phone mutation performed",
+    "partition_writes": "none"
+  },
+  "publication": "No vendor firmware, calibration, credentials, private logs, MAC addresses, SSIDs or serial numbers are included.",
+  "supersedes": "oriole-bringup-2026.10.26.19",
+  "next_gate": "Push the reviewed branch, manually run the Linux build workflow, then connect Pixel 6 and use the produced artifacts only after serial-recovery review."
+}

@@ -21,7 +21,7 @@ The optional profiles under `packages/omamobile-device-oriole/optional/` carry t
 
 The source boundary is now explicit: the current Omarchy kernel head is rejected for Oriole because it lacks the Pixel 6 GS101 driver baseline. `tools/check-oriole-kernel-source` accepts M8's `850061c7` tree only when the GS101 DRM/Panfrost, BCM4389 PCIe, CPIF modem and MIPI-CSIS/IMX355/IMX386 paths are present. The corresponding configuration fragment is kept under `kernel/configs/`; this source check does not build or boot a phone.
 
-The latest evidence is [oriole-bringup-2026.10.26.19](../../releases/oriole-bringup-2026.10.26.19.json). Private partition images, factory firmware, calibration, serial numbers, credentials and host logs are deliberately excluded.
+The latest evidence is [oriole-bringup-2026.10.26.20](../../releases/oriole-bringup-2026.10.26.20.json). Private partition images, factory firmware, calibration, serial numbers, credentials and host logs are deliberately excluded.
 
 ## Device facts
 
