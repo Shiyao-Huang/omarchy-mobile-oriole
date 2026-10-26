@@ -5,6 +5,8 @@ kept out of the default device package until a normal Omarchy boot has passed
 the corresponding hardware gate. They contain no firmware, calibration or
 credentials.
 
+Reference: [pixel6-mainline-nura/device-google-oriole](https://github.com/TheNoswad/pixel6-mainline-nura/tree/a74e18dec7598f65cd504f0c75c10b8d7fc4422b/device/testing/device-google-oriole), whose device packaging is MIT licensed.
+
 Apply one profile only after the matching gate is approved:
 
 - `wifi/90-bcmdhd-unmanaged.conf` keeps Android-only BCM4389 interfaces out of
