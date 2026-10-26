@@ -1,0 +1,32 @@
+Subject: [PATCH] brcmfmac: allocate the versioned join request by wire length
+
+Preserve the BCM4389 join layout while replacing the one-element channel
+array. A header-only conversion would truncate channel-present requests;
+allocate the calculated firmware length instead.
+
+---
+
+diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil_types.h b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil_types.h
+--- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil_types.h
++++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil_types.h
+@@ -549,7 +549,7 @@
+ 	u8 bssid[ETH_ALEN];
+ 	__le16 bssid_cnt;
+ 	__le32 chanspec_num;
+-	__le16 chanspec_list[1];
++	__le16 chanspec_list[];
+ };
+ 
+ /* extended join params, versioned (wl_extjoin_params_v1_t) */
+diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
+--- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
++++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
+@@ -2401,7 +2401,7 @@
+ 	if (chanspec)
+ 		len += sizeof(u16);
+ 
+-	jp = kzalloc_obj(*jp);
++	jp = kzalloc(len, GFP_KERNEL);
+ 	if (!jp)
+ 		return -ENOMEM;
+ 

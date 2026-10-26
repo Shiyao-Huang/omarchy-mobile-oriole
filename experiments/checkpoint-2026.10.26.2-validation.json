@@ -1,0 +1,24 @@
+{
+  "scope": "G4-G14 GPU source/evidence and CPU M1/M2 observations; connectivity-n2 and test-connectivity-msi excluded from this commit",
+  "checks": {
+    "json_parse": "39 JSON documents parsed before final metadata additions",
+    "python_syntax": "17 files parsed with ast.parse",
+    "shell_syntax": "15 files passed bash -n",
+    "phone_JS_syntax": "Node --check passed M1 and M2 before execution",
+    "render_assessment": "baseline/candidate/rollback all synthetic_render_pass=true, physical_usability_accepted=false",
+    "privacy_scan": "100 scoped text files: no private host names/home paths/credentials patterns detected",
+    "binary_scope": "No compiled modules, boot images or vendor binaries staged",
+    "whitespace": "Code/doc checks passed. Full diff flags preserved raw patch context/mail trailers and original tests.log padding; bytes intentionally retained for source hashes/reproduction."
+  },
+  "runtime": {
+    "GPU": "G14 current-boot retained after fresh serial and fault check; rollback timer cancelled, watchdog disarmed",
+    "CPU_M1": "Failed closed: CONFIG_CFS_BANDWIDTH absent; no stress started",
+    "CPU_M2": "Actual two-worker parallel run with0-5affinity, weight25/nice10; desktop0-7 unchanged; unit collected"
+  },
+  "limitations": [
+    "No cold-boot first-job fix",
+    "No physical touch/smoothness repeat while user away",
+    "No wireless, cellular, camera or sustained thermal acceptance",
+    "Source checkpoint is not a complete one-click installer"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "kernel": "7.3.0-rc6-omamobile-oriole-m1",
+  "module_loading_disabled": "1",
+  "interfaces": [
+    "lo",
+    "usb0"
+  ],
+  "PCI_devices": 0,
+  "camera_nodes": [],
+  "thermal_zones": 0,
+  "Hyprland_count": 1,
+  "private_GPU_mapped": true,
+  "inputs": [
+    "Oriole polling touchscreen",
+    "gpio-keys"
+  ],
+  "service_status": {
+    "sddm": "active",
+    "oriole-bringup-serial": "active",
+    "NetworkManager": "active",
+    "ModemManager": "inactive"
+  },
+  "private_log_sha256": "3881c377e504de5ba52fbc17a9d1fcad3467697ba1378c979e5e6b0cb82b8930"
+}

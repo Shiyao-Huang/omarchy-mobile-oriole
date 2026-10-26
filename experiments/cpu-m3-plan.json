@@ -1,0 +1,65 @@
+{
+  "claim": "A temporary 10ms schedutil rate limit reduces unnecessary frequency transitions under a short bursty Agent-like workload without materially increasing event-loop latency, compared with the observed 750us default.",
+  "oracle": "A/B/A on one boot: candidate policy4 transition rate at least20% below the mean baseline, p95 timer lateness no more than2ms or25% above baseline (whichever is larger), workload completed, unchanged CPU masks/governors/frequency limits, no new kernel fault. Otherwise restore750us. Physical scrolling remains separate acceptance.",
+  "validation": {
+    "user_journey": {
+      "scenario": "An API Agent wakes periodically for small tasks while the desktop remains available; interruption restores the original tuning and manual changes are preserved.",
+      "expected": "Less scheduling overhead without harming short-task response; actual application touch/scroll still needs user verification."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Only the existing global schedutil rate_limit_us changes",
+        "No voltage, clock limit, CPU online mask or storage changes",
+        "One worker pinned to CPU4 at low duty for6s per leg; no all-core stress",
+        "Guarded compare-before-write and compare-before-restore",
+        "90s recovery timer plus watchdog and fresh serial confirmation",
+        "No thermal sensor exposed: exclude sustained load/thermal acceptance"
+      ],
+      "gitnexus": [
+        "Standalone sysfs trial outside application graph; inspect exact helper, rollback and workload paths"
+      ],
+      "ast": [
+        "State transitions and restoration checks covered by unit tests"
+      ]
+    },
+    "unit": {
+      "red": "Reject mismatched baseline, wrong value and manual change on restore",
+      "green": "Exact apply/restore round trip and interruption rollback",
+      "cases": [
+        "original750",
+        "candidate10000",
+        "manually changed value preserved",
+        "malformed input rejected"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "current cpufreq-dt/schedutil",
+        "real sysfs transition counters",
+        "Node timers and process CPU",
+        "CPU affinity",
+        "serial",
+        "systemd recovery timer"
+      ],
+      "faults": [
+        "trial interruption",
+        "worker timeout",
+        "manual rate change"
+      ],
+      "evidence": [
+        "Phone global rate750us; policy0/4/6 transition counters present; policy4 coversCPU4-5; no thermal zones exposed."
+      ]
+    }
+  },
+  "evidence": [
+    "Pinned pixel6-mainline-nura a74e18dec7598f65cd504f0c75c10b8d7fc4422b reports same default and a10ms limiter; this is external evidence, not a performance result on our phone."
+  ],
+  "limitations": [
+    "Short synthetic Agent-like burst test is not touchscreen responsiveness or thermal certification",
+    "No persistent boot configuration until user journey acceptance",
+    "GPU, Wi-Fi, cellular and camera retain their separate gates",
+    "Time-bounded worker executes substantially fewer iterations under candidate; narrow timing-only pass cannot override this contradiction."
+  ],
+  "exit_gate": "Blocked for performance promotion: fixed-work throughput comparison, fresh health and physical acceptance required; original750us currently verified.",
+  "status": "Update: original oracle insufficient; candidate not retained; see cpu-m3-evidence.json"
+}

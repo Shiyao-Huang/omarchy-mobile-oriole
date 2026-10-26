@@ -1,0 +1,73 @@
+{
+  "claim": "A guarded one-time acknowledgement of the currently healthy Linux B boot can set only successful bit0x02 at devinfo offset0x35, preventing retry exhaustion from selecting Android solely because Linux never acknowledged boot.",
+  "oracle": "Exact current3.15 header, activeB/not-unbootable and LinuxB verified; fresh off-device backup verified; actual upstream C tested on synthetic images and a private backup copy; one flag change only, whole-partition comparison and original RO flags restored. No reboot or startup service enabled in this stage.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Operator wants Linux to stay selected instead of repeated Android recovery fallback. Linux is currently available over serial with desktop and touch driver; manual fastboot remains the recovery route after successful marking.",
+      "expected": "B acknowledged, A untouched; automatic fallback no longer relied on. Persistent GPU/touch startup and physical restart test are separate gates."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Use existing Apache2.0 Google-derived bootctl, not a raw partition flash",
+        "Discover devinfo and parent by sysfs, verify uniquePARTNAME and block sizes",
+        "Only current activeB, supportedversion3.15, no reserved slot bytes",
+        "Full backup copied off device before writable window",
+        "Restore original disk and partition RO flags on exit; no other disk nodes or partitions",
+        "No automatic boot-success until persistent startup is accepted"
+      ],
+      "gitnexus": [
+        "Standalone firmware utility outside workspace graph; trace upstream C read/check/apply/write/full-verify and shell relock"
+      ],
+      "ast": [
+        "Actual compiled C mutation-tested against regular-file fixtures"
+      ]
+    },
+    "unit": {
+      "red": "Invalid version/magic, absent confirmation, huge/truncated file reject without mutation",
+      "green": "Valid B success changes exactly offset0x35 bit2; A/allother bytes preserved; repeated apply no-op",
+      "cases": [
+        "dryrun",
+        "write-copy",
+        "idempotence",
+        "malformed",
+        "unsupportedlayout",
+        "limits"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "LinuxB runtimehealth",
+        "sysfs",
+        "RO backup",
+        "USBserial",
+        "Mac privateverifiedcopy",
+        "ARM64 compiledutility",
+        "devinfo fullreadback",
+        "ROrestore"
+      ],
+      "faults": [
+        "Manual metadata difference before write aborts",
+        "Unhealthy runtime aborts",
+        "Any write/readback error stops no reboot",
+        "Process interruption relocks via trap; hard power loss remains a risk"
+      ],
+      "evidence": [
+        "B retry0/successfalse; boot-success binary and unit absent; currentLinux anddesktophealthy via freshserial."
+      ]
+    }
+  },
+  "evidence": [
+    "boot-b2-evidence.json",
+    "boot-b2/source.json",
+    "test-boot-b2-write.py",
+    "boot-b2/mark-current-b.sh"
+  ],
+  "limitations": [
+    "Setting successful disables retry-count-based automatic fallback; manual fastboot A remains needed if Linuxlaterfails",
+    "No guarantee against power loss during metadatawrite",
+    "Does not integrate GPU/touchstartup or prove cellular/camera",
+    "No boot metadata write until backup and copy-tests pass"
+  ],
+  "exit_gate": "Offline actualC tests plus freshbackup and preflight health permit single guarded write; fresh serial verifies metadata and RO. Persistent startup requires separate plan and reboot test.",
+  "status": "Single guarded write and fresh read-only verification passed; reboot/persistent desktop acceptance pending"
+}

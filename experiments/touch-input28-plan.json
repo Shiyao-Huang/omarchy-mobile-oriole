@@ -1,0 +1,66 @@
+{
+  "claim": "A bounded diagnostic input device can translate IRQ-low rawFIFO frames from the twice-observed pollingpath into standardLinux multitouch events. This is a temporary fallback, not a productiondriver orclaimedIRQfix.",
+  "oracle": "Duringconfirmedfingerwindow, evdevshows trackingstarts/ends and changingXY consistentwithhands; no eventsfromhighIRQorinvalidframes; releaseall onexit; then separatelyGUIacceptance required.",
+  "validation": {
+    "user_journey": {
+      "scenario": "User taps/swipes the Linuxphone withoutkeyboard",
+      "expected": "First actualevdev, then visible desktop response in a separatepromotionstep; cleanup aftertrial releasescontacts"
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Same26/27 reset,identity,flush,scan andboundedpolling; onlyaddinputtranslation",
+        "Only pre-readIRQlow + responseprefix87 + validfingerenter/motion/leave mayreport",
+        "Ten slots, validatedslot/type/coordinates; inputpointer emulation andsync",
+        "No IRQhandler orfirmwareflash; readonlystorageguard;180seconddeadline/9000poll cap",
+        "Releaseall afterloop/error anddevm device cleanup"
+      ],
+      "gitnexus": [
+        "Externalkernel source, directcontrolflow reviewed"
+      ],
+      "ast": [
+        "Extract actual decoder function into sanitizer harness"
+      ]
+    },
+    "unit": {
+      "red": "Oldrawclient exposes noinputdevice; translationgate tests definedbeforeimplementation",
+      "green": "Actualdecoderaccept captured motion/leave andreject badslot,type,frameprefix,length/event/coordinates; ASanUBSan",
+      "cases": [
+        "capturedbordercoordinates",
+        "invalid65idleframe",
+        "non-finger",
+        "slot10",
+        "outofrange",
+        "leavezeropressure"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "realSPI+IRQlevel",
+        "decoder",
+        "Linuxinputcore",
+        "evdev",
+        "physicalfinger"
+      ],
+      "faults": [
+        "invalidframesignored",
+        "SPIerrorabort",
+        "inputreleaseonexit",
+        "independentrails2c/3crollback"
+      ],
+      "evidence": []
+    }
+  },
+  "evidence": [
+    "26 confirmedfinger: validmotion/leave andchangingcoordinates",
+    "27 validlogged139framesallIRQprelow,57positions; posthigh138",
+    "25r still0evdev; actionconfirmationpending so notconclusiveperformedfailure"
+  ],
+  "limitations": [
+    "20mspolling consumespower; notdefaultboot",
+    "Onlyfinger type1 supportedinthisdiagnostic",
+    "No calibration/displayrotation/gesturekeyboard acceptance",
+    "No firmwareinterruptrootcause proven",
+    "FullGUIpromotion requires additionalacceptance"
+  ],
+  "exit_gate": "Compile andactualdecoder sanitizer pass; boundedtrial onlyafteroperatorready; no productionautoload or desktop-successclaim withoutevdev+GUI evidence."
+}

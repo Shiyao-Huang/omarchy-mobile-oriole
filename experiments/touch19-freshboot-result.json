@@ -1,0 +1,17 @@
+{
+  "claim": "Freshboot19 initialization and scan acceptance measured",
+  "observation": {
+    "kernel": "7.3.0-rc6-omamobile-oriole-m1",
+    "new_boot_verified": true,
+    "sysinfo": "chip3648 fw0049 screen2399x1079 matrix16x34",
+    "scan": "A0 00 FF issued but no43/01 echo, recurring03 ready events",
+    "binding": false,
+    "rollback": "at82.705 double-read2c/3c, no fts/hold modules, modprobe restored, watchdog FD closed"
+  },
+  "limitation": "Ready event recurrence may reflect resets or transport artifact; root cause not proven. Physical touch not tested; no installation completion.",
+  "recovery": {
+    "observation": "ADB15037 recovery on A, B success=no retry=0; set_active b reset retry=3 and booted Linux",
+    "inference": "Boot retry exhaustion explains observed A recovery fallback; exact boot-success metadata format not yet inspected",
+    "writes": "Only fastboot set_active b; no new boot image writes"
+  }
+}

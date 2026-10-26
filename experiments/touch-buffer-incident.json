@@ -1,0 +1,49 @@
+{
+  "claim": "Reestablish sounddiagnostics afterbufferlengtherror",
+  "oracle": "CorrectallTX/RX allocations to64; no buildwarnings; freshbootbeforetesting; rerun affectedCSnegative/GPIO/idlehigh tests",
+  "validation": {
+    "user_journey": "RestartdiagnosticLinux; protectinstalledrootfs",
+    "code_reasoning": [
+      "CSnegative/GPIO/idlehigh inherited14bytebuffers butfilled64: invalid resultbasis",
+      "SYS216compilerwarningcaughtbeforedeployment",
+      "Earlierloopbackusesownlocal64bytebuffers andisnotaffected; resetresponse/CSsetup allocate64also",
+      "No disk/flashing commands inaffectedtests"
+    ],
+    "unit": "Addsourcebuffercontract andfailbuildonwarning",
+    "end_to_end": "Verifynewboot_id, serialhostkey, storageguard, thenrepeatcorrectedtests"
+  },
+  "evidence": {
+    "oriole_touch_minimal.c": {
+      "previous_sha256": "2c5c483216315d6bac883de8e76d1359a6da8cf27d6627d87dcb2719c3b1f77a"
+    },
+    "oriole_touch_minimal_usi.c.saved": {
+      "previous_sha256": "036501f4479cdac8acfc76c36f7bf7048314b6588ac4d03cdf63d40bec8df420"
+    },
+    "oriole_touch_minimal_cs_negative.c.saved": {
+      "previous_sha256": "33bdf2c606285754f6c4d429537e45e6092d7dd12fa483f74116216a6727d9b4"
+    },
+    "oriole_touch_minimal_gpio_spi.c.saved": {
+      "previous_sha256": "2e894d01810c48acf21196de1e91ff484a2d0dc56be5dc4c6a0fa3aa00ebbd3a"
+    },
+    "oriole_touch_minimal_idle_high.c.saved": {
+      "previous_sha256": "7073994f5043f871094f9316cb1bd8d3cd5f415bc306e0741f1db373d7eb2028"
+    }
+  },
+  "limitations": [
+    "No observedkernelpanic, butabsenceofpanicdoesnotproveno runtimecorruption",
+    "Affectedresults withdrawnuntilrepeat"
+  ],
+  "exit_gate": "Freshbootverifiedandcorrectedtestsrunbeforeusinganyaffectedconclusion",
+  "result": {
+    "status": "corrected and replayed",
+    "fresh_boot_verified": true,
+    "compiler_warnings_on_corrected_probes": 0,
+    "rerun": [
+      "cs_negative",
+      "gpio_spi",
+      "idle_high"
+    ],
+    "rollback": "each independently double-read2c/3c",
+    "evidence": "touch-transport-series2-evidence.json"
+  }
+}

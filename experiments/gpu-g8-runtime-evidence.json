@@ -1,0 +1,34 @@
+{
+  "status": "read_only_verified",
+  "module_sha256": "3ab57336ba32238909453cf69b4e18110c7a30e7feef89bf836a1cadce404125",
+  "twice_identical": {
+    "B7M_CTRL": "58",
+    "B7M_OUT1": "58",
+    "B7M_OUT2": "58",
+    "B2S_CTRL": "38",
+    "B2S_OUT1": "40",
+    "B2S_OUT2": "30",
+    "B8S_CTRL": "d8",
+    "B8S_OUT1": "40",
+    "B8S_OUT2": "30",
+    "L1S_CTRL1": "24",
+    "L1S_CTRL2": "18",
+    "LDO_CTRL1": "f0",
+    "PCTRLSEL1": "73",
+    "PCTRLSEL3": "07",
+    "PCTRLSEL5": "07"
+  },
+  "source_interpretation": {
+    "B2S": "enablefieldbits7:6=0; core rail disabled",
+    "B8S": "enablefieldbits7:6=3; L2 rail enabled",
+    "L1S": "enablefieldbits5:4 of LDO_CTRL1=3; enabled; L1S_CTRL1 is selector, NOT enable"
+  },
+  "limits": "PMIC mode bytes, not analog voltage measurement; causal GPU hypothesis requires controlledenable/render",
+  "validation": [
+    "30orderedreadfaulttests",
+    "15double-readmismatchtests",
+    "W=1",
+    "live15registerdoublesnapshot",
+    "moduleunloaded/watchdogdisarmed/freshserial"
+  ]
+}

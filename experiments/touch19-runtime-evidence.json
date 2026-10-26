@@ -1,0 +1,60 @@
+{
+  "serial-stop-touch17": [
+    "[ 5445.907760] oriole-touch-supply-hold: restore L26M ret=0",
+    "[ 5445.907855] oriole-touch-supply-hold: restore L25M ret=0",
+    "[ 5445.948225] oriole-touch-supply-read: L25M reg=5c first=2c second=2c",
+    "[ 5445.948303] oriole-touch-supply-read: L26M reg=5d first=3c second=3c",
+    "[ 5445.948445] oriole-touch-supply-read: finished ret=0 (no rail writes)"
+  ],
+  "serial-test-touch18": [
+    "[ 5466.665428] [ FTS ] pollForEvent: ERROR 80000007 ",
+    "[ 5466.665432] [ FTS ] fts_system_reset: ERROR 80000007",
+    "[ 5467.401011] [ FTS ] pollForEvent: ERROR 80000007 ",
+    "[ 5467.401020] [ FTS ] fts_system_reset: ERROR 80000007",
+    "[ 5468.136620] [ FTS ] pollForEvent: ERROR 80000007 ",
+    "[ 5468.136630] [ FTS ] fts_system_reset: ERROR 80000007",
+    "[ 5468.136633] [ FTS ] fts_system_reset...failed after 3 attempts: ERROR 80000B07",
+    "[ 5468.136635] [ FTS ] Cannot initialize the device ERROR 80000B07",
+    "[ 5468.141624] [ FTS ] Probe Failed!",
+    "FRESHBOOT_ROLLBACK_OK",
+    "[ 5471.201302] oriole-touch-supply-read: L25M reg=5c first=2c second=2c",
+    "[ 5471.201454] oriole-touch-supply-read: L26M reg=5d first=3c second=3c",
+    "[ 5471.201594] oriole-touch-supply-read: finished ret=0 (no rail writes)"
+  ],
+  "serial-test-touch19": [
+    "[ 5635.465425] [ FTS ] fts_system_reset: ERROR 80000007",
+    "[ 5636.198636] [ FTS ] Event found in (49 iterations)! Number of errors found = 0 ",
+    "[ 5636.199453] [ FTS ] readSysInfo: The Header Signature is wrong!  sign: 00 != A5 ERROR 80000800",
+    "[ 5636.199459] [ FTS ] Cannot read Sys Info! ERROR 00000000",
+    "[ 5636.199463] fts spi0.0: Oriole SysInfo validation failed; no sensing/IRQ",
+    "[ 5636.209668] [ FTS ] Probe Failed!",
+    "FRESHBOOT_ROLLBACK_OK",
+    "[ 5639.265051] oriole-touch-supply-read: L25M reg=5c first=2c second=2c",
+    "[ 5639.265120] oriole-touch-supply-read: L26M reg=5d first=3c second=3c",
+    "[ 5639.265292] oriole-touch-supply-read: finished ret=0 (no rail writes)"
+  ],
+  "serial-test-touch19-conditioned": [
+    "[ 5691.194588] oriole-touch-minimal spi0.0: SYSPAIR phase1 explicit_tx=1 ready=1 header=00/00 chip=0000 fw=0000 svn=0000 cfg=0000 x=0 y=0 tx=0 rx=0",
+    "[ 5691.866794] oriole-touch-minimal spi0.0: SYSPAIR phase2 explicit_tx=0 ready=1 header=00/00 chip=0000 fw=0000 svn=0000 cfg=0000 x=0 y=0 tx=0 rx=0",
+    "[ 5692.538916] oriole-touch-minimal spi0.0: SYSPAIR phase3 explicit_tx=1 ready=1 header=00/00 chip=0000 fw=0000 svn=0000 cfg=0000 x=0 y=0 tx=0 rx=0",
+    "[ 5693.210851] oriole-touch-minimal spi0.0: SYSPAIR phase4 explicit_tx=0 ready=1 header=00/00 chip=0000 fw=0000 svn=0000 cfg=0000 x=0 y=0 tx=0 rx=0",
+    "[ 5693.882844] oriole-touch-minimal spi0.0: SYSPAIR phase5 explicit_tx=1 ready=1 header=00/00 chip=0000 fw=0000 svn=0000 cfg=0000 x=0 y=0 tx=0 rx=0",
+    "[ 5693.897556] oriole-touch-minimal spi0.0: MINID speed restored to10000000 ret=0",
+    "[ 5635.465421] [ FTS ] pollForEvent: ERROR 80000007 ",
+    "[ 5635.465425] [ FTS ] fts_system_reset: ERROR 80000007",
+    "[ 5636.198636] [ FTS ] Event found in (49 iterations)! Number of errors found = 0 ",
+    "[ 5636.199453] [ FTS ] readSysInfo: The Header Signature is wrong!  sign: 00 != A5 ERROR 80000800",
+    "[ 5636.199459] [ FTS ] Cannot read Sys Info! ERROR 00000000",
+    "[ 5636.199463] fts spi0.0: Oriole SysInfo validation failed; no sensing/IRQ",
+    "[ 5636.209668] [ FTS ] Probe Failed!",
+    "[ 5694.565745] [ FTS ] Event found in (2 iterations)! Number of errors found = 0 ",
+    "[ 5694.567137] [ FTS ] readSysInfo: The Header Signature is wrong!  sign: 00 != A5 ERROR 80000800",
+    "[ 5694.567146] [ FTS ] Cannot read Sys Info! ERROR 00000000",
+    "[ 5694.567150] fts spi0.0: Oriole SysInfo validation failed; no sensing/IRQ",
+    "[ 5694.573881] [ FTS ] Probe Failed!",
+    "FRESHBOOT_ROLLBACK_OK",
+    "[ 5697.644992] oriole-touch-supply-read: L25M reg=5c first=2c second=2c",
+    "[ 5697.645061] oriole-touch-supply-read: L26M reg=5d first=3c second=3c",
+    "[ 5697.645182] oriole-touch-supply-read: finished ret=0 (no rail writes)"
+  ]
+}

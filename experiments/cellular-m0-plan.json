@@ -1,0 +1,44 @@
+{
+  "claim": "Identify and build a Pixel6 S5123 CPIF candidate against the installed kernel before any modem power transition; derive the exact reserved-memory, GPIO and PCI dependencies from pinned GS101 and stock sources.",
+  "oracle": "ABI-matched isolated build, explicit dependency and lifecycle audit, no unreviewed stubs presented as working recovery, and no phone modem/partition side effects in M0.",
+  "validation": {
+    "user_journey": {
+      "scenario": "User inserts the China Mobile SIM and expects registration, mobile data, API requests and calls after boot, reconnection and recovery. M0 establishes prerequisites without disturbing the currently recovered desktop.",
+      "expected": "No claim of cellular service until SIM/registration, real bearer traffic and voice are separately observed."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Use GS101 S5123 source and board data; never substitute GS201 S5300 addresses or calibration.",
+        "All reference inputs pinned; isolate candidate and output from shared kernel source.",
+        "Trace modem probe/remove/shutdown, DMA reservations, IRQ ownership, power sequencing and PCI relink callbacks before loading.",
+        "Actual NV partitions remain read-only. Later daemons receive verified RAM copies only.",
+        "Do not copy or distribute unlicensed tinycbd; inspect licensed/stock-user-owned alternatives before userspace integration."
+      ],
+      "gitnexus": ["External kernel not indexed; direct source/control-flow/dependency tracing required."],
+      "ast": ["Compile candidate with exact kernel headers and W=1; inspect exported-symbol resolution."]
+    },
+    "unit": {
+      "red": "Target deterministic failures found by source audit, such as channel classification or teardown ordering; not applicable to inventory alone.",
+      "green": "Applicable actual-code contracts must pass before hardware gate.",
+      "cases": ["extended PDP channel181", "failed PCI registration cleanup", "reserved-memory bounds", "no host teardown while endpoint live"]
+    },
+    "end_to_end": {
+      "boundaries": ["pinned GS101 source", "installed-kernel ABI", "external build", "current phone read-only inventory"],
+      "faults": ["missing dependency", "ABI mismatch", "unimplemented recovery stub", "board-data mismatch"],
+      "evidence": []
+    }
+  },
+  "evidence": [
+    "Installed kernel source/config inventory has no enabled CPIF implementation.",
+    "TheNoswad/pixel6-mainline-nura a74e18dec7598f65cd504f0c75c10b8d7fc4422b describes S5123 registration/data/IMS through a Shannon ModemManager plugin; only US carriers reported, not this phone or China Mobile.",
+    "GS101 kernel850061c79264d018317e9f849701f165e138e20c provides root modem/ and GS101 CP DT fragments. Existing v4a PCI driver still has no-op link-event/L1SS callbacks."
+  ],
+  "limitations": [
+    "No powered modem test authorized by this plan; later stage requires updated backups, watchdog/log capture and explicit recovery.",
+    "Compile or upstream reports do not prove SIM registration, 4G/5G, calls or camera on this device.",
+    "Current desktop freezes module loading; a future diagnostic boot is required for a driver trial.",
+    "Wi-Fi W3 awaits a named authorized network and association-layout/DMA review; other phone work continues."
+  ],
+  "exit_gate": "Build and audit complete with deterministic checks for implemented changes; all hardware dependencies and risks documented before separate M1 power/enumeration plan.",
+  "status": "M0 source acquisition and offline build; phone modem untouched."
+}

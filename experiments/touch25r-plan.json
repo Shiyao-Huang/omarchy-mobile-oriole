@@ -1,0 +1,63 @@
+{
+  "claim": "Repeat unchanged25 with explicit operator-ready handoff and immediate userconfirmation to testevdev/IRQ in a proven finger window; not a newdriver.",
+  "oracle": "Real synchronized taps/swipes yield EV_ABS trackingIDs and changingXY; zeroevents/IRQ2 despiteconfirmedwindow is a performed failure.",
+  "validation": {
+    "user_journey": {
+      "scenario": "User taps and swipes phone without keyboard",
+      "expected": "Actual matching finger events followed by graphical interaction before promotion"
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Only23 RX wrapper short-length bypass removed",
+        "Google prepare retained unlike24",
+        "No ready rescan; eight-ready guard; no firmware burn; existing bounds and cleanup unchanged"
+      ],
+      "gitnexus": [
+        "Not available for external kernel source; direct source diff and actual function extraction used"
+      ],
+      "ast": [
+        "Extract actual function for sanitizer harness"
+      ]
+    },
+    "unit": {
+      "red": "23 short reads bypass explicit zero TX",
+      "green": "25 actual wrapper all lengths zero TX, restores ownership, returns errors",
+      "cases": [
+        "1/9/32/33/217 bytes",
+        "ENOMEM",
+        "transport failure",
+        "multiple RX",
+        "invalid size",
+        "existing TX"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "Mac4 serial",
+        "Linux SPI",
+        "FTS firmware",
+        "IRQ",
+        "evdev",
+        "physical finger"
+      ],
+      "faults": [
+        "Eight-ready guard",
+        "bounded180second capture",
+        "independent supply rollback readback"
+      ],
+      "evidence": []
+    }
+  },
+  "evidence": [
+    "26/27 directFIFO validmotion andleave with changingcoordinates",
+    "27 pre-readIRQlow andpostreadhigh showsphysicalIRQ assertion",
+    "Original25 physical timing ambiguous"
+  ],
+  "limitations": [
+    "No physical waveform measurement",
+    "No genuine reset recovery in diagnostic23 callback",
+    "No persistent boot image change; B retry flag unresolved",
+    "Same25source/moduleSHA, different runlabel25r to preservepriorlogs"
+  ],
+  "exit_gate": "Run actual function tests, bounded RAM trial with storage/watchdog guards, independently verify cleanup; no touch-fix claim without performed input and GUI acceptance."
+}

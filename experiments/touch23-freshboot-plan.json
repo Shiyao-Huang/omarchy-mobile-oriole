@@ -1,0 +1,50 @@
+{
+  "claim": "Diagnostic-only suppression of rescan in ready callback separates feedback from autonomous controller ready events. Use a new boot to avoid known warmSysInfo failure; if fallback, apply documented recovery-access plan beforetest.",
+  "oracle": "Freshboot validSysInfo, driverbind, IRQguard nottriggered during idle, then performed user taps/swipes yield evdev tracking and coordinates. Suppressing a guard alone is not success.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Boot mobile Linux then tap and swipe without a keyboard",
+      "expected": "Physical evdev coordinates then corresponding desktop interaction; deferred while user absent"
+    },
+    "code_reasoning": [
+      "Only input-only readycallback returns after releasingtouches/resetflags, before modehandler",
+      "Eight-eventIRQguard retained",
+      "No firmwareburn, no imageflash, existingidentity/bounds/cleanup retained"
+    ],
+    "unit": {
+      "red": "Actual21 callback reissuesmodehandler forready event",
+      "green": "Actual23callback norescan forfirst7ready; eighth disablesIRQ; release/reset bookkeepingpreserved",
+      "cases": [
+        "repeatready",
+        "stormthreshold",
+        "scan-startfailure",
+        "memoryownership"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "serial",
+        "SPI controller",
+        "FTS firmware",
+        "IRQ",
+        "evdev"
+      ],
+      "faults": [
+        "No echo rejects probe",
+        "Independent rail readback after unload"
+      ],
+      "evidence": [
+        "freshboot19 valid SysInfo but repeated ready events and no scan echo"
+      ]
+    }
+  },
+  "evidence": [
+    "21 had sevenready callbacks within2ms with scan reissued eachtime; FIFO22 one scan produced3ready thenempty withoutcallback"
+  ],
+  "limitations": [
+    "If controller really resets, skippingrescan may preventtouch; this is diagnostic only",
+    "No productionautorecovery or persistentimagechange",
+    "BootB successfulflag stillunset; inspect ADB15037 if fallback occurs"
+  ],
+  "exit_gate": "Capture realfinger only if idleIRQ stable; stop/unload/restore rails on failure; no productionpromotion withoutGUIacceptance."
+}

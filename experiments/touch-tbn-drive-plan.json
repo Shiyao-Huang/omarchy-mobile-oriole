@@ -1,0 +1,37 @@
+{
+  "claim": "AP request pin is input/pulldown, unlike Google TBN output-low initialization; drive only confirmed gpp26.1 low and compare identity.",
+  "oracle": "Request becomes func1/raw0, ACK remains0, identity3648 stable in3paired reads; restore request func0/raw0 afterward. Same echo is failure.",
+  "validation": {
+    "user_journey": "No touch action required. Stay in diagnostic console; briefly bind minimal client, capture results, unload and restore supply controls.",
+    "code_reasoning": [
+      "Board and parent-controller whitelist",
+      "Select existing DT pinctrl; fail on errors",
+      "Reset is sole output: raw low100ms then high500ms; IRQ input only",
+      "Only FB20000000 read command; no register/firmware/storage writes",
+      "Heap buffers; bounded six transactions; probe always returns ENODEV; no input registration",
+      "Read-only bank metadata via current-kernel Samsung pinctrl header; fixed GPIO label/offset whitelist; enable/disable pclk exactly as driver getter; raw spinlock around two reads; no direct MMIO writes.",
+      "Compiler binds struct layout to exact running kernel sources; verify gpiochip parent matches expected pinctrl.",
+      "Only gpp26.1 mutation, require original func0/raw0 before requesting; preserve pull setting; gpiolib request own descriptor ASIS, drive raw0, cleanup action restores input and frees reference.",
+      "No ACK output, no AoC firmware loading, no SPI4 writes, no IRQ enable."
+    ],
+    "unit": "Source command/bounds/error-path checks and W=1 compilation. No mocked hardware success.",
+    "end_to_end": "Paired with prior minimal-mux baseline; host watchdog/log; supplies same; after probe verify request input restored plus supply2c/3c and originalSPI."
+  },
+  "evidence": [
+    "Google TBN probe uses GPIOF_OUT_INIT_LOW for ap2aoc; AP enum0",
+    "Live PINMUX gpp26.1 func0 pud1 raw0; ACKfunc0 pud1 raw0; SPIpins2/2/2/1"
+  ],
+  "limitations": [
+    "No scope/voltage measurement",
+    "Chip identity alone cannot establish touch UI",
+    "Initial plan serialization failed before device trial; plan repaired and rechecked before loading.",
+    "ACK already0: observing0 does not establish an AoC handshake transition; only compare identity outcome."
+  ],
+  "exit_gate": "Restore GPIO input and supply controls on all exits; accept no fix without valididentity and eventual physicalinput.",
+  "result": {
+    "status": "no_identity_improvement",
+    "observed": "requestfunc1 raw0 ACKfunc0 raw0; same02 andcommandlikeecho in3pairs",
+    "rollback": "GPIO restoreinput returned0 raw0; supply2c/3c independentlyverified; moduleunloaded,watchdogdisarmed",
+    "not_proven": "No AoC handshake transition or touchfix"
+  }
+}

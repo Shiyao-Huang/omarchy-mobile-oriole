@@ -1,0 +1,28 @@
+{
+  "claim": "Original volatile SPI4 register setup may change command-echo into valid chip-ID reads",
+  "oracle": "Paired sixreads before and after SPI4 setup in sameprobe; expectpostsetup3648, otherwise reject",
+  "validation": {
+    "user_journey": "No physicalaction; diagnosticreturnsfailure andrestoresrails",
+    "code_reasoning": [
+      "Useexistingfts_spi4_mode_set withfixedGPIO/ICRvolatileaddresses, no firmwareburn",
+      "Samebuffers,clock,powerandGPIO acrossbefore/after",
+      "No scanning orIRQ"
+    ],
+    "unit": "Static allowlist of five volatile controller register writes; compile passed. No hardware unit simulator.",
+    "end_to_end": "Watchdog/log, beforeafterpairedID reads, restore supply and independentreadback"
+  },
+  "evidence": [],
+  "limitations": [
+    "Changingvolatilecontrollerconfig may persistuntilpowercycle",
+    "Echo observation doesnotprove internalSPIloopback; controllercodeclearsloopbackbit"
+  ],
+  "exit_gate": "No successwithout3648; rollback onfailure",
+  "result": {
+    "status": "identity_failed_before_and_after",
+    "before": "zeros; fulltransfer echoes00fb20...",
+    "after": "02repeated; fulltransfer00fb20...0202...",
+    "spi4_setup_return": 0,
+    "limits": "SPI transport return0 doesnotprove registerwrite took effect",
+    "rollback": "TwoPMICenablebits restored andindependentlydouble-read; FTSunloaded"
+  }
+}

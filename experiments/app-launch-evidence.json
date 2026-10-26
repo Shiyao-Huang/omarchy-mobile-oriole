@@ -1,0 +1,94 @@
+{
+  "status": "User-reported app crashes unresolved; controlled launches did not reproduce",
+  "observed": {
+    "agent_entry": "omamobile-agent.desktop -> omarchy-agent --pick",
+    "agent_default": null,
+    "mise_installed_tools": {},
+    "agent_commands": "opencode/claude/codex are install-on-demand shell wrappers, not installed CLI binaries",
+    "menu_probe": {
+      "original_menu_layer": true,
+      "modified_menu_layer": true,
+      "hypothesis": "menu-disabled hypothesis rejected",
+      "reason": "listPlugins enabled for bar-widget means placed in bar, not loadable; isEnabled allows first-party menu",
+      "rollback_exact_bytes": true
+    },
+    "direct_launch": {
+      "terminal": "mapped window after 3s",
+      "calculator": "mapped window after 3s",
+      "aether": "mapped window after 3s",
+      "chromium": "mapped about:blank window with isolated test profile after 3s"
+    },
+    "exact_mobile_launcher": {
+      "path": "omamobile-launch app -> Hyprland exec -> uwsm-app -> gtk-launch -> desktop Exec",
+      "aether": "mapped window after 12s",
+      "omacalc": "mapped window after 12s",
+      "AI Agent": "launcher returns 0; default unset, opens selector rather than agent process"
+    },
+    "coredumps": "No application cores from these tests; historical Hyprland/greeter/plymouth cores retained",
+    "gpu": "No new kernel GPU fault in final dmesg; historical G10 timeout remains",
+    "portal": "xdg-document-portal failed status6 because /dev/fuse is absent; no fuse filesystem registered; modules_disabled=1",
+    "cleanup": "Own Aether/calculator probe processes stopped by exact PID+comm after old Hyprland closewindow syntax failed; user terminals and compositor preserved"
+  },
+  "not_proven": [
+    "Physical touch launch or long session reliability",
+    "Specific user failure path",
+    "GPU compatibility for all apps",
+    "Agent installation/authentication/API",
+    "FUSE as cause of reported crash"
+  ],
+  "next": [
+    "Obtain exact app name and failure step, reproduce under current session",
+    "Capture child stderr/exit on failing launch",
+    "Handle offline agent installation with visible persistent error after confirming failing path",
+    "Add FUSE to next kernel/initramfs, separately validate portal",
+    "Keep original mobile-network/GPU/camera goal active"
+  ],
+  "side_effects": [
+    "Temporary menu config experiment fully rolled back",
+    "Test windows opened/closed and browser test profile created",
+    "No boot images, kernel modules or GPU defaults changed"
+  ],
+  "evidence": [
+    {
+      "private_log": "serial-agent-launch-source-verified-private.txt",
+      "sha256": "0ce6ad0f59e94c55a76421c9d0f8a5ab6ddb3e52c1a17069e7986a08a75c8535"
+    },
+    {
+      "private_log": "serial-agent-repro-verified-private.txt",
+      "sha256": "69b14b522e87870672a569087734243928c6c4307f1077a0e2f0e0ea18a5d20e"
+    },
+    {
+      "private_log": "serial-agent-menu-check-verified-private.txt",
+      "sha256": "51c2120946b3a11c106f3d778874c1e993892f155a9f9b0bb1723a0663578933"
+    },
+    {
+      "private_log": "serial-app-window-probe-verified-private.txt",
+      "sha256": "843f80b9bec28ca0a7bc7fbcdab93aad892b535c8200b28a944c6f86814ac62d"
+    },
+    {
+      "private_log": "serial-menu-config-verified-private.txt",
+      "sha256": "619801cc5b882c3890c42f810e50611e4232da6d19b84bdf6511431072799520"
+    },
+    {
+      "private_log": "serial-menu-ab-verified-private.txt",
+      "sha256": "49e881a853e484711f59c9b09c27ecba75e7aad798fdfc6ccdebfc39d06c9c03"
+    },
+    {
+      "private_log": "serial-app-real-probe-verified-private.txt",
+      "sha256": "8a888b0a1bd15592ed7ac1ac61dfaf6eb8f627540c2225a058c95a2a25a2bdac"
+    },
+    {
+      "private_log": "serial-launch-env-verified-private.txt",
+      "sha256": "bd6018a1307ddd52e1d15ad82ec1a2b32a6bd58d0b4d6d94630be8addfc5995e"
+    },
+    {
+      "private_log": "serial-exact-launch-verified-private.txt",
+      "sha256": "c2b14cf91b1764a9a66af7c46d58a26fe96a2db2714567f65310c67bc3d5d1b2"
+    },
+    {
+      "private_log": "serial-app-final-check-verified-private.txt",
+      "sha256": "41cc5aa263e4d549028bad643b00db7153c62f05421ed36d6365eaea247a3ad3"
+    }
+  ],
+  "followup": "claude-offline-evidence.json: user identified Claude installation error, now reproduced and locally repaired; network blocked"
+}

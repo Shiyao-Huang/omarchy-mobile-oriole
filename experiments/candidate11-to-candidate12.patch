@@ -1,0 +1,25 @@
+--- a/fts.c
++++ b/fts.c
+@@ -3451,6 +3451,22 @@
+ 	int error, retry;
+ 	u8 readData[2];
+ 
++	if (FTS_INPUT_ONLY_BRINGUP) {
++		u8 identity[8];
++		bool valid = true;
++		for (retry = 0; retry < 3; retry++) {
++			memset(identity, 0xEE, sizeof(identity));
++			error = fts_writeReadU8UX(FTS_CMD_HW_REG_R, ADDR_SIZE_HW_REG,
++						  ADDR_DCHIP_ID, identity, sizeof(identity), DUMMY_FIFO);
++			dev_info(info->dev, "Identity sample %d ret=%d data=%*ph\n",
++				 retry, error, (int)sizeof(identity), identity);
++			if (error < OK || identity[0] != DCHIP_ID_0 || identity[1] != DCHIP_ID_1)
++				valid = false;
++			msleep(10);
++		}
++		if (!valid)
++			return ERROR_OP_NOT_ALLOW;
++	}
+ 	error = fts_system_reset();
+ 
+ #ifdef I2C_INTERFACE

@@ -1,0 +1,17 @@
+{
+  "sources": [
+    {
+      "url": "https://github.com/derekross/linux-omarchy-mobile/pull/3",
+      "finding": "G78model,GS101supplies andAArch64pagetablequirk merged; referenceRavenrenderpath."
+    },
+    {
+      "url": "https://github.com/derekross/linux-omarchy-mobile/pull/3#issuecomment-6298359735",
+      "finding": "Maintainer reports Raven repeatedboots anddesktop workingwithout extraGPUcoherencywrite; this is externalhardware report, notthisoriole acceptance."
+    },
+    {
+      "url": "https://github.com/hyprwm/aquamarine/blob/f31c47a1b9d300847d8fc3108ad959448103dfc1/src/backend/Session.cpp",
+      "finding": "resolveMatchingRenderNode permits sole-renderD fallback whenKMSandGPUhave differentparents; avoidsinventing anenvironmentoption."
+    }
+  ],
+  "decision": "No coherencyregisterwrite or guessedGPUIRQfix. Firstuse/reset remainsa hypothesis; actualG11clearandG12geometrypassing narrow thefailure."
+}

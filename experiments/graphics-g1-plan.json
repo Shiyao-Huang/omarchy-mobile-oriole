@@ -1,0 +1,69 @@
+{
+  "phase": "graphics-g1-preimplementation",
+  "claim": "A Pixel6-native Panfrost/G78 path with verified power/clock dependencies can provide a DRM render node and render the Omarchy session without the current framebuffer-only performance limitation.",
+  "oracle": "Exact kernel builds; staged probe produces expected G78 identity and renderD node; EGL reports hardware renderer; repeated frame rendering and user taps/scrolls remain responsive; recoverable stop/reboot without calibration changes.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Boot native Omarchy, open Files and terminal, type with onscreen keyboard, scroll, idle and wake, reconnect USB after interruption; operator can recover using current tested B image.",
+      "expected": "No black/unresponsive desktop, no recurring recovery fallback once boot marker separately verified."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "G78 is Valhall Job Manager: Panfrost, not G710/Panthor",
+        "Current GPU DT disabled with placeholder ext24.5MHz; status flip alone does not prove power/clock safety",
+        "Inspect GS101 compatible supply list and PMIC dependencies; do not copy GS201 addresses",
+        "Never use userspace PMU/GPU reads to test unpowered hardware",
+        "Keep baseline boot and touch30 sources separate from graphics candidate",
+        "Module freeze forbids live loading on current session; stage next kernel offline first"
+      ],
+      "sources": [
+        "https://github.com/derekross/omarchy-mobile/blob/main/device/oriole/NOTES.md",
+        "https://github.com/gs101-mainline/linux/blob/d28cfa4275b95e93f4b7a1e743de31b723bd21b8/arch/arm64/boot/dts/exynos/google/gs101-pixel-common.dtsi",
+        "https://github.com/gs101-mainline/linux/blob/d28cfa4275b95e93f4b7a1e743de31b723bd21b8/drivers/gpu/drm/panfrost/panfrost_drv.c"
+      ],
+      "open_questions": [
+        "Current kernel source has correct four names plus NULL sentinel; older external fork count mismatch is not a current-tree bug.",
+        "Actual G3D clock/power state and secure reset path",
+        "CMU_G3D versus inherited bootloader clock stability",
+        "Coherency/S2MPU/IOMMU and framebuffer scanout compatibility"
+      ]
+    },
+    "unit": {
+      "red": "Current readiness snapshot gpu_dt_status disabled/render_nodes empty",
+      "green": "Deferred until narrow driver/DT change defined",
+      "cases": [
+        "supply count and exact names",
+        "DT schema and dependency graph",
+        "PM error unwind and runtime suspend ownership"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "PMIC/ACPM",
+        "G3D clocks/power",
+        "Panfrost",
+        "DRM render node",
+        "Mesa",
+        "Hyprland",
+        "physical panel/touch"
+      ],
+      "faults": [
+        "failed probe leaves USB/watchdog usable",
+        "stop and clean reboot",
+        "idle/wake and USB reconnect"
+      ],
+      "evidence": [
+        "Current source CONFIG_DRM_PANFROST=m but no enabled GPU supply dependencies",
+        "Current live card0 simple-framebuffer,render nodes absent,render errors repeated",
+        "Current kernel source has GS101 PMIC support in s2mps11/sec-acpm; config enables it, actual provider bringup remains unverified. See graphics-g1-source-audit.json."
+      ]
+    }
+  },
+  "limitations": [
+    "Not implemented or built; this is a reviewed-source dependency plan",
+    "User is away; physical recovery/latency tests unavailable",
+    "Camera,WiFi,cellular are independent ports and not fixed by GPU bringup",
+    "No promise that all subsystems can be completed on current hardware"
+  ],
+  "exit_gate": "Resolve supply/clock/reset dependencies from exact GS101 source; offline build and schema checks; preserve known recovery images and validated backups before guarded hardware probe; require physical latency/wake acceptance before release."
+}

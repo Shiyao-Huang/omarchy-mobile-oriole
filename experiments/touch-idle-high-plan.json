@@ -1,0 +1,23 @@
+{
+  "claim": "The read phase may require MOSI idle high, as stock uses NULL TX for the RX-only phase.",
+  "oracle": "Alternating three zero and threeFF dummy-byte identity reads, samecommand/mode/reset;36 48 required atoffset6.",
+  "validation": {
+    "user_journey": "TemporaryRAMdiagnostic only",
+    "code_reasoning": [
+      "UseonlyFB20000000 readcommand; changeonlydummyphasebytes5..13",
+      "SPI mode0,64byteheapbuffers,threepairedsamples",
+      "No firmware/config writes; samewatchdogandrollback"
+    ],
+    "unit": "Explicitcommandprefixandboundedfill reviewed;W=1build",
+    "end_to_end": "Runonphone andcompare rawresult; restore suppliesindependently"
+  },
+  "evidence": [
+    "Stockfts_writeRead_internal RXphase usesNULLTX; currentread-onlymuxshowsMOSIidlehigh",
+    "IndependentGPIOimplementation returnedidentical80fb20...c0 atlowrate"
+  ],
+  "limitations": [
+    "Stockwireidlepolaritynotmeasured",
+    "Noinputproof"
+  ],
+  "exit_gate": "OnlystableID permitsfurtherinitialization; otherwise rejectdummyfillhypothesis"
+}

@@ -1,0 +1,57 @@
+{
+  "claim": "A bounded read-only ACPM snapshot can establish the current control/selector bytes for the four GS101 GPU-related supply rails without powering the GPU or changing voltages.",
+  "oracle": "All eleven allowlisted registers read twice identically through documented channel2/type1 and correct SPEEDY channel; zero write ops; fresh calibration backup verified; watchdog and USB remain available. A byte snapshot alone does not prove actual voltage or GPU power/clock state.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Preserve current touch30 GUI and files, reboot to existing diagnostic gate, take snapshot, then restore touch30/GUI; failure stops and leaves recoverable baseline. Operator is away, no physical touch acceptance claimed.",
+      "expected": "Remote reconnection and recorded supply snapshot without boot image changes or calibration writes."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Only pmic.read_reg API; no MMIO/PMU userspace access",
+        "Channel2/type1; S2MPG10 SPEEDY0 for B7M, S2MPG11 SPEEDY1 for B2S/B8S/L1S",
+        "Register constants from exact target headers; controls/selectors only, no interrupt-clear/status windows",
+        "No general PMIC provider load, no voltage or external-control writes",
+        "Same kernel ABI, strict oriole compatibility",
+        "Existing boot modules freeze retained; new read module loaded only in diagnostic gate before freeze"
+      ]
+    },
+    "unit": {
+      "cases": [
+        "Actual read loop success produces22reads",
+        "Any read error short-circuits",
+        "Mismatched double read returns EIO",
+        "Only read_reg operation and fixed11registerlist",
+        "Kernel W=1 build"
+      ],
+      "red": "No GPU rail evidence in current checkpoint",
+      "green": "pending"
+    },
+    "end_to_end": {
+      "boundaries": [
+        "Linuxbuilder",
+        "exact kernel ABI",
+        "USBSSH/serial",
+        "ACPMfirmware",
+        "PMICregisterread",
+        "host evidence"
+      ],
+      "faults": [
+        "watchdog on probe",
+        "no reset/write recovery attempted on failed reads",
+        "restore baseline touch30 before GUIhandoff"
+      ],
+      "evidence": [
+        "Fresh seven calibration partitions source/copy/source hashes matched",
+        "Current target header constants and sec-acpm channelmapping reviewed"
+      ]
+    }
+  },
+  "evidence": [],
+  "limitations": [
+    "No GPU acceleration acceptance",
+    "Registers may change under firmware DVFS; mismatch is stop not workaround",
+    "No physical screen confirmation while user away"
+  ],
+  "exit_gate": "Source tests/build/hashverification and freshbackup complete before probe; after probe verify bound modules/calibration RO, stop watchdog, restore baseline touch30 with no END before GUI handoff."
+}

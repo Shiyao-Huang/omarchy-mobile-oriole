@@ -1,0 +1,49 @@
+{
+  "claim": "Disabling compositor animations may reduce visible delay on current framebuffer rendering without affecting touch registration",
+  "oracle": "Config parses/reloads without errors, touch remains bound, physical user reports improvement; CPU comparison supportive only",
+  "validation": {
+    "user_journey": {
+      "scenario": "Tap app, change focus, scroll before/after; restore exact config if errors or regression",
+      "expected": "Less delay with same usable UI; no claim GPU accelerated"
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Only append final hl.config animations false override",
+        "Existing shadow and blur are already off",
+        "No driver/boot/network/firmware mutations",
+        "Backup before editing, rollback reload on config errors"
+      ]
+    },
+    "unit": {
+      "cases": [
+        "luac -p existing config plus appended override",
+        "hyprctl configerrors after reload"
+      ],
+      "limitations": "Config-only mitigation, no synthetic performance claim"
+    },
+    "end_to_end": {
+      "boundaries": [
+        "file",
+        "Hyprland reload",
+        "render loop",
+        "physical finger"
+      ],
+      "evidence": [
+        "Hyprland103percent lifetimeCPU, simple-framebuffer,no rendernode,GPU DT disabled",
+        "Memory5GiBavailable; onlylo/usb0 and no camera devices"
+      ],
+      "faults": [
+        "restore backup ifparse/reload fails"
+      ]
+    }
+  },
+  "evidence": [
+    "private performance and renderer logs"
+  ],
+  "limitations": [
+    "No calibratedFPS/latencybaseline",
+    "Hardwareacceleration absent",
+    "WiFi/modem/camera remain separate unsupported runtime paths"
+  ],
+  "exit_gate": "No configerror+runtime input intact+user performance feedback; do not mark ready based on settings alone"
+}

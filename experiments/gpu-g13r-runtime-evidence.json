@@ -1,0 +1,82 @@
+{
+  "status": "PASS same-workload A/B/A compositor CPU reduction; not physical smoothness acceptance",
+  "sequence": [
+    "stock software",
+    "private Mesa GPU",
+    "stock software restored"
+  ],
+  "results": {
+    "baseline": {
+      "label": "baseline",
+      "duration_s": 16.93,
+      "foot_exit": 0,
+      "scanout_samples": 16,
+      "unique_scanout_fb_ids": 3,
+      "screenshots": [
+        "ed8b800a60647c80bc4654fd9bd0e64e0dfcd716ac94b6c1db24916ef811c644",
+        "322b3b25f0297e56d7c432b79299e93d94e14d340b3c0756558512136e7486b0"
+      ],
+      "distinct_screenshots": 2,
+      "cpu_percent_one_core": {
+        "Hyprland": 111.53,
+        "quickshell": 5.67
+      },
+      "new_log_bytes": 51678,
+      "initMgpu_errors": 54,
+      "applyCommit_errors": 54,
+      "log_sample_capped": false,
+      "limits": "DRM framebuffer IDs and compositor screenshots do not prove physical panel output or touch latency; /dev/fb0 emulation buffer was not the active Hyprland framebuffer"
+    },
+    "candidate": {
+      "label": "candidate",
+      "duration_s": 16.92,
+      "foot_exit": 0,
+      "scanout_samples": 16,
+      "unique_scanout_fb_ids": 3,
+      "screenshots": [
+        "f76fbd40599441d7951b73ab19287763dfe9a383f6d49675acae07f0a71454aa",
+        "1bd6050f4ca6ff2bddf2c5004106b700c52891716364340ec498714a3dbc4bdf"
+      ],
+      "distinct_screenshots": 2,
+      "cpu_percent_one_core": {
+        "Hyprland": 3.19,
+        "quickshell": 3.25
+      },
+      "new_log_bytes": 0,
+      "initMgpu_errors": 0,
+      "applyCommit_errors": 0,
+      "log_sample_capped": false,
+      "limits": "DRM framebuffer IDs and compositor screenshots do not prove physical panel output or touch latency; /dev/fb0 emulation buffer was not the active Hyprland framebuffer"
+    },
+    "rollback": {
+      "label": "rollback",
+      "duration_s": 16.94,
+      "foot_exit": 0,
+      "scanout_samples": 16,
+      "unique_scanout_fb_ids": 3,
+      "screenshots": [
+        "ad14fcc5908f6adfba76a5a656172079a364dc8e5ef956be2613d61cec64c8ee",
+        "1e0f092a2a7f85e02d4e7921ba24615f84023f4ff0d2902634488aa3989a1533"
+      ],
+      "distinct_screenshots": 2,
+      "cpu_percent_one_core": {
+        "Hyprland": 111.73,
+        "quickshell": 5.96
+      },
+      "new_log_bytes": 43065,
+      "initMgpu_errors": 45,
+      "applyCommit_errors": 45,
+      "log_sample_capped": false,
+      "limits": "DRM framebuffer IDs and compositor screenshots do not prove physical panel output or touch latency; /dev/fb0 emulation buffer was not the active Hyprland framebuffer"
+    }
+  },
+  "renderer": "Mali-G78 MC20 (Panfrost)",
+  "correction": "Private prefix mkdtemp0700 prevented agent GBM loading; changed published prefix to0755 and tested all6libraries as desktop user before retry",
+  "rollback": "90-second root timer restored stock mapping/configuration; stock hashes unchanged; watchdog disarmed; fresh USB command passed",
+  "screenshot": "candidate screenshot visually inspected: portrait desktop, terminal, onscreen keyboard, wallpaper; not black",
+  "limitations": [
+    "Synthetic terminal workload only; CPU100%=one logical core",
+    "Screenshots do not prove physical panel output or touch latency",
+    "Warm GPU after first-job timeout/reset; cold-boot readiness not established"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "claim": "N3 PCIe post-host-init IRQ setup releases host resources on IRQ/action failure and on device teardown; shared IRQ handler only acknowledges its MSI bit.",
+  "oracle": "Actual helper fault injection proves request failure -> host deinit once; action-registration failure -> stop_children/mask/free_irq/host_deinit once; normal teardown same order; unrelated IRQ -> IRQ_NONE and no acknowledgement; actual kernel W=1 build/modpost passes.",
+  "validation": {
+    "user_journey": {
+      "scenario": "A future WiFi startup fails or device driver is removed: the phone must retain its recovery path without leaked PCI host/clocks/PHY or stale channel pointer.",
+      "expected": "Failure is visible and resource ownership released; hardware recovery still requires subsequent device test."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Stop PCI child drivers while IRQ handler is still available; then mask/free IRQ before removing DWC domain. Kernel pci_stop_dev skips already-stopped devices when DWC repeats stop_root_bus.",
+        "DWC host_init owns cleanup on its own failures; our helper only runs after it returns0",
+        "Mask own MSI gate before freeing IRQ; free_irq synchronizes handlers before DWC MSI domain removal",
+        "No devm_request_irq double ownership; one devres cleanup action owns successful request_irq",
+        "Initial MSI gate stays masked until handler and cleanup action are installed",
+        "Clear registry only if this device owns it",
+        "Do not acknowledge unrelated IRQ bits or claim shared interrupts without MSI status"
+      ],
+      "gitnexus": [
+        "External driver standalone; inspect actual running-kernel DWC init/deinit and exported symbols, no neweval execution change"
+      ],
+      "ast": [
+        "Host probe and helper control-flow inspected directly; function extraction tests actual C"
+      ]
+    },
+    "unit": {
+      "red": "N2 returns IRQ_HANDLED for zero/unrelated flags and lacks post-init failure/unload cleanup",
+      "green": "Pending actual C ASan/UBSan fault injection",
+      "cases": [
+        "IRQ request failure",
+        "managed-action registration failure",
+        "success then teardown",
+        "unrelated shared IRQ",
+        "mixed MSI+other flag",
+        "no registry ownership"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "Exact kernel/source/output",
+        "AArch64 compiler",
+        "modpost"
+      ],
+      "faults": [
+        "Build failure blocks loading"
+      ],
+      "evidence": []
+    }
+  },
+  "evidence": [
+    "N2 compiled but devm_request_irq error returns without dw_pcie_host_deinit; no remove or managed host cleanup",
+    "Actual kernel dw_pcie_host_deinit removes bus/stopslink/freesMSI and calls boarddeinit"
+  ],
+  "limitations": [
+    "Offline candidate only: no phone load/radio power change under this plan",
+    "Host stubs cannot prove PHY electrical behavior, DMA firewall or actual IRQ delivery",
+    "Existing modem compatibility callbacks include stubs; active CPIF teardown/concurrency not accepted",
+    "Does not complete WiFi association/traffic or SIM registration",
+    "Initial host probe is allowed only before loading the vendor WiFi endpoint driver; general eager endpoint binding ordering remains a separate integration requirement."
+  ],
+  "exit_gate": "Fault-injection tests and exact-kernel build pass, source diff/hash saved; hardware stage remains gated on DT/PMU/DMA/watchdog/calibration review.",
+  "build_isolation": "Remote connectivity-n3 already contains a different contemporaneous cleanup patch; preserved. Build this independent candidate in connectivity-irq-owner-v1. No shared kernel config or radio state changes."
+}

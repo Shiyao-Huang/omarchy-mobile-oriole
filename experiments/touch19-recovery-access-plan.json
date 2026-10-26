@@ -1,0 +1,23 @@
+{
+  "claim": "Recover access to the installed Linux B slot after phone entered A-slot Android recovery; determine actual boot control state first.",
+  "oracle": "ADB identifies oriole recovery slot_a on existing15037 server; fastboot reports slot success/unbootable/retry counters; only select previously verified LinuxB if boot metadata supports it and image identity unchanged.",
+  "validation": {
+    "user_journey": "User unlocks host; agent restores phone access without physical keys or wiping userdata. Failure leaves bootloader/recovery reachable.",
+    "code_reasoning": [
+      "Existing USB VID/PID and interface identify ADB, not Linux gadget",
+      "Two local ADB servers;15037 owns this phone while5037 empty",
+      "Do not infer data loss from A recovery; do not flash or format"
+    ],
+    "unit": "Not applicable to standard adb/fastboot read/reboot operations; explicit device-count/oriole guards.",
+    "end_to_end": "RecoveryADB\u2192bootloader\u2192slot readback\u2192conditionally Linux; verify new kernel/boot_id and userdata preserved."
+  },
+  "evidence": [
+    "ro.product.device=oriole ro.bootmode=recovery ro.boot.slot_suffix=_a ro.boot.bootreason=reboot,recovery",
+    "USB ADB interface255/66/1;15037 transport state recovery"
+  ],
+  "limitations": [
+    "Fallback cause pending slot counters",
+    "No firmware/partition write authorized by this diagnostic except laterexplicitboot-slot metadata selection within original task scope"
+  ],
+  "exit_gate": "Read actual bootloader slot state before selecting slot; verify native Linux before resuming touch test"
+}

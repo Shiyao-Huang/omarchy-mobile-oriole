@@ -1,0 +1,39 @@
+--- a/fts.c
++++ b/fts.c
+@@ -3453,19 +3453,29 @@
+ 
+ 	if (FTS_INPUT_ONLY_BRINGUP) {
+ 		u8 identity[8];
+-		bool valid = true;
++		u8 *tx = kzalloc(14, GFP_KERNEL), *rx = kzalloc(14, GFP_KERNEL);
++		if (!tx || !rx) {
++			kfree(tx); kfree(rx);
++			return ERROR_ALLOC;
++		}
++		tx[0] = FTS_CMD_HW_REG_R; tx[1] = 0x20;
++		msleep(200);
+ 		for (retry = 0; retry < 3; retry++) {
++			struct spi_transfer transfer = { .tx_buf = tx, .rx_buf = rx, .len = 14 };
+ 			memset(identity, 0xEE, sizeof(identity));
+ 			error = fts_writeReadU8UX(FTS_CMD_HW_REG_R, ADDR_SIZE_HW_REG,
+ 						  ADDR_DCHIP_ID, identity, sizeof(identity), DUMMY_FIFO);
+-			dev_info(info->dev, "Identity sample %d ret=%d data=%*ph\n",
++			dev_info(info->dev, "Identity split %d ret=%d data=%*ph\n",
+ 				 retry, error, (int)sizeof(identity), identity);
+-			if (error < OK || identity[0] != DCHIP_ID_0 || identity[1] != DCHIP_ID_1)
+-				valid = false;
+ 			msleep(10);
+-		}
+-		if (!valid)
+-			return ERROR_OP_NOT_ALLOW;
++			memset(rx, 0xEE, 14);
++			error = spi_sync_transfer(info->client, &transfer, 1);
++			dev_info(info->dev, "Identity single %d ret=%d raw=%*ph\n",
++				 retry, error, 14, rx);
++			msleep(10);
++		}
++		kfree(tx); kfree(rx);
++		return ERROR_OP_NOT_ALLOW; /* Read-only diagnostic never starts scanning. */
+ 	}
+ 	error = fts_system_reset();
+ 

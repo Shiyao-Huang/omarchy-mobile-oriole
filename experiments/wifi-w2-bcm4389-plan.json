@@ -1,0 +1,69 @@
+{
+  "claim": "Backport the reference BCM4389 protocol fixes into an isolated external module build compatible with the verified Oriole kernel; then test firmware boot and interface creation without association.",
+  "oracle": "Exact kernel ABI, expected board firmware hashes, no startup firmware crash or MMIO/window overrun, one wireless interface and firmware-version evidence, followed by verified clean unbind and power-off.",
+  "validation": {
+    "user_journey": {
+      "scenario": "User opens Wi-Fi settings and can eventually select a network; this stage must first create the actual wireless interface. A failed probe or interrupted trial returns to the existing GPU/touch desktop through guarded teardown or watchdog recovery.",
+      "expected": "Radio discovery proceeds to a real interface; errors remain recorded, no networking claim based on module registration alone."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Only drivers/net/wireless/broadcom/brcm80211 from a pinned Omarchy kernel snapshot; no SoC addresses, PCI host, PMIC or shared-kernel source changes.",
+        "Review BCM4389 SYSMEM bank decode, BAR-window bounds/locking, power request and coherent bits, H2D epoch and nonzero packet IDs, reset-work lifetime, current firmware protocol changes.",
+        "Use Oriole stock NVRAM/CLM, never Pixel7 board calibration. Firmware binary hash matches reference but board files differ.",
+        "No SysMMU/S2MPU changes; short development-only trial, no default-on promotion without a separate DMA confinement decision.",
+        "Hold endpoint with driver_override while base/vendor dependencies load; restore loader path and unload endpoint before host/PHY."
+      ],
+      "gitnexus": [
+        "External kernel not indexed; use pinned source diff and direct call/control-flow review."
+      ],
+      "ast": [
+        "Compile actual isolated module; test extracted deterministic bank/window/epoch contracts when changed source requires it."
+      ]
+    },
+    "unit": {
+      "red": "Base source must exhibit missing BCM4389 bank/window fixes; reject mismatched firmware and bad/overlapping window ranges in focused contracts.",
+      "green": "Verified upstream logic plus exact-kernel build; lifecycle and mapping tests pass.",
+      "cases": [
+        "RAM bank counts/revisions",
+        "TCM offsets and window boundaries",
+        "firmware digest/name mapping",
+        "teardown refuses host removal after endpoint-unbind failure"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "pinned Git snapshot",
+        "external brcmfmac/brcmutil build",
+        "current kernel",
+        "PCI endpoint",
+        "firmware request",
+        "DMA rings",
+        "cfg80211",
+        "serial/watchdog"
+      ],
+      "faults": [
+        "firmware not found or mismatched",
+        "invalid shared RAM",
+        "probe timeout",
+        "unbind failure",
+        "USB loss"
+      ],
+      "evidence": [
+        "W1 final v4a enumerated14e4:4441 overGen2x1, command0, clean unload and rail-off."
+      ]
+    }
+  },
+  "evidence": [
+    "Reference WIFI-BATTERY-PLAN9.1-9.3 documents known initial driver faults; current source still uses pre-window TCM addressing and initial BCM4389 IDs.",
+    "Pinned upstream omamobile-int commit1cb4bd36f3befa4f331bc4e08fe58becb41e4926.",
+    "Actual firmware20.101.90 and wlan0 observed; cleaned then confirmed through independent serial invocation."
+  ],
+  "limitations": [
+    "BCM4389 fixes from another board still require real Oriole firmware/interface acceptance.",
+    "Existing enumeration-only overlay has no restricted DMA pool; no production default-on or association/traffic acceptance in this stage.",
+    "SIM, voice, camera and persistent boot remain incomplete."
+  ],
+  "exit_gate": "Source review, scoped contracts and warning-free ABI-matched build before powered W2 trial; actual interface and clean rollback before association; full mobile network requires separate traffic/reconnect tests.",
+  "status": "W2 firmware and wlan0 PASS; clean rollback/fresh confirmation PASS. W3 pending."
+}

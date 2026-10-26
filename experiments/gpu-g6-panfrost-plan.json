@@ -1,0 +1,67 @@
+{
+  "claim": "Current-boot scoped GPU DT enable with real ACPM clocks can let existing G78 Panfrost probe and execute GLES jobs without persistent firmware changes.",
+  "oracle": "Exact oriole, stable PMU power1, nonzero real clocks, overlay touches only GPU clocks/clock-names/status; runtime PM forbidden before bind; probe then real renderer and pixel check with no fault. Render node alone is insufficient.",
+  "validation": {
+    "user_journey": {
+      "scenario": "User returns to a touch desktop and opens Files without severe lag; interruption returns to diagnostic image.",
+      "expected": "GPU improvement must pass repeat workload plus later physical touch; user absent so physical acceptance pending."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "No persistent DT/boot/NV write",
+        "No OPP and no clock-rate/PMIC-voltage writes",
+        "Four supplies cause existing driver to skip devfreq",
+        "Inherited supply state is a diagnostic limitation, not production regulator integration",
+        "Disable automatic module loading before overlay; force power/control=on before Panfrost bind",
+        "Watchdog before initialization; explicit GPU unload before overlay removal on failure",
+        "Do not allow overlay if wrong board, powered off, missing provider or already enabled"
+      ],
+      "gitnexus": [
+        "External kernel source, manually traced OF overlay notifier/platform-device ownership, ACPM clock provider and Panfrost probe/PM/remove; no workspace public symbol changed"
+      ]
+    },
+    "unit": {
+      "red": "Malformed resource or clock/power failure must prevent overlay application",
+      "green": "Mock actual guarded module source and compile/apply DTBO against exact base DT; verify only three properties change",
+      "cases": [
+        "wrong board/node",
+        "enabled GPU",
+        "bad region",
+        "PMU failure",
+        "clock defer/zero",
+        "overlay failure cleanup",
+        "successful apply/remove"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "ACPM",
+        "live OF",
+        "platform GPU",
+        "Panfrost",
+        "IRQ/MMU",
+        "Mesa GLES",
+        "USB recovery"
+      ],
+      "faults": [
+        "Bounded watchdog reset if bus/driver hangs",
+        "No module removal while userspace holds GPU; unload before overlay rollback"
+      ],
+      "evidence": []
+    }
+  },
+  "evidence": [
+    "G4 firmware GPU/L2 both151MHz",
+    "G5 two GPU_ID0x92020010; fresh serial and unload verified",
+    "Exact Panfrost gs101 quirks and G78 table present",
+    "Runtime renderD128 exists but shader power timeout observed; probe marker was too permissive and is rejected as acceleration evidence.",
+    "ACPM provider unblocked CPU cpufreq-dt automatically; no GPU OPP/DVFS, but CPU governor schedutil is active."
+  ],
+  "limitations": [
+    "No GPU rail provider in current live DT; inherited powered rails only for this boot; production enable requires regulator ownership",
+    "No DVFS/suspend accepted",
+    "GLES result does not prove camera/modem/WiFi",
+    "Watchdog reset may consume B-slot retry; stock A is recovery not nondestructive dualboot"
+  ],
+  "exit_gate": "W=1 and unit/overlay bounds before runtime; successful driver probe then real GLES pixel verification before desktop; rollback on hang/fault; no production enable based solely on node."
+}

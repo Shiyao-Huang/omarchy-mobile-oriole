@@ -1,0 +1,37 @@
+{
+  "module_sha256": "87b37f5e292d4bb81adc06039f1fd2c8ffe04d7b8e6e1ee5d1ed9dbe373ed4ae",
+  "status": "Bounded physical test performed; partial rawtouch observed, stable usable touch not achieved",
+  "checks": [
+    "W=1 warning-free",
+    "ASan/UBSan actual identity guard rejects corrupted fields",
+    "Review: fixed-size buffers and bounded polling, no IRQ registration or firmware writes"
+  ],
+  "files": [
+    {
+      "path": "experiments/touch-fifo26/Makefile",
+      "sha256": "b9c7095c29982715951c0ebc98dfb3bc565224018bbee783141d1ba1541ebb51"
+    },
+    {
+      "path": "experiments/touch-fifo26/oriole_touch_minimal.c",
+      "sha256": "d5a876cbce5d940cbf1b1b6859b552f336ae7b006e8f483a8af0e8357b2f7a9f"
+    }
+  ],
+  "reboot": "Recovered B retry0 via existing A recovery on ADB5037; set_active b ->retry3; freshLinux confirmed; no images flashed",
+  "phone_stage": "Module copied but not loaded. Only mailbox/acpm/read helpers active; rails2c/3c independently read at34.274; physical polling not started",
+  "counts": {
+    "polls": 7458,
+    "empty": 102,
+    "ready": 3,
+    "touch": 108,
+    "other": 7245
+  },
+  "physical_timing": "User acknowledged completion immediately after READY; status atuptime1434.54 within1415.205..1595.229 window",
+  "rollback": "FRESHBOOT_ROLLBACK_OK, readback2c/3c at1598.293; no touch/hold module remains",
+  "analysis": "fifo26-touch-analysis.json",
+  "limits": [
+    "108 includes repeated samples; not108 gestures and not proof of stable input",
+    "Only64nonempty raw records logged, so later records lack detailed raw evidence",
+    "IRQ raw sampled AFTER read, so raw1 cannot establish absence of an interrupt before read",
+    "Raw touch-type records and changing plausible coordinates support sensing/SPI partial operation, not GUI usability or isolatedIRQrootcause"
+  ]
+}

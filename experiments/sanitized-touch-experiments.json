@@ -1,0 +1,107 @@
+{
+  "2": [
+    "[ FTS ] FW VER = 0049 ",
+    "[ FTS ] Screen Resolution = 14089 x 4100 ",
+    "[ FTS ] Probe Finished! "
+  ],
+  "3": [
+    "[ FTS ] readSysInfo: The Header Signature is wrong!  sign: 00 != A5 ERROR 80000800",
+    "fts spi0.0: Repeated controller-ready events; IRQ disabled",
+    "[ FTS ] Probe Finished! "
+  ],
+  "4": [
+    "[ FTS ] readSysInfo: The Header Signature is wrong!  sign: 00 != A5 ERROR 80000800",
+    "[ FTS ] Probe Finished! ",
+    "fts spi0.0: Repeated controller-ready events; IRQ disabled"
+  ],
+  "5": [
+    "[ FTS ] readSysInfo: The Header Signature is wrong!  sign: 00 != A5 ERROR 80000800",
+    "fts spi0.0: Pre-scan FIFO 0 ret=0 data=69 6e 05 00 fd ff ff ff",
+    "fts spi0.0: Pre-scan FIFO 1 ret=0 data=03 00 00 00 00 00 00 00",
+    "fts spi0.0: Pre-scan FIFO 2 ret=0 data=03 00 00 00 00 00 00 00",
+    "fts spi0.0: Pre-scan FIFO 3 ret=0 data=03 00 00 00 00 00 00 00",
+    "fts spi0.0: Pre-scan FIFO 4 ret=0 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Pre-scan FIFO 5 ret=0 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Pre-scan FIFO 6 ret=0 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Pre-scan FIFO 7 ret=0 data=00 00 00 00 00 00 00 00",
+    "[ FTS ] Probe Finished! ",
+    "fts spi0.0: Repeated controller-ready events; IRQ disabled"
+  ],
+  "6": [
+    "[ FTS ] readSysInfo: The Header Signature is wrong!  sign: 00 != A5 ERROR 80000800",
+    "fts spi0.0: Pre-scan FIFO 0 ret=0 data=69 6e 05 00 fd ff ff ff",
+    "fts spi0.0: Pre-scan FIFO 1 ret=0 data=03 00 00 00 00 00 00 00",
+    "fts spi0.0: Pre-scan FIFO 2 ret=0 data=03 00 00 00 00 00 00 00",
+    "fts spi0.0: Pre-scan FIFO 3 ret=0 data=03 00 00 00 00 00 00 00",
+    "fts spi0.0: Pre-scan FIFO 4 ret=0 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Pre-scan FIFO 5 ret=0 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Pre-scan FIFO 6 ret=0 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Pre-scan FIFO 7 ret=0 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Post-scan FIFO 0 ret=0 irqraw=0 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Post-scan FIFO 1 ret=0 irqraw=1 data=03 00 00 00 00 00 00 00",
+    "fts spi0.0: Post-scan FIFO 2 ret=0 irqraw=1 data=03 00 00 00 00 00 00 00",
+    "fts spi0.0: Post-scan FIFO 3 ret=0 irqraw=1 data=03 00 00 00 00 00 00 00",
+    "fts spi0.0: Post-scan FIFO 4 ret=0 irqraw=1 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Post-scan FIFO 5 ret=0 irqraw=1 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Post-scan FIFO 6 ret=0 irqraw=1 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Post-scan FIFO 7 ret=0 irqraw=1 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Diagnostic stop: IRQ remains disabled",
+    "[ FTS ] Probe Finished! "
+  ],
+  "7": [
+    "[ FTS ] chip_id0:0x2,chip_id1:0x2",
+    "[ FTS ] chip_id0:0x2,chip_id1:0x2",
+    "[ FTS ] chip_id0:0x2,chip_id1:0x2",
+    "[ FTS ] Probe Failed!"
+  ],
+  "8": [
+    "[ FTS ] FW VER = 0049 ",
+    "[ FTS ] Screen Resolution = 9953 x 33504 ",
+    "fts spi0.0: Pre-scan FIFO 0 ret=0 data=43 01 c0 03 20 00 00 02",
+    "fts spi0.0: Pre-scan FIFO 1 ret=0 data=03 00 00 00 00 00 00 00",
+    "fts spi0.0: Pre-scan FIFO 2 ret=0 data=00 00 a5 01 01 00 00 00",
+    "fts spi0.0: Pre-scan FIFO 3 ret=0 data=03 00 00 00 00 00 00 00",
+    "fts spi0.0: Pre-scan FIFO 4 ret=0 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Pre-scan FIFO 5 ret=0 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Pre-scan FIFO 6 ret=0 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Pre-scan FIFO 7 ret=0 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Post-scan FIFO 0 ret=0 irqraw=0 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Post-scan FIFO 1 ret=0 irqraw=1 data=03 00 00 00 00 00 00 00",
+    "fts spi0.0: Post-scan FIFO 2 ret=0 irqraw=1 data=03 00 00 00 00 00 00 00",
+    "fts spi0.0: Post-scan FIFO 3 ret=0 irqraw=1 data=03 00 00 00 00 00 00 00",
+    "fts spi0.0: Post-scan FIFO 4 ret=0 irqraw=1 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Post-scan FIFO 5 ret=0 irqraw=1 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Post-scan FIFO 6 ret=0 irqraw=1 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Post-scan FIFO 7 ret=0 irqraw=1 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Diagnostic stop: IRQ remains disabled",
+    "[ FTS ] Probe Finished! "
+  ],
+  "9": [
+    "[ FTS ] chip_id0:0x2,chip_id1:0x2",
+    "[ FTS ] chip_id0:0x2,chip_id1:0x2",
+    "[ FTS ] chip_id0:0x2,chip_id1:0x2",
+    "[ FTS ] Probe Failed!"
+  ],
+  "10": [
+    "[ FTS ] FW VER = 0049 ",
+    "[ FTS ] Screen Resolution = 9953 x 33504 ",
+    "fts spi0.0: Pre-scan FIFO 0 ret=0 data=43 01 c0 03 20 00 00 02",
+    "fts spi0.0: Pre-scan FIFO 1 ret=0 data=03 00 00 00 00 00 00 00",
+    "fts spi0.0: Pre-scan FIFO 2 ret=0 data=00 00 a5 01 01 00 00 00",
+    "fts spi0.0: Pre-scan FIFO 3 ret=0 data=03 00 00 00 00 00 00 00",
+    "fts spi0.0: Pre-scan FIFO 4 ret=0 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Pre-scan FIFO 5 ret=0 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Pre-scan FIFO 6 ret=0 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Pre-scan FIFO 7 ret=0 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Post-scan FIFO 0 ret=0 irqraw=0 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Post-scan FIFO 1 ret=0 irqraw=1 data=03 00 00 00 00 00 00 00",
+    "fts spi0.0: Post-scan FIFO 2 ret=0 irqraw=1 data=03 00 00 00 00 00 00 00",
+    "fts spi0.0: Post-scan FIFO 3 ret=0 irqraw=1 data=03 00 00 00 00 00 00 00",
+    "fts spi0.0: Post-scan FIFO 4 ret=0 irqraw=1 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Post-scan FIFO 5 ret=0 irqraw=1 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Post-scan FIFO 6 ret=0 irqraw=1 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Post-scan FIFO 7 ret=0 irqraw=1 data=00 00 00 00 00 00 00 00",
+    "fts spi0.0: Startup FIFO drained; enabling guarded IRQ",
+    "[ FTS ] Probe Finished! "
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "candidate": "C2",
+  "status": "not promoted",
+  "change": "Only benchmark foot colors-dark.alpha=1.0; installed configs unchanged",
+  "invalid_trial": {
+    "reason": "colors.alpha no longer a valid section in foot1.28; rejected by parser despite process exit0",
+    "stderr": " err: config.c:3819: override:1: [colors].alpha: 1.0: invalid section name: colors\nwarn: wayland.c:1888: compositor does not implement the xdg-toplevel-icon protocol\n"
+  },
+  "valid_trial": {
+    "label": "opaque1",
+    "duration_s": 17.4,
+    "foot_exit": 0,
+    "scanout_samples": 16,
+    "unique_scanout_fb_ids": 3,
+    "screenshots": [
+      "280b69dce8d84b42bd1649a606643b17b1cf30d19e1b89f0636cf599beef6b69",
+      "0efe7a4a0f7e50a9f918e56302540e663d787771ee2ae0bc47257ad3d24fd2ef"
+    ],
+    "distinct_screenshots": 2,
+    "cpu_percent_one_core": {
+      "Hyprland": 171.62,
+      "quickshell": 5.92
+    },
+    "new_log_bytes": 43065,
+    "initMgpu_errors": 45,
+    "applyCommit_errors": 45,
+    "log_sample_capped": false,
+    "limits": "DRM framebuffer IDs and compositor screenshots do not prove physical panel output or touch latency; /dev/fb0 emulation buffer was not the active Hyprland framebuffer"
+  },
+  "valid_stderr": "warn: wayland.c:1888: compositor does not implement the xdg-toplevel-icon protocol\n",
+  "conclusion": "171.62% vs stock174.44/175.34% CPU in a short workload does not establish useful improvement; no global performance claim",
+  "limitations": [
+    "No sustained FPS or physical touch latency measurement",
+    "Only client alpha changed; compositor window/layer opacity may still blend"
+  ]
+}

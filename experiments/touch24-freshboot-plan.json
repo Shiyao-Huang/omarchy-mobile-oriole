@@ -1,0 +1,52 @@
+{
+  "claim": "Diagnostic single-variable trial: send scan A0 directly without Google bus-prepare write, retain no-rescan callback. Test whether prepare is implicated in ready events and missing physical input.",
+  "oracle": "FreshSysInfo valid; rawdriver ready count and IRQ observed; performed3taps+2swipes yield tracking andcoordinates, not justabsenceofstorm.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Boot mobile Linux then tap and swipe without a keyboard",
+      "expected": "Physical evdev coordinates then corresponding desktop interaction; deferred while user absent"
+    },
+    "code_reasoning": [
+      "Only setScanMode removesFA200000000000 prepare and directly sendsA0",
+      "23callback guard, exactSysInfo, storageguard andfirmwareprohibition remain",
+      "No other systemcommands altered"
+    ],
+    "unit": {
+      "red": "Actual21 callback reissuesmodehandler forready event",
+      "green": "Actual23callback norescan forfirst7ready; eighth disablesIRQ; release/reset bookkeepingpreserved",
+      "cases": [
+        "repeatready",
+        "stormthreshold",
+        "scan-startfailure",
+        "memoryownership"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "serial",
+        "SPI controller",
+        "FTS firmware",
+        "IRQ",
+        "evdev"
+      ],
+      "faults": [
+        "No echo rejects probe",
+        "Independent rail readback after unload"
+      ],
+      "evidence": [
+        "freshboot19 valid SysInfo but repeated ready events and no scan echo"
+      ]
+    }
+  },
+  "evidence": [
+    "23 freshSysInfo pass, IRQ2 stable; user performedtouch, capture0events, IRQunchanged",
+    "22 each prepare+command followedseveralready; causalitynotproven",
+    "Google currentreference usesprepare; oldergs101base didnot. This isdiagnostic deviation, not referencecompliance."
+  ],
+  "limitations": [
+    "No scope measurement; missingprepare may break wake fromsleep",
+    "No persistentpromotion, no fullresetrecovery",
+    "A0doesnotrequireecho"
+  ],
+  "exit_gate": "Bounded freshboottest, physicalacceptance andverifiedcleanup. Ifnoevents, rejectfixclaim."
+}

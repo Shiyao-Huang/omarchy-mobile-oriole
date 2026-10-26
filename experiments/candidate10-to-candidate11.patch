@@ -1,0 +1,25 @@
+--- a/fts.c
++++ b/fts.c
+@@ -3452,8 +3452,6 @@
+ 	u8 readData[2];
+ 
+ 	error = fts_system_reset();
+-	if (FTS_INPUT_ONLY_BRINGUP && error < OK)
+-		return error;
+ 
+ #ifdef I2C_INTERFACE
+ 	if (error < OK && isI2cError(error)) {
+@@ -3491,6 +3489,13 @@
+ 			logError(1, "%s read chip error,no panel\n", tag);
+ 			return ERROR_OP_NOT_ALLOW;
+ 		} else {
++			if (FTS_INPUT_ONLY_BRINGUP) {
++				logError(1, "%s input-only: chip ID matched; retry reset, no firmware update\n", tag);
++				error = fts_system_reset();
++				if (error < OK)
++					return error;
++				return readSysInfo(0);
++			}
+ 			logError(
+ 				1,
+ 				"%s read chip ok, maybe no fw,force update fw\n",

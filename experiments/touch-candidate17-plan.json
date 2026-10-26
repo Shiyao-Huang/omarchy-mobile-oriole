@@ -1,0 +1,57 @@
+{
+  "claim": "Integrate the repeatedly successful minimal transfer profile: DT10MHz, 500ms settle, zero TX only for long RX, leaving short FIFO reads NULL TX.",
+  "oracle": "Fresh SysInfo gate and live binding, stable idle IRQ, then actual finger coordinates; clean rollback on failure.",
+  "validation": {
+    "user_journey": {
+      "scenario": "PhonebootsLinux, finger tapsand swipes registerwithoutkeyboard; desktoplatermustfollowfinger",
+      "expected": "Actualevdevcoordinates thenvisibleUIinteraction; failurekeepsdiagnosticgateheld"
+    },
+    "code_reasoning": [
+      "Pairedsix-samplehardwaretest: NULLTX threewrongframes vs explicitTX threematchingstockframes",
+      "WrapperallocateszeroTX exactlyRXlen, restorespointer/freesafterspi_sync, handleswriteonly/noalloc; oneRXtransferlimitguard",
+      "Oriole/controllerguard; automaticFWupdateandburnremainblocked; noA/calibrationwrites",
+      "Google216byteSysInfo layout:release8,skip16afterCRC,extra8ssDetecttailunusedforpointerinput",
+      "RejectinvalidSysInfo andsensinginitfailure; existingready-stormguardpreserved"
+    ],
+    "unit": {
+      "red": "OldreceivepathsNULLTX; oldSysInfo208 andwrongreleaseblock",
+      "green": "StaticzeroTXalloc/free/pointerrestore plusparserindex216 andrequiredfieldchecks",
+      "cases": [
+        "RXlengthbounds",
+        "write-onlymessages",
+        "allocationfailure",
+        "restoreafterSPIerror",
+        "SysInfoinvalidreject"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "USBserial",
+        "module",
+        "SPI",
+        "FTSfirmware",
+        "evdev",
+        "laterHyprland"
+      ],
+      "faults": [
+        "wrongSysInfohaltsprobe",
+        "stormguard",
+        "unloadandrailrollback"
+      ],
+      "evidence": [
+        "touch-transport-series2-evidence.json SYSPAIR"
+      ]
+    }
+  },
+  "evidence": [
+    "SYSPAIR identical6-sample outcome reproduced at uptime1605-1608",
+    "candidate15/16 fail full probe/reload",
+    "wake command does not by itself solve state"
+  ],
+  "limitations": [
+    "Combined integration change: cannot assign any new effect to one constituent without follow-up isolation",
+    "No physical input accepted yet",
+    "This is still diagnostic only"
+  ],
+  "exit_gate": "Boundedliveprobe andcleanrollbackfirst; thenrealfingerinput; thenintegratepersistentboot/Desktop andpackage"
+}

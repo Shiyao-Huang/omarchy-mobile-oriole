@@ -1,0 +1,14 @@
+{
+  "status": "clear-only hardware pass",
+  "renderer": "Mali-G78 MC20 (Panfrost)",
+  "frames": 3,
+  "pixels_verified": 768,
+  "seconds": 0.029,
+  "GPU_errors": 0,
+  "watchdog_disarmed": true,
+  "limits": [
+    "clear-only path; geometry/shaderstillfailed inG10",
+    "priorG10reset is a stateconfound"
+  ],
+  "private_log_sha256": "d857dbf4d72990b1ac3ff3cdf3eb85a5ae9c2f71551c799d8bedd9ef8f298428"
+}

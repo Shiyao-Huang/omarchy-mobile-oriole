@@ -1,0 +1,25 @@
+{
+  "claim": "A deasserted-CS negative control distinguishes selected external touch responses from controller/pad echoes.",
+  "oracle": "Alternate three normal and three SPI_NO_CS read-only identity messages with CS GPIO verified high before negative controls; compare raw responses, require3648 only in selected phases for success.",
+  "validation": {
+    "user_journey": "Diagnostic console and remoteconnection preserved; no touchscreen usability claim.",
+    "code_reasoning": [
+      "Only isolated10d40000 touchbus, no FTSorIRQhandler loaded",
+      "TemporarySPI_NO_CS advertised in controller mode_bits, consumedbySPIcore GPIOCS path; nativeCS cannotdrive externalpad whilegpp23.3 GPIOfunc1",
+      "No unknownchipwrites:onlyexistingFB20000000 identityread",
+      "Restore controller mode_bits, spi mode andmaxspeed via devm action onallpaths; gpiod active-low verified"
+    ],
+    "unit": "Static six-phase bounds and64bytebuffers; W=1 compile isnotphysicalproof",
+    "end_to_end": "Hashverified module underexistingwatchdog; rawCS negativecontrol andindependentrailrollback"
+  },
+  "evidence": [
+    "StockliveDTgpp23.3GPIOactive_low",
+    "Currentlivepinfunc1 idle1",
+    "Currentkernelspi_toggle_csgpiod excludesSPI_NO_CS"
+  ],
+  "limitations": [
+    "Noelectricalwaveformcapture",
+    "NoCS response differencealone doesnotidentifyfault"
+  ],
+  "exit_gate": "Recordpositive/negative difference beforefurthertransportchanges; identityandrealinputstillrequired"
+}

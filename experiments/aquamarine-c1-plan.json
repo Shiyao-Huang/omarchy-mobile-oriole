@@ -1,0 +1,68 @@
+{
+  "claim": "On the existing single simpledrm primary display, skip the optional EGL mGPU renderer when there is no render node; retain actual software scanout and avoid per-commit failed EGL reinitialization.",
+  "oracle": "Candidate builds with pinned source and same ABI; branch tests pass; same synthetic window workload has changing DRM scanout framebuffer IDs and distinct compositor screenshots while initMgpu failures drop to zero. Rollback restores original package path. Physical panel and touch latency remain pending.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Unlock/start desktop, open Files and terminal, switch windows; failure or session crash restores stock library automatically; operator later repeats by touch",
+      "expected": "Working frames and no blank screen; no claim of GPU acceleration"
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Guard exact drmVerName simpledrm, primary absent, renderNodeFd<0 only",
+        "Reuse existing rendererRequired=false behavior",
+        "Do not affect rendering GPUs, multiGPU or existing evdi path",
+        "Do not patch log messages as substitute for execution fix",
+        "Private library path and reversible session override, original package untouched"
+      ],
+      "gitnexus": [
+        "Standalone upstream repository not indexed; inspect registerGPU -> initMgpu/updateSecondaryRendererState -> applyCommit and all rendererState references"
+      ]
+    },
+    "unit": {
+      "red": "Current simpledrm primary defaults rendererRequired true",
+      "green": "Candidate disables optional renderer only for exact supported no-render primary",
+      "cases": [
+        "simpledrm primary/no render",
+        "simpledrm secondary",
+        "simpledrm with render node",
+        "panfrost/amdgpu",
+        "evdi unchanged",
+        "unknown driver unchanged",
+        "Session override idempotence, missing path, manual edits preserved, symlink refusal"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "ARM64 library",
+        "Hyprland",
+        "simpledrm scanout",
+        "framebuffer",
+        "serial control"
+      ],
+      "faults": [
+        "Timed library-path rollback on restart",
+        "Failed build never installed"
+      ],
+      "evidence": [
+        "aquamarine-c1-runtime-evidence.json",
+        "aquamarine-c1-results/baseline.json",
+        "aquamarine-c1-results/candidate.json",
+        "aquamarine-c1-results/rollback.json"
+      ]
+    }
+  },
+  "evidence": [
+    "Phone aquamarine0.15.1-1,Hyprland0.56.2-7,mesa26.2.5-1",
+    "Prior phone logs match aquamarine issue425 failure path; report is hypothesis, actual source checked",
+    "A/B/A: errors45/0/45; CPU175.34/184.82/174.44%; timer rollback, stock hash and actual mapping verified"
+  ],
+  "limitations": [
+    "Does not enable Mali GPU",
+    "CPU software rasterization remains",
+    "No WiFi/SIM/camera change",
+    "User absent: physical usability unconfirmed",
+    "The fbdev /dev/fb0 buffer is not the active Hyprland DRM framebuffer; its constant hash invalidates that measurement, not the active scanout. Updated remote oracle combines DRM fb-ID changes and two compositor screenshots, with physical panel acceptance still pending."
+  ],
+  "exit_gate": "No promotion without successful actual scanout changes and independent failure-path tests; retain rollback if inconclusive.",
+  "status": "Error-loop claim verified; whole-phone performance claim rejected; stock default restored"
+}

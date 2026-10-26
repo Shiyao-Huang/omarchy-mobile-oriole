@@ -1,0 +1,86 @@
+{
+  "classification": "observed firmware boot and wlan0 creation; clean teardown independently confirmed; no association or Internet acceptance",
+  "upstream": "1cb4bd36f3befa4f331bc4e08fe58becb41e4926",
+  "kernel": "7.3.0-rc6-omamobile-oriole-m1",
+  "module_sha256": {
+    "brcmfmac/brcmfmac.ko": "cd6c4344ebb03c81d51809d7931af8eb8b68e0e296d737eccb2ccd08a2c61ec6",
+    "brcmfmac/bca/brcmfmac-bca.ko": "e07d725f83b246ff9b115a5b8317f5f2174c0b936559deb7dad63dd34f50f4db",
+    "brcmfmac/wcc/brcmfmac-wcc.ko": "ed2533db9519c9280ab45343d8cdd938a04915467a03285dccfe67636f7aea80",
+    "brcmfmac/cyw/brcmfmac-cyw.ko": "69184df70364931b696583c73af7d0dc8cf53e7345a62295a79d8883756086e6",
+    "brcmutil/brcmutil.ko": "d97def251151a787c57121fd0b5f2ee131e6f57cbdf2dbb74e6583d2bfd0ae7c"
+  },
+  "build": {
+    "W": 1,
+    "warnings": [],
+    "isolated_subtree": true,
+    "shared_kernel_source_modified": false,
+    "checkpatch": {
+      "exit": 1,
+      "errors": 1,
+      "warnings": 1,
+      "checks": 12,
+      "details": [
+        "Pinned upstream association structure uses chanspec_list[1], deprecated one-element array",
+        "Raw snapshot diff has no commit message",
+        "Spacing, lock comment and udelay style checks"
+      ],
+      "disposition": "Preserve exact hardware-tested upstream snapshot. Production/upstream patch promotion remains blocked on review; no clean-checkpatch claim."
+    }
+  },
+  "source_review": {
+    "bank_decoder": "BCM4389 rev11/rev12 RAM counts and ROM bank skip",
+    "window": "4MiB window switched under tcm_lock; copies clipped to window/chunk boundary",
+    "protocol": "epoch modulo253; packetID0 excluded; chip power/DAR/coherency and polling from pinned reference",
+    "lifetime": "vendor loaded while endpoint held; remove cancels poll/reset work and synchronizes IRQ before freeing protocol",
+    "limits": "Upstream subtree includes additional BCM4389 association/debug fixes; no claim of independent full-driver audit. CONFIG_BRCMDBG=y confirmed; default brcmf_msg_level is zero and no debug parameter was enabled in this trial."
+  },
+  "validation": {
+    "unit": {
+      "bank_decoder": "actual old C RED (42), candidate GREEN under ASan/UBSan",
+      "window": "actual C boundary/zero/multi-chunk/legacy cases PASS",
+      "firmware_map": "digest/board rejection, partial failure cleanup, existing content preservation, init-root relocation PASS",
+      "teardown": "six injected failure boundaries; never proceeds to host removal after endpoint failure"
+    },
+    "end_to_end": {
+      "link": "PCIe Gen2 x1",
+      "firmware": "BCM4389/3 20.101.90 FWID01-3f632e0d",
+      "interface": "wlan0",
+      "association": false,
+      "kernel_oops_or_storage_errors": false,
+      "cleanup": "all WiFi/host/PHY modules unloaded; rail disabled; loader path and modprobe restored; watchdog disarmed; fresh serial confirmation PASS"
+    },
+    "user_journey": {
+      "observed": "prerequisite interface exists during bounded probe",
+      "pending": "Wi-Fi settings, connection, API request, disconnect/reconnect, reboot recovery"
+    },
+    "code_reasoning": "pinned source/diff and current-kernel W=1 build; no external-kernel GitNexus index"
+  },
+  "observed_warnings": [
+    "Firmware channels169/173/177 ignored by current cfg80211 channel table; no regulatory checks bypassed."
+  ],
+  "side_effects": [
+    "WLAN powered for bounded test and returned off",
+    "private firmware symlinks and module stage retained under /opt",
+    "no partition/calibration writes"
+  ],
+  "limitations": [
+    "No saved NetworkManager profiles on phone",
+    "No Wi-Fi association/throughput/Internet claim",
+    "No restricted DMA pool on current overlay: development-only, not default-on",
+    "SIM/cellular/voice/camera and persistent B-success unresolved"
+  ],
+  "evidence_sha256": {
+    "serial-wifi-w2-trial-verified-private.txt": "392177edd63b2b2009e404441d7f16689e1d77a37cf8b4a56fd402e2a78bba8a",
+    "serial-wifi-w2-confirm-verified-private.txt": "5db30d6fbbb122ddde8bf5d9564922d1fd7d967f37f96cb6377ac2e5ced42c28",
+    "wifi-w2-stage.tar": "5357de2dbfaceff1e1f15d083b79658dac8a908a83737d4e670ef15c0cb05660",
+    "serial-g15-w2-desktop-confirm-verified-private.txt": "05dbd12c1ae4a53b4a1e532c9a99eb393d28c7871c26d900ec7c84010970c350"
+  },
+  "next_gate": "Separate bounded association/traffic/reconnect plan, explicit DMA limits and known authorized network before W3. No automatic-radio promotion.",
+  "recovery_restore": {
+    "GPU": "Second kernel boot first drawing0.127s; repeats0.031/0.032s, all768pixels",
+    "touch": "Input30 READY stable60s without END; watchdog disarmed",
+    "handoff": "Old marker lost during shell replacement; fresh session confirmed systemd/SDDM and GPU/touch modules. New /var/tmp files absent, cause unproven; persistent /opt stage and fresh GLES probe used before activation.",
+    "desktop": "Fresh serial confirmed GPU mapping, stock Mesa hashes, Hyprland active, recovery timer cancelled and watchdog disarmed",
+    "visible_result": "Private screenshot after Lua DPMS enable shows Omarchy menu and bottom navigation; no physical touch acceptance claimed."
+  }
+}

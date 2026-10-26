@@ -1,0 +1,164 @@
+{
+  "classification": "First GPU drawing passed on two kernel boots; second-boot GPU desktop independently confirmed; physical usability pending",
+  "upstream_commit": "8a597d099b8b2f25df655cbe8e30765013784fed",
+  "base_mmu_sha256": "57f03c626bdef56726bbe14ea6fd36e1229761688ddfd8da6ec3b5ec2851e1b2",
+  "module_sha256": "7dbb248923672bda34ef35a0d822498d16bb09d1029dde9ab8aa13c99ff8d95c",
+  "mmu_sha256": "6b7cff4edea4b5bc798f3d2a9e0c057f1362824e95a13b412d4f3c42b134c13b",
+  "vermagic": "7.3.0-rc6-omamobile-oriole-m1 SMP preempt mod_unload aarch64",
+  "unit": {
+    "command": "python3 experiments/test-gpu-g15-mmu.py <captured-G7-source>/panfrost_mmu.c",
+    "result": "Original RED; patched GREEN with Clang ASan/UBSan; IRQ failure/ordering/teardown/repeat contracts pass",
+    "limit": "Stubbed hardware, no runtime performance proof"
+  },
+  "build": {
+    "W": 1,
+    "jobs": 2,
+    "warnings": 0,
+    "checkpatch": "0 errors, 0 warnings, 0 checks; --no-signoff because no human DCO signoff is claimed",
+    "limits": "No device-tree change; dt-validate not applicable"
+  },
+  "hardware_loaded": true,
+  "recovery": {
+    "user_screen": "Cannot load Android system / Try again / Factory data reset",
+    "transport_correction": "Default ADB was empty; existing private ADB port 15037 reported recovery. No evidence that quitting ChatGPT was necessary.",
+    "observed_fastboot": {
+      "product": "oriole",
+      "current_slot": "a",
+      "unlocked": true,
+      "b_successful": false,
+      "b_unbootable": false,
+      "b_retries": 0
+    },
+    "action": "ADB reboot bootloader; select existing B; B retries became 3; reboot restored Linux initramfs serial. No flash or factory reset.",
+    "remaining": "Persistent B-success marking remains unresolved; six prior calibration hashes did not all match after stock fallback, so fresh backup started before driver work."
+  },
+  "limitations": [
+    "No WiFi/cellular/camera improvement claimed",
+    "No automatic GPU startup promoted",
+    "Two separate kernel boots passed first GPU drawing; physical responsiveness, thermal behavior and automatic startup remain pending."
+  ],
+  "backup": {
+    "fresh_mutable_files": 5,
+    "source_before_after_and_decompressed_sha256": "pass",
+    "off_device_transfer": "all five verified on local host; copied to Mac4",
+    "modem_firmware": "both current full hashes match verified Mac4 backup images",
+    "post_button_reboot": "six non-devinfo hashes unchanged; fresh devinfo snapshot preserved separately",
+    "limits": "No restore drill; backups contain private calibration and remain outside Git"
+  },
+  "transport_incident": {
+    "observation": "Two serial readers briefly overlapped during backup gate completion and G1 bootstrap; capture output was split between files.",
+    "scope": "G1 read-only probe and cleanup markers appeared, but wrapper completion alone is not accepted. No G15 bind was started.",
+    "next": "Wait for both readers to exit; re-read backup and bootstrap state with one reader before driver loading.",
+    "resolution": "Both readers expired; a single new serial execution rechecked all seven current backup hashes, G1 read/cleanup markers, watchdog disarmed, modules unlocked and no Panfrost. Passed."
+  },
+  "checksums": {
+    "gpu-g15-unit.log": "b8563c78365c3c8777729674141d0f77cbc4e2f5f2de498a26a30e324ff85117",
+    "gpu-g15-build.log": "16efe5d750a12f38fd85f6ace04c24a1ce1aef2ebcc4a3d07f3668fcddb80858",
+    "gpu-g15-checkpatch.log": "afcaaf6dfd58a8e7cdd93d1bdbe599721272864247b89b066e566f426a5bfa23"
+  },
+  "runtime": {
+    "renderer": "Mali-G78 MC20 (Panfrost)",
+    "mesa": "OpenGL ES 3.1 Mesa 26.2.4-oriole.g10",
+    "first_draw_seconds": 0.138,
+    "repeat_draw_seconds": [
+      0.032,
+      0.032
+    ],
+    "pixels_each": 768,
+    "frames_each": 3,
+    "MMU_IRQ_before": 0,
+    "MMU_IRQ_after": 3,
+    "timeout_or_recovery_reset_since_bind": false,
+    "cold_boot_samples": 1,
+    "watchdog_disarmed": true,
+    "probe_to_geometry_log_sha256": "3ba417f9dfdd0a24c8e8f7a877710306a2355e712dbaa6b5de963b81ff5c759c",
+    "limits": "Three draws on one boot are not three independent cold boots; no physical smoothness claim."
+  },
+  "touch_handoff": {
+    "driver": "input30",
+    "bound": true,
+    "stable_seconds_at_least": 60,
+    "hardware_watchdog_disarmed_before_handoff": true,
+    "runtime_serial_service": "installed for current boot",
+    "physical_touch": "not retested this round"
+  },
+  "desktop": {
+    "G15_driver": "loaded",
+    "private_Mesa_G10_mapped_in_Hyprland": true,
+    "renderer": "Mali-G78",
+    "fresh_serial_recheck": "pass",
+    "original_Mesa_hashes": "unchanged",
+    "temporary_override": "/run/systemd/user/wayland-wm@hyprland.desktop.service.d/90-oriole-mesa-g10.conf",
+    "rollback_timer_cancelled_after_validation": true,
+    "watchdog_disarmed": true,
+    "persistent_boot_integration": false,
+    "physical_acceptance": "pending user test",
+    "health": {
+      "Hyprland_cpu_pct_10s_uncontrolled_user_activity": 0.0,
+      "cpu_online": "0-7",
+      "memory": {
+        "MemTotal": "7841064 kB",
+        "MemAvailable": "6152512 kB"
+      },
+      "interfaces": [
+        {
+          "interface": "lo",
+          "carrier": "1"
+        },
+        {
+          "interface": "usb0",
+          "carrier": "0"
+        }
+      ],
+      "GPU_library_mapped": true,
+      "input_bound": true,
+      "modules_disabled": "1"
+    },
+    "external_https_status": "000: no successful connection",
+    "screen_capture": "Fresh private screenshot shows Omarchy home, Files/terminal icons and app search; no lockscreen. Not a physical touch acceptance."
+  },
+  "independent_boot_repeat": {
+    "context": "Second kernel boot, after W1/W2 radio tests and clean teardown; first GPU bind/draw this boot",
+    "seconds": [
+      0.127,
+      0.031,
+      0.032
+    ],
+    "pixels_each": [
+      768,
+      768,
+      768
+    ],
+    "renderer": "Mali-G78 MC20 (Panfrost)",
+    "gpu_timeout_or_reset": false,
+    "private_evidence_sha256": "d75530c886db81fc5edcdfc00de555d68b3d15692a6af44dfc242955b830730d",
+    "limits": "Not electrical power-cycle, thermal or physical responsiveness acceptance",
+    "desktop": "Hyprland Mali-G78, private Mesa mapping and unchanged stock library hashes confirmed through fresh serial; rollback timer cancelled, watchdog disarmed",
+    "current_runtime_directory": "/opt/oriole-experiments/g15-w2-desktop",
+    "temporary_artifact_loss": "New /var/tmp/oriole-g15 absent after handoff; cause unknown. Runtime scripts moved to persistent /opt and a fresh systemd-stage GLES probe passed before activation.",
+    "health": {
+      "Hyprland_cpu_pct_10s_uncontrolled_user_activity": 0.0,
+      "cpu_online": "0-7",
+      "memory": {
+        "MemTotal": "7841064 kB",
+        "MemAvailable": "6018492 kB"
+      },
+      "interfaces": [
+        {
+          "interface": "lo",
+          "carrier": "1"
+        },
+        {
+          "interface": "usb0",
+          "carrier": "0"
+        }
+      ],
+      "GPU_library_mapped": true,
+      "input_bound": true,
+      "modules_disabled": "1"
+    },
+    "health_limit": "10s uncontrolled idle observation, not a responsiveness benchmark. API HTTPS still status000.",
+    "display": "DPMS observed off; legacy hyprctl dispatch dpms on rejected by Lua parser. Correct hl.dsp.dpms({ action = \"enable\" }) succeeded; grim captured visible Omarchy menu and bottom navigation. Physical touch/wake remains pending.",
+    "screenshot_sha256": "c5a5aaf97d9978095e6637999a7a5d1a505a79fdbc961a87cc2af4d5af1cf148"
+  }
+}

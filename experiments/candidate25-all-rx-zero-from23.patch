@@ -1,0 +1,11 @@
+--- a/drivers/input/touchscreen/fts_spi/fts_lib/ftsIO.c
++++ b/drivers/input/touchscreen/fts_spi/fts_lib/ftsIO.c
+@@ -147,7 +147,7 @@
+    rx = xfer;
+   }
+  }
+- if (!rx || rx->len <= 32) return spi_sync(spi, msg);
++ if (!rx) return spi_sync(spi, msg);
+  zeros = kzalloc(rx->len, GFP_KERNEL);
+  if (!zeros) return -ENOMEM;
+  rx->tx_buf = zeros;

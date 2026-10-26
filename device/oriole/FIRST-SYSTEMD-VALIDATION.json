@@ -1,0 +1,78 @@
+{
+  "claim": "Build a Pixel6-specific Arch ARM + Omarchy userspace without enabling unverified GS201 hardware services.",
+  "oracle": "Reproducible package/rootfs manifests; native systemd boot and USB fresh SSH; Omarchy desktop shown on real screen; Node/Go API harness task succeeds. Each milestone tracked separately.",
+  "validation": {
+    "user_journey": [
+      "retain known-good first-light fallback",
+      "first boot owner setup",
+      "USB reconnect from unlocked Mac",
+      "desktop visible and usable input",
+      "API harness run",
+      "interruption/recovery to stock A"
+    ],
+    "code_reasoning": [
+      "upstream pinned app/kernel",
+      "oriole package absent: implement scoped device package from documented shared contracts",
+      "no cheetah PMIC/Trusty/modem/autoload services copied",
+      "all hardware modules default blocked pending subsystem validation",
+      "userdata only writable root partition, preserve A/calibration guards",
+      "GitNexus not applicable: standalone upstream phone fork outside neweval module graph; init control flow inspected directly"
+    ],
+    "unit": [
+      "device package layout and architecture gates",
+      "systemd unit verification",
+      "explicit partition allowlist tests",
+      "firstboot config validation",
+      "rootfs image check and package manifest"
+    ],
+    "end_to_end": [
+      "offline ARM userspace build under supported host",
+      "ext4 fsck before install",
+      "real B -> initramfs -> systemd onuserdata",
+      "fresh SSH and visible desktop verification",
+      "Node/Go harness smoke"
+    ]
+  },
+  "evidence": [
+    "Arch ARM tarball fetched and pinned-signature verification completed",
+    "Kernel1783modules built; Image unchanged; package sha256170f0a3950e39536de11c93f54bb8cb3e2501dccacfeba981e75f8c865214404",
+    "Conservative oriole package offline tests passed",
+    "ARM build container omamobile-alarm-build:ed0ddfd65bc76a7b created; runtime smoke pending",
+    "ARM64 container smoke passed; Omarchy4.0.6-1 and Hyprland0.56.2-7 available",
+    "storage-guard24cases passed after correcting local DEVICE override in test harness",
+    "oriole-first-systemd7offlinecontracts passed; hardware handoff pending",
+    "first-systemd bootimages independently unpacked; kernel and dtbo unchanged",
+    "Rootfs2026.10.24.oriole-agent.1 build exit0; ext4 fsck exit0; 10 rootfs-smoke checks passed",
+    "14 Omarchy patches applied; 8 signed local packages built and checked",
+    "Phone initramfs still responding at uptime4376seconds before rootfs install",
+    "go 2:1.27.3-1 extra",
+    "hyprland 0.56.2-7 omarchy",
+    "mesa 1:26.2.5-1 extra",
+    "nodejs 26.12.0-1 extra",
+    "npm 12.2.1-1 extra",
+    "omamobile-device-oriole 0.1.0-1 omamobile",
+    "omamobile-shell 0.2.15-1 omamobile",
+    "omarchy 4.0.6-1 omarchy",
+    "quickshell 0.3.2.r7.g2b4501a-1 omarchy",
+    "2026-10-24 sparse install completed:23 chunks; native systemd from ext4 userdata verified by fresh SSH.",
+    "Real Hyprland1080x2400 DPMStrue desktop screenshot; temporary autolock disabled and stay-awake enabled.",
+    "Real Node26.12.0 and Go1.27.3 commands passed.",
+    "Squeekboard Visible=true and real Wayland screenshot show virtual keyboard; physical typing pending.",
+    "Ordinary-user Node and native-compiled Go HTTP requests over USB IPv6 to host fixture pass, including incorrect-response-ID negative controls."
+  ],
+  "limitations": [
+    "Touch is absent; desktop is not yet usable by hand.",
+    "Cellular, Wi-Fi, hardware GPU, sensors, charging and suspend remain unverified.",
+    "A boot partitions preserved; stock restoration needs userdata reset because Linux occupies userdata.",
+    "Authenticated model API and cellular/Wi-Fi remain pending; USB fixture is not a model provider."
+  ],
+  "exit_gate": "Build/test rootfs offline and preserve recoverable first-light images before userdata install; desktop/agent claims require real device proof.",
+  "build_profile": {
+    "name": "oriole-agent",
+    "intent": "User requested work-focused phone for Node/Go/API agents; retain genuine Omarchy and mobile shell, omit unverified camera/NFC/fingerprint apps and optional entertainment packages.",
+    "signing": "Create local experimental package signing key; include public key alongside upstream key; keep private key off Git. Validate signed packages in fresh build container.",
+    "first_systemd_boot": "Block unreviewed module autoload before switch_root; simpledrm and USB are built in. No PMIC/modem/Trusty driver enabling in this stage.",
+    "display": "Try existing simpledrm with software rendering first; verify on phone, do not claim GPU support."
+  },
+  "status": "native_systemd_and_desktop_render_verified_input_pending"
+}

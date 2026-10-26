@@ -1,0 +1,63 @@
+{
+  "status": "physical_evdev28_passed_input29_continuous_polling_failed",
+  "source_sha256": "fe33561570f5003322b7279d890d90385796f1e6da69ae7a5a7725953185a92a",
+  "module_sha256": "df8e853c8d5c88d9d909e9dd1d8c1de1049c8b1b68ae3d668c3cac7012e44035",
+  "kernel": "7.3.0-rc6-omamobile-oriole-m1",
+  "build": "W=1 no warnings",
+  "runtime_lifecycle": {
+    "ready_uptime": 52.866,
+    "end_uptime": 55.103,
+    "rollback_uptime": 59.185,
+    "verified": [
+      "SPI unbind stops worker before devm free",
+      "worker process gone",
+      "driver unbound",
+      "rmmod succeeds before module freeze",
+      "touch rail control readback 0x2c/0x3c",
+      "watchdog FD closed"
+    ],
+    "physical_test_requested": false
+  },
+  "gui_boot": {
+    "ready_uptime": 39.245,
+    "continuous_session_seconds": 0,
+    "systemd": true,
+    "sddm_active": true,
+    "hyprland_device": "oriole-polling-touchscreen",
+    "squeekboard_registered": true,
+    "monitor": {
+      "width": 1080,
+      "height": 2400,
+      "scale": 3,
+      "dpms": true
+    },
+    "screenshot": "Private screenshot shows Omarchy desktop, app dock and search bar",
+    "user_visible_touch_acceptance": "blocked by observed polling stop",
+    "module_freeze": true,
+    "serial_debug_service": "current boot /run only; no network listener",
+    "polling_stopped_uptime": 51.729,
+    "stop_reason": "ready guard counted8 ready-looking records, including GPIO-high idle reads; worker then idled",
+    "input29_events": 0,
+    "polling_stats": {
+      "polls": 513,
+      "ready": 8,
+      "empty": 505,
+      "before_low": 2,
+      "reports": 0
+    }
+  },
+  "recovery": {
+    "no_boot_image_changes": true,
+    "next_boot": "existing diagnostic gate; B retry exhaustion may require selecting B via verified recovery workflow",
+    "unload_after_freeze": "rmmod unavailable; sysfs unbind stops worker; reboot restores temporary rail state"
+  },
+  "limitations": [
+    "polling power/thermal behavior unmeasured",
+    "warm-reload reliability unresolved",
+    "physical GUI acceptance pending",
+    "no persistent startup integration",
+    "SIM/rotation/keyboard interaction/suspend/external display not accepted",
+    "not a one-click installer",
+    "Device registration and desktop screenshot persisted despite polling stopped; neither proves functional input"
+  ]
+}

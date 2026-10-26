@@ -1,0 +1,29 @@
+{
+  "claim": "在触摸身份读取期间观察 SPI 控制器实际配置及片选电平，检验回环或片选异常假设。",
+  "oracle": "每笔记录控制器 MODE/CH/CS/SWAP/FB/软件 mode 和片选 raw；与候选13的三组成对身份读对应。有效身份仍要求3648，日志不作为修复证据。",
+  "validation": {
+    "user_journey": "屏幕保持诊断命令行，无需用户触摸；临时替换仅触摸 SPI 控制器，记录后恢复原驱动和两路供电。",
+    "code_reasoning": [
+      "基于当前内核原 SPI 源码，仅加只读日志、设备白名单与不同驱动名",
+      "只读配置寄存器，不读 RX_DATA，不改变传输算法",
+      "只匹配google,gs101-oriole和10d40000.spi",
+      "日志最多24条，不启用FTS扫描/中断",
+      "主机日志与看门狗保护；任何失败执行独立恢复"
+    ],
+    "unit": "构建前断言插入位置唯一、仅读取允许配置寄存器，W=1编译；硬件电气正确性不能靠单测证明。",
+    "end_to_end": "已验证备份；禁自动模块加载；切换临时控制器，启用已验证供电保持模块，加载候选13，收集日志；卸载全部临时模块、恢复原控制器、独立双读供电2c/3c及USB。"
+  },
+  "evidence": [],
+  "limitations": [
+    "寄存器/ GPIO读取不代替示波器信号质量测量",
+    "临时替换驱动和日志时序会影响状态；必要时需冷启动复验",
+    "不证明真实触摸或桌面操作"
+  ],
+  "exit_gate": "获得具体配置证据且恢复完成才决定下一项；未有有效身份不得进入手指验收。",
+  "result": {
+    "status": "identity_failed",
+    "config": "mode0; CH3/2; MODE1ff80000(loopbackbit3clear); CS23; SWAP0; FB1; GPIO CSraw0; actual clock877714Hz",
+    "identity": "split02 repeated, single delayed command followed02",
+    "rollback": "originalSPI, supply2c/3c independently double-read, watchdogdisarmed, SSHhealthy"
+  }
+}

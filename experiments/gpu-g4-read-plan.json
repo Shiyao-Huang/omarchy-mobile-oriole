@@ -1,0 +1,59 @@
+{
+  "claim": "Query GS101 firmware-reported G3D/G3DL2 and CPU cluster frequencies through existing ACPM GET API, with no clock/voltage writes; prepare a separate identity-only GPU register gate.",
+  "oracle": "Exact oriole identity; channel0 and explicit clock IDs only; double-read nonzero results or fail closed; module unload, watchdog cleanup and fresh serial command; then restore input30/GUI.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Diagnose severe lag while user away; return to native Omarchy using existing tested recovery",
+      "expected": "No persistent startup changes; driver state restored; no claim of physical smoothness"
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Use acpm->ops->dvfs.get_rate only, never set_rate",
+        "Clock IDs5/6/2/3/4 are defined in exact GS101 binding",
+        "Zero means error in current API; never interpret as a real frequency",
+        "Root device unregister releases devm handle on all completed paths",
+        "No PMU raw access, NV or clock writes"
+      ],
+      "gitnexus": [
+        "External kernel tree, no index; inspected clk-acpm.c and exynos-acpm-dvfs.c call chain"
+      ]
+    },
+    "unit": {
+      "red": "Without range/zero/error gates arbitrary clock selection could be treated as valid",
+      "green": "Actual function checked with out-of-range, no callback, zero, differing readings, valid pairs",
+      "cases": [
+        "allowlist",
+        "zero response",
+        "no callback",
+        "stable frequency",
+        "changed between reads"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "diagnostic module",
+        "ACPM protocol",
+        "firmware mailbox",
+        "USB serial",
+        "input30 rootfs handoff"
+      ],
+      "faults": [
+        "Read API failure aborts without mutation",
+        "watchdog before each probe",
+        "restore existing touch and desktop after experiments"
+      ],
+      "evidence": []
+    }
+  },
+  "evidence": [
+    "Existing PMU G3D/embedded status1; G1 supply snapshot preserved",
+    "Running gs101-acpm-clk has no driver; modules frozen; controlled diagnostic reboot required",
+    "Current source already includes G78 and GS101 AArch64 page-table quirk"
+  ],
+  "limitations": [
+    "Firmware reported rate is not electrical voltage/power proof",
+    "No GPU rendering or cellular/WiFi/camera acceptance",
+    "User absent: physical display acceptance pending"
+  ],
+  "exit_gate": "Warning-free exact-kernel build and fault tests before target; current calibration checksum verification before firmware/power experiments; any failure stops dependent GPU writes."
+}

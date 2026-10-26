@@ -1,0 +1,52 @@
+{
+  "claim": "Repeat candidate20 after verified fresh Linux boot to separate warm-state contamination from RX strategy.",
+  "oracle": "Correct stock SysInfo, exact scan echo 43/01/A0/00/FF, driver binding and bounded IRQ rate; otherwise fail closed and restore supplies. New boot_id required before staging; no new images flashed.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Boot mobile Linux then tap and swipe without a keyboard",
+      "expected": "Physical evdev coordinates then corresponding desktop interaction; deferred while user absent"
+    },
+    "code_reasoning": [
+      "Only wrapper short-RX bypass changes from19",
+      "All reads get bounded zeroed TX allocation, restore/free on success or error",
+      "Retain firmware-write prohibition, strict identity and echo gates, IRQ storm guard and cleanup"
+    ],
+    "unit": {
+      "red": "Candidate19 bypasses zero TX for short reads",
+      "green": "Extracted actual20 wrapper passes ASan/UBSan including 1/9/32/33/217 lengths, failure and ownership",
+      "cases": [
+        "ENOMEM",
+        "transport error",
+        "multiple RX",
+        "zero/oversize length",
+        "existing TX ownership"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "serial",
+        "SPI controller",
+        "FTS firmware",
+        "IRQ",
+        "evdev"
+      ],
+      "faults": [
+        "No echo rejects probe",
+        "Independent rail readback after unload"
+      ],
+      "evidence": [
+        "freshboot19 valid SysInfo but repeated ready events and no scan echo"
+      ]
+    }
+  },
+  "evidence": [
+    "Google pinned source uses same prepare and scan mask; exact physical reason for recurring ready events unknown"
+  ],
+  "limitations": [
+    "Software load is not a cold boot",
+    "No physical-finger or desktop success yet",
+    "Short-RX change may regress reset, must not promote on insmod success",
+    "B slot has limited retries and no success flag; if recovery returns, inspect existing ADB15037 then slot state before restoring B."
+  ],
+  "exit_gate": "One bounded RAM-only trial, watchdog and storage guards; verified cleanup regardless of result. Persistent image unchanged until physical acceptance."
+}

@@ -1,0 +1,19 @@
+{
+  "claim": "PCIe1 resource addresses translate through the SoC parent without altering mappings used by existing peripherals.",
+  "oracle": "Preserve original [0,1GiB) identity range; add only [0x60000000,0x61000000); all PHY/host/config/BAR ranges translate exactly. Reject an unexpected parent baseline before applying.",
+  "validation": {
+    "user_journey": "Retry enumeration after a clean failure; no false claim of usable WiFi. Failure leaves rail disabled and serial usable.",
+    "code_reasoning": "M8 source includes separate HSI1 and HSI2 parent ranges; previous node-only extraction omitted this dependency. Add HSI2 only; no modem0 range, DMA or IOMMU changes. Diagnostic v3 only adds phase/error logs; failure semantics and cleanup unchanged.",
+    "unit": "Actual parent guard C accepts only expected cell counts/range and rejects changed/extended baselines; resource validator fails old merged DT and passes corrected one.",
+    "end_to_end": "Exact-kernel build, merged FDT property/translation checks, fresh initramfs reboot, real PCI resource parse and cleanup."
+  },
+  "evidence": [
+    "First trial: OF_BAD_ADDR memory window and missing config reg; host did not bind; supply disabled and host/PHY unloaded",
+    "Source comparison: base SoC ranges ends 0x40000000; M8 adds 0x60000000 size0x01000000",
+    "R2 runtime parses 0x60000000..0x60feffff correctly; next failure EIO during host init. Supply disabled and modules removed."
+  ],
+  "limitations": [
+    "Passing translation does not prove powered link, interrupts or WiFi traffic"
+  ],
+  "exit_gate": "Offline checks and clean runtime retry; any other failure remains failed, not accepted."
+}

@@ -1,0 +1,9 @@
+{
+  "commit": "8a597d099b8b2f25df655cbe8e30765013784fed",
+  "title": "drm/panfrost: Explicitly enable MMU interrupts at device init",
+  "url": "https://github.com/torvalds/linux/commit/8a597d099b8b2f25df655cbe8e30765013784fed",
+  "author": "Adrián Larumbe",
+  "date": "2026-10-12T14:47:59Z",
+  "patch": "@@ -336,6 +336,12 @@ void panfrost_mmu_as_put(struct panfrost_device *pfdev, struct panfrost_mmu *mmu\n \tWARN_ON(atomic_read(&mmu->as_count) < 0);\n }\n \n+static void panfrost_mmu_enable_interrupts(struct panfrost_device *pfdev)\n+{\n+\tmmu_write(pfdev, MMU_INT_CLEAR, ~0);\n+\tmmu_write(pfdev, MMU_INT_MASK, ~0);\n+}\n+\n void panfrost_mmu_reset(struct panfrost_device *pfdev)\n {\n \tstruct panfrost_mmu *mmu, *mmu_tmp;\n@@ -355,8 +361,7 @@ void panfrost_mmu_reset(struct panfrost_device *pfdev)\n \n \tspin_unlock(&pfdev->as_lock);\n \n-\tmmu_write(pfdev, MMU_INT_CLEAR, ~0);\n-\tmmu_write(pfdev, MMU_INT_MASK, ~0);\n+\tpanfrost_mmu_enable_interrupts(pfdev);\n }\n \n static size_t get_pgsize(u64 addr, size_t size, size_t *count)\n@@ -973,6 +978,8 @@ int panfrost_mmu_init(struct panfrost_device *pfdev)\n \t\treturn err;\n \t}\n \n+\tpanfrost_mmu_enable_interrupts(pfdev);\n+\n \treturn 0;\n }\n ",
+  "related_pm_commit": "e9672bf9382ff80be21d586f88e50339b85f5766"
+}

@@ -1,0 +1,29 @@
+{
+  "module_sha256": "59dc3279b2bb30a20650cf2a9a742cb8f1bc6ddc6d29d02bb510e45724484f97",
+  "status": "Physicaltiming confirmed; rawtouch andphysicalIRQassertion observed; trialcleanedup",
+  "change": "Observation only: before/afterIRQ,full9byte response, logchangedframes up to256",
+  "files": [
+    {
+      "path": "experiments/touch-fifo27/Makefile",
+      "sha256": "b9c7095c29982715951c0ebc98dfb3bc565224018bbee783141d1ba1541ebb51"
+    },
+    {
+      "path": "experiments/touch-fifo27/oriole_touch_minimal.c",
+      "sha256": "ce97bf30c057c603fdb28f495f9f96cede3d285acec87ea60dc6d6c1ac7df1ef"
+    }
+  ],
+  "phone_stage": "Kernel7.3.0-rc6-omamobile-oriole-m1,newboot verified; independentrails2c/3c at18.788; nohold/touchmodule",
+  "counts": {
+    "polls": 7477,
+    "empty": 478,
+    "ready": 7,
+    "touch": 1104,
+    "other": 5888,
+    "before_low": 1109,
+    "after_low": 5,
+    "logged": 181
+  },
+  "conclusion": "Valid motion/leave with pre-low/post-high confirms physicalIRQ assertion and usable rawFIFO data in this trial; no proof that Linux IRQdriver routes/dispatches it.",
+  "analysis": "fifo27-touch-analysis.json",
+  "rollback": "FRESHBOOT_ROLLBACK_OK, independent2c/3c readback; no touch/hold module"
+}

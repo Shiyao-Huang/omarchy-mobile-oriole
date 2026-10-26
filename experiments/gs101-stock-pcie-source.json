@@ -1,0 +1,41 @@
+{
+  "source": {
+    "commit": "b4d74ef49794eef8d0a2d8e231cd5c64b8e91f8a",
+    "branch": "refs/heads/android-gs-raviole-5.10-android14-qpr3",
+    "base": "https://android.googlesource.com/kernel/gs/+/b4d74ef49794eef8d0a2d8e231cd5c64b8e91f8a/"
+  },
+  "files": {
+    "pcie-exynos-rc.c": {
+      "url": "https://android.googlesource.com/kernel/gs/+/b4d74ef49794eef8d0a2d8e231cd5c64b8e91f8a/drivers/pci/controller/dwc/pcie-exynos-rc.c",
+      "sha256": "1316005567590ec2ac14c1c8be1b416bddec7dc07685bfce7a0ee41e4747d359"
+    },
+    "pcie-exynos-rc.h": {
+      "url": "https://android.googlesource.com/kernel/gs/+/b4d74ef49794eef8d0a2d8e231cd5c64b8e91f8a/drivers/pci/controller/dwc/pcie-exynos-rc.h",
+      "sha256": "2cc11ea26700d304c35218399ab5ff5e1b072701e759d5cfadb08c6b3e18c614"
+    },
+    "pcie-exynos-common.h": {
+      "url": "https://android.googlesource.com/kernel/gs/+/b4d74ef49794eef8d0a2d8e231cd5c64b8e91f8a/drivers/pci/controller/dwc/pcie-exynos-common.h",
+      "sha256": "f1c5a3119863681ca9d9652adeabd4457e6dd3c6e0c6b0c0153f145cdb10e774"
+    },
+    "pcie-exynos-gs101-rc-cal.c": {
+      "url": "https://android.googlesource.com/kernel/gs/+/b4d74ef49794eef8d0a2d8e231cd5c64b8e91f8a/drivers/pci/controller/dwc/pcie-exynos-gs101-rc-cal.c",
+      "sha256": "571e368a3b83096e15ea7a657c5474aca3aae82d0a4b1a3c254da4c17fe33707"
+    },
+    "Makefile": {
+      "url": "https://android.googlesource.com/kernel/gs/+/b4d74ef49794eef8d0a2d8e231cd5c64b8e91f8a/drivers/pci/controller/dwc/Makefile",
+      "sha256": "96b987854e6701bb3b42b5c8f62506567c7b4ed3b12f1e060ba83937194eae2d"
+    }
+  },
+  "observed": [
+    "Header identifies GS101; Makefile selects gs101 CAL via CONFIG_PCI_EXYNOS_CAL_GS101",
+    "pcie-exynos-rc.h line120: PCIE_PHY_CONTROL_MASK=0x1",
+    "pcie-exynos-rc.c lines394-408: isolation function updates only this mask",
+    "establish_link lines3072 onward calls PHY config, polls PLL/CDR/OC, applies soft power reset, sets ELBI device type4 and non-sticky reset before DBI/EQ configuration",
+    "No BIT(10) or <<10 expression in this pinned RC source; current trial fails readback of that extra bit"
+  ],
+  "inference": "Current extra PMU link bit10 requirement is unsupported by the pinned GS101 stock flow; do not blindly inherit newer-chip sequencing. Remaining reset/RC mode/poll ordering must be compared before next powered trial.",
+  "limits": [
+    "Static source evidence plus failed hardware readback, not proof of a repaired link",
+    "No behavior changes based on this comparison have been loaded"
+  ]
+}

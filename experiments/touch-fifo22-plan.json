@@ -1,0 +1,25 @@
+{
+  "claim": "Distinguish persistent FIFO-ready data from driver rescan feedback using a bounded polling client and Google volatile FIFO flush.",
+  "oracle": "Record baselineFIFO, exact A4/00/01 flush response, subsequentFIFO, then one prepare+A0/00/FF scan and32 polls. A4echo and stable emptyFIFO would support command/queue operation, not touch success.",
+  "validation": {
+    "user_journey": "User away; no touch acceptance. Existing diagnostic Linux stays reachable and supplies restored after automatic trial.",
+    "code_reasoning": [
+      "Whitelist oriole/controller and exact commands only:87 read, A7 SysInfo read, FA200000000000 prepare, A40001 flush, A000FF scan",
+      "No IRQ/input registration, no controller-ready rescan callback",
+      "Existing kernel GPIO ownership and devm cleanup; 256-byte buffers, max217-byteRX, fixed bounded loops",
+      "No firmware/flash/storage/calibration writes; only volatile reset/scan/FIFO operations"
+    ],
+    "unit": "Compile W=1 with no warnings; inspect command constants and buffer bounds. Physical protocol cannot be unit-tested without real chip.",
+    "end_to_end": "Serial + independently verified railhold + original SPI controller + polling; inspect data, unload and double-read rails2c/3c, disarmwatchdog."
+  },
+  "evidence": [
+    "Candidate21 bound, seven exact03-ready logs within2ms then guardedIRQdisable",
+    "Google pinnedwriteSysCmd uses prepare then A4/00/01 with echo for FIFO flush"
+  ],
+  "limitations": [
+    "Current warm boot state may affect result",
+    "A4 echo unlike A0 has explicit upstream check; no-echo still does not identify electrical cause",
+    "No scope or physical input; no production promotion"
+  ],
+  "exit_gate": "Collect bounded transcript and proven cleanup; reject usable-touch claim without actual fingers."
+}

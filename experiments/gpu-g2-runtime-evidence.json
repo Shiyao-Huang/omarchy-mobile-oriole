@@ -1,0 +1,31 @@
+{
+  "stage": "G2 read-only PMU status",
+  "module_sha256": "b4279f41fcdbc03d664010067db4d021b12bf0df0603d2ab360b4384f756b387",
+  "observations": [
+    {
+      "domain": "G3D",
+      "offset": "0x1e04",
+      "first": "0x00000001",
+      "second": "0x00000001",
+      "uptime_s": 389.278
+    },
+    {
+      "domain": "EMBEDDED_G3D",
+      "offset": "0x2004",
+      "first": "0x00000001",
+      "second": "0x00000001",
+      "uptime_s": 432.446
+    }
+  ],
+  "validation": [
+    "Actual read function ASan/UBSan fault tests",
+    "Exact-kernel W=1 build no warnings",
+    "One register per load via kernel PMU regmap",
+    "Both unload/watchdog disarm and continuing USB verified"
+  ],
+  "limitations": [
+    "No GPU register access or GPU enable",
+    "No rendering or voltage proof"
+  ],
+  "side_effects": "No PMU writes; temporary module and watchdog removed"
+}

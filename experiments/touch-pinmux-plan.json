@@ -1,0 +1,37 @@
+{
+  "claim": "Read actual touch pin function and pull configuration during the independent identity probe; distinguish configured GPIO ownership from raw levels.",
+  "oracle": "Read CON/PUD and raw level for exact AP/AoC handshake, reset and SPI pins; compare bus funcs2 and CSfunc1; no configuration writes beyond existing minimal probe.",
+  "validation": {
+    "user_journey": "No touch action required. Stay in diagnostic console; briefly bind minimal client, capture results, unload and restore supply controls.",
+    "code_reasoning": [
+      "Board and parent-controller whitelist",
+      "Select existing DT pinctrl; fail on errors",
+      "Reset is sole output: raw low100ms then high500ms; IRQ input only",
+      "Only FB20000000 read command; no register/firmware/storage writes",
+      "Heap buffers; bounded six transactions; probe always returns ENODEV; no input registration",
+      "Read-only bank metadata via current-kernel Samsung pinctrl header; fixed GPIO label/offset whitelist; enable/disable pclk exactly as driver getter; raw spinlock around two reads; no direct MMIO writes.",
+      "Compiler binds struct layout to exact running kernel sources; verify gpiochip parent matches expected pinctrl."
+    ],
+    "unit": "Source command/bounds/error-path checks and W=1 compilation. No mocked hardware success.",
+    "end_to_end": "Original SPI controller with verified supply hold, host log and watchdog; unload, restore supplies and independently double-read2c/3c; verify USB."
+  },
+  "evidence": [],
+  "limitations": [
+    "No scope/voltage measurement",
+    "Chip identity alone cannot establish touch UI",
+    "Initial plan serialization failed before device trial; plan repaired and rechecked before loading."
+  ],
+  "exit_gate": "Record real pin configuration; restore supplies and unload; use direction evidence before designing TBN changes.",
+  "result": {
+    "status": "configuration_observed_identity_failed",
+    "observed": {
+      "AP_request": "func0 pud1 raw0",
+      "ACK": "func0 pud1 raw0",
+      "SPI_bus": "func2/2/2 pud0",
+      "CS": "func1 raw1idle",
+      "reset": "func1 raw1"
+    },
+    "interpretation": "APrequest is input, differs fromGoogleTBN output-low; notyetcausal",
+    "rollback": "unloaded,supply2c/3c,USBhealthy"
+  }
+}

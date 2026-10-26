@@ -1,0 +1,6 @@
+{
+  "initial_build": "Failed: arm64 cross libc headers absent",
+  "dependency_action": "Installed libc6-dev-arm64-cross and linux-libc-dev-arm64-cross in WSL Ubuntu22.04",
+  "package_manager_result": "apt exit100 from pre-existing audiveris configuration failure; target header packages reported configured. Unrelated package not repaired.",
+  "source_unchanged": true
+}

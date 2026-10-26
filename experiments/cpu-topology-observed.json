@@ -1,0 +1,106 @@
+{
+  "online": "0-7",
+  "cores": [
+    {
+      "cpu": "cpu0",
+      "capacity": "160",
+      "cluster_id": "0",
+      "core_id": "0"
+    },
+    {
+      "cpu": "cpu1",
+      "capacity": "160",
+      "cluster_id": "0",
+      "core_id": "1"
+    },
+    {
+      "cpu": "cpu2",
+      "capacity": "160",
+      "cluster_id": "0",
+      "core_id": "2"
+    },
+    {
+      "cpu": "cpu3",
+      "capacity": "160",
+      "cluster_id": "0",
+      "core_id": "3"
+    },
+    {
+      "cpu": "cpu4",
+      "capacity": "498",
+      "cluster_id": "1",
+      "core_id": "0"
+    },
+    {
+      "cpu": "cpu5",
+      "capacity": "498",
+      "cluster_id": "1",
+      "core_id": "1"
+    },
+    {
+      "cpu": "cpu6",
+      "capacity": "1024",
+      "cluster_id": "2",
+      "core_id": "0"
+    },
+    {
+      "cpu": "cpu7",
+      "capacity": "1024",
+      "cluster_id": "2",
+      "core_id": "1"
+    }
+  ],
+  "policies": [
+    {
+      "policy": "policy0",
+      "related_cpus": "0 1 2 3",
+      "scaling_driver": "cpufreq-dt",
+      "scaling_governor": "schedutil",
+      "scaling_min_freq": "300000",
+      "scaling_max_freq": "1803000",
+      "scaling_cur_freq": "738000"
+    },
+    {
+      "policy": "policy4",
+      "related_cpus": "4 5",
+      "scaling_driver": "cpufreq-dt",
+      "scaling_governor": "schedutil",
+      "scaling_min_freq": "400000",
+      "scaling_max_freq": "2253000",
+      "scaling_cur_freq": "400000"
+    },
+    {
+      "policy": "policy6",
+      "related_cpus": "6 7",
+      "scaling_driver": "cpufreq-dt",
+      "scaling_governor": "schedutil",
+      "scaling_min_freq": "500000",
+      "scaling_max_freq": "2802000",
+      "scaling_cur_freq": "1582000"
+    }
+  ],
+  "DT_CPU_compatibles": [
+    "arm,cortex-a55,",
+    "arm,cortex-x1,",
+    "arm,cortex-a55,",
+    "arm,cortex-a76,",
+    "arm,cortex-a55,",
+    "arm,cortex-a55,",
+    "arm,cortex-a76,",
+    "arm,cortex-x1,"
+  ],
+  "Hyprland_affinity": [
+    "Cpus_allowed_list:\t0-7"
+  ],
+  "cgroup_controllers": "cpuset cpu io memory hugetlb pids",
+  "shell_affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ]
+}

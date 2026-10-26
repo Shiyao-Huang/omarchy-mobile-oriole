@@ -1,0 +1,41 @@
+{
+  "status": "physical_gui_touch_passed_overall_usability_failed",
+  "module_sha256": "a7d261147cd975fb69d8258b0bd43a91570266e95ccbff875507d74e49031f0e",
+  "source_sha256": "56e02d1d8f885b983523db7c3480abb253cf68946fc98f2d3c5419a1f682ed16",
+  "kernel": "7.3.0-rc6-omamobile-oriole-m1",
+  "change": "Only count ready if 9byte record,prefix87,id03,and pre-read IRQlow; input decoder/lifecycle unchanged",
+  "verification": [
+    "W=1 build no warnings",
+    "actual ready predicate ASan/UBSan pass",
+    "actual contact decoder ASan/UBSan pass",
+    "phone received module and exact SHA256 matched",
+    "Input29 unbound and userdata synced before systemctl reboot"
+  ],
+  "remaining": [
+    "GPU acceleration and frame delivery",
+    "Black/unresponsive symptom and wake recovery",
+    "Keyboard usability",
+    "Persistent startup and B boot-success handling",
+    "WiFi/mobiledata/camera hardware bringup"
+  ],
+  "connection": "Mac4 unlocked; A recovery/B retry0 verified and existing B reselected; Linux returned without imageflash",
+  "images_flashed": false,
+  "runtime": {
+    "fresh_rail_readback": [
+      "0x2c",
+      "0x3c"
+    ],
+    "ready_uptime": 45.541798,
+    "still_polling_after_handoff_uptime": 139.125732,
+    "no_input30_end_on_later_checks": true,
+    "user_report": "Can open Files; touch responds",
+    "independent_gui_evidence": "Later screenshot shows Files window with folders",
+    "initial_capture_bytes": 2832,
+    "later_capture_bytes": 26040,
+    "capture_window_uptime": [
+      163.09,
+      463.13
+    ],
+    "overall_user_journey": "FAIL: user reports extreme lag and later black/unresponsive; not daily-ready"
+  }
+}

@@ -1,0 +1,270 @@
+{
+  "classification": "partial transport fix; full input acceptance remains failed",
+  "paired_long_read": {
+    "module_sha256": "f65fd1f5eef2d39349940438258a7846401ecdddfaf47187b20505ee72c3861e",
+    "samples": 6,
+    "null_tx": "3/3 wrong geometry 14089x4100, tx34/rx0",
+    "explicit_zero_tx": "3/3 stock geometry2399x1079,tx16/rx34,chip3648,fw0049",
+    "scope": "This verifies this controlled long SysInfo transfer, not all SPI traffic or usable input.",
+    "repeat": "Same six-sample contrast reproduced again at uptime1605\u20131608; first sample set at551\u2013555 preserved in previous Git commit."
+  },
+  "candidate15": {
+    "sha256": "60dc339c10343e306346f5ef21476c377830e8bd53e214db60f897d7fbfcbd64",
+    "first": "SysInfo validated, sensing command returned success, probe bound, idle IRQ0, clean unload/rail restore",
+    "second": "Reset timed out; no finger capture started; rejected by input-device gate",
+    "physical_input": "not tested this round"
+  },
+  "candidate16": {
+    "sha256": "b5ab52030e50d70d2b771e2d87109972b7062ec2b0c11934fea41d8df5148444",
+    "change": "500ms post-reset settle only",
+    "result": "First reset timeout, second ready at49iterations then invalid SysInfo header00; fail closed, clean rollback"
+  },
+  "unit": {
+    "command": "python3 experiments/test-touch-rx-wrapper.py drivers/input/touchscreen/fts_spi/fts_lib/ftsIO.c",
+    "result": "PASS under clang ASan+UBSan: exact extracted wrapper allocation/ownership/error contracts",
+    "limit": "Userspace mock; does not prove kernel timing/electrical behavior"
+  },
+  "buffer_incident": "See touch-buffer-incident.json: invalid probes withdrawn, corrected builds rerun after fresh boot",
+  "device_state": "initramfs diagnostic gate held, Omarchy root preserved; no partitions flashed in these tests",
+  "next": "12-sample speed/short-RX matrix; no desktop or package promotion until real finger input",
+  "short_matrix": {
+    "module_sha256": "9968e04ee1572c967534415e900cb35748a58b558ea415a75f658b37ac95f287",
+    "result": "All12 samples ready=1 but zero SysInfo after previous sensing experiment; frequency/short TX alone did not resolve state",
+    "host_interruption": "First SSH attempt lost link before diagnostic module loaded; serial rollback restored rails and disarmed watchdog; serial replay completed cleanly."
+  },
+  "wake_pair": {
+    "module_sha256": "4c8461d9d7c6ea53716a75679687d7b1ee19848fe8d84b56bfa22a97093eb91a",
+    "result": "wake0: first zero then2valid; wake1:3zero. Wake alone not accepted as fix. Clean rollback."
+  },
+  "candidate17": {
+    "module_sha256": "fe5e65556f237dbca6c9eb82408aeffa92d876c33e089efcf5833dd49ca5bf80",
+    "result": "Bound fts input event1; SysInfo gate necessarily passed; idle IRQ0; SSH lost after load but serial healthy; no physical-finger confirmation received yet",
+    "state": "Loaded in RAM for local evdev capture; supply hold active; watchdog explicitly disarmed; module autoload restored; diagnostic gate held.",
+    "physical_result": "User confirmed not at phone. Capture expired with0bytes; no failed finger acceptance may be inferred. Unloaded and supplies independently restored at uptime5445."
+  },
+  "candidate18": {
+    "module_sha256": "53b1bc35f77cc6ec21f319514adbff27be5686db4245a28441f549658820f43f",
+    "result": "Loaded; three reset timeouts, fail before scan; clean rollback at5471. Source audit found prepare write already existed in15, so18 duplicated it. Corrected in19; no scan result for18.",
+    "change": "Google scan wake +0xFF mask; fail probe unless exact firmware echo; safe short RX bypass",
+    "next": "Wait for current candidate17 finger capture before deployment."
+  },
+  "usb_neighbor": {
+    "result": "Permanent peer neighbor+allmulticast did not restore ping; reverted both. Gadget rebind restores link temporarily. Not solved."
+  },
+  "candidate19": {
+    "module_sha256": "b7bf1eb74d38845528ca18dab5720abb9ae8f6fb41b2d0d6509ae2206bfde5c6",
+    "changes": [
+      "IRQ GPIO always input, matching Google reference",
+      "Remove accidental duplicate prepare command",
+      "Fix inherited DMA parent-before-child free and null dereference",
+      "Track/uninstall requested IRQ on failed probe; destroy both workqueues; clear global pointer",
+      "Retain strict SysInfo/echo gates and flash prohibition"
+    ],
+    "unit": "Exact inherited cleanup reproduces ASan heap-use-after-free (RED); actual helper passes full/partial/null/repeated cleanup (GREEN); long/short SPI ownership tests pass ASan+UBSan.",
+    "build": "W=1 success;14 inherited warnings, no new warning",
+    "standalone": "First reset timeout, then ready with invalid SysInfo header00; fail before scan",
+    "conditioned": "All6 minimal SysInfo reads zero;19 also rejects header00. Previous SYSPAIR success is state-specific, not a universal fix.",
+    "rollback": "Both trials unload and independently double-read rails2c/3c; watchdog disarmed."
+  },
+  "freshboot19": {
+    "claim": "Freshboot19 initialization and scan acceptance measured",
+    "observation": {
+      "kernel": "7.3.0-rc6-omamobile-oriole-m1",
+      "new_boot_verified": true,
+      "sysinfo": "chip3648 fw0049 screen2399x1079 matrix16x34",
+      "scan": "A0 00 FF issued but no43/01 echo, recurring03 ready events",
+      "binding": false,
+      "rollback": "at82.705 double-read2c/3c, no fts/hold modules, modprobe restored, watchdog FD closed"
+    },
+    "limitation": "Ready event recurrence may reflect resets or transport artifact; root cause not proven. Physical touch not tested; no installation completion.",
+    "recovery": {
+      "observation": "ADB15037 recovery on A, B success=no retry=0; set_active b reset retry=3 and booted Linux",
+      "inference": "Boot retry exhaustion explains observed A recovery fallback; exact boot-success metadata format not yet inspected",
+      "writes": "Only fastboot set_active b; no new boot image writes"
+    }
+  },
+  "candidate20": {
+    "module_sha256": "888701a2ccc36f6e1590c674935fd991c815358eccb33c5c90c1875fbce6a1ef",
+    "delta": "All NULL-TX RX receives explicit zero TX; no other source change",
+    "build": "W=1 passed with14 inherited warnings",
+    "unit": "Actual wrapper ASan/UBSan passes short1/9/32/33 and long217 plus existing ownership/error/length tests;19 fails this changed short-RX contract as expected",
+    "warm_result": "Two reset timeouts then ready, invalid SysInfo00; rejected before scan",
+    "rollback": "independent rails2c/3c at473.349; module removed and watchdog disarmed",
+    "fresh_result": "New boot verified. SysInfo matchesstock, scanA0/00/FF has noecho, matching19; no evidence that shortzeroTX fixes problem. Cleanup independently verified at48.193."
+  },
+  "echo_gate_correction": {
+    "observation": "Google pinned setScanMode and init_sensing do not require A0 echo; local19/20 introduced that requirement.",
+    "correction": "Missingecho alone does not prove failed scanning. Source21 restores stock ordering and uses physical evdev as oracle. Repeatedready-events remain unexplained.",
+    "acceptance": "No successful finger/UI test yet"
+  },
+  "candidate21": {
+    "module_sha256": "a316dc757542176171d2c181f5d303c60c4947430c797482ea31e83785dadece",
+    "source_base": "19; short-RX profile retained",
+    "change": "Follow Google scan order; remove locally invented mandatoryA0echo and FIFO drain diagnostics",
+    "build": "W=1 successful with14 inherited warnings",
+    "unit": "Actual scan function passes install/mode fail-stop and enable-error propagation; actual DMA cleanup and wrapper ASan/UBSan pass",
+    "runtime": "New boot; exactstockSysInfo; bound event1; seven03ready callbacks within~2ms then eighth disablesIRQ; IRQcount16; no usabletouch",
+    "capture": "User confirmed away; capture0bytes, stopped after IRQguard observed. Not a performed physical-finger test.",
+    "rollback": "module/hold unloaded; independentrails2c/3c at168.017; modprobe restored andwatchdogFDclosed",
+    "status": "experimental, do not autoload or promote"
+  },
+  "fifo22": {
+    "module_sha256": "27dc48af251a63685354de21c7612e568fc06f8c4bf0aaac9536eb79810b5a0e",
+    "build": "W=1 warning-free after normalizing archive mtime (initial make clock-skew warning rejected)",
+    "runtime": "WarmbootSysInfo allzeros. Baseline3 ready events thenempty; exactflush response4301a40001000000 at599.393; two ready thenempty; single scan has3 ready then28 empty polls. IRQraw returns1. No callback registered.",
+    "pins": "APrequest func0 raw0,ACKfunc0 raw0; SPI2/2/2,CSfunc1 idle1,resetfunc1 raw1; USIroute2",
+    "proven": "At least one real command/response transaction and FIFO drains without full-driver rescan callback",
+    "not_proven": [
+      "Stabletouch",
+      "Cause of ready events",
+      "UniversalSPIcorrectness",
+      "WarmSysInfofix",
+      "Physicalinput",
+      "Causal matched comparison against full-driver callback"
+    ],
+    "rollback": "Independentrails2c/3c at603.605, moduleunloaded,watchdogdisarmed"
+  },
+  "latest_state": {
+    "phone": "FreshLinux diagnosticgate; onlymailbox/acpm/read helpers; nohold/inputdriver",
+    "next": "Operator-ready then input28 bounded evdevcapture; actualfinger tracking/XY/end followedby separateGUIacceptance",
+    "known": "27 physicalIRQassertion/coordinates verified;25r zeroevdev butactionconfirmationpending",
+    "boot": "B retries resetafterA recovery; successbit stillnotset; noimagesflashed"
+  },
+  "candidate23": {
+    "candidate": 23,
+    "module_sha256": "c1e7fb36432be1ad03285b409d49c69cdd3087d07a0a897711d9279f0bb35008",
+    "source_base_commit": "80ab24bce302225c95aa406958a20fa28333e886",
+    "source_patch": "candidate23-no-ready-rescan-from21.patch",
+    "state": "freshboot bound and idleIRQ stable; performed physicaltouch failed",
+    "limits": "No automatic reset recovery; do not promote based on idle IRQ count alone",
+    "physical_test": "User explicitly confirmed3taps+left/rightswipes while capture active;0bytes,IRQ107 stays2",
+    "rollback": "180second capture autoended; module/hold unloaded; independentrails2c/3c at203.101",
+    "proven": "No-rescan diagnostic eliminates prior immediate ready-feedback storm in this run",
+    "not_proven": "Workingtouch or genuine resetrecovery"
+  },
+  "candidate24": {
+    "candidate": 24,
+    "module_sha256": "51e25695779e82967fdf3e6c3a6950067a867c14a92e175ad68b0c71280d5690",
+    "source_base": "candidate23",
+    "patch": "candidate24-direct-scan-from23.patch",
+    "build": "W=1 successful;14 inherited warnings; build clock skew corrected before accepted output",
+    "runtime": "Fresh exact SysInfo, event1 binding, IRQ107 count2 stable;180second capture0bytes",
+    "physical_test": "User explicitly confirmed the separately requested gestures for this candidate in a later combined reply. Precise action time relative to the180second capture window is pending clarification; capture0bytes remains the observation.",
+    "rollback": "Independent double read L25M2c/L26M3c at195.525; fts and hold modules unloaded; FRESHBOOT_ROLLBACK_OK",
+    "status": "No accepted touch; temporary diagnostic only"
+  },
+  "candidate25": {
+    "module_sha256": "450a03caba4789c782ff6a04e5a8f89bd515b5ab8aba33d46f0060102093f502",
+    "state": "Freshboot bound; physical confirmation pending; bounded trial cleaned up",
+    "difference": "Only short-RX explicit zero TX vs23; restores Google prepare vs24",
+    "acceptance": "No accepted physicaltouch or GUI result",
+    "runtime": "Exact SysInfo at16.582; event1; IRQ107 count2 remained stable;180second capture0bytes",
+    "physical_test": "User explicitly confirmed the separately requested gestures for this candidate in a later combined reply. Precise action time relative to the180second capture window is pending clarification; capture0bytes remains the observation.",
+    "rollback": "Independent L25M2c/L26M3c double reads at196.773; module/hold unloaded; FRESHBOOT_ROLLBACK_OK includes watchdog FD closed",
+    "validation": "W=1 compiled14 inherited warnings; actual RX ASan/UBSan, actual ready callback guard, actual scan order and actual DMA cleanup pass; patch chain exact-source reproduction passes"
+  },
+  "fifo26": {
+    "module_sha256": "87b37f5e292d4bb81adc06039f1fd2c8ffe04d7b8e6e1ee5d1ed9dbe373ed4ae",
+    "status": "Bounded physical test performed; partial rawtouch observed, stable usable touch not achieved",
+    "checks": [
+      "W=1 warning-free",
+      "ASan/UBSan actual identity guard rejects corrupted fields",
+      "Review: fixed-size buffers and bounded polling, no IRQ registration or firmware writes"
+    ],
+    "files": [
+      {
+        "path": "experiments/touch-fifo26/Makefile",
+        "sha256": "b9c7095c29982715951c0ebc98dfb3bc565224018bbee783141d1ba1541ebb51"
+      },
+      {
+        "path": "experiments/touch-fifo26/oriole_touch_minimal.c",
+        "sha256": "d5a876cbce5d940cbf1b1b6859b552f336ae7b006e8f483a8af0e8357b2f7a9f"
+      }
+    ],
+    "reboot": "Recovered B retry0 via existing A recovery on ADB5037; set_active b ->retry3; freshLinux confirmed; no images flashed",
+    "phone_stage": "Module copied but not loaded. Only mailbox/acpm/read helpers active; rails2c/3c independently read at34.274; physical polling not started",
+    "counts": {
+      "polls": 7458,
+      "empty": 102,
+      "ready": 3,
+      "touch": 108,
+      "other": 7245
+    },
+    "physical_timing": "User acknowledged completion immediately after READY; status atuptime1434.54 within1415.205..1595.229 window",
+    "rollback": "FRESHBOOT_ROLLBACK_OK, readback2c/3c at1598.293; no touch/hold module remains",
+    "analysis": "fifo26-touch-analysis.json",
+    "limits": [
+      "108 includes repeated samples; not108 gestures and not proof of stable input",
+      "Only64nonempty raw records logged, so later records lack detailed raw evidence",
+      "IRQ raw sampled AFTER read, so raw1 cannot establish absence of an interrupt before read",
+      "Raw touch-type records and changing plausible coordinates support sensing/SPI partial operation, not GUI usability or isolatedIRQrootcause"
+    ]
+  },
+  "fifo27": {
+    "module_sha256": "59dc3279b2bb30a20650cf2a9a742cb8f1bc6ddc6d29d02bb510e45724484f97",
+    "status": "Physicaltiming confirmed; rawtouch andphysicalIRQassertion observed; trialcleanedup",
+    "change": "Observation only: before/afterIRQ,full9byte response, logchangedframes up to256",
+    "files": [
+      {
+        "path": "experiments/touch-fifo27/Makefile",
+        "sha256": "b9c7095c29982715951c0ebc98dfb3bc565224018bbee783141d1ba1541ebb51"
+      },
+      {
+        "path": "experiments/touch-fifo27/oriole_touch_minimal.c",
+        "sha256": "ce97bf30c057c603fdb28f495f9f96cede3d285acec87ea60dc6d6c1ac7df1ef"
+      }
+    ],
+    "phone_stage": "Kernel7.3.0-rc6-omamobile-oriole-m1,newboot verified; independentrails2c/3c at18.788; nohold/touchmodule",
+    "counts": {
+      "polls": 7477,
+      "empty": 478,
+      "ready": 7,
+      "touch": 1104,
+      "other": 5888,
+      "before_low": 1109,
+      "after_low": 5,
+      "logged": 181
+    },
+    "conclusion": "Valid motion/leave with pre-low/post-high confirms physicalIRQ assertion and usable rawFIFO data in this trial; no proof that Linux IRQdriver routes/dispatches it.",
+    "analysis": "fifo27-touch-analysis.json",
+    "rollback": "FRESHBOOT_ROLLBACK_OK, independent2c/3c readback; no touch/hold module"
+  },
+  "stock_irq_check": "Live stock16DT confirms gpa9.0 at174d0000; stockdriver requests low-level oneshot matching current request. GPIOflag differences do not change raw reads.",
+  "input28": {
+    "module_sha256": "8d31b21685922b03adc89fe381b25ee81486538468552a59781b6bb0b40ca4f4",
+    "status": "Built andstaged, notloaded orphysicallytested",
+    "build": "W=1 warningfree",
+    "checks": [
+      "Actual decoder ASanUBSan gates",
+      "Extracted actual release helper multiplecontacts/repeat test",
+      "Review: reportonlyIRQlow+validprefix/finger/slot/coords, releaseall onexit",
+      "Shell syntax for boundedwatchdogcapture helper"
+    ],
+    "limits": [
+      "Temporary180second inputdevice;20mspolling;no productionautoload",
+      "No evdev/GUIacceptanceyet"
+    ],
+    "files": [
+      {
+        "path": "experiments/touch-input28/Makefile",
+        "sha256": "b9c7095c29982715951c0ebc98dfb3bc565224018bbee783141d1ba1541ebb51"
+      },
+      {
+        "path": "experiments/touch-input28/oriole_touch_minimal.c",
+        "sha256": "bcf9b157a7954bb0db1849bf434d366a4a81be72ae9f3fc0f79f6b4c76513832"
+      }
+    ],
+    "phone_stage": "FreshLinuxnewboot confirmed;28module staged notloaded; read-onlyrailcheck2c/3c at26.667; nohold/inputdriver",
+    "boot_recovery": "A recovery after B retry0, verifiedoriole/unlocked, set_activeb resetretry thenbootexistingLinux; noimageflash"
+  },
+  "touch25r": {
+    "module_sha256": "450a03caba4789c782ff6a04e5a8f89bd515b5ab8aba33d46f0060102093f502",
+    "status": "Unchanged25 repeat bound;180s0bytes; useractionconfirmationpending",
+    "window_uptime": [
+      39.656,
+      219.756
+    ],
+    "rollback": "FRESHBOOT_ROLLBACK_OK;2c/3c double-read219.833; modulesremoved",
+    "limits": "Do not claim a performed finger failure untilaction/timingconfirmed"
+  }
+}

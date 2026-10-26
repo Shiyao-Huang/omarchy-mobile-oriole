@@ -1,0 +1,73 @@
+[
+  {
+    "node": "/spi@10D40000/touchscreen@0",
+    "keys": [
+      "status",
+      "reg",
+      "pinctrl-names",
+      "pinctrl-0",
+      "pinctrl-1",
+      "vdd-supply",
+      "avdd-supply",
+      "compatible",
+      "spi-max-frequency",
+      "st,irq-gpio",
+      "st,reset-gpio",
+      "st,grip_area",
+      "st,dchip_id",
+      "st,panel_map",
+      "st,max-coords",
+      "st,udfps-coords",
+      "st,touch_offload_id",
+      "st,firmware_names",
+      "st,limits_names",
+      "phandle"
+    ],
+    "compatible": [
+      "st,fts"
+    ],
+    "st,irq-gpio": [
+      "0x176",
+      "0x0",
+      "0x0"
+    ],
+    "st,irq-gpio_provider": "/pinctrl@174D0000/gpa9",
+    "st,reset-gpio": [
+      "0x1c3",
+      "0x0",
+      "0x0"
+    ],
+    "st,reset-gpio_provider": "/pinctrl@10C40000/gpp26"
+  },
+  {
+    "node": "/spi@10D40000/touchscreen@0/controller-data",
+    "keys": [
+      "samsung,spi-feedback-delay",
+      "samsung,spi-chip-select-mode",
+      "cs-clock-delay"
+    ]
+  },
+  {
+    "node": "/tbn",
+    "keys": [
+      "compatible",
+      "tbn,aoc2ap_gpio",
+      "tbn,ap2aoc_gpio"
+    ],
+    "compatible": [
+      "touch_bus_negotiator"
+    ],
+    "tbn,aoc2ap_gpio": [
+      "0x17d",
+      "0x6",
+      "0x1"
+    ],
+    "tbn,aoc2ap_gpio_provider": "/pinctrl@174E0000/gpa8",
+    "tbn,ap2aoc_gpio": [
+      "0x1c3",
+      "0x1",
+      "0x1"
+    ],
+    "tbn,ap2aoc_gpio_provider": "/pinctrl@10C40000/gpp26"
+  }
+]

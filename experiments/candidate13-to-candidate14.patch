@@ -1,0 +1,43 @@
+--- a/fts.c
++++ b/fts.c
+@@ -3448,7 +3448,7 @@
+ */
+ static int fts_init(struct fts_ts_info *info)
+ {
+-	int error, retry;
++	int error, retry, phase;
+ 	u8 readData[2];
+ 
+ 	if (FTS_INPUT_ONLY_BRINGUP) {
+@@ -3460,19 +3460,27 @@
+ 		}
+ 		tx[0] = FTS_CMD_HW_REG_R; tx[1] = 0x20;
+ 		msleep(200);
++		for (phase = 0; phase < 2; phase++) {
++		if (phase) {
++			error = fts_spi4_mode_set(info);
++			dev_info(info->dev, "SPI4 diagnostic setup ret=%d\n", error);
++			if (error < OK) break;
++			msleep(10);
++		}
+ 		for (retry = 0; retry < 3; retry++) {
+ 			struct spi_transfer transfer = { .tx_buf = tx, .rx_buf = rx, .len = 14 };
+ 			memset(identity, 0xEE, sizeof(identity));
+ 			error = fts_writeReadU8UX(FTS_CMD_HW_REG_R, ADDR_SIZE_HW_REG,
+ 						  ADDR_DCHIP_ID, identity, sizeof(identity), DUMMY_FIFO);
+-			dev_info(info->dev, "Identity split %d ret=%d data=%*ph\n",
+-				 retry, error, (int)sizeof(identity), identity);
++			dev_info(info->dev, "Identity phase%d split %d ret=%d data=%*ph\n",
++				 phase, retry, error, (int)sizeof(identity), identity);
+ 			msleep(10);
+ 			memset(rx, 0xEE, 14);
+ 			error = spi_sync_transfer(info->client, &transfer, 1);
+-			dev_info(info->dev, "Identity single %d ret=%d raw=%*ph\n",
+-				 retry, error, 14, rx);
++			dev_info(info->dev, "Identity phase%d single %d ret=%d raw=%*ph\n",
++				 phase, retry, error, 14, rx);
+ 			msleep(10);
++		}
+ 		}
+ 		kfree(tx); kfree(rx);
+ 		return ERROR_OP_NOT_ALLOW; /* Read-only diagnostic never starts scanning. */

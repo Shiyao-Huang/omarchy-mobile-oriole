@@ -1,0 +1,23 @@
+{
+  "claim": "Google reference wake/NOP before command restores access after sensing attempt.",
+  "oracle": "Paired 3 without and3 with Google FA200000000000 wake, same10MHz reset/long explicit RX; require exact SysInfo and cleanup.",
+  "validation": {
+    "user_journey": "No finger UI claim; diagnose stable initialization before asking user to interact.",
+    "code_reasoning": [
+      "Only transfer speed and short reply TX vary; fixed 100/500ms reset and explicit long TX",
+      "256-byte buffers for <=217 bytes, exact oriole/controller guards and old speed restore"
+    ],
+    "unit": "Warning-free build; real hardware matrix is not a unit test.",
+    "end_to_end": "12 reset/ready/SysInfo cycles, guard watchdog, restore supplies and independently read twice."
+  },
+  "evidence": [
+    "Google pinned ftsCore.c setScanMode/setFeatures/writeSysCmd send this volatile wake command",
+    "All12 speed/short-TX conditions read zero SysInfo after full sensing attempt"
+  ],
+  "limitations": [
+    "Wake efficacy unproven",
+    "No flash command or firmware write",
+    "No physical touch proof"
+  ],
+  "exit_gate": "Only exact paired outcome informs next change"
+}

@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "purpose": "Reproducible Pixel6 Omarchy port and eventual one-command kit; success claims separated by verification scope.",
+  "source_pins": {
+    "omarchy_mobile": "c01db1c04fbee7ef99250333ae020a446b001da6",
+    "linux_omarchy_mobile": "97a6b87a87cb0102a84d3996349801fccbed2bb6"
+  },
+  "device_scope": {
+    "codename": "oriole",
+    "soc": "GS101",
+    "firmware": "CP1A.260305.018",
+    "bootloader": "slider-16.4-14548185",
+    "experimental_slot": "b"
+  },
+  "milestones": [
+    {
+      "id": "native-boot",
+      "status": "verified",
+      "change": "original readonly baseline plus B AVB verification_disabled flag2",
+      "oracle": "fresh ACM shell returns expected kernel and new boot id",
+      "evidence": "baseline-avb-run-20261024T154631Z/native-serial-evidence-private.txt",
+      "limits": [
+        "not full Omarchy userspace",
+        "AVB flag change requires documented original backup and restore"
+      ]
+    },
+    {
+      "id": "storage-protection",
+      "status": "verified",
+      "change": "remove initramfs write allowlist; guard all partitions RO",
+      "oracle": "all partition ro=1, whole-disk sda node absent",
+      "evidence": "native-serial-evidence-private.txt and display-firstlight-probe-private.txt",
+      "limits": [
+        "userdata install will require separate reviewed allowlist"
+      ]
+    },
+    {
+      "id": "framebuffer",
+      "status": "verified",
+      "change": "delete only chosen/framebuffer-0 vci-supply and vddi-supply references; no PMIC modules",
+      "oracle": "simpledrmdrmfb, fb0/card0,1080x2400",
+      "evidence": "display-firstlight-run-20261024T160854Z/display-firstlight-probe-private.txt",
+      "vendor_boot_sha256": "2fa2b382ef20182c3a0191f9ff0182f9bcb8bbb04a4889d21430e7001da80f80",
+      "limits": [
+        "bootloader-held power; suspend/power control not implemented"
+      ]
+    },
+    {
+      "id": "usb-ssh",
+      "status": "verified",
+      "change": "unlock Mac console; original NCM gadget; IPv6 link-local SSH",
+      "oracle": "new SSH process returns Linux uname and fb identity",
+      "evidence": "display-firstlight-run-20261024T160854Z/fresh-ssh-ipv6-private.txt",
+      "limits": [
+        "DHCP missing from initramfs",
+        "MAC/interface/address vary per boot; kit must discover rather than hardcode"
+      ]
+    },
+    {
+      "id": "visible-linux",
+      "status": "verified",
+      "change": "read GS101 DECON0 register0x1c300030=0x3070 then set0x3061 with timed rollback and fresh SSH health check",
+      "oracle": "user explicitly confirms Linux English text on phone",
+      "evidence": "display-trigger-write.txt, display-trigger-fresh-ssh.txt and user confirmation",
+      "limits": [
+        "not a full Omarchy desktop",
+        "GS101 only; never reuse GS201 address"
+      ]
+    }
+  ],
+  "pending": [
+    "oriole device package",
+    "full Arch/Omarchy rootfs",
+    "usable desktop and touch/input",
+    "Wi-Fi and mobile network",
+    "Node/Go/API harness",
+    "reboot/reconnect/recovery reproduction",
+    "one-command kit and Git repository"
+  ],
+  "publication_rules": [
+    "private raw evidence and calibration stay outside Git",
+    "only sanitized facts/source patches/build hashes in repository",
+    "retain failures and explicit limitations",
+    "do not label a feature supported before real acceptance evidence"
+  ],
+  "package_status": "Experimental first-light device package passes offline tests; full userspace not installed."
+}

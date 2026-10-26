@@ -1,0 +1,16 @@
+03a91da7f918a5a70643ec64b750f19a90832230235d6b66076daf3fbf489149  /out/stage/opt/oriole-experiments/mesa-g10/include/GL/internal/dri_interface.h
+95f3b4a6ee5175c7cc5d47368d4efb100063fe49e5a6f5b19030ac2ceed73b81  /out/stage/opt/oriole-experiments/mesa-g10/include/gbm.h
+df92523469632129b6b0c37bcade9fa8cc449e23e487beda2cc130b4e4bd1df5  /out/stage/opt/oriole-experiments/mesa-g10/include/EGL/eglext_angle.h
+e9119482f23bfa6a4fd006278d16434328fa91abcb6c55033959c262644d85f4  /out/stage/opt/oriole-experiments/mesa-g10/include/EGL/eglmesaext.h
+4eacf82b37a754dc5e64c89ab9c8a32ad8b96bfac12e91f7e217e7fa5c5602c5  /out/stage/opt/oriole-experiments/mesa-g10/include/gbm_backend_abi.h
+e1185ed41e73da522bbfec29e5b369f39bdf60c0cbf63c6dd4409ec20429a406  /out/stage/opt/oriole-experiments/mesa-g10/lib/gbm/dri_gbm.so
+ebbcdc9ba6fff12b8a088c2189e134aa22a34c802ca4f704fc43d7a8aa878ba5  /out/stage/opt/oriole-experiments/mesa-g10/lib/libGLX_mesa.so.0.0.0
+8baed24ea468ea736cc806b8f03daec3bbd1291c97d180d944570e866b84db3d  /out/stage/opt/oriole-experiments/mesa-g10/lib/libgallium-26.2.4-oriole.g10.so
+511c6b024cf09c1627943df5f97a4c5ca5edb70001cda032f2d0125e764642f2  /out/stage/opt/oriole-experiments/mesa-g10/lib/dri/libdril_dri.so
+dd03e3c16f416cf84125375f75640de8c10e7ba4ed9b93b139856ce56853ffb2  /out/stage/opt/oriole-experiments/mesa-g10/lib/libgbm.so.1.0.0
+9f45e3216c9d8928fd379aa2d27e84a84a8c0b6b9a93a2a893364725497d3fd0  /out/stage/opt/oriole-experiments/mesa-g10/lib/pkgconfig/gbm.pc
+07cda6a9f2360ef9df20d2f2fd79d8221f0d01c25933b31ee6f0ad191b49ae93  /out/stage/opt/oriole-experiments/mesa-g10/lib/pkgconfig/dri.pc
+112a6aefc0eb883293bad43569ef318368d28653c2c43d7ec2b6a05fd3593b87  /out/stage/opt/oriole-experiments/mesa-g10/lib/libEGL_mesa.so.0.0.0
+cd3881df4227c13ca7f9cfe6c78820f21d5f7a00a41b299214f6f827e63be369  /out/stage/opt/oriole-experiments/mesa-g10/share/glvnd/egl_vendor.d/50_mesa.json
+c290432a8d624f91a7abcfc02438b3a090d753d22814f6f25cf90519e5b105b4  /out/stage/opt/oriole-experiments/mesa-g10/share/drirc.d/00-panfrost-defaults.conf
+c325c4027540b7315d8f83a74d3f4a21ea6f5e02f009195882c1c0a22631e1cd  /out/stage/opt/oriole-experiments/mesa-g10/share/drirc.d/00-mesa-defaults.conf

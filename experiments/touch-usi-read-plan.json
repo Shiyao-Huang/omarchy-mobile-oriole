@@ -1,0 +1,33 @@
+{
+  "claim": "Actual USI reset/options or serial protocol routing may differ despite bounddrivers.",
+  "oracle": "Read USI_CON+4, OPTION+8 at exactDT10d400c0/20 withSPIclockruntimeactive; sysreg10c20000 offset100c should haveSPIbits2; resetbit mustclear. No configwrites.",
+  "validation": {
+    "user_journey": "Console stays connected. Only bounded identitydiagnostic; no userinput needed.",
+    "code_reasoning": [
+      "Exactoriole and SPIparentguard inherited",
+      "Check USI/sysreg resource addresses and sizes againstDT; useexistingregmap forsyscon clock handling",
+      "TakeSPIplatformruntimePM ref beforeUSIreads; releasebalanced onallpaths",
+      "NoRXFIFOreads and no raw register writes"
+    ],
+    "unit": "W=1 build and balancedcleanup source review; hardware unit oracle unavailable",
+    "end_to_end": "USBSSH/watchdog, actualUSIread plus independentrailrollback and existing3identitypairs"
+  },
+  "evidence": [
+    "Google SPI exynos_usi_init writesUSI_CON zero",
+    "Currentexynos-usi enable clearsbit0only",
+    "GS101 DT definesUSI11 at10d400c0 and sysregperic1at10c20000"
+  ],
+  "limitations": [
+    "Readback notphysicalwaveform",
+    "Workingconfiguration cannotprovechip response"
+  ],
+  "exit_gate": "Record actualvalues; anywritecandidate requiresnewexplicitplan basedonobserved mismatch.",
+  "result": {
+    "con": "00000000",
+    "option": "00000001",
+    "route": "00000002",
+    "identity": "still failed",
+    "rollback": "OriginalSPI retained, rails2c/3c independentlyverified, watchdogoff",
+    "module_sha256": "da2d4eb271dfeab851f44d46ec75e23412c8b10c53d80788b9c65f34b39438c9"
+  }
+}

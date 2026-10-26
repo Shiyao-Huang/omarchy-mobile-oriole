@@ -1,0 +1,55 @@
+{
+  "claim": "Fresh system boot removes warm-experiment state before standalone candidate19 probe.",
+  "oracle": "New boot_id on same kernel, diagnostic gate held, protected partitions read-only; standalone SysInfo/scan echo success or explicit failure and independent rollback.",
+  "validation": {
+    "user_journey": {
+      "scenario": "PhonebootsLinux, finger tapsand swipes registerwithoutkeyboard; desktoplatermustfollowfinger",
+      "expected": "Actualevdevcoordinates thenvisibleUIinteraction; failurekeepsdiagnosticgateheld"
+    },
+    "code_reasoning": [
+      "Pairedsix-samplehardwaretest: NULLTX threewrongframes vs explicitTX threematchingstockframes",
+      "WrapperallocateszeroTX exactlyRXlen, restorespointer/freesafterspi_sync, handleswriteonly/noalloc; oneRXtransferlimitguard",
+      "Oriole/controllerguard; automaticFWupdateandburnremainblocked; noA/calibrationwrites",
+      "Google216byteSysInfo layout:release8,skip16afterCRC,extra8ssDetecttailunusedforpointerinput",
+      "RejectinvalidSysInfo andsensinginitfailure; existingready-stormguardpreserved"
+    ],
+    "unit": {
+      "red": "OldreceivepathsNULLTX; oldSysInfo208 andwrongreleaseblock",
+      "green": "StaticzeroTXalloc/free/pointerrestore plusparserindex216 andrequiredfieldchecks",
+      "cases": [
+        "RXlengthbounds",
+        "write-onlymessages",
+        "allocationfailure",
+        "restoreafterSPIerror",
+        "SysInfoinvalidreject"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "USBserial",
+        "module",
+        "SPI",
+        "FTSfirmware",
+        "evdev",
+        "laterHyprland"
+      ],
+      "faults": [
+        "wrongSysInfohaltsprobe",
+        "stormguard",
+        "unloadandrailrollback"
+      ],
+      "evidence": [
+        "touch-transport-series2-evidence.json SYSPAIR"
+      ]
+    }
+  },
+  "evidence": [
+    "Standalone19 and conditioned19 fail before scan; conditioned minimal itself read zeros"
+  ],
+  "limitations": [
+    "Software reboot is not a battery-disconnected cold boot",
+    "Only task modules/logs persisted in new userdata var/tmp staging directory; no autoload",
+    "User absent; no physical UI acceptance"
+  ],
+  "exit_gate": "Verified new boot, pinned module hashes, bounded probe, rail restoration; do not promote image on failure"
+}

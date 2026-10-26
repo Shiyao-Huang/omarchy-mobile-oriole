@@ -1,0 +1,37 @@
+{
+  "claim": "After200mssettle, paired split vs single-transfer read-only ID samples can distinguish transaction framing from early-read artifacts",
+  "oracle": "Stable3648 identity in3pairs; log all14rawsingletransfer bytes, no probe success on failedidentity",
+  "validation": {
+    "user_journey": "No useraction; stopandrollback afterdiagnostic",
+    "code_reasoning": [
+      "Heapbuffers forSPI transfers",
+      "One5byteFA20000000 command plus9dummy clocks; skip5command+1dummy for8payload",
+      "No new writes; supplyenableonly asprevious",
+      "Diagnosticalwaysreturnsfailure aftersixreads, never startsIRQ/scan"
+    ],
+    "unit": "Staticlength/offset and firmwareguard assertions,compile; electrical behavior E2Eonly",
+    "end_to_end": "200mssettle,3paired reads at1MHz underwatchdog; capturelogs,unloadandrollbackrails"
+  },
+  "evidence": [],
+  "limitations": [
+    "Warmreload remains",
+    "CannotproveUI fromchipID"
+  ],
+  "exit_gate": "Recordpairedresult andrestore; requirevalididentity beforeanyinputtesting",
+  "result": {
+    "status": "both_framings_failed_identity",
+    "split_samples": [
+      "0000000000000000",
+      "0000000000000000",
+      "0000000000000000"
+    ],
+    "single_raw_samples": [
+      "00fb200000000000000000000000",
+      "00fb200000000000000000000000",
+      "00fb200000000000000000000000"
+    ],
+    "observed": "Single-transfer RX resembles transmitted command delayed one byte; not3648",
+    "inference": "Echo/3wire/pinmux/transport possibilities remain unproven",
+    "rollback": "Independentdouble-read2c/3c andhealthyUSB/watchdogdisarmed"
+  }
+}

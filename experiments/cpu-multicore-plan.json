@@ -1,0 +1,50 @@
+{
+  "claim": "Observe actual heterogeneous CPU topology and validate a reversible resource policy for background Agent work without restricting the desktop to little cores.",
+  "oracle": "Eight online CPUs and DT/frequency-policy groups are read from the phone; transient workload cgroup enforces requested CPUWeight/CPUQuota/Nice and cleans up on exit. No physical responsiveness claim until a loaded touch journey passes.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Open Files and type while API Agents wait/run tools; interrupt/reconnect or manually adjust settings, then recover the desktop.",
+      "expected": "Desktop remains responsive and Agent processes retain progress; remote test alone cannot accept physical feel."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Observe cpu_capacity, compatible and cpufreq policy before choosing limits",
+        "Retain Linux scheduler access to all online cores for UI",
+        "Only task-owned transient background cgroup; no global affinity or IRQ writes",
+        "No sustained load while thermal telemetry unavailable"
+      ],
+      "gitnexus": [
+        "Not applicable: standalone phone experiment outside neweval execution graph; inspect systemd command and actual cgroup files instead"
+      ]
+    },
+    "unit": {
+      "red": "Reject nonpositive or excessive quota/weight and malformed CPU selection if a configurable launcher is introduced",
+      "green": "Not applicable to read-only topology inventory; policy helper validation required before reusable launcher",
+      "cases": [
+        "Current phase topology observation only"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "USB serial",
+        "Linux sysfs/DT",
+        "systemd",
+        "cgroup v2",
+        "actual Node/Go process"
+      ],
+      "faults": [
+        "Process exit and transient-unit removal",
+        "Manual changes must remain untouched"
+      ],
+      "evidence": []
+    }
+  },
+  "evidence": [],
+  "limitations": [
+    "No thermal zones in prior inventory; avoid extended stress",
+    "CPU distribution cannot repair missing GPU, modem, WiFi or camera drivers",
+    "Node main event loop is single threaded; worker processes/threads and Go scheduler require workload-specific configuration",
+    "No background Harness production workload yet"
+  ],
+  "exit_gate": "Record measured topology; implement policy only after defining bounded load and recovery checks; promote default settings only after independent load test and physical journey."
+}

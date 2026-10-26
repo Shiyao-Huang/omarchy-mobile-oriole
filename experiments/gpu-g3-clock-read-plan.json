@@ -1,0 +1,50 @@
+{
+  "claim": "Existing CMU_TOP clock-provider APIs expose the three G3D input clock rates and hardware gate states without enabling/changing them.",
+  "oracle": "Strict oriole/CMU_TOP provider identity; one allowlisted clock per module load; clk_get_rate plus __clk_is_enabled observations; zero clock/regulator writes; clean unload and responsive USB.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Diagnose GPU clock dependency while preserving current diagnostic boot and touch30 recovery",
+      "expected": "Evidence distinguishes configured frequency from actual input gate enable; no graphics performance claim"
+    },
+    "code_reasoning": {
+      "invariants": [
+        "of_clk_get_from_provider on existing google,gs101-cmu-top",
+        "Exact binding IDs GOUT_CMU_G3D_BUSD/GLB/SWITCH only",
+        "No clk_prepare/enable/set_rate or raw MMIO",
+        "Provider reads confined to already running CMU_TOP and shared parent PLLs",
+        "clk_put/of_node_put all paths"
+      ]
+    },
+    "unit": {
+      "cases": [
+        "exact3clock-ID allowlist",
+        "index bounds before provider lookup",
+        "no mutating clock APIs",
+        "W=1 target build"
+      ],
+      "limitations": "Hardware gate values require real target"
+    },
+    "end_to_end": {
+      "boundaries": [
+        "module",
+        "CCF",
+        "CMU_TOP driver",
+        "USBserial"
+      ],
+      "faults": [
+        "watchdog each probe",
+        "put references on failed lookup"
+      ],
+      "evidence": [
+        "G2 both PMU statuses stable1, independent probes cleaned",
+        "Target clk-gs101.c defines GOUT gates bit21 at0x208c/0x2090/0x2094",
+        "Source follow-up: automatic clock gates use debug idle encoding; bit21 is only normal-gate semantics, not the selected live auto path."
+      ]
+    }
+  },
+  "evidence": [],
+  "limitations": [
+    "Input clock state alone does not prove internal GPU gates or safe rendering"
+  ],
+  "exit_gate": "Build/staticchecks, then oneclock guardedprobe at a time; only attempt local CMU/GPU checks after required power/input-clock conditions established."
+}

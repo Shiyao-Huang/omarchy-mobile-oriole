@@ -1,0 +1,66 @@
+--- a/drivers/input/touchscreen/fts_spi/fts.c
++++ b/drivers/input/touchscreen/fts_spi/fts.c
+@@ -3605,53 +3605,16 @@
+  */
+ static int fts_init_sensing(struct fts_ts_info *info)
+ {
+-	int error = 0;
+-	if (FTS_INPUT_ONLY_BRINGUP) {
+-		int i, ret;
+-		u8 event[FIFO_EVENT_SIZE];
+-		for (i = 0; i < 8; i++) {
+-			memset(event, 0xEE, sizeof(event));
+-			ret = fts_writeReadU8UX(FIFO_CMD_READONE, 0, 0,
+-					      event, sizeof(event), DUMMY_FIFO);
+-			dev_info(info->dev, "Pre-scan FIFO %d ret=%d data=%*ph\n",
+-				 i, ret, (int)sizeof(event), event);
+-			msleep(10);
+-		}
+-	}
+-
+-	error |= fts_interrupt_install(info);
+-	error |= fts_mode_handler(info, 0);
+-	if (error < OK) {
+-		logError(1, "%s %s Init after Probe error (ERROR = %08X)\n",
+-			 tag, __func__, error);
+-		return error;
+-	}
+-	if (FTS_INPUT_ONLY_BRINGUP) {
+-        u8 scan_cmd[3] = {FTS_CMD_SCAN_MODE, SCAN_MODE_ACTIVE, 0xFF};
+-        error = checkEcho(scan_cmd, sizeof(scan_cmd));
+-        if (error < OK) {
+-            dev_err(info->dev, "Oriole scan echo validation failed\n");
+-            return error;
+-        }
+-        dev_info(info->dev, "Oriole scan command echo validated\n");
+-    }
+-	if (FTS_INPUT_ONLY_BRINGUP) {
+-		int i, ret;
+-		u8 event[FIFO_EVENT_SIZE];
+-		for (i = 0; i < 8; i++) {
+-			memset(event, 0xEE, sizeof(event));
+-			ret = fts_writeReadU8UX(FIFO_CMD_READONE, 0, 0,
+-					      event, sizeof(event), DUMMY_FIFO);
+-			dev_info(info->dev, "Post-scan FIFO %d ret=%d irqraw=%d data=%*ph\n",
+-				 i, ret, gpiod_get_raw_value_cansleep(info->board->irq_gpio),
+-				 (int)sizeof(event), event);
+-			msleep(10);
+-		}
+-		dev_info(info->dev, "Startup FIFO drained; enabling guarded IRQ\n");
+-	}
+-	error |= fts_enableInterrupt();
+-
+-	return error;
++ int error;
++ /* Follow Google scan-start order. A0 echo is not a required handshake in
++  * that driver; only physical evdev/UI evidence can accept working touch. */
++ error = fts_interrupt_install(info);
++ if (error < OK)
++  return error;
++ error = fts_mode_handler(info, 0);
++ if (error < OK)
++  return error;
++ return fts_enableInterrupt();
+ }
+
+ /**

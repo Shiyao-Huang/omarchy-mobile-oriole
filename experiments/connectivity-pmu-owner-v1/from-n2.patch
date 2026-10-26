@@ -1,0 +1,181 @@
+--- a/pcie-gs101.c
++++ b/pcie-gs101.c
+@@ -75,6 +75,10 @@
+ 	struct gpio_desc	*perst;
+ 	u32			num_lanes;
+ 	int			ch_num;
++	int			irq;
++	bool			irq_registered;
++	u32			pmu_saved;
++	bool			pmu_saved_valid;
+ 	/* set by exynos_pcie_poweroff(): poweron has to redo the PHY */
+ 	bool			link_was_up;
+ };
+@@ -142,11 +146,8 @@
+ 	writel(val, pcie->elbi_base + reg);
+ }
+ 
+-static void gs101_pcie_phy_isolation(struct gs101_pcie *pcie, bool release)
+-{
+-	regmap_update_bits(pcie->pmureg, pcie->pmu_offset,
+-			   PCIE_PHY_ISOLATION, release ? PCIE_PHY_ISOLATION : 0);
+-}
++#include "pmu-owner.inc"
++
+ 
+ static bool gs101_pcie_link_up(struct dw_pcie *pci)
+ {
+@@ -202,42 +203,40 @@
+ 	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
+ 	struct gs101_pcie *pcie = to_gs101_pcie(pci);
+ 	struct device *dev = pci->dev;
+-	/* u32 val; -- now used in gs101_pcie_setup_elbi() */
+-	int ret;
++	int ret, restore, phy_cleanup = 0;
+ 
+ 	ret = clk_bulk_prepare_enable(pcie->num_clks, pcie->clks);
+ 	if (ret)
+ 		return ret;
+-
+-	/*
+-	 * Order matters: the block must be clocked before it is connected to
+-	 * the interconnect, or the first access to it wedges the bus.
+-	 */
+-	gs101_pcie_phy_isolation(pcie, true);
+-
+-	/* PERST# asserted; the endpoint stays in reset across PHY setup */
++	ret = gs101_pcie_pmu_begin(pcie);
++	if (ret)
++		goto err_clocks;
++	ret = gs101_pcie_pmu_update(pcie, PCIE_PHY_ISOLATION, PCIE_PHY_ISOLATION);
++	if (ret)
++		goto err_restore;
++
+ 	gpiod_set_value_cansleep(pcie->perst, 1);
+-
+ 	ret = phy_init(pcie->phy);
++	if (ret)
++		goto err_restore;
++	ret = gs101_pcie_pmu_update(pcie, PCIE_PHY_CTRL_LINK, PCIE_PHY_CTRL_LINK);
+ 	if (ret) {
+-		dev_err(dev, "PHY init failed: %d\n", ret);
+-		goto err_isolate;
++		phy_cleanup = phy_exit(pcie->phy);
++		goto err_restore;
+ 	}
+-
+-	regmap_update_bits(pcie->pmureg, pcie->pmu_offset,
+-			   PCIE_PHY_CTRL_LINK, PCIE_PHY_CTRL_LINK);
+-
+ 	gpiod_set_value_cansleep(pcie->perst, 0);
+ 	usleep_range(18000, 20000);
+-
+ 	gs101_pcie_setup_elbi(pcie);
+-
+-	return 0;
+-
+-err_isolate:
+-	gs101_pcie_phy_isolation(pcie, false);
++	return 0;
++
++err_restore:
++	restore = gs101_pcie_pmu_restore(pcie);
++	if (restore || phy_cleanup) {
++		dev_err(dev, "PCIe init recovery failed (PHY %d, PMU %d); retaining clocks, reboot recovery required\n", phy_cleanup, restore);
++		return ret;
++	}
++err_clocks:
+ 	clk_bulk_disable_unprepare(pcie->num_clks, pcie->clks);
+-
+ 	return ret;
+ }
+ 
+@@ -264,7 +263,11 @@
+ 	 * out. Mirrors IRQ_MSI_CTRL_EN_RISING_EDG in the vendor pcie-exynos-rc.c.
+ 	 */
+ 	val = gs101_elbi_read(pcie, PCIE_IRQ2_EN);
+-	val |= IRQ_MSI_CTRL_EN_RISING_EDG;
++	/* Keep the initial gate masked until the handler has an owner. */
++	if (pcie->irq_registered)
++		val |= IRQ_MSI_CTRL_EN_RISING_EDG;
++	else
++		val &= ~IRQ_MSI_CTRL_EN_RISING_EDG;
+ 	gs101_elbi_write(pcie, val, PCIE_IRQ2_EN);
+ 
+ 	/*
+@@ -306,30 +309,30 @@
+ 	 * MSI-receiver assertion here and hand it to the core. Mirrors
+ 	 * exynos_pcie_rc_irq_handler() in the vendor pcie-exynos-rc.c.
+ 	 */
+-	val = gs101_elbi_read(pcie, PCIE_IRQ2);
+-	gs101_elbi_write(pcie, val, PCIE_IRQ2);		/* write-1-to-clear */
+-
+-	if (val & IRQ_MSI_RISING_ASSERT)
+-		oriole_n2_handle_msi_irq(pp);
++	val = gs101_elbi_read(pcie, PCIE_IRQ2) & IRQ_MSI_RISING_ASSERT;
++	if (!val)
++		return IRQ_NONE;
++	gs101_elbi_write(pcie, val, PCIE_IRQ2); /* acknowledge only our MSI */
++	oriole_n2_handle_msi_irq(pp);
+ 
+ 	return IRQ_HANDLED;
+ }
++
++#include "irq-lifetime.inc"
+ 
+ static void gs101_pcie_host_deinit(struct dw_pcie_rp *pp)
+ {
+ 	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
+ 	struct gs101_pcie *pcie = to_gs101_pcie(pci);
+-
+-	/*
+-	 * Reverse gs101_pcie_host_init(), in reverse order. The DWC core calls
+-	 * this from its error path (after ->init succeeded but a later step of
+-	 * dw_pcie_host_init() failed) and on teardown; without it the clocks and
+-	 * PHY leak. The core guards the call with "if (pp->ops->deinit)", so its
+-	 * absence is not a crash -- just a leak.
+-	 */
++	int phy_ret, pmu_ret;
++
+ 	gpiod_set_value_cansleep(pcie->perst, 1);
+-	phy_exit(pcie->phy);
+-	gs101_pcie_phy_isolation(pcie, false);
++	phy_ret = phy_exit(pcie->phy);
++	pmu_ret = gs101_pcie_pmu_restore(pcie);
++	if (phy_ret || pmu_ret) {
++		dev_err(pci->dev, "PCIe teardown failed (PHY %d, PMU %d); retaining clocks, reboot recovery required\n", phy_ret, pmu_ret);
++		return;
++	}
+ 	clk_bulk_disable_unprepare(pcie->num_clks, pcie->clks);
+ }
+ 
+@@ -426,13 +429,9 @@
+ 	if (ret)
+ 		return dev_err_probe(dev, ret, "failed to initialise host\n");
+ 
+-	ret = devm_request_irq(dev, irq, gs101_pcie_irq_handler, IRQF_SHARED,
+-			       "gs101-pcie", pcie);
++	ret = gs101_pcie_attach_irq(pcie, irq);
+ 	if (ret)
+-		return dev_err_probe(dev, ret, "failed to request PCIe IRQ\n");
+-
+-	if (pcie->ch_num >= 0)
+-		gs101_pcie_ch[pcie->ch_num] = pcie;
++		return dev_err_probe(dev, ret, "failed to own PCIe IRQ/host lifetime\n");
+ 
+ 	return 0;
+ }
+@@ -589,9 +588,10 @@
+ 			ret = phy_init(pcie->phy);
+ 			if (ret)
+ 				return ret;
+-			regmap_update_bits(pcie->pmureg, pcie->pmu_offset,
+-					   PCIE_PHY_CTRL_LINK,
+-					   PCIE_PHY_CTRL_LINK);
++			ret = gs101_pcie_pmu_update(pcie, PCIE_PHY_CTRL_LINK,
++						 PCIE_PHY_CTRL_LINK);
++			if (ret)
++				return ret;
+ 
+ 			/*
+ 			 * PHY re-init alone still sat in PRE_DETECT_QUIET (#57).

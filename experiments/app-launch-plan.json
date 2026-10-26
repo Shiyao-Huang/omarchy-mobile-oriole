@@ -1,0 +1,58 @@
+{
+  "claim": "AI Agent and selected desktop entries either retain a usable window or show an actionable launch failure; failures are not silently hidden.",
+  "oracle": "Launch exact installed entry as desktop user, observe mapped window/process and stderr/exit status. Missing agent or offline installation must remain visible without changing user defaults or invoking model tasks.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Tap AI Agent with no installed agent, select a provider, experience offline failure, close and retry; open another affected app without losing desktop.",
+      "expected": "Persistent readable failure or working picker/window, no silent dismissal; physical touch confirmation required."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "No arbitrary shell interpolation",
+        "No credentials in logs or Git",
+        "No global GPU changes without reproduced cause",
+        "Back up overrides and preserve manual edits"
+      ],
+      "gitnexus": [
+        "External device scripts outside indexed neweval; inspect actual source call chain instead"
+      ],
+      "ast": [
+        "desktop Exec -> omarchy-agent -> default/picker -> terminal -> mise"
+      ]
+    },
+    "unit": {
+      "red": "Add failure-contract tests once failing boundary is identified",
+      "green": "Run same tests against scoped fix",
+      "cases": [
+        "missing dependency",
+        "nonzero child exit",
+        "cancel",
+        "existing configured agent",
+        "arguments preserved"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "serial -> agent UID/session -> desktop entry -> process -> Wayland window"
+      ],
+      "faults": [
+        "missing agent",
+        "offline install"
+      ],
+      "evidence": []
+    }
+  },
+  "evidence": [
+    "AI Agent Exec=omarchy-agent --pick",
+    "default unset; mise ls returns empty object",
+    "opencode/claude/codex are mise-install wrappers",
+    "picker IPC returns ok; no fresh coredumps in initial inventory"
+  ],
+  "limitations": [
+    "User-visible crash not yet reproduced",
+    "GPU inheritance is hypothesis only",
+    "No functional WiFi/mobile route yet"
+  ],
+  "exit_gate": "Reproduce failing boundary, verify local regression and real-device launch, preserve rollback; physical and API acceptance remain separate.",
+  "current_status": "Diagnosis ongoing; no crash fix accepted; menu change rejected and reverted"
+}

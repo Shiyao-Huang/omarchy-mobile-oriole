@@ -1,0 +1,156 @@
+{
+  "status": "Final v4a powered enumeration PASS; unloaded cleanly. Firmware/interface/connectivity not yet tested.",
+  "previous_goal_turn_classification": "progress: recovered Linux B, backported upstream MMU IRQ initialization, passed first draw and restored accelerated desktop.",
+  "claim": "GS101 PMU ownership and reset order now follow pinned stock at the reviewed boundaries; hardware result remains unproven.",
+  "source_plan": "network-gs101-init-plan.json",
+  "source_reference": "gs101-stock-pcie-source.json",
+  "changes": [
+    "Own only PMU bit0; reject bit10 updates rather than ignore readback failures.",
+    "Use one reset/RC-mode helper on initial bring-up and relink, with PERST held asserted.",
+    "WLAN endpoint delay matches stock20-22ms; modem remains18-20ms.",
+    "Bounded PHY PLL/CDR/offset-calibration polling mirrors stock diagnostic semantics.",
+    "Three complete PHY powerdown/clear/config bodies token-match pinned GS101 stock after local identifier/log normalization."
+  ],
+  "validation": {
+    "tests": [
+      {
+        "command": [
+          "python3",
+          "experiments/test-connectivity-gs101-init.py",
+          "experiments/connectivity-diagnostics-v3"
+        ],
+        "expected": "RED",
+        "returncode": 1,
+        "log_sha256": "3a24b996f75226f61a108b70df0dc32674bbb25a7e546a01951b96d09591dd46"
+      },
+      {
+        "command": [
+          "python3",
+          "experiments/test-connectivity-gs101-init.py",
+          "experiments/connectivity-gs101-init-v4"
+        ],
+        "expected": "PASS",
+        "returncode": 0,
+        "log_sha256": "64906611a42503ee8964786577209b901eb95598935a5b835a567770c8153a79"
+      },
+      {
+        "command": [
+          "python3",
+          "experiments/test-connectivity-phy-lock.py",
+          "experiments/connectivity-gs101-init-v4"
+        ],
+        "expected": "PASS",
+        "returncode": 0,
+        "log_sha256": "f4b93eb9a862817f93eab851fc42d9ec3d720b316e805fd66f81191642f3f368"
+      },
+      {
+        "command": [
+          "python3",
+          "experiments/test-connectivity-supply.py",
+          "experiments/connectivity-gs101-init-v4"
+        ],
+        "expected": "PASS",
+        "returncode": 0,
+        "log_sha256": "13c3f1b09e217f7e97b1fe66e500878b30e8f6d28d1356ccb334ca12871aefee"
+      },
+      {
+        "command": [
+          "python3",
+          "experiments/test-connectivity-lifetime.py",
+          "experiments/connectivity-gs101-init-v4"
+        ],
+        "expected": "PASS",
+        "returncode": 0,
+        "log_sha256": "c3f0c1420fda869106b7a6e9dacbacc962b64477eb1863dfcfde349616b1f206"
+      },
+      {
+        "command": [
+          "python3",
+          "experiments/test-connectivity-msi.py",
+          "experiments/connectivity-gs101-init-v4"
+        ],
+        "expected": "PASS",
+        "returncode": 0,
+        "log_sha256": "13a6c841810af83cf9f0fe6ace6f6f1e47e8a016e546e7fbb79759802e1852e4"
+      },
+      {
+        "command": [
+          "python3",
+          "experiments/compare-gs101-calibration.py",
+          "experiments/connectivity-gs101-init-v4",
+          "<PINNED_STOCK_SOURCE_DIR>"
+        ],
+        "expected": "PASS",
+        "returncode": 0,
+        "log_sha256": "0f69f17ea4fd6fe6204fa0a43620f35ee204f0c633c4ae46e5d17b2d384849d0"
+      }
+    ],
+    "kernel": "7.3.0-rc6-omamobile-oriole-m1",
+    "build_returncode": 0,
+    "build_command": "make -C \"$KERNEL_DIR\" O=\"$KERNEL_OUT\" ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- M=\"$PWD/experiments/connectivity-gs101-init-v4\" W=1 -j2 modules",
+    "artifacts": {
+      "pcie-gs101.ko": "33c10ea596b6eb063007626b746e256b030d754c882a18a4f835f0756b89ea72",
+      "phy-gs101-pcie.ko": "265facd5f95c2a5924008a474dadfb6261ec7084239ab2bd8d75aad86e639928"
+    },
+    "source_sha256": {
+      "phy-lock.inc": "e97e47fd5343dbae84e33c9a150cae9cff3a980446b46b033522365dc5204a23",
+      "msi-demux.inc": "b8312f8168e53b5e03e6787ed24e99b007e83fec5d26cfb267abcd91bf394f87",
+      "pcie-gs101.c": "65df84668d9933d0d4e9e8df61104f10cc6a9a955add70cd1b7877fdb0f44330",
+      "Makefile": "e0e5fe15abfb77b72ec92625b6af19fcee21c855fb1f598b1ff1d266784335f1",
+      "phy-gs101-pcie.c": "3ad0bb956b9a2f31ac6a92f81939991405152891f9993cfbfbc5ea8a74bbf839",
+      "pmu-owner.inc": "f59f373d6a3a6beb49694b8637e79367e6019910c9609237afc4fad25d8f58f8",
+      "irq-lifetime.inc": "f762c7845f0365b4bf706e5ff75d0e58c7c5b203712487f18944be71733a7e16",
+      "supply-owner.inc": "664866eb023b8e10861637369316a7afe33f711106d5661d4c4f0dee81cf6449",
+      "reset-rc.inc": "b5b9bfa4b261e1247656d41f8022d578455747aa2f56b7b648c34d10b162c88c"
+    },
+    "checkpatch": {
+      "errors": 0,
+      "warnings": 1,
+      "checks": 0,
+      "remaining": "New-file MAINTAINERS reminder for task-local .inc files; no upstream MAINTAINERS entry added for this experimental module."
+    }
+  },
+  "hardware": {
+    "loaded": true,
+    "new_endpoint_result": {
+      "vendor": "0x14e4",
+      "device": "0x4441",
+      "class": "0x028000",
+      "PCIe_link": "Gen2 x1",
+      "PLL": true,
+      "CDR": true,
+      "offset_calibration": true,
+      "endpoint_driver": null,
+      "PCI_COMMAND": 0,
+      "bus_master_enabled": false
+    },
+    "backup": "Seven current hashes verified before reboot against latest off-device G15 backups; prior Android fallback backup retained separately.",
+    "staged": "Final host33c10e/PHY265fac and parent overlay2f5e76 verified on phone; ten network/recovery modules verified in /opt/oriole-experiments/network-v4a.",
+    "reboot": "Normal systemd reboot returned to Linux diagnostic init with modules unlocked; no factory reset or flash.",
+    "usb_observation": "Previous no-ADB inference corrected: private ADB port15037 owned Recovery. Serial is currently restored; no need to quit ChatGPT.",
+    "current_phone_os": "Linux diagnostic init; overlay DT remains, host/PHY unloaded and WLAN rail off",
+    "staging_correction": "Some prior /var/tmp chunk files were absent at GUI handoff; cause unproven. findmnt shows /var/tmp and / share ext4, so a separate /var mount is ruled out. Required recovery artifacts restaged into persistent /opt and verified.",
+    "clock": "Phone clock was approximately29h behind host UTC; set from host UTC before trial. No RTC write or claim of persistent time sync.",
+    "fresh_backup_after_reboot": "Six calibration/firmware full hashes unchanged; fresh devinfo snapshot saved and current hash checked. New boot-id differs from staged previous-boot-id.",
+    "cleanup": {
+      "host_and_phy_unloaded": true,
+      "endpoint_removed": true,
+      "supply_disabled": true,
+      "watchdog_disarmed": true,
+      "serial_completion": "verified rc0"
+    },
+    "private_runtime_log_sha256": "2bec0723668240c5a40b690fd39e28ffd0899895edcb0f6d539930a31f8b56e5"
+  },
+  "limitations": [
+    "W1 alone proves endpoint only. Subsequent W2 firmware/interface results are in wifi-w2-bcm4389-evidence.json; no association, DNS or HTTPS proof.",
+    "No modem, voice, cellular or camera improvement this stage.",
+    "Other stock controller options and modem relink concurrency are not certified.",
+    "G15 first drawing now passed on two kernel boots; physical responsiveness and persistent startup remain unaccepted."
+  ],
+  "exit_gate": "Enumeration and clean teardown gate passed. Review exact BCM4389 driver, board firmware mapping and DMA constraints before bounded W2 firmware/interface trial.",
+  "side_effects": [
+    "One new Agent diagnostic terminal from previous turn.",
+    "One diagnostic systemd reboot; no flash, no firmware or calibration writes initiated."
+  ],
+  "updated_at_utc": "2026-10-26T18:04:01.646258+00:00"
+}

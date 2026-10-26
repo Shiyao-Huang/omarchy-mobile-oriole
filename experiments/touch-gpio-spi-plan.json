@@ -1,0 +1,27 @@
+{
+  "claim": "An independent slow GPIO SPI mode0 read can distinguish the hardware controller transfer implementation from the external touchscreen path.",
+  "oracle": "Hardware before/after sameFB20000000 read; three GPIO mode0 reads must return36 48 at offset6 to prove communication. Restorebusmux2/2/2,CSGPIOinactive1 and rails on allpaths.",
+  "validation": {
+    "user_journey": "Temporary diagnostic withUSBconsole retained; noIRQ/inputpromotion, noactionneeded.",
+    "code_reasoning": [
+      "Use stockCSgpp23.3 andMISOgpp23.2; SCK0/MOSI1 followsGS101SPIpinorder butnotoscilloscopeverified, a limitation",
+      "Matchgoogle pinbank offsets0x60gpp23 and0xc0gpp26 tocurrentmainline",
+      "LockSPIbus, requestonlygpp23.0/1/2 throughGPIOownershipAPI; keepMISOinput; no rawMMIOwrites",
+      "Mode0MSBfirst,14bytes,onlyidentityread,threeboundedtransactions; slow10us halfcycles",
+      "FreeGPIOdescriptors, reapplysuspendthenactivestates toavoidcachedpinctrlno-op; unlockbus; verifyrestoredmux; no permanentDTchanges"
+    ],
+    "unit": "ReviewMSB serializationand112bitbounds;W=1compile; physicaloracleonlyonphone",
+    "end_to_end": "ActualUSB moduleprobe underwatchdog, hardware-GPIO-hardware comparisonandindependentrailreadback"
+  },
+  "evidence": [
+    "OriginalstockliveDTCS andMISO assignments",
+    "PinnedGooglepinctrl-gs.c bankoffsets matchmainline",
+    "SelectedCS response vsunselectedzero inthreepairedcontrols"
+  ],
+  "limitations": [
+    "Noelectricalpintrace",
+    "SCK/MOSIorderinferredfromSPIpinorder; incorrectmappingcannotbeinterpretedastouchfault",
+    "SlowGPIOtimingdiffersfrom10MHzstock"
+  ],
+  "exit_gate": "IfGPIOvalid,focuscontrollertransport. Ifinvalid,do not claimexternalchipfailure; restoreallpinmux andleavegateheld."
+}

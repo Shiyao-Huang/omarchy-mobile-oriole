@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "interpretation": "Observed presence only; functional acceptance is separate.",
+  "kernel": "7.3.0-rc6-omamobile-oriole-m1",
+  "touch": {
+    "polling_device_present": true,
+    "module_session_seconds": "0",
+    "lifecycle_markers": [
+      "[   45.541798] oriole-touch-minimal spi0.0: INPUT30_READY seconds=0 (0=continuous)"
+    ]
+  },
+  "graphics": {
+    "gpu_dt_status": "disabled",
+    "render_nodes": [],
+    "card_drivers": {
+      "card0": "simple-framebuffer"
+    },
+    "monitors": [
+      {
+        "width": 1080,
+        "height": 2400,
+        "scale": 3,
+        "dpmsStatus": true
+      }
+    ]
+  },
+  "network_interface_names": [
+    "lo",
+    "usb0"
+  ],
+  "camera_device_nodes": [],
+  "modules_disabled": "1",
+  "limits": [
+    "No network packet/association test",
+    "No camera frame test",
+    "No screen latency/FPS test",
+    "No boot persistence proof",
+    "No user-identifying fields are emitted"
+  ]
+}

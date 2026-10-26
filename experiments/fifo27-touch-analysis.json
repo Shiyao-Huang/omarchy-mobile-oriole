@@ -1,0 +1,1849 @@
+{
+  "counts": {
+    "polls": 7477,
+    "empty": 478,
+    "ready": 7,
+    "touch": 1104,
+    "other": 5888,
+    "before_low": 1109,
+    "after_low": 5,
+    "logged": 181
+  },
+  "records": [
+    {
+      "sample": 0,
+      "before": 0,
+      "after": 0,
+      "full9": "87 00 00 00 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 1,
+      "before": 0,
+      "after": 1,
+      "full9": "87 03 00 00 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 4,
+      "before": 1,
+      "after": 1,
+      "full9": "87 00 00 00 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 256,
+      "before": 1,
+      "after": 1,
+      "full9": "87 03 00 00 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 260,
+      "before": 1,
+      "after": 1,
+      "full9": "87 00 00 00 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 485,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 84 a2 57 30 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 644,
+      "y": 1402
+    },
+    {
+      "sample": 490,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 84 a2 57 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 644,
+      "y": 1402
+    },
+    {
+      "sample": 491,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 496,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 48 02 58 30 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 584,
+      "y": 1408
+    },
+    {
+      "sample": 498,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 48 02 58 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 584,
+      "y": 1408
+    },
+    {
+      "sample": 499,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 504,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 5b 12 58 30 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 603,
+      "y": 1409
+    },
+    {
+      "sample": 507,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 5b 12 58 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 603,
+      "y": 1409
+    },
+    {
+      "sample": 508,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 519,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 01 24 51 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 1025,
+      "y": 1298
+    },
+    {
+      "sample": 521,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 f6 23 51 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 1014,
+      "y": 1298
+    },
+    {
+      "sample": 522,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 ba 83 51 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 954,
+      "y": 1304
+    },
+    {
+      "sample": 523,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 68 63 52 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 872,
+      "y": 1318
+    },
+    {
+      "sample": 524,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 dc 72 53 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 732,
+      "y": 1335
+    },
+    {
+      "sample": 525,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 13 e2 53 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 531,
+      "y": 1342
+    },
+    {
+      "sample": 526,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 73 71 53 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 371,
+      "y": 1335
+    },
+    {
+      "sample": 527,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 2f e1 52 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 303,
+      "y": 1326
+    },
+    {
+      "sample": 528,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fe 50 52 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 254,
+      "y": 1317
+    },
+    {
+      "sample": 530,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 01 51 52 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 257,
+      "y": 1317
+    },
+    {
+      "sample": 531,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 1a 61 52 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 282,
+      "y": 1318
+    },
+    {
+      "sample": 532,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 58 61 52 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 344,
+      "y": 1318
+    },
+    {
+      "sample": 533,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 ac 61 52 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 428,
+      "y": 1318
+    },
+    {
+      "sample": 534,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 2d 12 52 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 557,
+      "y": 1313
+    },
+    {
+      "sample": 535,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 d8 f2 50 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 728,
+      "y": 1295
+    },
+    {
+      "sample": 536,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 3c b3 4f 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 828,
+      "y": 1275
+    },
+    {
+      "sample": 537,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 b6 d3 4d 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 950,
+      "y": 1245
+    },
+    {
+      "sample": 538,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 05 34 4c 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 1029,
+      "y": 1219
+    },
+    {
+      "sample": 539,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 20 54 4a 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 1056,
+      "y": 1189
+    },
+    {
+      "sample": 540,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 28 d4 48 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 1064,
+      "y": 1165
+    },
+    {
+      "sample": 541,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 28 d4 47 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 1064,
+      "y": 1149
+    },
+    {
+      "sample": 542,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 2b 44 47 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 1067,
+      "y": 1140
+    },
+    {
+      "sample": 547,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 26 a4 47 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 1062,
+      "y": 1146
+    },
+    {
+      "sample": 548,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 f0 53 4a 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 1008,
+      "y": 1189
+    },
+    {
+      "sample": 549,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 6c c3 4d 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 876,
+      "y": 1244
+    },
+    {
+      "sample": 550,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 c7 72 4f 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 711,
+      "y": 1271
+    },
+    {
+      "sample": 551,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 1c d2 4f 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 540,
+      "y": 1277
+    },
+    {
+      "sample": 552,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 b5 81 4f 20 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 437,
+      "y": 1272
+    },
+    {
+      "sample": 553,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 3d 51 4e 30 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 317,
+      "y": 1253
+    },
+    {
+      "sample": 554,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 ed e0 4c 30 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 237,
+      "y": 1230
+    },
+    {
+      "sample": 555,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 b7 c0 4b 30 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 183,
+      "y": 1212
+    },
+    {
+      "sample": 556,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 96 00 4b 30 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 150,
+      "y": 1200
+    },
+    {
+      "sample": 557,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 83 60 4a 30 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 131,
+      "y": 1190
+    },
+    {
+      "sample": 558,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 7a 20 4a 30 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 122,
+      "y": 1186
+    },
+    {
+      "sample": 563,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 7a 30 4a 30 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 122,
+      "y": 1187
+    },
+    {
+      "sample": 565,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 7b 30 4a 30 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 123,
+      "y": 1187
+    },
+    {
+      "sample": 566,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 83 60 4a 30 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 131,
+      "y": 1190
+    },
+    {
+      "sample": 567,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 a7 30 4b 30 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 167,
+      "y": 1203
+    },
+    {
+      "sample": 568,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 e6 20 4c 30 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 230,
+      "y": 1218
+    },
+    {
+      "sample": 569,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 74 61 4d 30 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 372,
+      "y": 1238
+    },
+    {
+      "sample": 570,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 a9 91 4d 30 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 425,
+      "y": 1241
+    },
+    {
+      "sample": 571,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 d3 91 4d 30 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 467,
+      "y": 1241
+    },
+    {
+      "sample": 572,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 d9 91 4d 30 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 473,
+      "y": 1241
+    },
+    {
+      "sample": 575,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 da 91 4d 30 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 474,
+      "y": 1241
+    },
+    {
+      "sample": 576,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 e9 c1 4d 30 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 489,
+      "y": 1244
+    },
+    {
+      "sample": 577,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fe 01 4e 30 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 510,
+      "y": 1248
+    },
+    {
+      "sample": 578,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 21 62 4e 30 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 545,
+      "y": 1254
+    },
+    {
+      "sample": 579,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 2a b2 4e 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 554,
+      "y": 1259
+    },
+    {
+      "sample": 580,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 1977,
+      "before": 0,
+      "after": 1,
+      "full9": "87 13 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "enter",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 1978,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 2000,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 2001,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 2012,
+      "before": 0,
+      "after": 1,
+      "full9": "87 13 01 fd ff 0e 10 99 00",
+      "touch_type_valid": true,
+      "event": "enter",
+      "slot": 0,
+      "x": 4093,
+      "y": 239
+    },
+    {
+      "sample": 2013,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd ff 0e 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 239
+    },
+    {
+      "sample": 2014,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0e 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 239
+    },
+    {
+      "sample": 2015,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 2016,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd ff 0e 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 239
+    },
+    {
+      "sample": 2083,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0e 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 239
+    },
+    {
+      "sample": 2084,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 2085,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd ff 0d 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 223
+    },
+    {
+      "sample": 2120,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd 7f 0e 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 231
+    },
+    {
+      "sample": 2166,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd ff 0e 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 239
+    },
+    {
+      "sample": 2258,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd 7f 0e 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 231
+    },
+    {
+      "sample": 2365,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd 7f 0e 10 98 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 231
+    },
+    {
+      "sample": 2366,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd 7f 0e 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 231
+    },
+    {
+      "sample": 2486,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd 7f 0e 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 231
+    },
+    {
+      "sample": 2487,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 2492,
+      "before": 0,
+      "after": 1,
+      "full9": "87 13 01 fd 7f 0e 10 99 00",
+      "touch_type_valid": true,
+      "event": "enter",
+      "slot": 0,
+      "x": 4093,
+      "y": 231
+    },
+    {
+      "sample": 2493,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd 7f 0e 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 231
+    },
+    {
+      "sample": 2561,
+      "before": 0,
+      "after": 0,
+      "full9": "00 87 23 01 fd 7f 0e 10 99",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 2562,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd 7f 0e 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 231
+    },
+    {
+      "sample": 2565,
+      "before": 0,
+      "after": 0,
+      "full9": "80 87 23 01 fd 7f 0e 10 99",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 2566,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd 7f 0e 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 231
+    },
+    {
+      "sample": 2601,
+      "before": 0,
+      "after": 0,
+      "full9": "87 3f 00 00 00 00 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "sample": 2602,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd 7f 0e 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 231
+    },
+    {
+      "sample": 2845,
+      "before": 0,
+      "after": 0,
+      "full9": "80 87 23 01 fd 7f 0e 10 99",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 2846,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd 7f 0e 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 231
+    },
+    {
+      "sample": 2878,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd ff 0e 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 239
+    },
+    {
+      "sample": 2898,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd 7f 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 247
+    },
+    {
+      "sample": 2908,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd 7f 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 247
+    },
+    {
+      "sample": 2909,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 2978,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd 7f 10 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 263
+    },
+    {
+      "sample": 2979,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd 7f 10 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 263
+    },
+    {
+      "sample": 2980,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd 7f 10 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 263
+    },
+    {
+      "sample": 2983,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd 7f 10 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 263
+    },
+    {
+      "sample": 2984,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 2986,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 2987,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 2988,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd 7f 10 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 263
+    },
+    {
+      "sample": 2990,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd 7f 10 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 263
+    },
+    {
+      "sample": 2991,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 2993,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd 7f 10 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 263
+    },
+    {
+      "sample": 2999,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd 7f 10 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 263
+    },
+    {
+      "sample": 3000,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3001,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3002,
+      "before": 0,
+      "after": 1,
+      "full9": "87 13 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "enter",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3003,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3009,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3010,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 3013,
+      "before": 0,
+      "after": 1,
+      "full9": "87 13 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "enter",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3014,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3015,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3016,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 3018,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3019,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 3026,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd 7f 10 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 263
+    },
+    {
+      "sample": 3027,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 3034,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3035,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3036,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 3039,
+      "before": 0,
+      "after": 1,
+      "full9": "87 13 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "enter",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3040,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3041,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 3306,
+      "before": 0,
+      "after": 1,
+      "full9": "87 13 01 fd 7f 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "enter",
+      "slot": 0,
+      "x": 4093,
+      "y": 247
+    },
+    {
+      "sample": 3307,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd 7f 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 247
+    },
+    {
+      "sample": 3308,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 3313,
+      "before": 0,
+      "after": 1,
+      "full9": "87 13 01 fd 7f 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "enter",
+      "slot": 0,
+      "x": 4093,
+      "y": 247
+    },
+    {
+      "sample": 3314,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd 7f 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 247
+    },
+    {
+      "sample": 3315,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 3323,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3324,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3325,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 3328,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3329,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 3334,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3335,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3336,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3337,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3338,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 3339,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3340,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3341,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 3342,
+      "before": 0,
+      "after": 1,
+      "full9": "87 13 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "enter",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3343,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3344,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 3346,
+      "before": 0,
+      "after": 1,
+      "full9": "87 13 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "enter",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3347,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3350,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3351,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 3356,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3381,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3382,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 3389,
+      "before": 0,
+      "after": 1,
+      "full9": "87 13 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "enter",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3390,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3410,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3411,
+      "before": 0,
+      "after": 1,
+      "full9": "87 13 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "enter",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3412,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3413,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3414,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 3424,
+      "before": 0,
+      "after": 1,
+      "full9": "87 13 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "enter",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3425,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3426,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 3429,
+      "before": 0,
+      "after": 1,
+      "full9": "87 13 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "enter",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3430,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3431,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 3432,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3434,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3435,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 3537,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3538,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3539,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 3560,
+      "before": 0,
+      "after": 1,
+      "full9": "87 23 01 fd ff 0f 10 99 00",
+      "touch_type_valid": true,
+      "event": "motion",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3561,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3562,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    },
+    {
+      "sample": 3577,
+      "before": 0,
+      "after": 1,
+      "full9": "87 33 01 fd ff 0f 00 00 00",
+      "touch_type_valid": true,
+      "event": "leave",
+      "slot": 0,
+      "x": 4093,
+      "y": 255
+    },
+    {
+      "sample": 3578,
+      "before": 1,
+      "after": 1,
+      "full9": "a7 65 6e 01 00 00 00 00 00",
+      "touch_type_valid": false
+    }
+  ],
+  "logged_valid": 139,
+  "logged_valid_pre_low": 139,
+  "logged_valid_post_high": 138,
+  "unique_valid_positions": 57,
+  "physical_timing": "Immediateuserconfirmation followedbyuptime152.64 status inside125.049..305.05 window",
+  "conclusion": "Valid motion/leave with pre-low/post-high confirms physicalIRQ assertion and usable rawFIFO data in this trial; no proof that Linux IRQdriver routes/dispatches it.",
+  "limitations": [
+    "Not count of gestures",
+    "Invalid idle data may come from reading emptyFIFO; do not call it establishedSPI corruption",
+    "No evdev orGUI acceptance inrawclient",
+    "Repeated values are notindependentevents"
+  ]
+}

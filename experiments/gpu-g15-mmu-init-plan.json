@@ -1,0 +1,68 @@
+{
+  "claim": "Explicit MMU interrupt initialization may remove the first tiler-heap job timeout seen after G7 probe; hardware causality is unproven.",
+  "oracle": "After a fresh Linux boot and a single G15 probe, the first geometry readback passes 768 pixels with no scheduler timeout or recovery reset; repeated draws and desktop stay usable.",
+  "validation": {
+    "user_journey": {
+      "scenario": "User boots Omarchy and opens Files or an Agent terminal without a first-launch freeze. A failed experiment restores the existing recovery baseline; USB loss must not leave a permanent startup change. Manual edits are preserved.",
+      "expected": "Cold first application renders; user can touch and type; failures remain visible. Physical acceptance and reconnect are required before integration."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Exact upstream 8a597d099b8b2f25df655cbe8e30765013784fed behavior: clear pending MMU IRQ then unmask, only after IRQ request succeeds.",
+        "Existing device init already initializes AS lock/list before MMU init.",
+        "Reset retains the same two writes through the shared helper.",
+        "No PM reference-count, voltage, frequency, DT, firmware or boot-image changes.",
+        "G7 source is preserved; G15 builds in its own external-module directory."
+      ],
+      "gitnexus": [
+        "External kernel is outside this workspace graph; UNKNOWN coverage replaced by direct device_init -> mmu_init -> IRQ handler and reset source tracing."
+      ],
+      "ast": [
+        "Compile extracted actual init/fini/helper C against failure-injected IRQ/MMIO stubs; also compile the full module."
+      ]
+    },
+    "unit": {
+      "red": "Original G7 init must fail the successful-probe MMIO assertion.",
+      "green": "Patched actual C passes IRQ lookup failure, IRQ request failure, successful probe clear-before-mask, teardown mask-zero and repeated init/fini.",
+      "cases": [
+        "negative IRQ returns unchanged and no request/MMIO",
+        "request failure returns unchanged and no MMIO",
+        "successful IRQ ownership precedes writes",
+        "clear before unmask",
+        "fini masks IRQ"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "pinned source",
+        "exact configured kernel external module",
+        "Panfrost",
+        "MMU IRQ",
+        "Mesa geometry",
+        "Hyprland",
+        "USB recovery"
+      ],
+      "faults": [
+        "120-second watchdog and host capture before driver loading",
+        "stop on timeout, MMU fault storm or lost USB",
+        "no GUI startup persistence before fresh boot pass"
+      ],
+      "evidence": [
+        "G15 exact module loaded after fresh backup and G1/G9 power gates.",
+        "First geometry0.138s; subsequent0.032/0.032s; each768pixels; MMU IRQ0->3; no timeout since bind."
+      ]
+    }
+  },
+  "evidence": [
+    "G10 and G12 first geometry timeout followed by successful post-reset draw.",
+    "G7 mmu_init registers IRQ but does not enable MMU interrupts; reset enables them.",
+    "Upstream exact MMU-init fix and related PM commit describe the same failure mechanism."
+  ],
+  "limitations": [
+    "Offline tests cannot prove IRQ delivery, first-shader success, touchscreen smoothness or battery stability.",
+    "Autosuspend remains outside this experiment because platform power ownership is incomplete.",
+    "Cellular, Wi-Fi, camera and general app stability remain separate incomplete goals.",
+    "Private ADB discovery and B selection restored access; one cold boot passed, persistent boot and physical UI remain pending."
+  ],
+  "exit_gate": "Offline RED/GREEN plus warning-free exact-kernel build permit a watchdog-guarded trial only. Installation/boot integration requires real cold first-draw and recovery tests plus physical UI acceptance."
+}

@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Synopsys DesignWare PCIe host controller driver
+ *
+ * Copyright (C) 2013 Samsung Electronics Co., Ltd.
+ *		https://www.samsung.com
+ *
+ * Author: Jingoo Han <jg1.han@samsung.com>
+ */
+
+#include <linux/align.h>
+#include <linux/iopoll.h>
+#include <linux/irqchip/chained_irq.h>
+#include <linux/irqchip/irq-msi-lib.h>
+#include <linux/irqdomain.h>
+#include <linux/msi.h>
+#include <linux/of_address.h>
+#include <linux/of_pci.h>

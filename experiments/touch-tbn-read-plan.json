@@ -1,0 +1,56 @@
+{
+  "claim": "Read-only GPIO states can show whether the AP/AoC handshake already indicates AP ownership",
+  "oracle": "Read only raw levels twice; direction is unsupported and not inferred",
+  "validation": {
+    "user_journey": "No useraction orUIclaim; leave diagnostic phone unchanged",
+    "code_reasoning": [
+      "Exactoriole guard",
+      "gpio_device_find_by_label retainsrefs; get_desc thenread-onlygetters; putrefs",
+      "No gpio request, direction_set, set_value, IRQrequest, MMIO orPMICwrites"
+    ],
+    "unit": "Staticreadonlycall allowlist andW=1compile; GPIOstates needE2E",
+    "end_to_end": "Hashverifiedmodule underwatchdog; duplicatepinreads; freshSSH"
+  },
+  "evidence": [
+    "Google touch_bus_negotiator.c/h android-gs-raviole-6.1-android16",
+    "FactoryCP1A.260305.018 o6DTBO mapsgpp26.1/gpa8.6"
+  ],
+  "limitations": [
+    "Pinlevel alone doesnotprove handshake orsignalownership",
+    "NoAoCdriver currentlyrunning"
+  ],
+  "exit_gate": "Useobservedstates todesignnextstep; do not driveunknownpins",
+  "result": {
+    "status": "levels_observed_direction_query_failed",
+    "levels": {
+      "gpp26.1": [
+        0,
+        0
+      ],
+      "gpa8.6": [
+        0,
+        0
+      ],
+      "gpa9.0": [
+        1,
+        1
+      ],
+      "gpp26.0": [
+        1,
+        1
+      ],
+      "gpp23.3": [
+        1,
+        1
+      ]
+    },
+    "side_effect": "get_direction unsupported (-95), kernelWARN taint; moduleunloaded, no GPIOwrites, USBhealthy",
+    "interpretation": "Bothhandshakelevels agreewithAP enum butdirection/handshake validitynotproven",
+    "repair": "Removeunsupported directionquery; onlyreadrawlevel",
+    "repair_validation": {
+      "new_module_sha256": "88bce955934fc9bf9a6bf6a8630083451a32fbc6636eee062c20634ed5ea1260",
+      "compile": "passed W=1",
+      "runtime": "raw-only reread under watchdog; no new GPIO WARN; moduleunloaded"
+    }
+  }
+}

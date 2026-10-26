@@ -1,0 +1,66 @@
+{
+  "status": "GPU initialization verified; hardware rendering NOT verified",
+  "module_sha256": "1851a937db42b12192533388de7b993a19d63507cb3824fd3ab87ddf72ed62f0",
+  "pulse": {
+    "control": "B2S_CTRL 0x38 -> 0xf8 -> 0x38",
+    "independent_snapshot": "all15 original registers restored",
+    "watchdog": "disarmed; fresh serial command passed"
+  },
+  "clean_boot": {
+    "precondition": "same native kernel; B2S hold before first Panfrost bind",
+    "rates_hz": {
+      "core": 151000000,
+      "bus": 151000000
+    },
+    "L2": {
+      "ret": 0,
+      "expected": "1",
+      "ready": "00000001",
+      "transition": "00000000"
+    },
+    "shader": {
+      "ret": 0,
+      "expected": "779fff",
+      "ready": "00779fff",
+      "transition": "00000000",
+      "cores": 20
+    },
+    "tiler": {
+      "ret": 0,
+      "ready": "00000001"
+    },
+    "stacks": {
+      "present": "0000007f",
+      "ready": "0000007f"
+    },
+    "render_node": "renderD128",
+    "kernel_power_errors": 0
+  },
+  "failed_comparison": "Rebind after earlier failed GPU shutdown timed out in reset, even with core rail held; clean boot was required. Do not conflate this with fresh initialization.",
+  "render_gate": {
+    "result": "FAIL",
+    "renderer": "llvmpipe (LLVM 23.1.3, 128 bits)",
+    "mesa": "26.2.5-arch1.1",
+    "reason": "Probe rejects software before shader submission; forced panfrost loader did not change result"
+  },
+  "effects": [
+    "clk-acpm registration enabled CPU cpufreq-dt schedutil policies",
+    "B2S held for current boot, no voltage/routing changes",
+    "GPU runtime suspend forbidden for experiment",
+    "Input30 and GUI restored; GUI uses explicit software override"
+  ],
+  "limits": [
+    "Initialization success is not hardware rendering",
+    "No thermal/DVFS/suspend production acceptance",
+    "B slot retry exhaustion required set_active b recovery; no boot images flashed",
+    "No cellular/WiFi/camera success",
+    "Physical responsiveness untested while user absent"
+  ],
+  "private_log_digests": {
+    "serial-g9-pulse-result-verified-private.txt": "37beda42b21b281bee5876415ed085f6e93bdb4500b90e0f1d3061065a45eaf2",
+    "serial-g9-fresh-probe-verified-private.txt": "3858e2512f1ef1c854b22180366d8e38911d477b2ebe64a518cad2ef902ab1d2",
+    "serial-g9-gles-result-verified-private.txt": "a3c8cdab651aecd3c47f07fc76600de1ed85c038aac7be2e7f7ba6a5e2d138f2",
+    "serial-g10-posthandoff-verified-private.txt": "0d803e781a339b0c1db24846dfd1d342ce5538a0c0f7d95843b0f7aa59b72d2b",
+    "serial-g10-baseline-read-verified-private.txt": "d7526fff69b9f5c11fa400149138500f5f333bf06eaa6c320378ecf9dc1f921b"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "claim": "SPI controller internal loopback can distinguish a controller transfer fault from the external touchchip path.",
+  "oracle": "With chip reset held low and confirmed after100ms, SPI_LOOP transfers at lengths1,3,5,9,14,32 return the exactTX pattern and leave remainderof64byteRXbuffer untouched. Restoremode and reset, then rollbackrails.",
+  "validation": {
+    "user_journey": "Diagnostic console stayslive; no physicaltap required. Internalcontroller test only; no desktopclaim.",
+    "code_reasoning": [
+      "GS101 has_loopback true and supportsSPI_LOOP via existingdriver modebit3",
+      "Reset must stayraw0 throughout patterntransfers; no chipcommands arevalid while heldreset",
+      "Allocate64byteTX/RXbuffers forFIFO64; six boundedmessages; comparepayload andcanary",
+      "Save andrestoreSPI mode/speed in managedcleanup; resetrelease ontestexit",
+      "Use existingSPI API only; no newregisterwrites outsidecontroller standardSPI_LOOP"
+    ],
+    "unit": "Deterministic pattern andbufferbounds oracle; W=1compile; hardwareloopback is componenttest ratherthan mockedunit",
+    "end_to_end": "LiveUSB\u2192module\u2192SPIcontroller loopback, followedby independentrailrestoration; externaltouchpathnotvalidated"
+  },
+  "evidence": [
+    "PinnedGS101 SPI port_config has_loopback=true",
+    "USIREAD con0 option1 route2; noreset/protocolmismatch observed"
+  ],
+  "limitations": [
+    "Internal loopback excludes externalpads, busmux andtouchchip",
+    "PIO-only shorttransfers, noDMAvalidation"
+  ],
+  "exit_gate": "If patterncorrupt, investigateSPIcontroller beforetouchdriver. If exact, investigateexternalpath. Neverpromoteinput fromthisalone.",
+  "result": {
+    "status": "internal_controller_loopback_passed",
+    "lengths": [
+      1,
+      3,
+      5,
+      9,
+      14,
+      32
+    ],
+    "all_payloads_exact": true,
+    "all_tail_canaries_intact": true,
+    "reset_raw_during_test": 0,
+    "module_sha256": "78a0c45b2d48b052b71e80212a5ef14ee6b73f108dbe3e78c10d12a1c49a6ba3",
+    "touch": "not validated",
+    "cleanup": "mode0/speed restored, resetreleased, rails2c/3c independentlydouble-read, watchdogoff"
+  }
+}

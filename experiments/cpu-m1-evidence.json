@@ -1,0 +1,10 @@
+{
+  "status": "FAILED preflight, before CPU stress",
+  "observation": "cpu.max absent at all non-root cgroups; CONFIG_CFS_BANDWIDTH unset; systemd property acceptance did not establish enforcement",
+  "side_effects": "Temporary unit exited1 and was collected. No global CPU settings or affinity changed. Node diagnostic file retained.",
+  "cleanup": "LoadState=not-found; desktop still running",
+  "limitations": [
+    "CPUWeight and Nice alone do not implement a hard CPU time quota"
+  ],
+  "evidence_sha256": "9138ab8b6950fafe7d40e4f4e37247d6bd88960c63905cb89bb485eb2c584b96"
+}

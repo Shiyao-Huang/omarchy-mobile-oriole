@@ -1,0 +1,23 @@
+{
+  "claim": "Disentangle the full driver difference: 1MHz clock and explicit TX on short FIFO reads versus the proven 10MHz/null short read path.",
+  "oracle": "For all 12 reset cycles report ready and SysInfo; only a condition with three exact geometry matches may inform next full driver.",
+  "validation": {
+    "user_journey": "No finger UI claim; diagnose stable initialization before asking user to interact.",
+    "code_reasoning": [
+      "Only transfer speed and short reply TX vary; fixed 100/500ms reset and explicit long TX",
+      "256-byte buffers for <=217 bytes, exact oriole/controller guards and old speed restore"
+    ],
+    "unit": "Warning-free build; real hardware matrix is not a unit test.",
+    "end_to_end": "12 reset/ready/SysInfo cycles, guard watchdog, restore supplies and independently read twice."
+  },
+  "evidence": [
+    "paired long-read experiment",
+    "candidate15 first probe pass then failed reset",
+    "candidate16 longer delay still invalid SysInfo"
+  ],
+  "limitations": [
+    "May reveal short RX issue; no physical touch proof",
+    "12 samples are finite"
+  ],
+  "exit_gate": "Choose next candidate only after exact condition results and rollback"
+}

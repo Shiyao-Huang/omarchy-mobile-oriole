@@ -1,0 +1,59 @@
+{
+  "claim": "With both G3D PMU STATUS values stable1, a bounded kernel-only read of the disabled GS101 GPU ID can establish whether the G78 register interface is reachable before any driver reset, DMA or jobs.",
+  "oracle": "Exact oriole and google,gs101-mali node; disabled/no driver; resource0x1c500000/0x5000; kernel PMU regmap checks before MMIO; two identical GPU_ID reads matching0x9202xxxx; clean release/unload and fresh USB command.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Advance severe-lag GPU bringup while retaining working diagnostic recovery and input30",
+      "expected": "Identity evidence then restoration; no acceleration claim from ID alone"
+    },
+    "code_reasoning": {
+      "invariants": [
+        "No GPU writes, clock changes, IRQ enable or DMA",
+        "Only map/read four bytes at verified GPU_ID resource",
+        "Never access GPU if either PMU read fails or is not1",
+        "Existing GPU node remains disabled and region exclusively requested",
+        "Always unmap/release region after completed read",
+        "Watchdog before module load; user absent so preserve existing boot images"
+      ],
+      "gitnexus": [
+        "External exact kernel source; inspect panfrost register definitions, gs101.dtsi, PMU regmap, reference G78 Mesa table"
+      ]
+    },
+    "unit": {
+      "red": "Arbitrary/bad power state must not reach MMIO",
+      "green": "Mocked actual gate/read functions refuse all invalid statuses/IDs and accept stable G78 only",
+      "cases": [
+        "PMU error each position",
+        "power0 or transitional value",
+        "ID0/allones/mismatch/wrongGPU",
+        "resource/probe ownership refusal",
+        "cleanup after completed failure"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "module",
+        "secure-aware PMU regmap",
+        "G3D register bus",
+        "USB",
+        "watchdog"
+      ],
+      "faults": [
+        "Fail closed before ioremap if power gate not met",
+        "Hardware fault may reset; no persistent enable"
+      ],
+      "evidence": []
+    }
+  },
+  "evidence": [
+    "G2 observed both PMU statuses1",
+    "G3 automatic-gate CMU_TOP rates observed; idle does not imply powered off",
+    "Current kernel exact GPU_ID base fromGS101dtsi; G78 model0x9202 from package patch and kernel feature table"
+  ],
+  "limitations": [
+    "A read can still encounter a hardware bus fault; bounded watchdog and known recovery are required",
+    "GPU identity is not rendering, safe DMA, voltage/frequency control or full usability",
+    "No inference that CMU_G3D offsets from GS201 apply"
+  ],
+  "exit_gate": "Actual-source fault tests and W=1 before one guarded load; only success permits a separate Panfrost initialization design."
+}

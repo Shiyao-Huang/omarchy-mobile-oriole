@@ -1,0 +1,61 @@
+set -eu
+p=/var/tmp/oriole-g10/cpu-m2-node.cjs
+test ! -e "$p"
+base64 -d > "$p" <<'SOURCE_END'
+Ly8gQm91bmRlZCByZXNvdXJjZS1jb250cm9sIGV4cGVyaW1lbnQ7IG5vdCBhbiBBZ2VudCBjb25j
+dXJyZW5jeSByZWNvbW1lbmRhdGlvbi4KY29uc3Qge1dvcmtlciwgaXNNYWluVGhyZWFkLCBwYXJl
+bnRQb3J0fSA9IHJlcXVpcmUoJ25vZGU6d29ya2VyX3RocmVhZHMnKTsKY29uc3QgZnMgPSByZXF1
+aXJlKCdub2RlOmZzJyk7CmlmICghaXNNYWluVGhyZWFkKSB7CiAgY29uc3QgZW5kID0gcGVyZm9y
+bWFuY2Uubm93KCkgKyAyMDAwOwogIGxldCB4ID0gMTsKICB3aGlsZSAocGVyZm9ybWFuY2Uubm93
+KCkgPCBlbmQpIHsKICAgIGZvciAobGV0IGogPSAwOyBqIDwgMTAwMDA7ICsraikgeCA9IChNYXRo
+LmltdWwoeCwgMTY2NDUyNSkgKyAxMDEzOTA0MjIzKSB8IDA7CiAgfQogIHBhcmVudFBvcnQucG9z
+dE1lc3NhZ2Uoe3gsIGFmZmluaXR5OmZzLnJlYWRGaWxlU3luYygiL3Byb2MvdGhyZWFkLXNlbGYv
+c3RhdHVzIiwidXRmOCIpLnNwbGl0KCJcbiIpLmZpbmQoeD0+eC5zdGFydHNXaXRoKCJDcHVzX2Fs
+bG93ZWRfbGlzdDoiKSkuc3BsaXQoIjoiKVsxXS50cmltKCl9KTsKfSBlbHNlIHsKICBjb25zdCBw
+YXRoID0gZnMucmVhZEZpbGVTeW5jKCcvcHJvYy9zZWxmL2Nncm91cCcsICd1dGY4JykudHJpbSgp
+LnNwbGl0KCdcbicpLmZpbmQoeCA9PiB4LnN0YXJ0c1dpdGgoJzA6OicpKS5zbGljZSgzKTsKICBj
+b25zdCBkaXIgPSAnL3N5cy9mcy9jZ3JvdXAnICsgcGF0aDsKICBjb25zdCByZWFkID0gbmFtZSA9
+PiBmcy5yZWFkRmlsZVN5bmMoZGlyICsgJy8nICsgbmFtZSwgJ3V0ZjgnKS50cmltKCk7CiAgY29u
+c3Qgc3RhdHMgPSAoKSA9PiBPYmplY3QuZnJvbUVudHJpZXMocmVhZCgnY3B1LnN0YXQnKS5zcGxp
+dCgnXG4nKS5tYXAoeCA9PiB7Y29uc3QgW2ssdl0gPSB4LnNwbGl0KCcgJyk7IHJldHVybiBbayxO
+dW1iZXIodildO30pKTsKICBjb25zdCBiZWZvcmUgPSBzdGF0cygpLCBzdGFydCA9IHBlcmZvcm1h
+bmNlLm5vdygpOwogIGNvbnN0IHNldHRpbmdzID0ge2NwdV93ZWlnaHQ6cmVhZCgnY3B1LndlaWdo
+dCcpLCBuaWNlOnJlcXVpcmUoJ25vZGU6b3MnKS5nZXRQcmlvcml0eSgpLCBhZmZpbml0eTpmcy5y
+ZWFkRmlsZVN5bmMoJy9wcm9jL3NlbGYvc3RhdHVzJywndXRmOCcpLnNwbGl0KCdcbicpLmZpbmQo
+eD0+eC5zdGFydHNXaXRoKCdDcHVzX2FsbG93ZWRfbGlzdDonKSkuc3BsaXQoJzonKVsxXS50cmlt
+KCl9OwogIGlmIChzZXR0aW5ncy5jcHVfd2VpZ2h0ICE9PSAnMjUnIHx8IHNldHRpbmdzLm5pY2Ug
+IT09IDEwIHx8IHNldHRpbmdzLmFmZmluaXR5ICE9PSAnMC01JykgdGhyb3cgRXJyb3IoJ00yIHJl
+c291cmNlIHByZWZsaWdodCBmYWlsZWQ6ICcrSlNPTi5zdHJpbmdpZnkoc2V0dGluZ3MpKTsKICBQ
+cm9taXNlLmFsbChBcnJheS5mcm9tKHtsZW5ndGg6Mn0sICgpID0+IG5ldyBQcm9taXNlKChyZXNv
+bHZlLHJlamVjdCkgPT4gewogICAgY29uc3QgdyA9IG5ldyBXb3JrZXIoX19maWxlbmFtZSk7CiAg
+ICB3Lm9uKCdlcnJvcicscmVqZWN0KTsKICAgIGxldCBtZXNzYWdlOyB3Lm9uKCdtZXNzYWdlJyx2
+YWx1ZT0+e21lc3NhZ2U9dmFsdWU7fSk7CiAgICB3Lm9uKCdleGl0Jyxjb2RlPT5jb2RlPT09MCAm
+JiBtZXNzYWdlPy5hZmZpbml0eT09PScwLTUnP3Jlc29sdmUobWVzc2FnZSk6cmVqZWN0KEVycm9y
+KCd3b3JrZXIgZXhpdC9hZmZpbml0eSBmYWlsdXJlICcrY29kZSkpKTsKICB9KSkpLnRoZW4od29y
+a2VycyA9PiB7CiAgICBjb25zdCBhZnRlcj1zdGF0cygpLCBlbGFwc2VkX21zPXBlcmZvcm1hbmNl
+Lm5vdygpLXN0YXJ0OwogICAgY29uc3QgcmVzdWx0PXtzZXR0aW5ncyx3b3JrZXJzLGVsYXBzZWRf
+bXMsdXNlZF9jcHVfdXNlYzphZnRlci51c2FnZV91c2VjLWJlZm9yZS51c2FnZV91c2VjfTsKICAg
+IGNvbnNvbGUubG9nKCdDUFVfTTJfSlNPTj0nK0pTT04uc3RyaW5naWZ5KHJlc3VsdCkpOwogICAg
+aWYgKHdvcmtlcnMubGVuZ3RoICE9PSAyIHx8IGVsYXBzZWRfbXMgPiAxNTAwMCB8fCByZXN1bHQu
+dXNlZF9jcHVfdXNlYyA8IDEwMDAwMCkgcHJvY2Vzcy5leGl0Q29kZT0xOwogIH0pLmNhdGNoKGUg
+PT4ge2NvbnNvbGUuZXJyb3IoZSk7cHJvY2Vzcy5leGl0Q29kZT0xO30pOwp9Cg==
+SOURCE_END
+chmod 644 "$p"
+node --check "$p"
+before=$(pgrep -x Hyprland)
+echo '<6>ORIOLE_CPU_M2_BEGIN' > /dev/kmsg
+runuser -u agent -- env XDG_RUNTIME_DIR=/run/user/1000 systemd-run --user --unit=oriole-cpu-m2 --collect --wait --pipe -p CPUAffinity=0-5 -p CPUWeight=25 -p Nice=10 -p RuntimeMaxSec=20s /usr/bin/node "$p"
+sleep 2
+test "$(runuser -u agent -- env XDG_RUNTIME_DIR=/run/user/1000 systemctl --user show oriole-cpu-m2.service -p LoadState --value)" = not-found
+test "$before" = "$(pgrep -x Hyprland)"
+grep -q /opt/oriole-experiments/mesa-g10/lib/libgallium /proc/$before/maps
+dmesg | sed -n '/ORIOLE_CPU_M2_BEGIN/,$p' > /var/tmp/oriole-g10/cpu-m2-kernel.log
+if grep -iE 'panfrost.*(fault|error|timeout|timed out)|Unhandled fault' /var/tmp/oriole-g10/cpu-m2-kernel.log; then exit 92; fi
+echo CPU_M2_CLEANUP_DESKTOP_GPU_AND_KERNEL_PASS
+python3 - <<'PY'
+from pathlib import Path
+import subprocess
+pid=subprocess.check_output(['pgrep','-x','Hyprland'],text=True).strip()
+s=Path('/proc/'+pid+'/status').read_text();assert next(x.split(':',1)[1].strip() for x in s.splitlines() if x.startswith('Cpus_allowed_list:'))=='0-7'
+print('CPU_M2_DESKTOP_AFFINITY_UNCHANGED')
+PY

@@ -1,0 +1,21 @@
+{
+  "sources": [
+    {
+      "url": "https://github.com/gs101-mainline/linux/pull/1#issuecomment-3887532539",
+      "scope": "Bluejay developer reported tested working; not evidence for this oriole phone"
+    },
+    {
+      "url": "https://github.com/derekross/linux-omarchy-mobile/pull/32#issuecomment-6374654079",
+      "scope": "Fold3640 ID-only reader; report explicitly has no touch input device, cannot supply a ready-to-use oriole3648 driver"
+    },
+    {
+      "url": "https://github.com/derekross/omarchy-mobile/issues/2",
+      "scope": "Oriole tracking issue remains staged porting work"
+    },
+    {
+      "url": "https://android.googlesource.com/kernel/google-modules/touch/fts_touch/+/710d3b897ca2a8948f8d7f4639af639da07b9a17/ftm5/fts_lib/ftsCore.c",
+      "scope": "setScanMode uses direct write, without a mandatory local checkEcho; current missingecho must not be reported as proof scanningfailed"
+    }
+  ],
+  "result": "No freshly verified drop-in oriole touchscreen fix found. Original firmware remains untouched."
+}

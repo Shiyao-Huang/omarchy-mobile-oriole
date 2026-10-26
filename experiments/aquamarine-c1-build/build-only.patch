@@ -1,0 +1,11 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index cc263b4..e16cf17 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -173,3 +173,6 @@ install(TARGETS aquamarine)
+ install(DIRECTORY "include/aquamarine" DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+ install(FILES ${CMAKE_BINARY_DIR}/aquamarine.pc
+         DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
++
++# Oriole experimental build: reduce QEMU/GCC peak on this translation unit.
++set_source_files_properties(src/backend/drm/DRM.cpp PROPERTIES COMPILE_OPTIONS "-O1")

@@ -1,0 +1,65 @@
+{
+  "claim": "ExistingOmarchy desktop can consume the physicallyverifiedpollingtouch device while retaining currentbootUSBdiagnostic access.",
+  "oracle": "Rootsystemd boots, Hyprlandlists touchscreen, visibleUI reacts tophysicaltap/swipe, USBshell remainsreachable. Screenshot/processsuccess alone is insufficient.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Withoutkeyboard, operatorbootsnativeLinuxdesktop, tapslauncher/app andscrolls; ifblack/disconnected recoverviaUSB/reboot todiagnosticgate",
+      "expected": "Visiblematchingactions andno stuckcontacts; keyboard androtation remainseparateacceptance"
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Input29 testedrealunbind/rmmod beforehandoff; resourcesowneduntilworkerstop",
+        "OnlyuserdataRW; bootimages untouched; currentinitramfs gate released explicitly",
+        "Existingfreeze_modules retained so unvalidatedmodulescannotautoload",
+        "Watchdog disarmed andFDclosed beforeinit kill-all",
+        "TemporaryrootUSBserialshellunit under/run only preserves existingdiagnosticphysicalUSBaccess; noTCP listener orpersistentloginchange",
+        "Kernelgadget survivesroot switch; rootserialunitstartsafterhandoff",
+        "No successfulbootbit/dualboot claim yet"
+      ],
+      "gitnexus": [
+        "Externalphone runtime/scripts directinspection"
+      ],
+      "ast": []
+    },
+    "unit": {
+      "cases": [
+        "shellsyntaxpreflight",
+        "gate/driver/readonly guards",
+        "actualinputdecoder andcleanup tests"
+      ],
+      "limitations": "Systemd/Hyprland/USB behavior requiresrealruntime"
+    },
+    "end_to_end": {
+      "boundaries": [
+        "input29",
+        "evdev",
+        "udev/libinput",
+        "Hyprland",
+        "OmarchyUI",
+        "physicalfinger",
+        "USBserial"
+      ],
+      "faults": [
+        "explicitdriverunbind/removal testedbeforehandoff",
+        "GUIstartupfailurediagnoseoverUSB",
+        "rebootreturnsdiagnosticgate"
+      ],
+      "evidence": [
+        "input28 evdev5balancedcontacts,changingXY",
+        "ExistingrootfsHyprlandLua+mobileconfig,SDDMagentautologin",
+        "KernelbuiltinUSB/simpledrm"
+      ]
+    }
+  },
+  "evidence": [
+    "Currentinit killhelpers thenmovesdev/proc/sys/run andswitchesroot tosystemd",
+    "Input28cleanrollback verified"
+  ],
+  "limitations": [
+    "ThisbootGUItrial, notfinishedpersistentinstaller",
+    "Pollingpowerandthermalperformanceunmeasured",
+    "SIM/rotation/externaldisplay/lockkeyboard stillunverified",
+    "Freeze preventsmoduleunload afterhandoff; driverunbind stopsinput, fulltemporaryrailrollback byreboot"
+  ],
+  "exit_gate": "Prove29removeandfreshreload; verifypreconditions; handoff; collectrealcompositor+physicalUIevidence andmaintainrecovery. No completionclaim beforeusabilityacceptance."
+}

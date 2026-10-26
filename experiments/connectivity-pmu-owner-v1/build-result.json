@@ -1,0 +1,30 @@
+{
+  "returncode": 0,
+  "command": [
+    "make",
+    "-C",
+    "<local-build-root>/linux-omarchy-mobile",
+    "O=<local-build-root>/out-oriole-m1",
+    "ARCH=arm64",
+    "CROSS_COMPILE=aarch64-linux-gnu-",
+    "M=<local-build-root>/connectivity-pmu-owner-v1",
+    "W=1",
+    "-j2",
+    "modules"
+  ],
+  "sources": {
+    "pcie-gs101.c": "069dcf8b9791ebc84752abc81b05c698c1df50fd1da361bae80161330216b9a8",
+    "phy-gs101-pcie.c": "4598e077263a8770fcc7c5e3526fd5ab8d633d48dc404aa9a9641f0e0bd32952",
+    "msi-demux.inc": "b8312f8168e53b5e03e6787ed24e99b007e83fec5d26cfb267abcd91bf394f87",
+    "irq-lifetime.inc": "f762c7845f0365b4bf706e5ff75d0e58c7c5b203712487f18944be71733a7e16",
+    "pmu-owner.inc": "45e56dc3d9ada99bfe31316c904bcfa481653ca243b97b0877579231b16dee87",
+    "Makefile": "e0e5fe15abfb77b72ec92625b6af19fcee21c855fb1f598b1ff1d266784335f1"
+  },
+  "artifacts": {
+    "pcie-gs101.ko": "275db12fa6f7612b26849b392b0dc468ead1a657dca8f9020a7c8159188253a4",
+    "phy-gs101-pcie.ko": "335683cdb2eede5ada1dcaf8b23e9b4d62083110798cfb45422d919d43dd5ac9"
+  },
+  "limits": [
+    "No phone load or powered PCIe validation"
+  ]
+}

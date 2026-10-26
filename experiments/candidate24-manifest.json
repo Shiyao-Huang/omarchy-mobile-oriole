@@ -1,0 +1,11 @@
+{
+  "candidate": 24,
+  "module_sha256": "51e25695779e82967fdf3e6c3a6950067a867c14a92e175ad68b0c71280d5690",
+  "source_base": "candidate23",
+  "patch": "candidate24-direct-scan-from23.patch",
+  "build": "W=1 successful;14 inherited warnings; build clock skew corrected before accepted output",
+  "runtime": "Fresh exact SysInfo, event1 binding, IRQ107 count2 stable;180second capture0bytes",
+  "physical_test": "User explicitly confirmed the separately requested gestures for this candidate in a later combined reply. Precise action time relative to the180second capture window is pending clarification; capture0bytes remains the observation.",
+  "rollback": "Independent double read L25M2c/L26M3c at195.525; fts and hold modules unloaded; FRESHBOOT_ROLLBACK_OK",
+  "status": "No accepted touch; temporary diagnostic only"
+}

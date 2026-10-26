@@ -1,0 +1,41 @@
+{
+  "out-oriole-m1/.config": {
+    "sha256": "74cce843d42793687ed25a969c47f7ad06d80cf743088ec0a8967e3be38bff50"
+  },
+  "linux-omarchy-mobile/arch/arm64/boot/dts/exynos/google/gs101.dtsi": {
+    "sha256": "87a8bc28e217617091b05a6dd7ad40b5381343a25ece44fd9d6015a6ed702ef7"
+  },
+  "linux-omarchy-mobile/arch/arm64/boot/dts/exynos/google/gs101-pixel-common.dtsi": {
+    "sha256": "2e8b400111267ee3a2cbdf708717b4e2b451433e72d96973cf63379894b782d8"
+  },
+  "linux-omarchy-mobile/arch/arm64/boot/dts/exynos/google/gs101-oriole.dts": {
+    "sha256": "bd35698a5ebcd523a2ab6d37189e6a4b3fdbc6eb01174bb6aceb51a62ff3b980"
+  },
+  "source_observation": {
+    "gs101_pcie_host_nodes": [],
+    "config": {
+      "CONFIG_BRCMFMAC": "CONFIG_BRCMFMAC=m",
+      "CONFIG_BRCMFMAC_PCIE": "CONFIG_BRCMFMAC_PCIE=y",
+      "CONFIG_PCI_EXYNOS": "# CONFIG_PCI_EXYNOS is not set",
+      "CONFIG_PHY_EXYNOS_PCIE": "# CONFIG_PHY_EXYNOS_PCIE is not set"
+    }
+  },
+  "live_cross_check": {
+    "pci_devices": 0,
+    "interfaces": [
+      "lo",
+      "usb0"
+    ],
+    "wireless_functional_test": "not reached"
+  },
+  "reference": {
+    "url": "https://github.com/gs101-mainline/linux/blob/d28cfa4275b95e93f4b7a1e743de31b723bd21b8/drivers/pci/controller/dwc/pci-exynos.c",
+    "observed_compatible": "samsung,exynos5433-pcie",
+    "inference": "Enabling the generic existing PCI_EXYNOS option alone does not add a GS101 host/PHY implementation."
+  },
+  "next_gate": "Review exact GS101 stock PCIe/PHY/clock/power data and protected DMA design; require verified calibration backup before any radio/power trial. No registers changed here.",
+  "limitations": [
+    "No WiFi association/traffic or modem registration demonstrated",
+    "No inference that Pixel7Pro GS201 register sequences are safe on GS101"
+  ]
+}

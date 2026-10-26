@@ -1,0 +1,17 @@
+[
+  "src/egl/libEGL_mesa.so.0.0.0",
+  "src/gallium/targets/dri/libgallium-26.2.4-oriole.g10.so",
+  "src/gallium/targets/dril/libdril_dri.so",
+  "src/gbm/backends/dri/dri_gbm.so",
+  "src/gbm/libgbm.so.1.0.0",
+  "src/glx/libGLX_mesa.so.0.0.0",
+  "src/panfrost/compiler/bifrost/test/bifrost_tests",
+  "src/panfrost/compiler/bifrost/valhall/test/valhall_tests",
+  "src/panfrost/compiler/bifrost/valhall/valhall_disasm_test",
+  "src/panfrost/genxml/cs_builder_tests",
+  "src/panfrost/lib/panfrost_attribute_test",
+  "src/panfrost/lib/panfrost_blend_test",
+  "src/panfrost/lib/panfrost_clear_test",
+  "src/panfrost/lib/panfrost_tests",
+  "src/panfrost/shared/panfrost_tiling"
+]

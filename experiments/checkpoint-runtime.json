@@ -1,0 +1,35 @@
+{
+  "kernel": {
+    "rc": 0,
+    "text": "7.3.0-rc6-omamobile-oriole-m1"
+  },
+  "packages": {
+    "rc": 0,
+    "text": "aquamarine 0.15.1-1\nhyprland 0.56.2-7\nmesa 1:26.2.5-1\nhyprutils 0.14.2-1\nlibinput 1.32.0-1\nlibdrm 2.4.134-1\nfoot 1.28.0-2\nsqueekboard 1.43.1-6"
+  },
+  "node": {
+    "rc": 0,
+    "text": "v26.12.0"
+  },
+  "go": {
+    "rc": 0,
+    "text": "go version go1.27.3-X:nodwarf5 linux/arm64"
+  },
+  "network_interfaces": [
+    "lo",
+    "usb0"
+  ],
+  "pci_devices": 0,
+  "render_nodes": 0,
+  "video_nodes": 0,
+  "media_nodes": 0,
+  "cpufreq_policies": 0,
+  "thermal_zones": 0,
+  "modules_disabled": "1",
+  "input_names": [
+    "Oriole polling touchscreen",
+    "gpio-keys"
+  ],
+  "sddm": "active",
+  "override_present": false
+}

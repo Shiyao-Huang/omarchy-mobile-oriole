@@ -1,0 +1,10 @@
+{
+  "drivers/pci/controller/dwc/pcie-gs101.c": {
+    "sha256": "bf65dbddd2f0f5cd366735e78db659bf079ea710d7c6c63c1ba48942915279b4",
+    "url": "https://raw.githubusercontent.com/m8l8th814n-eng/gs101-mainline/850061c79264d018317e9f849701f165e138e20c/drivers/pci/controller/dwc/pcie-gs101.c"
+  },
+  "drivers/phy/samsung/phy-gs101-pcie.c": {
+    "sha256": "4598e077263a8770fcc7c5e3526fd5ab8d633d48dc404aa9a9641f0e0bd32952",
+    "url": "https://raw.githubusercontent.com/m8l8th814n-eng/gs101-mainline/850061c79264d018317e9f849701f165e138e20c/drivers/phy/samsung/phy-gs101-pcie.c"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "claim": "500ms post-reset settle, matching successful minimal probe, permits repeatable initialization after module unload/reload.",
+  "oracle": "Two consecutive guarded loads must validate fresh SysInfo and bind input without reset timeout; physical events still required.",
+  "validation": {
+    "user_journey": {
+      "scenario": "PhonebootsLinux, finger tapsand swipes registerwithoutkeyboard; desktoplatermustfollowfinger",
+      "expected": "Actualevdevcoordinates thenvisibleUIinteraction; failurekeepsdiagnosticgateheld"
+    },
+    "code_reasoning": [
+      "Pairedsix-samplehardwaretest: NULLTX threewrongframes vs explicitTX threematchingstockframes",
+      "WrapperallocateszeroTX exactlyRXlen, restorespointer/freesafterspi_sync, handleswriteonly/noalloc; oneRXtransferlimitguard",
+      "Oriole/controllerguard; automaticFWupdateandburnremainblocked; noA/calibrationwrites",
+      "Google216byteSysInfo layout:release8,skip16afterCRC,extra8ssDetecttailunusedforpointerinput",
+      "RejectinvalidSysInfo andsensinginitfailure; existingready-stormguardpreserved"
+    ],
+    "unit": {
+      "red": "OldreceivepathsNULLTX; oldSysInfo208 andwrongreleaseblock",
+      "green": "StaticzeroTXalloc/free/pointerrestore plusparserindex216 andrequiredfieldchecks",
+      "cases": [
+        "RXlengthbounds",
+        "write-onlymessages",
+        "allocationfailure",
+        "restoreafterSPIerror",
+        "SysInfoinvalidreject"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "USBserial",
+        "module",
+        "SPI",
+        "FTSfirmware",
+        "evdev",
+        "laterHyprland"
+      ],
+      "faults": [
+        "wrongSysInfohaltsprobe",
+        "stormguard",
+        "unloadandrailrollback"
+      ],
+      "evidence": [
+        "touch-transport-series2-evidence.json SYSPAIR"
+      ]
+    }
+  },
+  "evidence": [
+    "candidate15 first probe passed, second reset timed out; no finger test performed"
+  ],
+  "limitations": [
+    "Timing is a hypothesis until repeated hardware trial",
+    "Changes no firmware or storage",
+    "Passing probe alone does not prove touch"
+  ],
+  "exit_gate": "Boundedliveprobe andcleanrollbackfirst; thenrealfingerinput; thenintegratepersistentboot/Desktop andpackage"
+}

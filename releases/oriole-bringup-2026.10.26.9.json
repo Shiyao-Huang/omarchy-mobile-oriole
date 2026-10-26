@@ -1,0 +1,42 @@
+{
+  "release": "oriole-bringup-2026.10.26.9",
+  "kind": "source-and-evidence-checkpoint",
+  "daily_use_ready": false,
+  "one_click_full_install_ready": false,
+  "device": "Pixel 6 oriole",
+  "kernel": "7.3.0-rc6-omamobile-oriole-m1",
+  "changes": [
+    {
+      "component": "Wi-Fi",
+      "status": "bounded diagnostic association and network path PASS",
+      "evidence": [
+        "experiments/wifi-w2-bcm4389-evidence.json",
+        "experiments/wifi-w3-build-evidence.json",
+        "experiments/wifi-w3-association-evidence.json"
+      ],
+      "proved": [
+        "BCM4389 firmware boot and wlan0 creation",
+        "WPA association",
+        "DHCP lease and default route",
+        "DNS resolution",
+        "HTTPS API request",
+        "controlled link recovery and repeat HTTPS request",
+        "clean endpoint, module and radio teardown"
+      ],
+      "limits": [
+        "diagnostic init only; normal desktop service integration is pending",
+        "one-shot NTP correction was needed because the diagnostic clock started near epoch",
+        "no restricted DMA pool; development-only",
+        "cellular, camera, suspend and sustained Agent workload remain open"
+      ]
+    }
+  ],
+  "rollback": {
+    "boot_images_changed": false,
+    "radio_state": "temporary Wi-Fi session cleaned; no wlan0 or PCI endpoint remains",
+    "partition_writes": "none"
+  },
+  "publication": "No vendor firmware, calibration, credentials, private logs, MAC addresses, SSIDs or serial numbers are included.",
+  "supersedes": "oriole-bringup-2026.10.26.8",
+  "next_gate": "Cold-boot Omarchy network service integration with fresh DMA/recovery review and a real Agent workload."
+}

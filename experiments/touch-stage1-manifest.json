@@ -1,0 +1,26 @@
+{
+  "status": "offline_verified_not_flashed",
+  "module_sha256": "5d3f18619c21a355de9e42b0cbc4f91a6d2ccff7be402eec01d98e46ccc98708",
+  "vermagic": "7.3.0-rc6-omamobile-oriole-m1 SMP preempt mod_unload aarch64",
+  "autoinsert": false,
+  "userdata_only": true,
+  "independent_unpack_pass": true,
+  "kernel_and_dtbo_unchanged": true,
+  "files": [
+    {
+      "name": "boot.img",
+      "bytes": 20172800,
+      "sha256": "385847655c6acf285f1fb5c25dbf852b1e90f1bbc99b76f4a24f49bcfdbb4f5b"
+    },
+    {
+      "name": "vendor_boot.img",
+      "bytes": 6922240,
+      "sha256": "529913555ce24ecb9338a6ea9b7dee8e0c2d5ccb441685082d33d6d88a213804"
+    },
+    {
+      "name": "dtbo.img",
+      "bytes": 4096,
+      "sha256": "f89588777e61c16b564feb0d04319805fa7d5d5922622e52a173e57e21376fb6"
+    }
+  ]
+}

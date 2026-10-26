@@ -1,0 +1,11 @@
+{
+  "exit_code": 0,
+  "stdout": "NODE_HTTP_PASS\nNODE_NEGATIVE_ID_PASS\nGO_HTTP_PASS\nGO_NEGATIVE_ID_PASS\n",
+  "host_requests": [
+    "/node",
+    "/node",
+    "/go",
+    "/go"
+  ],
+  "scope": "native ordinary-user Node/Go HTTP via USB IPv6 to host fixture; no model API or mobile network claim"
+}

@@ -1,0 +1,102 @@
+{
+  "status": "candidate rejected for retention; original750us verified on fresh serial",
+  "legs": [
+    {
+      "leg": "A1",
+      "rate_us": 750,
+      "elapsed_s": 6.194462649999878,
+      "transition_deltas": {
+        "policy6": 5,
+        "policy4": 1201,
+        "policy0": 35
+      },
+      "sugov_tick_deltas": {
+        "sugov:0": 2,
+        "sugov:4": 59,
+        "sugov:6": 0
+      },
+      "worker": {
+        "callbacks": 600,
+        "seconds": 6.002627728999999,
+        "p95_lateness_ms": 0.772542000000044,
+        "max_lateness_ms": 5.992674999999963,
+        "process_cpu_ms": 1218.86,
+        "loop_iterations": 13443526
+      }
+    },
+    {
+      "leg": "B",
+      "rate_us": 10000,
+      "elapsed_s": 6.216846682999858,
+      "transition_deltas": {
+        "policy6": 3,
+        "policy4": 66,
+        "policy0": 18
+      },
+      "sugov_tick_deltas": {
+        "sugov:0": 1,
+        "sugov:4": 3,
+        "sugov:6": 1
+      },
+      "worker": {
+        "callbacks": 600,
+        "seconds": 6.003771894000001,
+        "p95_lateness_ms": 0.4607770000002347,
+        "max_lateness_ms": 5.7110589999999775,
+        "process_cpu_ms": 1342.607,
+        "loop_iterations": 3757785
+      }
+    },
+    {
+      "leg": "A2",
+      "rate_us": 750,
+      "elapsed_s": 6.176532351000333,
+      "transition_deltas": {
+        "policy6": 2,
+        "policy4": 1090,
+        "policy0": 29
+      },
+      "sugov_tick_deltas": {
+        "sugov:0": 1,
+        "sugov:4": 59,
+        "sugov:6": 0
+      },
+      "worker": {
+        "callbacks": 600,
+        "seconds": 6.002913536,
+        "p95_lateness_ms": 0.7914639999999054,
+        "max_lateness_ms": 4.0786149999999,
+        "process_cpu_ms": 1268.876,
+        "loop_iterations": 12440577
+      }
+    }
+  ],
+  "narrow_oracle_result": {
+    "candidate_passed": true,
+    "baseline_policy4_transitions_per_s": 185.17863201743467,
+    "candidate_policy4_transitions_per_s": 10.616314566752765,
+    "baseline_p95_lateness_ms": 0.7820029999999747,
+    "candidate_p95_lateness_ms": 0.4607770000002347,
+    "p95_limit_ms": 2.7820029999999747,
+    "current_rate_us": 750,
+    "policy_state_unchanged": true,
+    "physical_ui_acceptance": false,
+    "thermal_acceptance": false
+  },
+  "interpretation": "Fewer transitions and lower timer lateness do not establish better Agent performance: time-bounded loop iterations fell strongly. No fixed-work benchmark yet.",
+  "recovery": {
+    "rate_us": 750,
+    "timer": "not-found/inactive",
+    "watchdog_fd_open": false,
+    "linux_desktop_live": true,
+    "failure": "Initial confirmation raced asynchronous Type=simple rollback; later synchronous rollback completed but stop of already-unloaded transient timer returned nonzero and prevented evidence-writing. Fresh read-only check verified actual restored state.",
+    "causality_limit": "Asynchronous race is inferred from sequence, not separately fault-injected."
+  },
+  "limitations": [
+    "No physical smoothness acceptance",
+    "No thermal sensors",
+    "No persistent tuning",
+    "Compare-before-write is not atomic CAS"
+  ],
+  "next_gate": "Fixed-operation benchmark and latency/throughput oracle; use Type=oneshot rollback and accept absent timer only after actual state and watchdog verification."
+}

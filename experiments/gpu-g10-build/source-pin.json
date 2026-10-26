@@ -1,0 +1,21 @@
+{
+  "source_sha256": "bce5f7fbebb934373b86c999a064d52fb5065878dc57f287f95346648ec832e9",
+  "patches": [
+    {
+      "name": "0001-panfrost-add-Mali-G710-to-the-model-table.patch",
+      "sha256": "1a6ac513fb44579f6ca72a2c92bb7fd86743a4a9dc01f452ac1ab93073100ce1"
+    },
+    {
+      "name": "0002-panfrost-don-t-make-image-BOs-private-on-panthor.patch",
+      "sha256": "f064ce851d4898b87c95ea55c3367de9cdddb4e6a99e6ba89033e76dc9adecb8"
+    },
+    {
+      "name": "0003-panfrost-Advertise-Mali-G68-support.patch",
+      "sha256": "edec51dfb5147de62aca0093bf2915d0cccf27e216f63ec8588064f18990ab3d"
+    },
+    {
+      "name": "0004-panfrost-add-Mali-G78-to-the-model-table.patch",
+      "sha256": "b4e6d7d29277cf4f11317968c26eb5c9f3fb89cd18f36615d45aa5d40134817a"
+    }
+  ]
+}

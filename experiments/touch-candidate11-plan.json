@@ -1,0 +1,31 @@
+{
+  "claim": "With supply enable bits set, the original volatile SPI4 initialization may permit valid chip identification after reset failure",
+  "oracle": "Exact expected chip ID and successful reset with plausible system info; stable IRQ and actual coordinates required before UI acceptance",
+  "validation": {
+    "user_journey": "No extra user action until stable input; on failure restore rails and remain USB-accessible diagnostic shell",
+    "code_reasoning": [
+      "Change only candidate10 early-return branch to bounded original SPI4 setup, chip-ID validation, then one reset retry",
+      "Keep firmware updates/burns and diagnostic write interfaces disabled",
+      "No successful probe on mere chip-ID match; reset must succeed",
+      "Same watchdog, restricted ACPM supply module and exact board/hash guards"
+    ],
+    "unit": {
+      "applicability": "Source assertions and compilation cover guards only; no isolated electrical simulator exists, hardware behavior requires E2E"
+    },
+    "end_to_end": "Host log + watchdog; enable two supply bits, load candidate11, inspect chip ID/reset/IRQ; restore rails on failure and independently reread"
+  },
+  "evidence": [],
+  "limitations": [
+    "Warm controller state confounds attribution",
+    "No firmware flashing",
+    "No success claim based only on registered input"
+  ],
+  "exit_gate": "Stop on chip mismatch/reset failure/IRQ storm; require real evdev and visible desktop interaction for touch success",
+  "result": {
+    "status": "failed_system_info_oracle",
+    "spi4_recovery_branch_executed": false,
+    "observation": "Second reset attempt succeeded, but system-info header00 rather thanA5; startup returns repeatedready thenzeros",
+    "rollback": "Bothrailsoriginaldouble-read2c/3c; watchdogdisarmed; USBhealthy",
+    "limitation": "No real touch retest because basic identity/system-info oracle unmet"
+  }
+}

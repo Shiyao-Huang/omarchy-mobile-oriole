@@ -1,0 +1,35 @@
+{
+  "claim": "RX-only217bytePIO across63bytechunks may losebytes; explicitTX clocks canbecompared afterfreshreset/FIFOready for eachsample.",
+  "oracle": "Threepaired NULLTX/zeroTX SysInfo216 reads afterindependentreset each: expectedchip3648,FW0049,SVN4694,CFG0308,XY2399/1079 TX16/RX34. All fieldsrequired, notheaderalone.",
+  "validation": {
+    "user_journey": "Diagnosticremainsconnected; installationstillincompletewithoutrealinput.",
+    "code_reasoning": [
+      "Googlefts.hconfirms DIE16 RELEASE8, givingXY80/82 TX84/85",
+      "CurrentPIOdriver splitslongRX into63bytechunks,flushesbetweenchunks",
+      "6samples eachwithreset100/500ms andboundedreadyFIFO; onlySysInfoRXtx_bufdiffers",
+      "AllSPIbuffers256, data216, noFW/configwrites, noIRQenabled"
+    ],
+    "unit": "Offsetsfromindependentlyknownstockparser; sourceboundscheck andW=1build; nothardwareunitproof",
+    "end_to_end": "Threeframesreadonphone; comparespecificfieldswithoriginalstockdmesg thenindependentrailrollback"
+  },
+  "evidence": [
+    "Stockthisphone FW0049 SVN4694 CFG0308 XY2399/1079 TX16 RX34 and216bytesparsed",
+    "GPIOmode0 andhardwareSPIbothproduceidenticalresponses; transportfaultnotestablished",
+    "OldFTScandidatesreadFW0049 butimplausiblegeometry",
+    "FirstSYS216geometrylooksonebyteshifted: x3709 y1004 vsstockx095f/y0437; thisisahypothesis notyetproved"
+  ],
+  "limitations": [
+    "Chunkedreadnotyetverified",
+    "Hardware-registerIDfailure remains unresolved",
+    "No touchscreenusabilityproof",
+    "LargeRX mayusecontrollerchunking; sourcepathmustpreserveCS"
+  ],
+  "exit_gate": "Onlycompleteconsistentframesjustifydriverchange; logfailedsamples andrestore",
+  "result": {
+    "status": "verified-scoped",
+    "NULL_TX": "3/3 wrong geometry",
+    "explicit_TX": "3/3 correct stock geometry",
+    "correction": "Parsed little-endian SysInfo chip is3648; do not confuse with raw bytes36 48 of hardware-ID command",
+    "limit": "Finite controlled long-read comparison only"
+  }
+}

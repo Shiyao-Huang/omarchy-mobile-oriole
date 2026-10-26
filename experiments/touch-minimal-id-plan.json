@@ -1,0 +1,28 @@
+{
+  "claim": "Independent minimal SPI client tests whether vendor FTS reset/IRQ initialization causes bad identity reads.",
+  "oracle": "Three split and three single-transfer reads must each return stable 36 48 chip identity; any other bytes are failure, not usable input.",
+  "validation": {
+    "user_journey": "No touch action required. Stay in diagnostic console; briefly bind minimal client, capture results, unload and restore supply controls.",
+    "code_reasoning": [
+      "Board and parent-controller whitelist",
+      "Select existing DT pinctrl; fail on errors",
+      "Reset is sole output: raw low100ms then high500ms; IRQ input only",
+      "Only FB20000000 read command; no register/firmware/storage writes",
+      "Heap buffers; bounded six transactions; probe always returns ENODEV; no input registration"
+    ],
+    "unit": "Source command/bounds/error-path checks and W=1 compilation. No mocked hardware success.",
+    "end_to_end": "Original SPI controller with verified supply hold, host log and watchdog; unload, restore supplies and independently double-read2c/3c; verify USB."
+  },
+  "evidence": [],
+  "limitations": [
+    "No scope/voltage measurement",
+    "Chip identity alone cannot establish touch UI",
+    "Initial plan serialization failed before device trial; plan repaired and rechecked before loading."
+  ],
+  "exit_gate": "Valid identity and complete rollback before higher-level input work; failures stay experimental.",
+  "result": {
+    "status": "identity_failed",
+    "observed": "100ms hardware reset and500ms settle; reset1 IRQ1; all3 split00+02x8; all3 single00fb20000000+02x8",
+    "rollback": "unloaded; supply2c/3c independentlyverified; originalSPI; watchdogdisarmed"
+  }
+}

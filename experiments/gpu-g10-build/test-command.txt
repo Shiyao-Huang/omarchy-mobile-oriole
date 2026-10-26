@@ -1,0 +1,1 @@
+meson test -C /out/build --no-rebuild --suite panfrost --print-errorlogs --num-processes 2 --timeout-multiplier 2

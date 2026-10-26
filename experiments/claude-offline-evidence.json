@@ -1,0 +1,105 @@
+{
+  "status": "Local installation and remotely visible retained offline-error journey verified; physical touch retest and online use remain unverified",
+  "user_report": "mise aqua anthropics/claude-code latest cannot fetch GitHub releases",
+  "root_cause_observed": {
+    "network": "Only lo and usb0; usb0 NO-CARRIER/linkdown; no usable external route",
+    "dns": "curl6 for api.github.com and claude.ai; native Claude EAI_AGAIN for api.anthropic.com",
+    "installer": "Original 123-byte wrapper ran mise use before every launch, exiting1 on failure",
+    "clock": "Phone clock unsynchronized; not shown to cause current DNS failure"
+  },
+  "installed": {
+    "version": "2.1.308",
+    "platform": "Linux ARM64 glibc",
+    "binary_sha256": "fdd22e6cbb734d580f5664c48df4294eeec850218ff07f186f9af30426396ee1",
+    "launcher": "~/.local/bin/claude symlink to ~/.local/share/claude/versions/2.1.308",
+    "original_wrapper_sha256": "b66d6f6473d4e07c2601e7dcddd6264df77d39059429503a0870e06fb3562122",
+    "version_exit": 0,
+    "help_exit": 0,
+    "default_agent": "claude",
+    "authentication": "not performed",
+    "model_requests": "none"
+  },
+  "ui": {
+    "native_pty": "Welcome2.1.308 then Unable to connect to Anthropic services / EAI_AGAIN; exits1",
+    "before": "exact menu selection returned1 and terminal disappeared",
+    "first_hold_attempt": "FAILED: xdg-terminal-exec ignored --hold because selected user Foot entry lacked X-TerminalArgHold",
+    "fixed": "Add X-TerminalArgHold=--hold preserving existing user desktop fields; scoped Agent-only launch wrapper passes --hold; non-Agent TUI passthrough unchanged",
+    "after": "desktop launch0; same org.omarchy.agent Foot window mapped+visible at3 and15seconds after Claude exited",
+    "physical_limit": "Screenshot showed system lockscreen, so mapped=true is NOT evidence of error text visible to user. Unlock confirmation requested."
+  },
+  "validation": {
+    "unit": "9 cases passed across offline installer, argument forwarding, desktop metadata and rollback",
+    "code_reasoning": "Inspected actual Omarchy default-agent/user_install/launch-tui, xdg terminal metadata parsing, official installer and actual PATH symlink ordering",
+    "end_to_end": "Official HTTPS manifests ->13 hash-checked USB chunks -> full compressed and uncompressed hash -> native execution -> real desktop launcher and retained window",
+    "user_journey": "User reported concrete mise failure; remote reproduce and repair completed; final visible journey pending unlock"
+  },
+  "changes": [
+    "Pinned native CLI and original-wrapper backup under agent home",
+    "Omarchy default set to Claude after successful local install",
+    "/usr/local/bin/omarchy-launch-tui scoped hold wrapper",
+    "Existing /usr/share/omarchy/bin/omarchy-launch-tui symlink redirected; /usr/bin original unchanged",
+    "Existing user foot.desktop gained only X-TerminalArgHold; original backed up"
+  ],
+  "rollback": {
+    "cli": "Run tools/install-offline-claude.py rollback /home/agent as agent; checks wrapper/target hashes and refuses manual edits",
+    "ui": "Run tools/rollback-agent-ui.py --check then --apply as root; checks all owned changes and restores original symlink and Foot entry",
+    "default": "Original default presence/content saved privately in ~/.local/state/oriole-claude-offline/default-before.json",
+    "limits": "Rollback unit tests; live preflight checked separately; no full live rollback/reinstall cycle claimed",
+    "live_preflight": "passed; no changes"
+  },
+  "not_fixed": [
+    "WiFi/mobile data/USB networking",
+    "Anthropic login and API access",
+    "Other application crashes",
+    "Physical touch usability and locked-screen behavior"
+  ],
+  "evidence": [
+    {
+      "private_log": "serial-claude-network-verified-private.txt",
+      "sha256": "93e2a5ec22893d631bacdec4ca8ebd7b9c1d738654ef90240f22c005274a351e"
+    },
+    {
+      "private_log": "serial-claude-deploy-verified-private.txt",
+      "sha256": "6e165f173f7baf19382b4f9e0c1b3f6b13d4b4ab8515722c3fc09d29c59cd4b9"
+    },
+    {
+      "private_log": "serial-claude-launch-verified-private.txt",
+      "sha256": "a79d28b471a3721c13cb943bd5024a2d54ec7ec9d416c197af9a5a5a6318b58f"
+    },
+    {
+      "private_log": "serial-claude-pty-verified-private.txt",
+      "sha256": "7cc7301ded2ca7cf11fba4c5fb7ece332eaee1f375671e14afec6b836ada8a66"
+    },
+    {
+      "private_log": "serial-claude-hold-verified-private.txt",
+      "sha256": "8a67afbba5e30ca42cd30df3a7cccc366108b932b05a6dc606a3a9a081a296d5"
+    },
+    {
+      "private_log": "serial-hold-metadata-verified-private.txt",
+      "sha256": "3b88326ee0753c2047a3606fa6dceb012aaa97a12deed2d1e62f0b1258bff5c2"
+    },
+    {
+      "private_log": "serial-foot-hold-apply-verified-private.txt",
+      "sha256": "321b3ca973693383a511a2b45e0b0e0cdba5cabea5da587631222c5c45aa5586"
+    },
+    {
+      "private_log": "serial-claude-screen-verified-private.txt",
+      "sha256": "780d7e343a591fce4060e2e6de495e93e5b2d80bfc0cd8be649355b6e2c1f32e"
+    },
+    {
+      "private_log": "serial-claude-rollback-check-verified-private.txt",
+      "sha256": "8e48a66d35e26f9b83d8018beb723b01d8551b50fcccb6aa04eed462cd8d24fa"
+    }
+  ],
+  "latest_recheck": {
+    "version": "2.1.308",
+    "binary_hash_matches": true,
+    "hold_metadata_present": true,
+    "usb_carrier": 0,
+    "github_dns": "curl6",
+    "anthropic_dns": "curl6",
+    "hyprlock_process": "not found; no physical acceptance claimed",
+    "evidence_sha256": "88eec8e221de73a9c194a5b07530753ba5dff46f5808a7bba275d332a43065d2"
+  },
+  "latest_visible_recheck": "claude-visible-recheck.json"
+}

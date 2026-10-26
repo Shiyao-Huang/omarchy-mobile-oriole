@@ -1,0 +1,47 @@
+{
+  "claim": "Stage four verified stock CP1A.260305.018 WiFi firmware files in a private phone experiment directory without activating a radio or changing firmware-loader search paths.",
+  "oracle": "Host manifest hashes match actual stock files; <=8MiB archive has SHA256 verified after serial transfer; existing tested stager preserves existing paths and rejects invalid archive entries; all four installed files match expected hashes/bytes; loader path/modules/network state unchanged.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Prepare an offline WiFi trial while user is away; interrupted transfer or staging failure must preserve working GUI and existing firmware.",
+      "expected": "Files ready for a later controlled driver test; no association or networking claim."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Reuse exact tools/stage-mesa-candidate.py stage() with explicit private destination; generic lib tree contains firmware only",
+        "No kernel firmware path modification, module insert, radio power or NV write",
+        "Keep proprietary files out of Git/source package; metadata only",
+        "Fixed four names with known SHA256 and source build; source manifest reverified on host"
+      ]
+    },
+    "unit": {
+      "red": "Existing G10 tests reject invalid paths/links/digest/manual edits",
+      "green": "Same stager already verified, including published-directory0755 regression; no new extraction implementation",
+      "cases": [
+        "existing test-mesa-staging.py contract"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "Mac4 verified stock files",
+        "USB serial receiver",
+        "phone filesystem",
+        "post-stage hashes"
+      ],
+      "faults": [
+        "Receiver refuses pre-existing chunk",
+        "Stager refuses existing destination and cleans temporary failures"
+      ],
+      "evidence": []
+    }
+  },
+  "evidence": [
+    "Host source manifest buildCP1A.260305.018 and official factorySHA256 matched; four file hashes read independently"
+  ],
+  "limitations": [
+    "Staging is not driver loading or functional WiFi",
+    "brcmfmac filename mapping/compatibility still to be validated",
+    "No SIM or camera change"
+  ],
+  "exit_gate": "Fresh phone hash/mode/unchanged loader+module state validation passes; hardware enabling requires separate gates."
+}

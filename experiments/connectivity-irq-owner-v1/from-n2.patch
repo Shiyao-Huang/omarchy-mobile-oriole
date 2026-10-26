@@ -1,0 +1,62 @@
+--- a/pcie-gs101.c
++++ b/pcie-gs101.c
+@@ -75,6 +75,8 @@
+ 	struct gpio_desc	*perst;
+ 	u32			num_lanes;
+ 	int			ch_num;
++	int			irq;
++	bool			irq_registered;
+ 	/* set by exynos_pcie_poweroff(): poweron has to redo the PHY */
+ 	bool			link_was_up;
+ };
+@@ -264,7 +266,11 @@
+ 	 * out. Mirrors IRQ_MSI_CTRL_EN_RISING_EDG in the vendor pcie-exynos-rc.c.
+ 	 */
+ 	val = gs101_elbi_read(pcie, PCIE_IRQ2_EN);
+-	val |= IRQ_MSI_CTRL_EN_RISING_EDG;
++	/* Keep the initial gate masked until the handler has an owner. */
++	if (pcie->irq_registered)
++		val |= IRQ_MSI_CTRL_EN_RISING_EDG;
++	else
++		val &= ~IRQ_MSI_CTRL_EN_RISING_EDG;
+ 	gs101_elbi_write(pcie, val, PCIE_IRQ2_EN);
+ 
+ 	/*
+@@ -306,14 +312,16 @@
+ 	 * MSI-receiver assertion here and hand it to the core. Mirrors
+ 	 * exynos_pcie_rc_irq_handler() in the vendor pcie-exynos-rc.c.
+ 	 */
+-	val = gs101_elbi_read(pcie, PCIE_IRQ2);
+-	gs101_elbi_write(pcie, val, PCIE_IRQ2);		/* write-1-to-clear */
+-
+-	if (val & IRQ_MSI_RISING_ASSERT)
+-		oriole_n2_handle_msi_irq(pp);
++	val = gs101_elbi_read(pcie, PCIE_IRQ2) & IRQ_MSI_RISING_ASSERT;
++	if (!val)
++		return IRQ_NONE;
++	gs101_elbi_write(pcie, val, PCIE_IRQ2); /* acknowledge only our MSI */
++	oriole_n2_handle_msi_irq(pp);
+ 
+ 	return IRQ_HANDLED;
+ }
++
++#include "irq-lifetime.inc"
+ 
+ static void gs101_pcie_host_deinit(struct dw_pcie_rp *pp)
+ {
+@@ -426,13 +434,9 @@
+ 	if (ret)
+ 		return dev_err_probe(dev, ret, "failed to initialise host\n");
+ 
+-	ret = devm_request_irq(dev, irq, gs101_pcie_irq_handler, IRQF_SHARED,
+-			       "gs101-pcie", pcie);
++	ret = gs101_pcie_attach_irq(pcie, irq);
+ 	if (ret)
+-		return dev_err_probe(dev, ret, "failed to request PCIe IRQ\n");
+-
+-	if (pcie->ch_num >= 0)
+-		gs101_pcie_ch[pcie->ch_num] = pcie;
++		return dev_err_probe(dev, ret, "failed to own PCIe IRQ/host lifetime\n");
+ 
+ 	return 0;
+ }

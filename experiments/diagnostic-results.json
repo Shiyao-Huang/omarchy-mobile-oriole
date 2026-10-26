@@ -1,0 +1,97 @@
+{
+  "status": "touch_not_working",
+  "kernel": "7.3.0-rc6-omamobile-oriole-m1",
+  "expected_id": "36 48",
+  "observed_after_reboot": "split00+c0 repeated, single80fb20000000+c0 repeated at10MHz requested max",
+  "tests": [
+    {
+      "name": "spi-state",
+      "observation": "loopback bit clear, actual877714Hz, GPIO CSraw0, novalidID",
+      "module_sha256": "56ce830339cf88d2010911a0a7e2177de469f29157ed1ce61f136f0e25f0ffc4"
+    },
+    {
+      "name": "minimal-v1",
+      "observation": "independent client, reset100ms/500ms, novalidID",
+      "module_sha256": "ab3267b7bb274b99c0cf55d3b389ee4fe1da3b1c3687049a0a84fa276726e2a4"
+    },
+    {
+      "name": "minimal-mux",
+      "observation": "actualSPIpinsfunc2, resetoutputhigh, TBNinput0; novalidID",
+      "module_sha256": "382e04a8f4ab19b20250724b0c9ae70b397ca1acc740ec99319b9daba3f61c7c"
+    },
+    {
+      "name": "minimal-tbn",
+      "observation": "requestoutputlow observed, ACK0, novalidID; requestrestoredinput0",
+      "module_sha256": "7adae18459d3c9cab4fab7fc7ebffb42be2bb4fdcaf80063f2c51e7b2847b95c"
+    },
+    {
+      "name": "freshboot",
+      "observation": "forced reboot changedboot_id; minimalmux stillfailed; USBserial restoredkeytrust, gadgetrebind afteruserunlock restoredNCM",
+      "module_sha256": "382e04a8f4ab19b20250724b0c9ae70b397ca1acc740ec99319b9daba3f61c7c"
+    },
+    {
+      "name": "manual-cs",
+      "observation": "CS register0 verified, novalidID; originalcontrollerrebound",
+      "module_sha256": "ba2e40383eb9cb9ff01bf24059815fd8a1ba1b565ae38f22014642293172fc37"
+    },
+    {
+      "name": "minimal-10mhz",
+      "observation": "explicitDT10MHz max; actualclocknotmeasured; novalidID",
+      "module_sha256": "d8954b6cd6b4c66fccf271344057dd0fcaf54eb3e5e7ca25882dc1490cc1b627"
+    },
+    {
+      "name": "minimal-explicit-tx",
+      "observation": "separatezeroTX replybuffer, novalidID",
+      "module_sha256": "43d5c6a2e2561c844dfe0e0190d7f44f597cf35aa012ee0f7653fec00fca587f"
+    },
+    {
+      "name": "powerseq-initial",
+      "observation": "immediateGPIOread oldlevel, inconclusiveresetread; novalidID",
+      "module_sha256": "55966634a8c3a1ecd6f1ba8c44d95e8304407a0b5b9008260ef8b6253fcd7231"
+    },
+    {
+      "name": "powerseq-settled",
+      "observation": "resetlow100msverified beforepower; releasehigh5msverified; novalidID",
+      "module_sha256": "121fceb2d6c5709354a49e8b42db72be69ec5296b5cd233e8de93ea4994fad80"
+    }
+  ],
+  "rollback": "After each test restore rails2c/3c independentlydouble-read; originalSPIcontroller; noautomaticIRQ, originalmodprobe, watchdogoff. No partitionflash thisseries.",
+  "limitations": [
+    "None of these are electrical waveform measurements",
+    "Warmreload comparisons notrandomized",
+    "Ordinary forcedreboot isnotcoldpowercycle",
+    "W=1 builds and sourcechecks arenotunit hardwaretests",
+    "Publicupstream reportsnotourindependenttouchvalidation"
+  ],
+  "next_gate": "Stable3648 identity before input/desktop promotion",
+  "source_hashes": {
+    "touch-minimal-id/minimal-mux.c": "ed5a94f400715b2bfc9a2a0c37c9f7069a8c74afb5e9559a65535644cb37ef3e",
+    "touch-minimal-id/Makefile": "b9c7095c29982715951c0ebc98dfb3bc565224018bbee783141d1ba1541ebb51",
+    "touch-minimal-id/minimal-v1.c": "188692168c295431c14cbb368ee363dc59ed1b5e05d1e46be169af1ee17521e5",
+    "touch-minimal-id/minimal-tbn.c": "f54b3015d0958f2798669d614982396dda053a26c3fdd0740cf82f2f9f23d54b",
+    "touch-minimal-id/oriole_touch_minimal.c": "53e45c4b646d753c8b86df342704faf6cbf26578b7ab118dcd93e17511501b5a",
+    "touch-minimal-id/minimal-10mhz.c": "bc6b45a1c9f23dd2be7c59e9024791d77fb9b17d3525f08e0adcf13007b132ed",
+    "spi-state-diagnostic/oriole_spi_state.c": "199728fe28b7ea464f85e28511bea26c69c810bbf20b91824f2996ac4d28e0d6",
+    "spi-state-diagnostic/Makefile": "56ab159fc920b359aae9e698a08e49a3f1e78fa47b1477f1d86a4bc8d4427f78",
+    "spi-manual-cs/Makefile": "aa9b63a93e3f1ccb4124133ceb67734e53edaa5bfa48447b6ba60a073ec1371d",
+    "spi-manual-cs/oriole_spi_manual.c": "341ae8edc8e852e408862ac9bfca1fcf5066780ad4a8d21da1f63bbed0e6b371",
+    "touch-supply-powerseq/Makefile": "a88ce75384348a5fe6404e4f68e46deed46ae60abd36b30d7ac5dc18daa5c47e",
+    "touch-supply-powerseq/oriole_touch_supply_hold.c": "de1f09c7dcb006e1a5e425f1346a9bfcf000008d98e4d6df354ee96eac6afd0a",
+    "touch-supply-powerseq/powerseq-immediate-read.c": "6a8c7d9231c9cf6947eaf40eb38ad2e420b951eda9e737f1f614c084187f205b"
+  },
+  "final_checkpoint": {
+    "kernel_warnings": "none on current boot in WARNING/BUG/Oops/panic search",
+    "spi_driver": "s3c64xx-spi",
+    "temporary_modules": "none loaded",
+    "remaining_modules": [
+      "oriole_touch_supply_read",
+      "acpm_protocol",
+      "exynos_mailbox"
+    ],
+    "modprobe": "/sbin/modprobe",
+    "watchdog": "disarmed",
+    "stage_gate": "held",
+    "storage": "sda device node absent; partitions1-26 RO; sda27 userdata mountedRW at/newroot. Whole-disk sysfsRO0, so guarddepends onabsentdevice node, notdiskRO.",
+    "fresh_source": "private github-research-checkpoint log; current SSHread, nothistoricalclaim"
+  }
+}

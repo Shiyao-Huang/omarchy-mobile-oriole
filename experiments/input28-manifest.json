@@ -1,0 +1,29 @@
+{
+  "module_sha256": "8d31b21685922b03adc89fe381b25ee81486538468552a59781b6bb0b40ca4f4",
+  "status": "Physicalevdev accepted inboundedtrial;GUIpending",
+  "build": "W=1 warningfree",
+  "checks": [
+    "Actual decoder ASanUBSan gates",
+    "Extracted actual release helper multiplecontacts/repeat test",
+    "Review: reportonlyIRQlow+validprefix/finger/slot/coords, releaseall onexit",
+    "Shell syntax for boundedwatchdogcapture helper"
+  ],
+  "limits": [
+    "Temporary180second inputdevice;20mspolling;no productionautoload",
+    "No evdev/GUIacceptanceyet"
+  ],
+  "files": [
+    {
+      "path": "experiments/touch-input28/Makefile",
+      "sha256": "b9c7095c29982715951c0ebc98dfb3bc565224018bbee783141d1ba1541ebb51"
+    },
+    {
+      "path": "experiments/touch-input28/oriole_touch_minimal.c",
+      "sha256": "bcf9b157a7954bb0db1849bf434d366a4a81be72ae9f3fc0f79f6b4c76513832"
+    }
+  ],
+  "phone_stage": "FreshLinuxnewboot confirmed;28module staged notloaded; read-onlyrailcheck2c/3c at26.667; nohold/inputdriver",
+  "boot_recovery": "A recovery after B retry0, verifiedoriole/unlocked, set_activeb resetretry thenbootexistingLinux; noimageflash",
+  "runtime_evidence": "input28-evdev-evidence.json",
+  "rollback": "INPUT28_END reports71; FRESHBOOT_ROLLBACK_OK; independent2c/3c at2611.197"
+}

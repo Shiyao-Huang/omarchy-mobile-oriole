@@ -1,0 +1,13 @@
+{
+  "applies_to": [
+    "touch-candidate23-plan.json",
+    "touch23-freshboot-plan.json",
+    "touch-candidate24-plan.json",
+    "touch24-freshboot-plan.json"
+  ],
+  "corrections": [
+    "Copied text about missing scan echo rejecting probe is stale:21 and later do not require A0 echo. It was not the oracle used in23 or24.",
+    "Copied user-away wording is stale: user returned for23 and explicitly completed its finger test.24 has a separate request without confirmation so far."
+  ],
+  "effect": "Preserve original planned documents; correct the stale inherited fields explicitly. Physical input remains required."
+}

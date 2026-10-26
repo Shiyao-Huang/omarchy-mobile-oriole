@@ -1,0 +1,21 @@
+{
+  "module_sha256": "8d0a7ec570c54852b9e19bd4901074ab0d1107b25be9590f827d1b6e72ca38e1",
+  "build_exit": 0,
+  "kernel_image_unchanged": true,
+  "firmware_update": false,
+  "bound": true,
+  "irq_enabled": true,
+  "irq_counter_static_3sec": true,
+  "watchdog_disarmed": true,
+  "fresh_ssh": true,
+  "finger_input_verified": false,
+  "sysinfo_dimensions_valid": false,
+  "production_ready": false,
+  "user_performed_tap_swipe": true,
+  "captured_bytes": 0,
+  "physical_events": 0,
+  "abs_xy": 0,
+  "touch_acceptance": "failed",
+  "irq_before": 203244,
+  "irq_after": 203244
+}

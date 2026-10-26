@@ -1,0 +1,70 @@
+{
+  "claim": "The disabled B2S GPU-core rail is a cause of G6 shader power timeout; enabling only its existing-voltage supply may restore G78 initialization.",
+  "oracle": "G8 exact stable snapshot: B2S_CTRL0x38 (bits7:6=0), B8S0xd8 and LDO_CTRL1f0 (L1Sbits5:4=3). Change ONLY B2S_CTRL bits7:6 to3 via ACPM; selectors/routing unchanged. First pulse must restore0x38, then held rail+G7 must reset and show ready==present with no timeout; then GLES readback.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Bring back a usable desktop after severe lag, preserve touch recovery; failed GPU test unloads before restoring rail",
+      "expected": "Real draw gate beforedesktop; physicaltouchlater"
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Exact oriole, unboundGPU, noPMICregulatordriver",
+        "Two equal preflightreads for15allowlistedregisters againstG8snapshot",
+        "GPU/L2 firmware rates must both remain151MHz beforeenable",
+        "Only update_reg channel2,type1,speedy1,B2S_CTRL,mask0xc0; no voltage/routing/PMU/NVwrites",
+        "Mark attempted before update since transporterror may have applied",
+        "Readback entire original list except B2SCTRLexpectedf8; onfailure restoreenablemask and verify",
+        "Unload GPU before railrelease; cannot claim stableproductionregulators fromthisexperimentalhold",
+        "Watchdog forpulseandbind, and calibrationpartitionsread-only"
+      ],
+      "gitnexus": [
+        "Exact s2mps11 descriptors and regulator_enable_regmap inspected; masks7:6 forB2S,5:4 inLDO_CTRL1 forL1S; voltagesel is separate"
+      ]
+    },
+    "unit": {
+      "red": "Any preflight mismatch/error or wrong rate must producezeroPMICwrites",
+      "green": "Actualsource mockACPM faulttests and rollback ownership tests underASan/UBSan",
+      "cases": [
+        "eachreadfailure",
+        "eachsnapshotmismatch",
+        "eachratewrong",
+        "updatefailurebefore/afterwrite",
+        "postreadfailure",
+        "restoreownershipconflict",
+        "allwritesallowlisted"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "module",
+        "ACPM",
+        "S2MPG11 B2S",
+        "GPU reset/ready",
+        "USBwatchdog"
+      ],
+      "faults": [
+        "pulse rollback beforehold",
+        "failedbind meansunloadbeforepoweroff",
+        "noGLES onkernelpowererrors",
+        "Copyhashverifiedmodules+prebootID toexistingrootfs beforediagnosticreboot; noflash; restoreInput30 aftertest"
+      ],
+      "evidence": []
+    }
+  },
+  "evidence": [
+    "G8B2S0x38/B8Sd8/LDO_CTRL1f0; selectorsunchanged",
+    "G6 L2/tilerinitialized butshadertimeout;G7resetfailsafterpoweroff",
+    "Raven DTSmapsmali-supplyB2S,g3d-l2B8S,g3d-mL1S,int-mB7M",
+    "Pulse38->f8->38 passed; all15registers independently reread identical; watchdogdisarmed",
+    "Rebind afterpreviousfailedGPUshutdown still reset-timeout; railrestored; noGLES",
+    "Next controlled repetition uses sameexistingimage, clean reboot and B2SholdbeforefirstPanfrostprobe; previousGPUstate is a confound",
+    "Clean boot G9 B2S hold + G7: L2/shader20/tiler/stack ready==present and no power errors. Stock Mesa still llvmpipe, shader test rejected before job submission. See gpu-g9-runtime-evidence.json."
+  ],
+  "limitations": [
+    "Switchingonexistingrail is notmeasurementofphysicalvoltage",
+    "Missingproductionregulatorownership andthermalmonitoring",
+    "NoDVFS/suspend; boundedGLESonly",
+    "Controlled fresh initialization supports core-rail hypothesis for power timeout only; real rendering remains unverified."
+  ],
+  "exit_gate": "W=1 andfaulttests, pulserestoreverified beforehold; G7allreadyandnofaultbeforeGLES; keepnoaccelerationclaimifanygatefails"
+}

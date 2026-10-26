@@ -1,0 +1,22 @@
+{
+  "regulator_source": "https://android.googlesource.com/kernel/google-modules/soc/gs/+/204078758737776959ecc85c527a00fd2cabb62f/drivers/regulator/s2mpg10-regulator.c",
+  "touch_bus_source": "https://android.googlesource.com/kernel/google-modules/touch/common/+/refs/heads/android-gs-raviole-6.1-android16/touch_bus_negotiator.c",
+  "touch_bus_header": "https://android.googlesource.com/kernel/google-modules/touch/common/+/refs/heads/android-gs-raviole-6.1-android16/touch_bus_negotiator.h",
+  "local_source_sha256": {
+    "google-s2mpg10-regulator.c": "bd98e74c97755a9baa68a0bdf284f9f0380c6c352d57a3679012380af1b7de5c",
+    "google-touch-bus-negotiator.c": "518674b0fcd65cb6a41bfbbfd45e2e57e5419620f3c1e8740434574cf547f639",
+    "google-touch-bus-negotiator.h": "14024a4a40473e6db9e272d61e53852fb3c92c4c79c93b4c869efef33d92dd2c",
+    "google-spi-s3c64xx.c": "a6b72fb6c9a65b49e63e443c1541371dccdb241f80eb6678e891920cddf49af8"
+  },
+  "observations": [
+    "Google LDO25M/LDO26M use maskBIT7, sameas tested",
+    "Factoryo6 touch identity3648, SPI10MHz mode0, resetgpp26.0, IRQgpa9.0, requestgpp26.1, ackgpa8.6",
+    "Google AP ownershipenum0, AoC1; requesttimeout500ms",
+    "Live request andack read0twice; directions unsupported, no negotiatedownershipproof"
+  ],
+  "limits": [
+    "Factoryoverlayselected by o6firmwarename; live boardrevisionoverlayindex not independentlymatched",
+    "Registerwrites/reads no electricalmeasurement; no touchsuccess"
+  ],
+  "spi_source": "https://android.googlesource.com/kernel/google-modules/soc/gs/+/204078758737776959ecc85c527a00fd2cabb62f/drivers/spi/spi-s3c64xx.c"
+}

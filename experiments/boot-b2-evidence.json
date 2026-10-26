@@ -1,0 +1,46 @@
+{
+  "successful_B": true,
+  "active_B": true,
+  "changed_offsets": [
+    53
+  ],
+  "A_unchanged": true,
+  "all_other_bytes_unchanged": true,
+  "partition_and_parent_readonly": true,
+  "reboot_tested": false,
+  "automatic_startup_installed": false,
+  "fresh_connection_flags": {
+    "version": "3.15",
+    "slots": {
+      "a": {
+        "retry_count": 2,
+        "unbootable": false,
+        "successful": true,
+        "active": false,
+        "fastboot_ok": true,
+        "reserved_nonzero": false
+      },
+      "b": {
+        "retry_count": 0,
+        "unbootable": false,
+        "successful": true,
+        "active": true,
+        "fastboot_ok": false,
+        "reserved_nonzero": false
+      }
+    }
+  },
+  "fresh_connection_partition_readonly": true,
+  "methods": {
+    "actual_C_tests": "Host syntheticfile dryrun/change/idempotence/badheader/oversize pass; phone ARM64 original-copy exactbyte and idempotence pass",
+    "code_reasoning": "Google-derived current layout3.15; same read/check/write/full compare; wrapper gates activeB and healthycurrentLinux, backup and ROrestore; independent20s relock timer",
+    "end_to_end": "Fresh8192byte backup transferred and rehashed; real write fullreadback onlyoffset53 bit2 changed; subsequent independentserial reads Bsuccessful true and RO1",
+    "user_journey": "Menu screenshot confirmed; real restart, physical interaction and persistent auto desktop not yet accepted"
+  },
+  "limits": [
+    "Boot success acknowledges current boot only, not completephone readiness",
+    "Automatic retry fallback is disabled for B; manual fastboot recovery required",
+    "No bootimages changed or reboot performed",
+    "Copy tests cannot simulate powerfailure during devicewrite"
+  ]
+}

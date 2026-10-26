@@ -1,0 +1,66 @@
+{
+  "observed_at_utc": "2026-10-26T16:05:42.158648+00:00",
+  "claim": "Existing offline Claude repair survives subsequent bring-up and the actual desktop launch displays a retained network failure instead of invoking mise.",
+  "oracle": "Session and login PATH resolve the pinned native binary; desktop launch creates a new window retained at 3 and 15 seconds; screenshot visibly shows Claude welcome and network error.",
+  "validation": {
+    "code_reasoning": "Existing claude-offline-plan.json and scoped Agent hold implementation; no new launcher changes.",
+    "unit": {
+      "commands": [
+        "python3 experiments/test-offline-claude.py",
+        "python3 experiments/test-agent-terminal-hold.py",
+        "python3 experiments/test-agent-ui-rollback.py"
+      ],
+      "passed_cases": 7
+    },
+    "end_to_end": {
+      "version": "2.1.308",
+      "binary_sha256": "fdd22e6cbb734d580f5664c48df4294eeec850218ff07f186f9af30426396ee1",
+      "session_and_login_path": "~/.local/bin/claude",
+      "desktop_exit": 0,
+      "new_agent_window_retained_seconds": [
+        3,
+        15
+      ],
+      "claude_process_after_exit": false
+    },
+    "user_journey": {
+      "scenario": "Open Agent from the phone desktop while external network is unavailable.",
+      "observed": "Screenshot shows Welcome to Claude Code v2.1.308, Unable to connect to Anthropic services and EAI_AGAIN; error remains in terminal; virtual keyboard visible.",
+      "physical_touch_acceptance": "Not repeated; screenshot proves rendered content only."
+    }
+  },
+  "network": {
+    "interfaces": [
+      "lo",
+      "usb0"
+    ],
+    "usb_carrier": 0,
+    "default_route": "USB route linkdown",
+    "github_dns": "curl exit6",
+    "anthropic_dns": "curl exit6"
+  },
+  "evidence": [
+    {
+      "private_file": "serial-claude-current-check-verified-private.txt",
+      "sha256": "b2f213a0f737e7d56f5c2bc895cae0d0c4dcaa5196d4391ac462ccf4af784433"
+    },
+    {
+      "private_file": "serial-claude-recheck-ui-verified-private.txt",
+      "sha256": "1a29caeabe0cd63cc399596e99ec3a01b8fe998b2438dca0dd5990e80b1371cc"
+    },
+    {
+      "private_file": "claude-recheck.png",
+      "sha256": "b91af8d597da1884ae3dfbdd8c9e17094ea9b44caae4226659014ebe053d5bae"
+    }
+  ],
+  "limitations": [
+    "No login or API request performed.",
+    "External network unresolved.",
+    "No assertion about other applications, physical smoothness or cold boot reliability.",
+    "Screenshot and raw device captures remain private."
+  ],
+  "exit_gate": "Local installation and visible offline-failure journey pass; online readiness requires an actual working network, user authentication and successful request.",
+  "side_effects": [
+    "Opened one Agent terminal window; no package, firmware, credentials or launcher modifications."
+  ]
+}

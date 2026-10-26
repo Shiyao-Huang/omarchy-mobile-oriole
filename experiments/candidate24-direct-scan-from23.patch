@@ -1,0 +1,22 @@
+--- a/drivers/input/touchscreen/fts_spi/fts_lib/ftsCore.c
++++ b/drivers/input/touchscreen/fts_spi/fts_lib/ftsCore.c
+@@ -339,17 +339,14 @@
+ int setScanMode(u8 mode, u8 settings)
+ {
+ 	u8 cmd[3] = { FTS_CMD_SCAN_MODE, mode, settings };
+-	/* Google ftm5 710d3b897ca2: prepare the bus before a scan command. */
+-	u8 prepare[7] = { 0xFA, 0x20, 0, 0, 0, 0, 0 };
+ 	int ret, size = 3;
+
+ 	logError(0, "%s %s: Setting scan mode: mode = %02X settings = %02X !\n",
+ 		 tag, __func__, mode, settings);
+ 	if (mode == SCAN_MODE_LOW_POWER)
+ 		size = 2;
+-	ret = fts_write_dma_safe(prepare, sizeof(prepare));
+-	if (ret >= OK)
+-		ret = fts_write_dma_safe(cmd, size);
++	/* Diagnostic direct scan: no bus-prepare write in this trial. */
++	ret = fts_write_dma_safe(cmd, size);
+ 	if (ret < OK) {
+ 		logError(1, "%s %s: write failed...ERROR %08X !\n", tag,
+ 			 __func__, ret);

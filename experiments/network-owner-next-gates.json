@@ -1,0 +1,45 @@
+{
+  "current": "offline failure-path tests and exact-kernel build passed; not loaded",
+  "next": [
+    {
+      "stage": "PCIe enum only",
+      "requires": [
+        "Exact built PMU-owner module hashes",
+        "Activation DT diff reviewed for PHY1/PCIe1 only; modem0 remains disabled",
+        "GPIO/pinctrl/clock range verified against matching stockOriole data",
+        "Kernel syscon PMU read/write table checked, secure failures abort",
+        "Fresh verified backups and initramfs watchdog+serial recovery",
+        "Disable automatic endpoint driver loading before enumeration"
+      ],
+      "pass": "PCIe vendor/device enumeration plus clean stop/unload/PMU restore and preserved recovery; not WiFi acceptance"
+    },
+    {
+      "stage": "WiFi",
+      "requires": [
+        "PCIe stage passes",
+        "brcmfmac matching modules and firmware mapping verified",
+        "DMA path reviewed before enabling endpoint DMA",
+        "Private WiFi target configuration kept outside Git"
+      ],
+      "pass": "SSID association, standalone route/DNS/HTTPS traffic and disconnect/reconnect; USB excluded"
+    },
+    {
+      "stage": "SIM and calls",
+      "requires": [
+        "CPIF/shmem/PCIe0/boot firmware/NV read-only path reviewed",
+        "ModemManager Shannon integration",
+        "China Mobile SIM tested directly"
+      ],
+      "pass": "Actual registration and independently routed mobile data; carrier/voice/IMS and 4G/5G capabilities reported from live evidence"
+    },
+    {
+      "stage": "GPU/camera/mobile UX",
+      "requires": [
+        "Cold-first-job and startup integration fix",
+        "Camera pipeline driver bring-up"
+      ],
+      "pass": "Repeated cold GUI boots, real touch/keyboard/wake, usable camera capture, thermal and mobileAgent journey"
+    }
+  ],
+  "limitations": "No staged plan is an executed hardware test."
+}

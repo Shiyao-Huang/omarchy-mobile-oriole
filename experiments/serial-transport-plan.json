@@ -1,0 +1,60 @@
+{
+  "claim": "Distinct serial completion marker prevents stale completion; terminal cursor queries are answered",
+  "oracle": "Two consecutive read-only commands complete with their own markers and expected output",
+  "validation": {
+    "user_journey": {
+      "scenario": "Remote diagnosis while operator away",
+      "expected": "No false success from preceding command"
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Unique marker per invocation",
+        "No hardware writes added",
+        "One serial owner at a time"
+      ]
+    },
+    "unit": {
+      "cases": [
+        "Python syntax",
+        "nonce match cannot accept old marker"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "Mac USB serial",
+        "initramfs shell"
+      ],
+      "evidence": []
+    }
+  },
+  "evidence": [],
+  "limitations": [
+    "Serial transfer still needs target checksums",
+    "Unexpected transport disconnect must fail"
+  ],
+  "exit_gate": "Actual read-only consecutive commands contain expected outputs and distinct markers",
+  "binary_transfer": {
+    "claim": "Bounded raw payload transfer over already-authorized USB serial with SHA256 atomic replacement",
+    "oracle": "Valid full payload accepted, truncated/wrong hash preserves old target, existing partial not deleted, TTY restored, actual serial commands work afterward",
+    "validation": {
+      "user_journey": "Deploy experimental library when USB network unavailable; interrupted upload never activates partial library",
+      "code_reasoning": [
+        "Fixed CLI destination allowlist",
+        "8MiB cap,120s deadline",
+        "Exclusive no-follow partial,hash before rename",
+        "Only owned partial removed,termios finally restored"
+      ],
+      "unit": "PTY tests valid,bad digest,truncated,pre-existing partial pass; PENDIN is kernel-maintained and masked only for configuration comparison",
+      "end_to_end": "PASS scoped USB serial file transfer and following command, not candidate library acceptance"
+    },
+    "evidence": [
+      "PTY pass: valid,bad digest,truncation,pre-existing partial; TTY flags restored except kernel-owned PENDIN",
+      "Real phone 131072-byte deterministic probe transferred; independently read SHA256 matches; fresh serial command succeeded"
+    ],
+    "limitations": [
+      "Transfer success does not validate binary or install anything",
+      "No TCP listener or security-setting change"
+    ],
+    "exit_gate": "Phone checksum matches, fresh verified command succeeds, candidate ELF/dependencies validated separately"
+  }
+}

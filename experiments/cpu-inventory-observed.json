@@ -1,0 +1,52 @@
+{
+  "dt": {
+    "cpu@300": {
+      "compatible": "arm,cortex-a55,",
+      "reg_hex": "00000300"
+    },
+    "cpu@600": {
+      "compatible": "arm,cortex-x1,",
+      "reg_hex": "00000600"
+    },
+    "cpu@200": {
+      "compatible": "arm,cortex-a55,",
+      "reg_hex": "00000200"
+    },
+    "cpu@500": {
+      "compatible": "arm,cortex-a76,",
+      "reg_hex": "00000500"
+    },
+    "cpu@0": {
+      "compatible": "arm,cortex-a55,",
+      "reg_hex": "00000000"
+    },
+    "cpu@100": {
+      "compatible": "arm,cortex-a55,",
+      "reg_hex": "00000100"
+    },
+    "cpu@400": {
+      "compatible": "arm,cortex-a76,",
+      "reg_hex": "00000400"
+    },
+    "cpu@700": {
+      "compatible": "arm,cortex-x1,",
+      "reg_hex": "00000700"
+    }
+  },
+  "kernel": {
+    "sched_energy_aware": "1",
+    "sched_util_clamp_min": null,
+    "sched_util_clamp_max": null
+  },
+  "inputs": [
+    "Oriole polling touchscreen",
+    "gpio-keys"
+  ],
+  "thermal_zones": 0,
+  "network": [
+    "lo",
+    "usb0"
+  ],
+  "camera_nodes": [],
+  "node": "{\"version\":\"v26.12.0\",\"parallelism\":8}"
+}

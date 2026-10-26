@@ -1,0 +1,38 @@
+{
+  "classification": "observed bounded Wi-Fi association, DHCP, DNS, HTTPS and reconnect in Oriole diagnostic Linux",
+  "kernel": "7.3.0-rc6-omamobile-oriole-m1",
+  "firmware": "BCM4389/3 20.101.90 FWID 01-3f632e0d",
+  "validation": {
+    "hardware": {
+      "pcie": "Gen2 x1 endpoint 14e4:4441",
+      "interface": "wlan0",
+      "association": "WPA four-way handshake completed with the operator-authorized AP",
+      "dhcp": "lease acquired and default route installed",
+      "dns": "api.github.com resolved through the DHCP-provided resolver",
+      "https": "curl to https://api.github.com/rate_limit returned HTTP 200 after NTP correction",
+      "reconnect": "after a controlled link-down/up, wpa_supplicant re-associated, DHCP reacquired a lease, and the HTTPS probe returned HTTP 200",
+      "cleanup": "endpoint unbound, Wi-Fi/PCIe/PHY modules removed, temporary firmware path restored, radio absent after teardown"
+    },
+    "unit": {
+      "w3_join": "experiments/test-wifi-w3-join.py: baseline and fixed contracts PASS; header-only mutation RED under ASan",
+      "w2_firmware_map": "digest, board guard, partial rollback and init-root mapping PASS",
+      "w2_teardown": "six injected failure boundaries PASS"
+    },
+    "user_journey": {
+      "scenario": "A mobile Agent node joins the user's authorized Wi-Fi, reaches an API endpoint, loses link briefly and resumes work.",
+      "observed": "The complete network path worked in the bounded diagnostic session."
+    }
+  },
+  "limitations": [
+    "The test used a temporary private firmware stage and runtime credentials; neither is included here.",
+    "The test ran in diagnostic init, not after a cold boot into the normal Omarchy desktop.",
+    "The system clock initially required a one-shot NTP correction; persistent timekeeping and suspend are open.",
+    "The current overlay has no restricted DMA pool, so this remains development-only and is not default-on packaging.",
+    "Cellular data, camera, thermal behavior and a sustained Agent workload remain unverified."
+  ],
+  "side_effects": [
+    "Temporary wireless and resolver state was removed after the run.",
+    "No Android, boot, calibration or modem partition was written."
+  ],
+  "next_gate": "Integrate the driver and network service into a normal Omarchy boot only after a fresh DMA/recovery review and a cold-boot user-journey run."
+}

@@ -1,0 +1,33 @@
+{
+  "scope": "checkpoint8 only; unrelated connectivity-n3 left untouched",
+  "checks": [
+    "actual upstreamC host compile -Wall -Wextra -Werror",
+    "bootB1 malformedheader tests",
+    "bootB2 actualC file mutation/idempotence/refusal tests",
+    "ARM64 static build warning0 and phone-copy test",
+    "real metadata fullcompare and independent freshserialBsuccess+RO",
+    "CPU guard unit tests and restored750us/watchdogclosed fresh observation",
+    "WiFi actualC ASan oldbaseline/header-only RED/fixed GREEN",
+    "WiFi exactkernelW1 and scopedcheckpatch pass from preceding build",
+    "Python syntax, JSON decode, README paths, scoped sensitive-content scan",
+    "Git whitespace check excludes embedded .patch: context-prefix spaces are intentional; actual patch checkpatch already passed."
+  ],
+  "not_proved": [
+    "Next reboot",
+    "Persistent GPU/touch desktop startup",
+    "WiFi association and API",
+    "SIM data/voice or camera",
+    "Thermal safety or sustained interactiveperformance"
+  ],
+  "known_failures": [
+    "CPU narrow performance oracle insufficient: candidate notretained",
+    "WSL source Git/raw transfer incomplete; no modem driver build",
+    "apt headers installed, unrelated pre-existing audiveris configure failed; no repair attempted"
+  ],
+  "side_effects": [
+    "SingleBsuccessflag write, partitions relocked",
+    "VolatileCPUrate restored",
+    "Crosslibc headers installed on buildhost",
+    "No bootimageflash and no reboot"
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "claim": "Logging the existing Panfrost poll result and later read-only core status distinguishes timeout state without new register writes or userspace MMIO.",
+  "oracle": "Exact source copy only adds dev_info using existing register names and existing values; logged requested/ready/transition masks; no jobs until ready matches. Kernel warning blocks acceleration acceptance.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Fix severe lag while retaining USB recovery and touch restore",
+      "expected": "Use new evidence to choose fix; GUI remains stopped until GPU healthy or restored software fallback"
+    },
+    "code_reasoning": {
+      "invariants": [
+        "No kernel-global source edits",
+        "Only log/read additions in existing power_on; no delay, power request or mask change",
+        "Same power/control=on; watchdog guards unload/reload",
+        "Current G6 overlay remains one application to avoid repeated OF property leak"
+      ],
+      "gitnexus": [
+        "External kernel actual power_on/probe/remove inspected directly"
+      ]
+    },
+    "unit": {
+      "red": "Build must reject any original power-on code or write changes",
+      "green": "Exact patch diff permits only added dev_info/read statements; W=1 against same config",
+      "cases": [
+        "original power commands preserved",
+        "all three power-on status logs present",
+        "no userspace MMIO"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "Panfrost",
+        "GPU register read",
+        "kernel log",
+        "USB",
+        "watchdog"
+      ],
+      "faults": [
+        "timeout is failure despite DRM registration",
+        "unload/reload hang triggers watchdog"
+      ],
+      "evidence": []
+    }
+  },
+  "evidence": [
+    "G6 driver initializes renderD128 but logs shader power timeout; GLES intentionally not executed"
+  ],
+  "limitations": [
+    "Logging may perturb timing; no throughput claim",
+    "Boot handoff rails still not controlled by regulators",
+    "ACPM provider also unblocked CPU cpufreq-dt: schedutil policies0/4/6 observed; GPU noDVFS is separate"
+  ],
+  "exit_gate": "Warning-free instrumented build and read-only diff; runtime status must be understood before GLES. Restore input/GUI or keep diagnostic if recovery required."
+}

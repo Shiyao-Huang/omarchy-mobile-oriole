@@ -1,0 +1,42 @@
+{
+  "kind": "source audit, not runtime GPU validation",
+  "kernel_head": null,
+  "kernel_tree_kind": "archive extraction with local bringup changes; no .git, use per-file hashes",
+  "sources_sha256": {
+    "drivers/gpu/drm/panfrost/panfrost_drv.c": "3d9ebe4e7ecef000e56339e10816bf17c91e32f6353c48d54fdb9d48e8117bf2",
+    "drivers/regulator/s2mps11.c": "47cbfe7cc0e651208f6fa907ee4481bbf6cdf7939e1013c15eeb6518ef4df78e",
+    "drivers/mfd/sec-acpm.c": "2639d710114e2b1670c4400fe9a3520b1fe910fd6d4c6c8839e30275d712a9dd",
+    "arch/arm64/boot/dts/exynos/google/gs101.dtsi": "87a8bc28e217617091b05a6dd7ad40b5381343a25ece44fd9d6015a6ed702ef7",
+    "arch/arm64/boot/dts/exynos/google/gs101-pixel-common.dtsi": "2e8b400111267ee3a2cbdf708717b4e2b451433e72d96973cf63379894b782d8"
+  },
+  "gs101_gpu_supplies": [
+    "mali",
+    "g3d-l2",
+    "g3d-m",
+    "int-m"
+  ],
+  "supply_array_has_NULL_sentinel": true,
+  "supply_count_contract": "ARRAY_SIZE - 1 is correct for current tree with NULL; older referenced fork lacked NULL",
+  "config": {
+    "CONFIG_EXYNOS_ACPM_PROTOCOL": "m",
+    "CONFIG_MFD_SEC_CORE": "y",
+    "CONFIG_MFD_SEC_ACPM": "m",
+    "CONFIG_REGULATOR_S2MPS11": "y",
+    "CONFIG_DRM_PANFROST": "m"
+  },
+  "s2mpg10_provider_sources": [
+    "drivers/regulator/s2mps11.c",
+    "drivers/mfd/sec-acpm.c",
+    "drivers/mfd/sec-common.c"
+  ],
+  "gpu_clock": "ext_24_5m placeholder, source explicitly TODO CMU_G3D; actual operating clock unverified",
+  "gpu_status": "disabled in source and live DT",
+  "missing_validation": [
+    "Resolved GPU supply phandles in exact installed M1 DTB",
+    "PMIC provider probe/rollback in thisphonekernel",
+    "GPU powered/clocked/secure-reset contract",
+    "DRM render node and actual hardware rendering",
+    "physical FPS/latency/wake"
+  ],
+  "no_hardware_changes": true
+}

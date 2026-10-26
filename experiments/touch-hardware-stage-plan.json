@@ -1,0 +1,73 @@
+{
+  "claim": "Pixel6 ST FTS SPI candidate produces physical multitouch events and feeds Omarchy input without firmware update or loss of USB recovery.",
+  "oracle": "SPI probe binds; evdev ABS_MT_POSITION_X/Y match real finger movement; fresh SSH remains healthy; user can tap, swipe and type through virtual keyboard.",
+  "validation": {
+    "user_journey": [
+      "Preserve current Omarchy rootfs and boot images",
+      "Enter Fastboot once image is ready",
+      "Boot to controlled USB initramfs stage",
+      "Stream logs and arm watchdog; explicitly load candidate",
+      "Continue to Omarchy only after successful probe",
+      "User taps, swipes, opens terminal and types; after failure return to saved boot image"
+    ],
+    "code_reasoning": [
+      "Exact known-good boot kernel/dtbo retained; overlay delta only SPI11/USI11 and touch pins",
+      "No PMIC/AoC/modem node activation; no supply manipulation; bootloader-retained touch rails are an unverified hypothesis",
+      "No diagnostic nodes; firmware burn entrypoints rejected",
+      "Explicit initramfs gate precedes module freeze and systemd; no auto driver insertion",
+      "userdata-only write allowlist unchanged; source board guard retained",
+      "Input-only build must return after parsing input GPIO/coordinates, before vendor firmware-selection array parsing; diagnostic and firmware paths remain disabled.",
+      "Google ftm5/ftsCore.c@710d3b897ca2a8948f8d7f4639af639da07b9a17 sends a seven-byte preparation command before setScanMode; test same sequence, with IRQ disabled after8 repeated ready events to bound failure."
+    ],
+    "unit": [
+      "Negative checks reject module ABI mismatch, missing board guard or altered write allowlist",
+      "Independent unpack verifies module, init and DT; comparison verifies kernel/dtbo unchanged",
+      "DT property assertions check GPIO routing, bounds and disabled unrelated devices"
+    ],
+    "end_to_end": [
+      "New boot USB SSH and watchdog",
+      "real SPI/IRQ -> evdev -> libinput -> Hyprland -> human visible touch result",
+      "Recovery image restore if USB or probe fails"
+    ]
+  },
+  "evidence": [
+    "Upstream flash tool reported OKAY for boot_b/vendor_boot_b/dtbo_b. After reboot host sees Fastboot, current-slot b, unbootable no, successful no, retry-count3. No module insertion occurred. Physical held-key condition awaiting confirmation.",
+    "Real initramfs SSH verified via public host key obtained from USB ACM. SPI device exists; watchdog/log-protected insmod exit0 but probe returns EINVAL for missing firmware config-array-size, before reset/regulator access. No input device.",
+    "Candidate2 registered fts event1 and read controller FW0x49; repeated ready events made input unstable. Watchdog-protected unload succeeded; no touch success claimed.",
+    "Candidate3 preparation write did not stop repeated ready events; eight-event IRQ guard stopped flooding. Fresh SSH healthy and load average 0.00.",
+    "Candidate4 board10MHz still repeats03; GPIO debug shows CS output high, reset output high, IRQ input high after guard. No touch proof.",
+    "Candidate5 pre-scan reads8: invalid69...,03x3,00x4. FIFO can empty before scan; after scan ready handler repeats03.",
+    "Candidate6 without IRQ: postscan00 then03x3 then00x4; IRQ raw becomes inactive high. readSysInfo header unexpectedly00 and first next FIFO has unrelated69... bytes. Transport staging hypothesis needs comparison.",
+    "Candidate7 single full-duplex transfer failed reset and chip ID read02/02. Reject helper and restore original split-read transport. Existing fallback attempted volatile SPI4 config, not firmware burn.",
+    "Candidate8 at1MHz still has invalid SysInfo dimensions; post-scan ready repeats3 then queue empties, IRQ inactive. No speed fix established.",
+    "Candidate9 failed initial reset/chip ID before IRQ change executed. Therefore drain-before-IRQ hypothesis untested; repeated module swaps have a state-dependent initialization problem. Candidate7 failure also cannot be attributed solely to transfer form.",
+    "Audit correction: candidate4 removed12MHz assignment but warm spi_device retains prior max_speed_hz; without resetting fromDT or measured clock it does not prove10MHz was used. Candidate8 explicitly caps at1MHz. Do not claim10MHz ruled out.",
+    "Candidate10 GPIO reset100ms/settle100ms plus startup FIFO drain bound successfully; IRQ explicitly enabled. Counter203244 remained unchanged over3s, loadavg0.00. SysInfo dimensions still invalid. Physical evdev capture armed; no finger proof yet.",
+    "User confirmed three taps and two horizontal swipes during active host evdev capture. Result0bytes/0events/0ABS_XY; IRQ stayed203244. NativeUSB healthy. Touch acceptance failed despite registration and IRQ enable."
+  ],
+  "limitations": [
+    "Candidate driver imported from GPL community source with inherited warnings",
+    "Initial rails-retained experiment may fail; then inspect supplies with fresh calibration backups before PMIC work",
+    "Touch success does not prove suspend/wake, rotation, mobile data or charging",
+    "Warm-reload state confounds transport comparisons; candidate4 clock not verified. Static assertions and compilation are not electrical unit tests."
+  ],
+  "exit_gate": "No supported-touch claim without physical events and visible UI operation; stop on oops, USB loss, reset/IRQ errors or unstable input. Restore saved vendor_boot through Fastboot.",
+  "status": "physical_touch_failed_no_evdev_or_irq",
+  "next_experiment": {
+    "claim": "Longer GPIO reset assertion and settling may give repeatable initialization",
+    "oracle": "Two successive controlled binds produce matching valid SysInfo and stable FIFO before physical touch test",
+    "validation": {
+      "user_journey": "USB controlled RAM swap; user does not need reboot yet",
+      "code_reasoning": "GPIO pulse and settle100ms; stop on reset failure instead of configuring SPI4 fallback; no power rails or firmware writes",
+      "unit": "Compiler/static checks only, no modeled hardware proof",
+      "end_to_end": "Watchdog loader and fresh SSH; independent second bind needed before attribution"
+    },
+    "evidence": [],
+    "limitations": [
+      "Delay is diagnostic, not confirmed hardware requirement",
+      "Warm-reload state confounds earlier transport comparisons"
+    ],
+    "exit_gate": "Consistent reset/header prerequisite before IRQ or touch validation"
+  },
+  "next_step": "Investigate GS101 touch analog/digital supply and protocol layout; fresh seven-partition read-only backup verified. No PMIC loaded yet."
+}

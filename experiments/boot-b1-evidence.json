@@ -1,0 +1,30 @@
+{
+  "observed": {
+    "version": "3.15",
+    "slots": {
+      "a": {
+        "retry_count": 2,
+        "unbootable": false,
+        "successful": true,
+        "active": false,
+        "fastboot_ok": true,
+        "reserved_nonzero": false
+      },
+      "b": {
+        "retry_count": 0,
+        "unbootable": false,
+        "successful": false,
+        "active": true,
+        "fastboot_ok": false,
+        "reserved_nonzero": false
+      }
+    }
+  },
+  "current_slot": "b",
+  "devinfo_readonly": true,
+  "boot_success_binary_present": false,
+  "boot_success_service_present": false,
+  "screenshot": "Fresh private screenshot shows Omarchy menu; physical display/touch unconfirmed",
+  "inference": "Missing successful flag with retry0 permits fallback on next boot; not proof of all earlier recovery causes",
+  "writes_performed": false
+}

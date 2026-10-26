@@ -1,0 +1,97 @@
+{
+  "stage": "gpu-g1-supply-read",
+  "status": "read-only snapshot passed, GPU not enabled",
+  "module_sha256": "578295546701d6eac1b2fbd8a961c264258aed3e9ce34bc353dac6986835e082",
+  "registers": [
+    {
+      "name": "B7M_CTRL",
+      "speedy": 0,
+      "register": "2a",
+      "first": "58",
+      "second": "58"
+    },
+    {
+      "name": "B7M_OUT1",
+      "speedy": 0,
+      "register": "2b",
+      "first": "58",
+      "second": "58"
+    },
+    {
+      "name": "B7M_OUT2",
+      "speedy": 0,
+      "register": "2c",
+      "first": "58",
+      "second": "58"
+    },
+    {
+      "name": "B2S_CTRL",
+      "speedy": 1,
+      "register": "15",
+      "first": "38",
+      "second": "38"
+    },
+    {
+      "name": "B2S_OUT1",
+      "speedy": 1,
+      "register": "16",
+      "first": "40",
+      "second": "40"
+    },
+    {
+      "name": "B2S_OUT2",
+      "speedy": 1,
+      "register": "17",
+      "first": "30",
+      "second": "30"
+    },
+    {
+      "name": "B8S_CTRL",
+      "speedy": 1,
+      "register": "25",
+      "first": "d8",
+      "second": "d8"
+    },
+    {
+      "name": "B8S_OUT1",
+      "speedy": 1,
+      "register": "26",
+      "first": "40",
+      "second": "40"
+    },
+    {
+      "name": "B8S_OUT2",
+      "speedy": 1,
+      "register": "27",
+      "first": "30",
+      "second": "30"
+    },
+    {
+      "name": "L1S_CTRL1",
+      "speedy": 1,
+      "register": "41",
+      "first": "24",
+      "second": "24"
+    },
+    {
+      "name": "L1S_CTRL2",
+      "speedy": 1,
+      "register": "42",
+      "first": "18",
+      "second": "18"
+    }
+  ],
+  "end_to_end": [
+    "fresh Linux diagnostic boot",
+    "11registers double-read,all equal",
+    "module unloaded",
+    "watchdog disarmed and FDclosure checked",
+    "USBserial responsive"
+  ],
+  "limits": [
+    "No voltage measurement",
+    "No GPU power/clock/renderer proof",
+    "L1S_CTRL1/2 are voltage selectors; enable bits are in shared LDO_CTRL1, not these fields"
+  ],
+  "images_flashed": false
+}

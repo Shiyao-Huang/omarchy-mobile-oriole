@@ -1,0 +1,6 @@
+{
+  "candidate_sha256": "23b338525f650d9e6f51218bfa385b851d676bb1d81cfd9f0f057b33e9957241",
+  "original_sha256": "82dd57588764273995c5faa913c9198f9d6e25d78da9ca830acd43f2591c2e24",
+  "elf": "aarch64",
+  "dependency_relocation_check": "pass"
+}

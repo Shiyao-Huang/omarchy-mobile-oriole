@@ -1,0 +1,21 @@
+{
+  "version": "2.1.308",
+  "platform": "linux-arm64",
+  "channel_at_fetch": "stable",
+  "source": "https://downloads.claude.ai/claude-code-releases/2.1.308/linux-arm64/claude.zst",
+  "official_installer_source": "https://claude.ai/install.sh",
+  "setup_documentation": "https://code.claude.com/docs/en/setup",
+  "binary": {
+    "binary": "claude",
+    "checksum": "fdd22e6cbb734d580f5664c48df4294eeec850218ff07f186f9af30426396ee1",
+    "size": 292085944
+  },
+  "compressed": {
+    "binary": "claude.zst",
+    "checksum": "6f872ce2362e3485abbd7dcb921514e3319ebe36c2efabb7193f128ed337d8d4",
+    "size": 102117787
+  },
+  "installer_script_sha256": "3a68d3406cf674e17bed1733a4dcf37805e2e47d87417700007d7e1aa766a944",
+  "integrity": "SHA256 against official HTTPS manifest, not independently verified signature",
+  "distribution": "Vendor binary remains private/outside source Git"
+}

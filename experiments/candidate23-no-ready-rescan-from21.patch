@@ -1,0 +1,13 @@
+--- a/drivers/input/touchscreen/fts_spi/fts.c
++++ b/drivers/input/touchscreen/fts_spi/fts.c
+@@ -2594,6 +2594,10 @@
+ 	release_all_touches(info);
+ 	setSystemResetedUp(1);
+ 	setSystemResetedDown(1);
++ /* Diagnostic: observe the FIFO without ready->rescan feedback.
++  * This does not implement recovery from a genuine controller reset. */
++ if (FTS_INPUT_ONLY_BRINGUP)
++  return;
+ 	error = fts_mode_handler(info, 0);
+ 	if (error < OK) {
+ 		logError(1,

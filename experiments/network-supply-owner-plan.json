@@ -1,0 +1,68 @@
+{
+  "claim": "The PCIe1 trial owns its WLAN enable regulator and releases it on probe failure and unbind instead of leaving an always-on GPIO rail behind.",
+  "oracle": "Exact host driver enables vpcie only after reset is asserted and validated domain=1; devres cleanup runs host/IRQ teardown before regulator disable; unrelated modem0 remains unchanged; errors are visible.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Start WiFi diagnostic, fail link/probe or interrupt/remove trial, recover phone over USB; no radio rail silently left on by an abandoned trial.",
+      "expected": "Serial remains recoverable, no endpoint autoload or DMA, watchdog available; later real association and reconnect required."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Stock gpp14-2 enable and gph2-0 PERST wiring checked",
+        "Remove regulator-always-on from experiment overlay",
+        "Acquire regulator only for PCI domain1",
+        "devm action registered before DWC host and IRQ cleanup",
+        "Preserve exact PMU/IRQ ownership helpers",
+        "No userspace PMU reads/writes",
+        "No hardware activation until backup/watchdog checks pass",
+        "Enumeration overlay has no module_exit: DT removal requires reboot; host/PHY unload must release clocks/rail first",
+        "Only PHY1/PCIe1 nodes become active; no IOMMU/S2MPU changes or DMA-pool activation",
+        "Block endpoint module autoload during trial"
+      ],
+      "gitnexus": [
+        "External kernel module outside indexed workspace; traced probe -> DWC -> init/deinit -> devres source"
+      ],
+      "ast": [
+        "Actual C helper extracted into fault tests; probe-order assertions complement runtime mocks"
+      ]
+    },
+    "unit": {
+      "red": "Baseline has no regulator consumer and overlay uses always-on, cannot meet release oracle",
+      "green": "Acquire/enable/managed-action failure and normal cleanup pass on actual C helper",
+      "cases": [
+        "modem0 skipped",
+        "WiFi supply acquisition fail",
+        "enable fail",
+        "action-registration failure invokes disable",
+        "normal cleanup",
+        "disable failure reported"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "exact running-kernel config/Module.symvers -> module build -> initramfs module load -> overlay -> PCIe endpoint enumeration"
+      ],
+      "faults": [
+        "probe failure",
+        "driver unload",
+        "watchdog reset"
+      ],
+      "evidence": []
+    }
+  },
+  "evidence": [
+    "Current phone modules_disabled=1, no PCI or WiFi interfaces",
+    "Stock DT and 18 board overlays agree on WLAN enable pin",
+    "Current kernel has CONFIG_DMA_RESTRICTED_POOL=y; FUSE=m but module not yet built",
+    "Supply/PMU/IRQ/MSI actual-C tests passed; exact kernel build passed",
+    "Enumeration overlay dtc/fdtoverlay passed with no warning",
+    "Latest calibration hash recheck FAILED against old G4 manifest for five mutable partitions; all remain read-only. Hardware activation gate closed."
+  ],
+  "limitations": [
+    "Build/unit results do not prove electrical levels or powered enumeration",
+    "Existing native WiFi and CPIF paths not accepted",
+    "No RF operation in enumeration trial",
+    "Overlay stays until reboot; not a full live DT rollback"
+  ],
+  "exit_gate": "Fault tests and exact-kernel build pass; inspect disable-capable regulator DT and runtime recovery before loading; endpoint DMA and networking remain separate gates."
+}

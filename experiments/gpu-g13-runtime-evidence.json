@@ -1,0 +1,29 @@
+{
+  "status": "First desktoptrial failed beforeGPUrender due stagingpermission; automaticrollback passed",
+  "failure": "GBMbackend Permission denied; prefixmode0700 blocked UID1000,while rootGLESpassed",
+  "cause_evidence": [
+    "Crashreport points to /opt/oriole-experiments/mesa-g10/lib/gbm/dri_gbm.so Permissiondenied",
+    "Stager used mkdtemp0700 thenrename preservingmode",
+    "Afterprefix0755,desktopuserloadedall6libraries andcouldaccessrenderD128"
+  ],
+  "correction": "Stagerpublishes0755directories;regressiontest;targetrunuserlibrarypreflight required",
+  "rollback": {
+    "stock_hashes": "unchanged",
+    "private_override": "removed",
+    "privateMesa_in_new_Hyprland_maps": false,
+    "watchdog": "disarmed",
+    "USB": "fresh commandpassed"
+  },
+  "performance_result": null,
+  "limits": [
+    "No benchmark completed in G13",
+    "G13R pending",
+    "Physicalinteractionuntested"
+  ],
+  "later_evidence": [
+    "gpu-g12-runtime-evidence.json",
+    "gpu-g13r-runtime-evidence.json",
+    "gpu-g14-runtime-evidence.json"
+  ],
+  "historical_scope": "This record preserves its original failed/staging experiment; later evidence describes subsequent success, not erasure of this failure."
+}

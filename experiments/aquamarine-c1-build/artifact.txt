@@ -1,0 +1,46 @@
+/out/build-clean/libaquamarine.so.0.15.1: ELF 64-bit LSB shared object, ARM aarch64, version 1 (GNU/Linux), dynamically linked, BuildID[sha1]=7fd1e8a8c2a91b0134ad106c9fd9fc29c85ffe1c, not stripped
+23b338525f650d9e6f51218bfa385b851d676bb1d81cfd9f0f057b33e9957241  /out/build-clean/libaquamarine.so.0.15.1
+
+Dynamic section at offset 0x15f690 contains 41 entries:
+  Tag        Type                         Name/Value
+ 0x0000000000000001 (NEEDED)             Shared library: [libEGL.so.1]
+ 0x0000000000000001 (NEEDED)             Shared library: [libOpenGL.so.0]
+ 0x0000000000000001 (NEEDED)             Shared library: [libGLESv2.so.2]
+ 0x0000000000000001 (NEEDED)             Shared library: [libseat.so.1]
+ 0x0000000000000001 (NEEDED)             Shared library: [libinput.so.10]
+ 0x0000000000000001 (NEEDED)             Shared library: [libwayland-client.so.0]
+ 0x0000000000000001 (NEEDED)             Shared library: [libhyprutils.so.13]
+ 0x0000000000000001 (NEEDED)             Shared library: [libpixman-1.so.0]
+ 0x0000000000000001 (NEEDED)             Shared library: [libdrm.so.2]
+ 0x0000000000000001 (NEEDED)             Shared library: [libgbm.so.1]
+ 0x0000000000000001 (NEEDED)             Shared library: [libudev.so.1]
+ 0x0000000000000001 (NEEDED)             Shared library: [libdisplay-info.so.3]
+ 0x0000000000000001 (NEEDED)             Shared library: [libstdc++.so.6]
+ 0x0000000000000001 (NEEDED)             Shared library: [libm.so.6]
+ 0x0000000000000001 (NEEDED)             Shared library: [libgcc_s.so.1]
+ 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
+ 0x0000000000000001 (NEEDED)             Shared library: [ld-linux-aarch64.so.1]
+ 0x000000000000000e (SONAME)             Library soname: [libaquamarine.so.14]
+ 0x000000000000000c (INIT)               0x42248
+ 0x000000000000000d (FINI)               0x10d20c
+ 0x0000000000000019 (INIT_ARRAY)         0x15c548
+ 0x000000000000001b (INIT_ARRAYSZ)       56 (bytes)
+ 0x000000000000001a (FINI_ARRAY)         0x15c580
+ 0x000000000000001c (FINI_ARRAYSZ)       8 (bytes)
+ 0x000000006ffffef5 (GNU_HASH)           0x1f0
+ 0x0000000000000005 (STRTAB)             0x10ca8
+ 0x0000000000000006 (SYMTAB)             0x35e0
+ 0x000000000000000a (STRSZ)              125774 (bytes)
+ 0x000000000000000b (SYMENT)             24 (bytes)
+ 0x0000000000000003 (PLTGOT)             0x15ffe8
+ 0x0000000000000002 (PLTRELSZ)           29112 (bytes)
+ 0x0000000000000014 (PLTREL)             RELA
+ 0x0000000000000017 (JMPREL)             0x3b090
+ 0x0000000000000007 (RELA)               0x30c80
+ 0x0000000000000008 (RELASZ)             42000 (bytes)
+ 0x0000000000000009 (RELAENT)            24 (bytes)
+ 0x000000006ffffffe (VERNEED)            0x309e0
+ 0x000000006fffffff (VERNEEDNUM)         7
+ 0x000000006ffffff0 (VERSYM)             0x2f7f6
+ 0x000000006ffffff9 (RELACOUNT)          886
+ 0x0000000000000000 (NULL)               0x0

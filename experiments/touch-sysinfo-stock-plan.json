@@ -1,0 +1,39 @@
+{
+  "claim": "FollowGoogleoriginal reset/FIFO ready then full216byte splitcommand/RX read to avoid unsupportedchunking/timingassumptions.",
+  "oracle": "Threefresh216byteframes haveA5/01header, chip0Id4836, fw0049, SVN4694,cfg0308,coords2399x1079,TX16/RX34 perstockthisphone. ReportconflictwithHWID; noIRQ/inputpromotion.",
+  "validation": {
+    "user_journey": "Diagnosticremainsconnected; installationstillincompletewithoutrealinput.",
+    "code_reasoning": [
+      "Googlefts_system_reset polls87 FIFO for03ready before readSysInfo",
+      "Use16boundedFIFOreads thenstocksplitA70000+217RX; noIRQ andnopersistentwrites",
+      "Allbuffers256bytes; largestRX217; no rawdieinfo printed"
+    ],
+    "unit": "Offsetsfromindependentlyknownstockparser; sourceboundscheck andW=1build; nothardwareunitproof",
+    "end_to_end": "Threeframesreadonphone; comparespecificfieldswithoriginalstockdmesg thenindependentrailrollback"
+  },
+  "evidence": [
+    "Stockthisphone FW0049 SVN4694 CFG0308 XY2399/1079 TX16 RX34 and216bytesparsed",
+    "GPIOmode0 andhardwareSPIbothproduceidenticalresponses; transportfaultnotestablished",
+    "OldFTScandidatesreadFW0049 butimplausiblegeometry"
+  ],
+  "limitations": [
+    "Chunkedreadnotyetverified",
+    "Hardware-registerIDfailure remains unresolved",
+    "No touchscreenusabilityproof",
+    "LargeRX mayusecontrollerchunking; sourcepathmustpreserveCS"
+  ],
+  "exit_gate": "RequirevalidSysInfofieldsandrecordHWIDconflict; noinputuntilprotocolconsistent",
+  "result": {
+    "status": "first_header_and_identity_match_geometry_and_repeats_fail",
+    "first_chip": "3648",
+    "first_fw": "0049",
+    "first_svn": "4694",
+    "first_cfg": "0308",
+    "x_at80": 14089,
+    "y_at82": 4100,
+    "tx_at84": 34,
+    "rx_at85": 0,
+    "repeated_header": "00/78",
+    "rollback": "verified"
+  }
+}

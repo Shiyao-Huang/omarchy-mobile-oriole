@@ -1,0 +1,62 @@
+{
+  "claim": "PCIe initial bring-up must not access PHY/ELBI after failed PMU isolation release, and must restore only its saved PMU bits on failure/teardown.",
+  "oracle": "Actual C injected isolation errors/ambiguous writes/readback mismatch stop before PHY and ELBI; link-enable failure exits PHY and restores PMU; failed restore retains clocks and reports failure rather than claiming cleanup; normal teardown restores exact owned bits with unrelated bits preserved.",
+  "validation": {
+    "user_journey": {
+      "scenario": "WiFi bring-up fails before enumeration; the operator retains USB recovery and a clear failure log instead of a frozen bus.",
+      "expected": "No wireless-ready claim; reboot recovery required if PMU restoration cannot be verified."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Use only existing syscon regmap secure callbacks, never userspace MMIO",
+        "PMU offsets0x3ec0/0x3ec4 from exact GS101 header; allow only owned bits0 and10",
+        "Read original bits before first write; verify every update and restoration",
+        "Propagate errors before PHY/ELBI access",
+        "Keep clocks enabled if restoration cannot be verified; log explicit recovery failure",
+        "This initial host path does not certify existing modem relink compatibility callbacks"
+      ],
+      "gitnexus": [
+        "External driver independent of neweval graph; exact source/PMU callback control flow inspected"
+      ],
+      "ast": [
+        "Extract actual C host-init/deinit/helpers into fault harness"
+      ]
+    },
+    "unit": {
+      "red": "Original isolation helper ignores regmap error and host_init continues to PHY",
+      "green": "Pending",
+      "cases": [
+        "clock failure",
+        "PMU snapshot failure",
+        "isolation denied",
+        "ambiguous failed write",
+        "silent write/readback mismatch",
+        "PHY init failure",
+        "link-enable denied",
+        "restore failure",
+        "normal teardown and unrelated-bit preservation"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "exact-kernel W=1 build",
+        "modpost"
+      ],
+      "faults": [
+        "No hardware loading under offline plan"
+      ],
+      "evidence": []
+    }
+  },
+  "evidence": [
+    "tensor_sec_update_bits uses per-bit secure calls, can return error partway through multi-bit update",
+    "Current source host_init ignores isolation/link return codes"
+  ],
+  "limitations": [
+    "Host mocks do not prove secure firmware permission or physical sequencing",
+    "Hardware trial still gated on calibration backup, DT/DMA review, watchdog and logs",
+    "Modem relink path and suspend not certified",
+    "No WiFi association/traffic demonstrated"
+  ],
+  "exit_gate": "Actual C fault injection and exact-kernel build pass; preserve distinct source/hash identity; no phone activation until separate runtime gate."
+}

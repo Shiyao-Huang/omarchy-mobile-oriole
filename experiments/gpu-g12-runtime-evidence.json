@@ -1,0 +1,17 @@
+{
+  "status": "geometry shader/readback passed after earlierGPUreset",
+  "renderer": "Mali-G78 MC20 (Panfrost)",
+  "version": "OpenGL ES3.1 Mesa26.2.4-oriole.g10",
+  "frames": 3,
+  "pixels_verified": 768,
+  "seconds": 0.031,
+  "GPU_errors_in_stage": 0,
+  "watchdog_disarmed": true,
+  "limits": [
+    "G10 firstjobfailed and resetGPU; G11clear ranbeforethispass",
+    "Coldbootreliability notfixed",
+    "Not desktoplatencyorphysicaltouchacceptance"
+  ],
+  "probe_unchanged_from_g10": true,
+  "private_log_sha256": "256aef2ddc684624e39b7b2687e6a4cad3e681a25707b449a4b2b934d2a3744c"
+}

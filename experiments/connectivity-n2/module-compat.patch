@@ -1,0 +1,47 @@
+--- a/pcie-gs101.c
++++ b/pcie-gs101.c
+@@ -28,6 +28,9 @@
+ #include <linux/regmap.h>
+ 
+ #include "pcie-designware.h"
++#include <linux/irq.h>
++#include <linux/irqdesc.h>
++#include "msi-demux.inc"
+ 
+ /* ELBI registers */
+ #define PCIE_APP_LTSSM_ENABLE		0x054
+@@ -101,6 +104,25 @@
+  * vendor-stub-include, which is only on the out-of-tree modules' search path.
+  */
+ struct exynos_pcie_register_event;
++
++void exynos_pcie_set_perst_gpio(int ch_num, bool on);
++int exynos_pcie_rc_chk_link_status(int ch_num);
++int exynos_pcie_rc_l1ss_ctrl(int enable, int id, int ch_num);
++int exynos_pcie_register_event(struct exynos_pcie_register_event *reg);
++void exynos_pcie_rc_register_dump(int ch_num);
++void exynos_pcie_rc_dump_all_status(int ch_num);
++bool exynos_pcie_rc_get_cpl_timeout_state(int ch_num);
++bool exynos_pcie_rc_get_sudden_linkdown_state(int ch_num);
++void exynos_pcie_rc_force_linkdown_work(int ch_num);
++void exynos_pcie_set_ready_cto_recovery(int ch_num);
++int exynos_pcie_poweron(int ch_num, int spd, int width);
++int exynos_pcie_poweroff(int ch_num);
++int exynos_pcie_rc_set_outbound_atu(int ch_num, u32 target_addr, u32 offset, u32 size);
++int exynos_pcie_set_msi_ctrl_addr(int num, u64 msi_ctrl_addr);
++int register_separated_msi_vector(int ch_num, irq_handler_t handler, void *context, int *irq_num);
++void exynos_pcie_rc_print_msi_register(int ch_num);
++void exynos_pcie_rc_set_sudden_linkdown_state(int ch_num, bool recovery);
++void exynos_pcie_rc_set_cpl_timeout_state(int ch_num, bool recovery);
+ 
+ static struct gs101_pcie *gs101_pcie_get_ch(int ch_num)
+ {
+@@ -288,7 +310,7 @@
+ 	gs101_elbi_write(pcie, val, PCIE_IRQ2);		/* write-1-to-clear */
+ 
+ 	if (val & IRQ_MSI_RISING_ASSERT)
+-		dw_handle_msi_irq(pp);
++		oriole_n2_handle_msi_irq(pp);
+ 
+ 	return IRQ_HANDLED;
+ }

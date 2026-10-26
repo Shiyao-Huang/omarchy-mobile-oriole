@@ -1,0 +1,26 @@
+--- a/panfrost_gpu.c
++++ b/panfrost_gpu.c
+@@ -467,6 +467,7 @@
+ 		10, 20000);
+ 	if (ret)
+ 		dev_err(pfdev->base.dev, "error powering up gpu L2");
++	dev_info(pfdev->base.dev, "ORIOLE_GPU_G7 L2 ret=%d expected=%llx ready=%08x transition=%08x\n", ret, (unsigned long long)(pfdev->features.l2_present & core_mask), val, gpu_read(pfdev, L2_PWRTRANS_LO));
+ 
+ 	gpu_write(pfdev, SHADER_PWRON_LO,
+ 		  pfdev->features.shader_present & core_mask);
+@@ -475,12 +476,15 @@
+ 		10, 20000);
+ 	if (ret)
+ 		dev_err(pfdev->base.dev, "error powering up gpu shader");
++	dev_info(pfdev->base.dev, "ORIOLE_GPU_G7 shader ret=%d expected=%llx ready=%08x transition=%08x\n", ret, (unsigned long long)(pfdev->features.shader_present & core_mask), val, gpu_read(pfdev, SHADER_PWRTRANS_LO));
+ 
+ 	gpu_write(pfdev, TILER_PWRON_LO, pfdev->features.tiler_present);
+ 	ret = readl_relaxed_poll_timeout(pfdev->iomem + TILER_READY_LO,
+ 		val, val == pfdev->features.tiler_present, 10, 1000);
+ 	if (ret)
+ 		dev_err(pfdev->base.dev, "error powering up gpu tiler");
++	dev_info(pfdev->base.dev, "ORIOLE_GPU_G7 tiler ret=%d expected=%llx ready=%08x transition=%08x\n", ret, (unsigned long long)(pfdev->features.tiler_present), val, gpu_read(pfdev, TILER_PWRTRANS_LO));
++	dev_info(pfdev->base.dev, "ORIOLE_GPU_G7 stacks present=%08x ready=%08x transition=%08x shader_config=%08x\n", gpu_read(pfdev, GPU_STACK_PRESENT_LO), gpu_read(pfdev, STACK_READY_LO), gpu_read(pfdev, STACK_PWRTRANS_LO), gpu_read(pfdev, GPU_SHADER_CONFIG));
+ }
+ 
+ void panfrost_gpu_power_off(struct panfrost_device *pfdev)

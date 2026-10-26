@@ -1,0 +1,27 @@
+{
+  "claim": "A fresh private off-device backup matches all seven protected partitions while preserving the older mismatching baseline.",
+  "oracle": "PARTNAME and read-only checks; source/copy/source digest match; exact seven names and lengths; host rehash/decompression match. No partition write or restore.",
+  "validation": {
+    "user_journey": "Before WiFi trial, recover the current calibration state even if networking is unavailable. Interrupted transfers leave only unaccepted partial files; old backups remain.",
+    "code_reasoning": [
+      "Allowlist partition names only; unique private destination",
+      "Immutable staged gzip and manifest; decode only bounded bytes",
+      "Never infer why an older baseline differs; record discrepancy separately",
+      "Reuse unchanged modem copies only if fresh source and host file hashes match"
+    ],
+    "unit": "Host base64 decoder rejects missing/truncated/duplicate framing, bad length and digest; valid fixture accepted.",
+    "end_to_end": "Real phone RO read -> gzip snapshot -> second source hash -> USB serial framed bytes -> private Mac4 file -> decompress/hash -> final fresh source recheck."
+  },
+  "evidence": [
+    "Previous G4 baseline differs for five mutable partitions; current all seven RO",
+    "Mac4 locked and NCM absent, ACM serial live",
+    "Fresh seven-partition off-device backup verified; original backups retained",
+    "Unpaced output corruption rejected; paced retry passed",
+    "Six protected partitions unchanged across two diagnostic reboots; devinfo separately captured after each"
+  ],
+  "limitations": [
+    "Backup proves current bytes captured, not historical correctness or a tested restore",
+    "Fresh backup does not explain old differences or authorize RF/DMA independently"
+  ],
+  "exit_gate": "All seven independently checked off-device and a final source recheck passes; otherwise no hardware activation."
+}

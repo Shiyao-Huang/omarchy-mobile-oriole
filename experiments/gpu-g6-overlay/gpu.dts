@@ -1,0 +1,12 @@
+/dts-v1/;
+/plugin/;
+/ {
+ fragment@0 {
+  target-path = "/soc@0/gpu@1c500000";
+  __overlay__ {
+   clocks = <&acpm_ipc 5>, <&acpm_ipc 6>;
+   clock-names = "core", "bus";
+   status = "okay";
+  };
+ };
+};

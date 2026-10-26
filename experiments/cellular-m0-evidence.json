@@ -1,0 +1,24 @@
+{
+  "status": "read-only prerequisites identified; no modem driver build or hardware activation",
+  "source": "gs101-mainline@850061c79264d018317e9f849701f165e138e20c modem/ and vendor-stub-include/",
+  "reference": "pixel6-mainline-nura@a74e18dec7598f65cd504f0c75c10b8d7fc4422b",
+  "phone_observations": {
+    "reserved_memory_modem_nodes": [],
+    "modem_device_nodes": [],
+    "loaded_modem_modules": [],
+    "ModemManager": "inactive",
+    "modules_disabled": 1
+  },
+  "build_prerequisite": "Reviewed boot-time reserved memory is absent; CPIF cannot be treated as a safe loadable drop-in. Match S5123/GS101, not Pixel7 S5300.",
+  "source_transfer": "Git commit fetched; lazy blob archive timed out. Raw pinned Git-blob-verified fallback transferred some files, then timed out. No complete manifest or build claimed. Bulk Git object fetch also failed with GnuTLS -110; no source-complete claim.",
+  "next_steps": [
+    "Resume missing pinned files with per-file bounded retries and progress",
+    "Audit CPIF external dependencies and PCIe no-op callbacks",
+    "Build offline before any DT or modem power trial"
+  ],
+  "limits": [
+    "China Mobile registration/data/VoLTE/5G not tested",
+    "No firmware, calibration or proprietary daemon redistributed",
+    "No modem power changes"
+  ]
+}

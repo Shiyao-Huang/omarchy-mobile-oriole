@@ -1,0 +1,190 @@
+{
+  "counts": {
+    "polls": 7458,
+    "empty": 102,
+    "ready": 3,
+    "touch": 108,
+    "other": 7245
+  },
+  "logged_valid_records": [
+    {
+      "sample": 105,
+      "event": "motion",
+      "slot": 0,
+      "type": 1,
+      "x": 800,
+      "y": 1418,
+      "pressure": 32,
+      "raw": "23 01 20 a3 58 20 99 00"
+    },
+    {
+      "sample": 106,
+      "event": "motion",
+      "slot": 0,
+      "type": 1,
+      "x": 800,
+      "y": 1418,
+      "pressure": 32,
+      "raw": "23 01 20 a3 58 20 99 00"
+    },
+    {
+      "sample": 107,
+      "event": "motion",
+      "slot": 0,
+      "type": 1,
+      "x": 800,
+      "y": 1418,
+      "pressure": 32,
+      "raw": "23 01 20 a3 58 20 99 00"
+    },
+    {
+      "sample": 108,
+      "event": "motion",
+      "slot": 0,
+      "type": 1,
+      "x": 800,
+      "y": 1418,
+      "pressure": 32,
+      "raw": "23 01 20 a3 58 20 99 00"
+    },
+    {
+      "sample": 109,
+      "event": "motion",
+      "slot": 0,
+      "type": 1,
+      "x": 800,
+      "y": 1418,
+      "pressure": 32,
+      "raw": "23 01 20 a3 58 20 99 01"
+    },
+    {
+      "sample": 110,
+      "event": "motion",
+      "slot": 0,
+      "type": 1,
+      "x": 800,
+      "y": 1418,
+      "pressure": 32,
+      "raw": "23 01 20 a3 58 20 99 01"
+    },
+    {
+      "sample": 111,
+      "event": "motion",
+      "slot": 0,
+      "type": 1,
+      "x": 800,
+      "y": 1418,
+      "pressure": 32,
+      "raw": "23 01 20 a3 58 20 99 01"
+    },
+    {
+      "sample": 112,
+      "event": "motion",
+      "slot": 1,
+      "type": 1,
+      "x": 516,
+      "y": 1505,
+      "pressure": 16,
+      "raw": "23 11 04 12 5e 10 99 00"
+    },
+    {
+      "sample": 113,
+      "event": "motion",
+      "slot": 1,
+      "type": 1,
+      "x": 516,
+      "y": 1505,
+      "pressure": 16,
+      "raw": "23 11 04 12 5e 10 99 00"
+    },
+    {
+      "sample": 114,
+      "event": "motion",
+      "slot": 1,
+      "type": 1,
+      "x": 510,
+      "y": 1491,
+      "pressure": 32,
+      "raw": "23 11 fe 31 5d 20 99 00"
+    },
+    {
+      "sample": 115,
+      "event": "motion",
+      "slot": 1,
+      "type": 1,
+      "x": 509,
+      "y": 1485,
+      "pressure": 32,
+      "raw": "23 11 fd d1 5c 20 99 00"
+    },
+    {
+      "sample": 116,
+      "event": "motion",
+      "slot": 1,
+      "type": 1,
+      "x": 507,
+      "y": 1484,
+      "pressure": 32,
+      "raw": "23 11 fb c1 5c 20 99 00"
+    },
+    {
+      "sample": 117,
+      "event": "motion",
+      "slot": 1,
+      "type": 1,
+      "x": 507,
+      "y": 1484,
+      "pressure": 32,
+      "raw": "23 11 fb c1 5c 20 99 00"
+    },
+    {
+      "sample": 118,
+      "event": "motion",
+      "slot": 1,
+      "type": 1,
+      "x": 507,
+      "y": 1484,
+      "pressure": 32,
+      "raw": "23 11 fb c1 5c 20 99 00"
+    },
+    {
+      "sample": 119,
+      "event": "leave",
+      "slot": 1,
+      "type": 1,
+      "x": 507,
+      "y": 1484,
+      "pressure": 0,
+      "raw": "33 11 fb c1 5c 00 00 00"
+    }
+  ],
+  "unique_logged_positions": [
+    [
+      507,
+      1484
+    ],
+    [
+      509,
+      1485
+    ],
+    [
+      510,
+      1491
+    ],
+    [
+      516,
+      1505
+    ],
+    [
+      800,
+      1418
+    ]
+  ],
+  "physical_timing": "User acknowledged completion immediately after READY; status atuptime1434.54 within1415.205..1595.229 window",
+  "limits": [
+    "108 includes repeated samples; not108 gestures and not proof of stable input",
+    "Only64nonempty raw records logged, so later records lack detailed raw evidence",
+    "IRQ raw sampled AFTER read, so raw1 cannot establish absence of an interrupt before read",
+    "Raw touch-type records and changing plausible coordinates support sensing/SPI partial operation, not GUI usability or isolatedIRQrootcause"
+  ]
+}

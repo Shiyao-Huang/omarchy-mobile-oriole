@@ -1,0 +1,60 @@
+{
+  "claim": "Opaque foot terminal (C2) may reduce alpha blending/occluded scene cost in llvmpipe without changing global config or the stock display library.",
+  "oracle": "Same stock Aquamarine and terminal workload, alter only foot colors.alpha=1.0. Require rc0, changing DRM frame IDs and screenshots, repeated reduction in CPU; physical input latency remains pending.",
+  "validation": {
+    "user_journey": {
+      "scenario": "User opens apps and types using touch; while away remote window changes check compositor frames only",
+      "expected": "No blank session; physical smoothness remains pending"
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Read actual option support before mutation",
+        "One option per experiment",
+        "Do not change display mode, GPU power or boot images",
+        "Runtime option only; reload original configuration for rollback",
+        "Foot override applies only to spawned short-lived benchmark terminal; no installed config edit"
+      ],
+      "gitnexus": [
+        "External Hyprland runtime; inspect option schema/current config directly, not indexed in workspace"
+      ]
+    },
+    "unit": {
+      "red": "Observed foot returned0 after rejecting an unknown option; rc0 alone is a false-success oracle. Invalid trial excluded.",
+      "green": "Assessment rejects parser errors, failed/incomplete screenshots and non-updating scanout despite rc0.",
+      "cases": [
+        "valid synthetic draw only",
+        "rc nonzero",
+        "err: config error with rc0",
+        "capture-failed mixed with a valid hash",
+        "constant scanout",
+        "missing fields",
+        "physical acceptance never inferred"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "hyprctl",
+        "Hyprland",
+        "simpledrm",
+        "same timed foot workload"
+      ],
+      "faults": [
+        "Timer reload restores original option"
+      ],
+      "evidence": []
+    }
+  },
+  "evidence": [
+    "Actual blur=false, shadow=false, opacity1; llvmpipe threads and libLLVM23.1 observed",
+    "Original Aquamarine restored by timer; rollback same workload174.44%CPU and45errors",
+    "Corrected C2: parser error absent, CPU171.62 versus stock174.44/175.34; insufficient performance change to retain configuration"
+  ],
+  "limitations": [
+    "Software rendering remains",
+    "No physical touch acceptance while user away",
+    "17-second CPU samples are workload-specific and not sustained thermal results",
+    "First C2 colors.alpha override rejected; corrected from installed foot.ini schema to colors-dark.alpha"
+  ],
+  "exit_gate": "Require changing screenshots, unchanged original config, successful rollback and a measurable repeated workload improvement before retaining any option.",
+  "status": "C2 not promoted; no installed configuration changes"
+}

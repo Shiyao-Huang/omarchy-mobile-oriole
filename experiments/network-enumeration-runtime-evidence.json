@@ -1,0 +1,187 @@
+{
+  "status": "WiFi enumeration failed at unsupported PMU bit10 requirement; desktop GPU and touch restored after guarded tests",
+  "kernel": "7.3.0-rc6-omamobile-oriole-m1",
+  "backup": {
+    "fresh_off_device_seven_pass": true,
+    "old_backups_preserved": true,
+    "method": "read-only source/gzip/source, framed USB serial -> decoded hash -> host file hash -> fresh source hash; unchanged modem files reused only after matching fresh source and host hashes",
+    "transport_failure": "First unpaced2MiB output was truncated; decoder rejected it. Paced retry passed full gzip and decompressed digests.",
+    "after_reboots": "Six calibration/firmware partitions unchanged. devinfo changed across diagnostic reboot and was captured/verified separately after each reboot. Earlier five-partition differences remain unexplained; no claim of corruption or successful restore."
+  },
+  "trials": [
+    {
+      "revision": "enum1 + supply2",
+      "result": "FAIL",
+      "failure": "Parent SoC mapping omitted PCIe window; OF_BAD_ADDR and missing config resource",
+      "cleanup": "host/PHY modules removed; WLAN supply disabled; serial responsive; watchdog disarmed"
+    },
+    {
+      "revision": "enum2 + supply2",
+      "result": "FAIL",
+      "improvement": "Kernel parses memory0x60000000..0x60feffff correctly",
+      "failure": "host init EIO",
+      "cleanup": "host/PHY removed, supply disabled, watchdog disarmed"
+    },
+    {
+      "revision": "enum2 + diagnostics3",
+      "result": "FAIL",
+      "observed": "PMU0x3ec4 mask0x400 want0x400 got0; PMU link phase EIO. Clock enable, isolation and PHY init returned success.",
+      "cleanup": "host/PHY removed, supply disabled, watchdog disarmed"
+    }
+  ],
+  "validation": {
+    "unit": [
+      "8 decoder cases PASS",
+      "actual parent guard C/ASan/UBSan PASS",
+      "supply/PMU/IRQ/MSI fault cases PASS on diagnostic3"
+    ],
+    "code_reasoning": "M8 parent SoC ranges include HSI1/HSI2; node-only extraction omitted parent coverage. Corrected overlay preserves original range and adds HSI2 only. Pinned official GS101 source uses PMU mask0x1; subsequent v4a correction is tracked separately, not hardware-verified.",
+    "end_to_end": "Three real bounded initramfs trials plus serial log capture and cleanup; all enumerations failed. Not a WiFi success.",
+    "user_journey": "Desktop/touch processes restored; physical touch/smoothness not retested; no working independent network."
+  },
+  "next_gate": "Align initial bring-up with pinned GS101 vendor isolation, reset, RC-mode and PHY polling sequence; unit-test owned bits and failure cleanup before next powered trial.",
+  "limitations": [
+    "No endpoint enumeration or DMA",
+    "No RF association, DNS or HTTPS",
+    "No mobile registration/call/camera changes",
+    "No automatic startup package accepted"
+  ],
+  "evidence": [
+    {
+      "private_log": "serial-network-snapshot-verified-private.txt",
+      "sha256": "7e08958f88c8e43cfc9e86cc4d20a5b62a8cfdf3b26f02836e882822a4538a56"
+    },
+    {
+      "private_log": "serial-network-fresh-verify-verified-private.txt",
+      "sha256": "47c3f7023bf682c7b4e2fa76505e86f544df6a88d19ee41f71fd3edb54fbfb7e"
+    },
+    {
+      "private_log": "serial-network-init-backup-verified-private.txt",
+      "sha256": "f9421ae42a02966ed494076a1e05b45f7f6fed9609dcc7f3b98646c83cdff705"
+    },
+    {
+      "private_log": "serial-network-enum-trial-verified-private.txt",
+      "sha256": "ac10ca9fe16e244b702c985c4e0257bb875ba1394a8502f8481046d763ef4842"
+    },
+    {
+      "private_log": "serial-network-post-trial-verified-private.txt",
+      "sha256": "7b605ac1ca8e5af16e0844de24b50e914110b65534cc8e929afc753ff1afa5e7"
+    },
+    {
+      "private_log": "serial-network-r2-backup-verified-private.txt",
+      "sha256": "cda8ca127bcac016cd05db0a3c850bb9ed31cac18ca3ab059f7112f51f934129"
+    },
+    {
+      "private_log": "serial-network-enum-r2-trial-verified-private.txt",
+      "sha256": "f391f036e23f1c0730302ec085f7788a5905721313142b71f70a9bb8c287ea56"
+    },
+    {
+      "private_log": "serial-network-enum-r3-trial-verified-private.txt",
+      "sha256": "12c0d615d09e5ac7b866818d55ae20072753e1128c606450336676e2d832206e"
+    },
+    {
+      "private_log": "serial-network-clear-check-verified-private.txt",
+      "sha256": "10961e4dc5df855d332a91158081cf82fb208cd703d45830ee6de915e44ec673"
+    },
+    {
+      "private_log": "serial-network-geometry-check-verified-private.txt",
+      "sha256": "28c2d8727c77863c8f3634a1791a214e4c3fffc1bd33bc0f64f5f022bbaec1d1"
+    },
+    {
+      "private_log": "serial-network-geometry-recovered-verified-private.txt",
+      "sha256": "89d4ce01d49d10f307846e486f21ae39b29231ef63aa7bd38e0c54687f5a7c7e"
+    },
+    {
+      "private_log": "serial-network-gpu-activate-verified-private.txt",
+      "sha256": "a0d8ca95215ee94a9d679b3b4a29de0387c409a897313dc2b5bfcf38a9123163"
+    },
+    {
+      "private_log": "serial-g14-confirm-verified-private.txt",
+      "sha256": "b09d7ce5ca7e90c907f9dd08cce381625d4b69b929a5d39e22aea3753e53ddd0"
+    },
+    {
+      "private_log": "serial-network-final-health-verified-private.txt",
+      "sha256": "7a5e8a8c5e2a50c1d8793530e8f3c9c121797f862f09a9684c49b4bb3af2ec2c"
+    }
+  ],
+  "overlay_r2_build": {
+    "status": "Build passed; subsequently loaded in trials2/3; endpoint enumeration failed",
+    "kernel": "7.3.0-rc6-omamobile-oriole-m1",
+    "dtc_warnings": "<local-build-root>/network-enum-overlay-r2/wifi.dts:25.17-100.7: Warning (unit_address_vs_reg): /fragment@1/__overlay__: node has a reg or ranges property, but no unit name\n<local-build-root>/network-enum-overlay-r2/wifi.dts:25.17-100.7: Warning (avoid_default_addr_size): /fragment@1/__overlay__: Relying on default #address-cells value\n<local-build-root>/network-enum-overlay-r2/wifi.dts:25.17-100.7: Warning (avoid_default_addr_size): /fragment@1/__overlay__: Relying on default #size-cells value\n<local-build-root>/network-enum-overlay-r2/wifi.dtbo: Warning (avoid_unnecessary_addr_size): Failed prerequisite 'avoid_default_addr_size'\n<local-build-root>/network-enum-overlay-r2/wifi.dtbo: Warning (unique_unit_address): Failed prerequisite 'avoid_default_addr_size'\n",
+    "base_sha256": "ec7a2000655b20447e32d3f66711f8d82024183ee8c15990e64ef6472d2d0e45",
+    "artifacts": {
+      "wifi.dts": "61e938d3a29569be0b3180c622201082a5019e58516b18e290a6a401451ef89f",
+      "wifi.dtbo": "47676e281ffc1eda77feabde7f15931cf18ce0bb0c3153560b7b4030c705fd6b",
+      "oriole_wifi_overlay.ko": "2f5e7606d3a783ef071cc1f80fb67f8a9382e8c21d6a3213f83d271ae41ecf65",
+      "wifi-merged.dtb": "256e548e841088f1d3b2a0c5caba50210e4e6721da362569256aaee36219a4a4"
+    },
+    "checks": [
+      "parent resource translation and original mapping preservation",
+      "old merged DT RED",
+      "board",
+      "domain1 only",
+      "supply not always-on",
+      "GPIO polarity",
+      "IRQ509",
+      "stock register ranges",
+      "PMU offset",
+      "phandle resolution",
+      "no IOMMU/S2MPU/DMA pool change"
+    ],
+    "limits": [
+      "Resource parsing physically confirmed; endpoint enumeration failed",
+      "No custom DT binding schema; dtc/fdtoverlay and exact numeric assertions only",
+      "Overlay removal requires reboot"
+    ]
+  },
+  "merged_dt_warnings": {
+    "base": 96,
+    "merged": 96,
+    "new": 0,
+    "fragment_context_warnings": "reported by dtc for overlay fragments; full merged-tree diff has no new warnings"
+  },
+  "diagnostic3_build": {
+    "returncode": 0,
+    "artifacts": {
+      "pcie-gs101.ko": "df95170b0fdeac4fc51e31b5f8b8eb0916c24650ca88fbe0ebd6df74b0b32384",
+      "phy-gs101-pcie.ko": "335683cdb2eede5ada1dcaf8b23e9b4d62083110798cfb45422d919d43dd5ac9"
+    },
+    "source_sha256": {
+      "supply-owner.inc": "664866eb023b8e10861637369316a7afe33f711106d5661d4c4f0dee81cf6449",
+      "msi-demux.inc": "b8312f8168e53b5e03e6787ed24e99b007e83fec5d26cfb267abcd91bf394f87",
+      "Makefile": "e0e5fe15abfb77b72ec92625b6af19fcee21c855fb1f598b1ff1d266784335f1",
+      "pmu-owner.inc": "13d7b600f50c8023608ac785129dfe59ebc508fd46bc2dca5eb9a04346ec0206",
+      "irq-lifetime.inc": "f762c7845f0365b4bf706e5ff75d0e58c7c5b203712487f18944be71733a7e16",
+      "phy-gs101-pcie.c": "4598e077263a8770fcc7c5e3526fd5ab8d633d48dc404aa9a9641f0e0bd32952",
+      "pcie-gs101.c": "d6ca1a0fe08392e671ff835353326b3fb8b8de77f04a821f9a058d016a2c57d0"
+    }
+  },
+  "stock_followup": "Pinned official GS101 RC source uses PMU mask0x1 and no bit10 write; reset/RC-mode sequence comparison pending (gs101-stock-pcie-source.json).",
+  "gpu_recovery": {
+    "clear": "PASS768pixels",
+    "first_geometry": "FAIL: gpu sched timeout js1, pixel mismatch; kernel reset",
+    "second_geometry": "PASS768pixels in0.033s, no new kernel errors",
+    "cold_boot": "Still fails; repeated across independent boot",
+    "desktop": "G14 activated; renderer Mali-G78, private Gallium mapped; fresh serial confirm passed, rollback timer cancelled, watchdog disarmed"
+  },
+  "final_health": {
+    "pid1": "systemd",
+    "sddm": "active",
+    "serial": "active",
+    "touch_bound": true,
+    "input30_end_seen": false,
+    "gpu_private_library_mapped": true,
+    "wifi_rail": "disabled",
+    "pcie_host_phy_modules": "absent",
+    "pci_devices": 0,
+    "interfaces": [
+      "lo",
+      "usb0"
+    ],
+    "camera_nodes": [],
+    "cpu_online": "0-7",
+    "watchdog_owner": "none",
+    "new_gpu_errors_after_desktop_activation": false
+  },
+  "superseded_by": "network-gs101-init-evidence.json"
+}

@@ -1,0 +1,57 @@
+{
+  "claim": "Instrument raw FIFO before/after IRQ level and full9byte response to distinguish empty-queue stale reads, byte alignment and true queuedtouch; no claimed repair.",
+  "oracle": "Physical window yields time-associated full responses with before/afterlevel. Before-low/after-high valid records support IRQ assertion; high-before garbage may be emptyFIFO reads, not proven SPI corruption.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Operator ready first, then after FIFO26 READY tap and swipe; save raw data before testing GUI",
+      "expected": "Raw coordinate-changing touch records during action, then later actual GUI acceptance"
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Only instrumentation changes from26: IRQ samples before/after transfer, full9byte changed-frame logs, bounded256logcap",
+        "Transport/commands/reset/scan unchanged; no IRQ registration",
+        "Exact identity guard,180seconddeadline/9000pollcap/8readyguard and readonly/no firmwarewrite restrictions retained"
+      ],
+      "gitnexus": [
+        "External source not indexed; direct bounded control-flow review used"
+      ],
+      "ast": []
+    },
+    "unit": {
+      "red": "No existing hardware simulation can prove actualFIFO",
+      "green": "Run extracted identity-gate sanitizer test on27; W=1warningfree required; review logbuffer9bytes allocated256 and lastframe9bytes",
+      "cases": [
+        "wrong identity stops before scan",
+        "ready storm stops at8",
+        "deadline/maxpoll cap",
+        "SPI error exits into devm cleanup"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "Mac4 USB serial",
+        "supplyhold with independent readback",
+        "realSPI",
+        "FTS rawFIFO"
+      ],
+      "faults": [
+        "Read error and identity mismatch abort",
+        "watchdog and readonly storage guard",
+        "unload and double rail verification"
+      ],
+      "evidence": []
+    }
+  },
+  "evidence": [
+    "26 confirmedphysicalwindow:108 touchtype reads,15 logged valid records,5 unique plausible positions andleave",
+    "26 loggedIRQ sampled AFTER read sohigh1 cannotprove IRQneverasserted",
+    "Polling emptyFIFO can return stale/unspecifieddata: hypothesis to test usingpre-readlevel"
+  ],
+  "limitations": [
+    "No claim allinvalidrecords reflectelectricalfault",
+    "GPIOsampling maymissshortpulses; stilldoesnotreplaceinterrupttrace",
+    "No completeevdev/GUI acceptance",
+    "Physicalteststarts onlyafteroperatorready"
+  ],
+  "exit_gate": "Buildandunitcheck, thenreadyconfirmed timedphysicaltrial with full rawdata andcleanup; keepGUI promotion blocked."
+}

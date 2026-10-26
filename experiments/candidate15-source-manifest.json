@@ -1,0 +1,119 @@
+{
+  "candidate15_module_sha256": "60dc339c10343e306346f5ef21476c377830e8bd53e214db60f897d7fbfcbd64",
+  "target_kernel_commit": "97a6b87a87cb0102a84d3996349801fccbed2bb6",
+  "status": "experimental; not promoted to boot",
+  "files": [
+    {
+      "path": "drivers/input/touchscreen/fts_spi/Kconfig",
+      "sha256": "50bc432e7dc66b33e5ef176a48fd29e924094c3889c655e8b7de0b5da6cb7b18"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/Makefile",
+      "sha256": "e0e0baada560a68f2f4e86fef4613459098e651f491a984715b4c4e75ecb2c4f"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts.c",
+      "sha256": "d5166d01fe65c242afab132dd7fdc72be38ca288e5cc854ed6592c6c20dba562"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts.h",
+      "sha256": "bdb24ac030c84207e785e4a159bc51910553d57049ac98233f89db2c37fe957d"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts_lib/Makefile",
+      "sha256": "a4b69add5356627dcd471690e92234ef32b7a735802b153bbef076371cbba6ce"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts_lib/ftsCompensation.c",
+      "sha256": "6dc3baf1e4f03e81765fa17a1e6ce013cad601c1e9865f3dd5c02dcab7d2bff2"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts_lib/ftsCompensation.h",
+      "sha256": "a7e3cd9a57b5b11210951248a236fd1fb7d0a7f7b52a7af0007b266163010d41"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts_lib/ftsCore.c",
+      "sha256": "80a1c7e89d322183b01c28079e667edb6c14be14775163ef82480a9b23cc4cbc"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts_lib/ftsCore.h",
+      "sha256": "e30f5dfcc0c260bc86e1448657c13c2395a14b2409b7900a178ab2bed9cf62e5"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts_lib/ftsError.c",
+      "sha256": "7d0186b68696d2e08e91d8351b765ca58c830e31a6b1635c72e0d3c9f8c4c625"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts_lib/ftsError.h",
+      "sha256": "15b8e655f6bbefa91709a01adfd49eea6670241ef2ce11bb9b0f6c84bba24f8a"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts_lib/ftsFlash.c",
+      "sha256": "384f9ab5ddcdf60118c213410e7bcdd84fc6fe331d5b19b929b7f61d25fcfec8"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts_lib/ftsFlash.h",
+      "sha256": "9be75745c7300089da1db6bfd3372a755666350fea5eb405555625461d0e97be"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts_lib/ftsFrame.c",
+      "sha256": "13877054c6c94b57d78bad940f69c256a23d60209fadf6fab4866b1b13061236"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts_lib/ftsFrame.h",
+      "sha256": "6b446b45b815a10e281726390b8badb06aa99a9ae9ee3ce99cbe0f34d3d673e4"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts_lib/ftsGesture.c",
+      "sha256": "49cfdd497b7d27d90ed3b80a06112f3aaa60aaa126053b5012ac21a8f8f8a09f"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts_lib/ftsGesture.h",
+      "sha256": "2f26d918c7630edae0e3e4c0e9f53ee4c0ebfe322d8f4b391eab32adbc42813c"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts_lib/ftsHardware.h",
+      "sha256": "733de02acff564934fb098f33ee18722b4fe0ab7f3e03f609285e13d58b3a570"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts_lib/ftsIO.c",
+      "sha256": "f814af5b058800652e12046f2249253900bd740c9a1d8a118fa0ce41d2d0d50b"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts_lib/ftsIO.h",
+      "sha256": "0fe3acdbfa7c410e328cccee40708a55007e2715f294e5ccf2ecb812c3647518"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts_lib/ftsSoftware.h",
+      "sha256": "a3827bed5b4f4aab02bf733d195e8353293579da2fb96e5ef9cbe84d059754d1"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts_lib/ftsTest.c",
+      "sha256": "fa045e9eae37969bca41bf311b9cc1def2ca52ceeb90fa5215bfc57bfca2fdfa"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts_lib/ftsTest.h",
+      "sha256": "ae036c02c6902ad44439d24637e6836621cdf771c93f44945016478c47c2af58"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts_lib/ftsTime.c",
+      "sha256": "eb6d02e0a8f915c7a3dc0b51401976b03d9a32923f9ee2394af806c5f132c891"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts_lib/ftsTime.h",
+      "sha256": "2c2891e1155884566ae2b90cb175eea584a52f88510abbd36f27a2ca9a9bbc82"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts_lib/ftsTool.c",
+      "sha256": "36027a85a968916761555af9e95e55ca6d909caec5716748eaceb2c969e3257d"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts_lib/ftsTool.h",
+      "sha256": "1d9ec32194712cd881fc6383029af4d4428c7806d6eb592dfd95d05e2955916b"
+    },
+    {
+      "path": "drivers/input/touchscreen/fts_spi/fts_proc.c",
+      "sha256": "54233ed70dd82239b3ecf45fe5c9e394dc0cf65ca04a5b1a1dae9913000e3324"
+    }
+  ]
+}

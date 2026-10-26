@@ -1,0 +1,13 @@
+{
+  "claim": "The built WiFi PCIe1 stack can enumerate the BCM4389 endpoint without enabling its driver or DMA, then release host/PHY power cleanly.",
+  "oracle": "Oriole initramfs pause and modules enabled; fresh backups match; watchdog feeder owns watchdog0 and host serial capture is live; endpoint vendor14e4 device4441 appears with no driver and PCI_COMMAND_MASTER clear; host/PHY unload and WLAN regulator disabled; no UFS fault; reboot removes temporary DT.",
+  "validation": {
+    "user_journey": "Phone temporarily leaves the desktop for diagnostics; a failed enumeration is reported, not presented as working WiFi. Preserve stock A and rootfs. Recover the known Linux graphics/touch stack after the trial.",
+    "code_reasoning": ["Installed boot/vendor_boot/dtbo prefixes match verified touch-stage images", "No hardware autoload in paused initramfs; disable kernel module helper", "Only WiFi PCI domain1; no CPIF/modem, firmware load, IOMMU or S2MPU write", "Power cleanup follows IRQ and DWC cleanup; overlay remains until reboot"],
+    "unit": "Supply, PMU, IRQ lifetime and MSI tests pass; framing decoder rejects corrupted backup transport.",
+    "end_to_end": "Current kernel build -> hashed USB serial staging -> paused initramfs -> guarded module load -> PCI metadata -> cleanup -> independent fresh serial read. Fault/hang recovery uses previously tested hardware watchdog."
+  },
+  "evidence": ["Seven fresh off-device backups verified on host and reread on phone", "boot_b/vendor_boot_b/dtbo_b prefixes match known paused initramfs images", "All three candidate modules staged with manifest hashes"],
+  "limitations": ["No WiFi association, DHCP, DNS, HTTPS or cellular acceptance from this test", "No full cold-boot GPU or camera acceptance", "No live removal of overlay DT; reboot required"],
+  "exit_gate": "Only a clean powered enumeration and cleanup permits the next DMA review. Any mismatch, UFS error, driver bind, unexpected bus-master bit or cleanup failure stops the trial and retains watchdog recovery."
+}

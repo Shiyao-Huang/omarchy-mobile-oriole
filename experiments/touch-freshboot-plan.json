@@ -1,0 +1,33 @@
+{
+  "claim": "A fresh boot of the same diagnostic image separates accumulated runtime state from persistent initialization failure.",
+  "oracle": "New boot_id, same kernel and diagnostic gate, no FTS/autoloaded PMIC regulator drivers; minimal identity test either stable3648 or recordedfailure; USB serial verifies new SSH host key before reconnect.",
+  "validation": {
+    "user_journey": "Phone briefly restarts and returns to diagnostic Linux without user keys; if USB cannot reconnect, use existing serial and Fastboot recovery path, do not blind-flash.",
+    "code_reasoning": [
+      "Verified live /init waits for /run/oriole-stage-continue before switch_root",
+      "Only normal reboot; no slot or image mutation",
+      "Sync userdata; save pre-reboot private logs and fingerprints",
+      "No automatic host-key acceptance: obtain public key via direct USB serial then pin",
+      "Custom shell PID1 does not handle normal init reboot request; sync and unmount /newroot then busybox reboot -f invokes syscall. Abort if unmount fails."
+    ],
+    "unit": "No new boot implementation; validate plan fields and reuse existing serial/discovery tools; hardware reconnect cannot be unit-proven.",
+    "end_to_end": "Save boot_id, reboot once, poll USB <=60s, retrieve host key throughserial, SSH challenge, reload only required mailbox/ACPM and known diagnostic modules; collect newboot identity and rollback. Mac4 lock blocks NCM registration; fallback transports hash-verified modules over USB ACM serial to RAM. Use serial host log and same hardware watchdog; cleanup trap restores rails and modprobe before disarming. USB network acceptance remains pending."
+  },
+  "evidence": [
+    "Plain busybox reboot returned0 but serial showed unchangedboot_id and uptime: no reboot occurred."
+  ],
+  "limitations": [
+    "Normal reboot is not a physical battery power cycle; some hardware state can persist",
+    "May require human physical recovery if neitherUSBnorFastbootresponds"
+  ],
+  "exit_gate": "Fresh boot independently verified and storage protection checked before any module test; failed reconnect stops hardware experiments.",
+  "result": {
+    "status": "fresh_boot_confirmed_identity_still_failed",
+    "boot": "Differentboot_id, uptime7seconds, initiallynomodules, diagnosticgateheld; USBserialhostkey verified",
+    "transport": "Mac4 locked; NCMnotregistered; validatedmoduleSHAoverUSBserialfallback",
+    "identity": "firstsplit 000000000000870300, remaining split00+c0x8; single00fb20000000+c0x8; no3648",
+    "rollback": "FRESHBOOT_ROLLBACK_OK; supply2c/3cdoubleread; watchdogdisarmed; originalSPI; serialhealthy",
+    "limitation": "Ordinary syscallreboot, not physicalpowercycle; userMacunlockreplypending"
+  },
+  "network_recovery": "After user unlocked Mac4, boundedUSB gadget UDC unbind/rebind restoredNCM/en8. NewinitramfshostkeyverifiedthroughphysicalUSBserial beforeSSHpinupdate."
+}

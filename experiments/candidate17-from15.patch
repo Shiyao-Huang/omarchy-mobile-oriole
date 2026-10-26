@@ -1,0 +1,36 @@
+--- a/drivers/input/touchscreen/fts_spi/fts.c
++++ b/drivers/input/touchscreen/fts_spi/fts.c
+@@ -4699,7 +4699,10 @@
+ 	client->mode |= SPI_3WIRE;
+ #endif
+ 	/* Diagnostic cap within the board-provided maximum. */
+-	client->max_speed_hz = min(client->max_speed_hz, 1000000U);
++	if (device_property_read_u32(&client->dev, "spi-max-frequency",
++				     &client->max_speed_hz) ||
++	    client->max_speed_hz != 10000000U)
++		return -EINVAL;
+ 	client->bits_per_word = 8;
+ 	if (spi_setup(client) < 0) {
+ 		logError(1, "%s Unsupported SPI functionality\n", tag);
+--- a/drivers/input/touchscreen/fts_spi/fts_lib/ftsCore.c
++++ b/drivers/input/touchscreen/fts_spi/fts_lib/ftsCore.c
+@@ -111,7 +111,7 @@
+ 			gpiod_set_raw_value_cansleep(reset_gpio, 0);
+ 			msleep(100);
+ 			gpiod_set_raw_value_cansleep(reset_gpio, 1);
+-			msleep(100);
++			msleep(500);
+ 			res = OK;
+ 		}
+ 		if (res < OK) {
+--- a/drivers/input/touchscreen/fts_spi/fts_lib/ftsIO.c
++++ b/drivers/input/touchscreen/fts_spi/fts_lib/ftsIO.c
+@@ -142,7 +142,7 @@
+  u8 *zeros;
+  int ret;
+  list_for_each_entry(xfer, &msg->transfers, transfer_list) {
+-  if (xfer->rx_buf && !xfer->tx_buf) {
++  if (xfer->rx_buf && !xfer->tx_buf && xfer->len > 32) {
+    if (rx || !xfer->len || xfer->len > 65536) return -EINVAL;
+    rx = xfer;
+   }

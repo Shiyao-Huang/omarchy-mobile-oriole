@@ -1,0 +1,51 @@
+{
+  "claim": "Use Google scan-start ordering without the locally invented mandatory A0 echo gate; test physical input as the actual oracle.",
+  "oracle": "Stock SysInfo plus actual finger-driven evdev ABS_MT_POSITION and tracking down/up, bounded IRQ and later visible GUI interaction. Module binding alone is insufficient.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Boot mobile Linux then tap and swipe without a keyboard",
+      "expected": "Physical evdev coordinates then corresponding desktop interaction; deferred while user absent"
+    },
+    "code_reasoning": [
+      "Pinned Google setScanMode uses write not writeFw/checkEcho; no mandatory echo in fts_init_sensing",
+      "Candidate21 derives19, retains short-RX profile, GPIO-input and cleanup fixes",
+      "Remove diagnostic pre/post FIFO draining and unproven echo gate; retain normal IRQ install -> mode handler -> enable",
+      "No firmware writes; identity checks and ready-event storm guard retained"
+    ],
+    "unit": {
+      "red": "Prior source adds an echo requirement absent from Google scan-start path",
+      "green": "Source-order checks plus existing actual-wrapper ownership and actual-cleanup ASan tests",
+      "cases": [
+        "init failure halts before enable",
+        "IRQ ownership cleanup",
+        "FIFO storm guard retained"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "serial",
+        "SPI controller",
+        "FTS firmware",
+        "IRQ",
+        "evdev"
+      ],
+      "faults": [
+        "No echo rejects probe",
+        "Independent rail readback after unload"
+      ],
+      "evidence": [
+        "freshboot19 valid SysInfo but repeated ready events and no scan echo"
+      ]
+    }
+  },
+  "evidence": [
+    "Google pinned710d3b897ca2 ftm5/fts_lib/ftsCore.c setScanMode comment: write instead of writeFw because can be called with interrupts enabled",
+    "Fresh19/20 valid SysInfo; missingecho is observation, not proof scanning failed"
+  ],
+  "limitations": [
+    "Removing invented gate is not a successful hardware fix",
+    "Physical finger required; absent user cannot yield accepted touch",
+    "Warm reload state unreliable, first probe after reboot preferred"
+  ],
+  "exit_gate": "Bounded RAM test; do not promote until real-finger events and visible UI accepted. Unload and verify rails/watchdog after capture."
+}

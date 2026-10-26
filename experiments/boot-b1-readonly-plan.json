@@ -1,0 +1,58 @@
+{
+  "claim": "Current live Linux state and read-only A/B metadata can identify whether missing successful-boot acknowledgement is a repeat-fallback risk.",
+  "oracle": "Fresh serial response, current slot from bootconfig, parsed devinfo header and B flags, boot-success service status; no partition writes. Do not attribute a specific reset without reset evidence.",
+  "validation": {
+    "user_journey": {
+      "scenario": "User reports recovery/Fastboot after repeated Linux tests; locate current OS without another forced reboot and show actual desktop.",
+      "expected": "Visible Omarchy if current session is healthy; clear report of remaining boot reliability gap."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Read devinfo only by verified PARTNAME",
+        "Read only first128bytes; output version and slot flags only",
+        "No setrw, boot flag changes, flash or reboot",
+        "Reference Google-derived upstream offsets; unsupported magic/version stop decoding"
+      ],
+      "gitnexus": [
+        "Standalone firmware metadata diagnostic outside workspace graph; inspect boot-success shell and C offsets directly"
+      ],
+      "ast": [
+        "Python struct.unpack fields, strict magic/version gate"
+      ]
+    },
+    "unit": {
+      "red": "Malformed header or unknown layout must fail closed",
+      "green": "Synthetic 3.15 header with independently specified slot bytes decodes correctly",
+      "cases": [
+        "truncated",
+        "magic mismatch",
+        "version mismatch",
+        "A and B flags"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "Mac4 serial",
+        "Linux bootconfig",
+        "sysfs PARTNAME",
+        "read-only devinfo",
+        "systemd",
+        "Hyprland screenshot"
+      ],
+      "faults": [
+        "Transport absent: no waiting fastboot mutation",
+        "Mismatch between reported screen and live state: report both, prioritize fresh evidence"
+      ],
+      "evidence": []
+    }
+  },
+  "evidence": [
+    "Current fresh serial reports Linux7.3,systemd,750us,renderD128,Hyprland and touch bound; no active CPU experiment timer/watchdog."
+  ],
+  "limitations": [
+    "Read-only diagnosis does not fix boot persistence",
+    "Screenshot does not prove physical touch or scanout",
+    "No claim that all prior Google boots have the same cause"
+  ],
+  "exit_gate": "Verified read-only state plus source comparison; separate reviewed recovery plan before any boot metadata write."
+}

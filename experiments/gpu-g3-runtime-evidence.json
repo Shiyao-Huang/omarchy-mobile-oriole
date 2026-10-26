@@ -1,0 +1,36 @@
+{
+  "stage": "G3 CMU_TOP clock API read-only",
+  "module_sha256": "000b06ad5d0f36d2674e4a3447c059ebe15cf20b9a478663955896d464ab60a2",
+  "observations": [
+    {
+      "name": "GOUT_CMU_G3D_BUSD",
+      "id": 186,
+      "rate_hz": 619861334,
+      "is_enabled": false
+    },
+    {
+      "name": "GOUT_CMU_G3D_GLB",
+      "id": 187,
+      "rate_hz": 1065984000,
+      "is_enabled": false
+    },
+    {
+      "name": "GOUT_CMU_G3D_SWITCH",
+      "id": 188,
+      "rate_hz": 798720000,
+      "is_enabled": false
+    }
+  ],
+  "interpretation_correction": "Do not interpret is_enabled=false as a broken clock path. Live CMU_TOP resource is 0x1e080000/0x10000, enabling the kernel automatic gate path. samsung_auto_clk_gate_is_en reads the debug-state idle encoding; enable/disable are no-ops in this mode. Earlier manual bit21 interpretation is superseded. These GOUT rates are upstream of the output dividers, not GPU core frequency.",
+  "validation": [
+    "Actual initializer ASan/UBSan: wrong board/index/provider error and reference cleanup",
+    "Exact-kernel W=1 warning-free build",
+    "Three independent module loads read state; each unloaded and watchdog disarmed",
+    "Live DT resource size checked"
+  ],
+  "limitations": [
+    "Automatic idle does not prove safe CMU_G3D/GPU MMIO",
+    "No GPU acceleration or performance improvement demonstrated"
+  ],
+  "side_effects": "No clock/power writes, no new image flashed"
+}

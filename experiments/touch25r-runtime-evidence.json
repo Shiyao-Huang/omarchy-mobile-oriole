@@ -1,0 +1,13 @@
+[
+  "[   39.655067] fts spi0.0: Oriole SysInfo validated: chip3648 fw0049 screen2399x1079 matrix16x34",
+  "TOUCH25R_CAPTURE_READY /dev/input/event1",
+  "0 /run/touch25r-events.bin",
+  "TOUCH25R_CAPTURE_FINISHED",
+  "FRESHBOOT_ROLLBACK_OK",
+  "[  219.833342] oriole-touch-supply-read: L25M reg=5c first=2c second=2c",
+  "[  219.833405] oriole-touch-supply-read: L26M reg=5d first=3c second=3c",
+  "[  219.833481] oriole-touch-supply-read: finished ret=0 (no rail writes)",
+  "[  219.833342] oriole-touch-supply-read: L25M reg=5c first=2c second=2c",
+  "[  219.833405] oriole-touch-supply-read: L26M reg=5d first=3c second=3c",
+  "[  219.833481] oriole-touch-supply-read: finished ret=0 (no rail writes)"
+]

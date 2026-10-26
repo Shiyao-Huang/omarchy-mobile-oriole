@@ -1,0 +1,53 @@
+{
+  "claim": "A bounded clear/readback distinguishes fragment/memory execution from the failing G10 vertex/tiler job. No hardware configuration change.",
+  "oracle": "Same privateG10Mesa and currentG9/G7kernel; three16x16glClear/readbackframes match768pixels, actualG78renderer, nofault/timeout; otherwise recordfailedstage andretainsoftwaredesktop.",
+  "validation": {
+    "user_journey": {
+      "scenario": "User needs fluid desktop; a failedoffscreenprobe must leaveexistingsoftwaredesktop andUSBavailable",
+      "expected": "No desktopswitch; physicaltouchlatencynotproved"
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Use identical EGL/GBM/fbo setup, replace glDrawArrays with glClear only",
+        "No PMIC/clock/MMIO/module mutation",
+        "Record distinctmarker/log; capturebeforeafterinterruptcounts without identifiers",
+        "Watchdog+Macserialstream active beforedraw; cleanupverifiedafterfailure"
+      ]
+    },
+    "unit": {
+      "red": "G10 realdraw failed withjs1active timeout andpixelmismatch",
+      "green": "G10Panfrost10upstreamtests andtarget6libraryrelocationcheck alreadypassed; no separate unitcanprovephysicalexecution",
+      "cases": [
+        "Software renderer rejected",
+        "Fullpixelmatch required",
+        "GPUfault rejectsacceptanceevenifcontextworks"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "privateMesa",
+        "kernelPanfrost",
+        "GPUfragmentjob",
+        "DMA/readback",
+        "USBserial"
+      ],
+      "faults": [
+        "priorG10jobtimeout resetrecoveredallcores",
+        "new failureblocksdesktoppromotion"
+      ],
+      "evidence": []
+    }
+  },
+  "evidence": [
+    "G10renderer Mali-G78MC20 butjs1status0x8 timeout",
+    "Fresh serial, SDDM andHyprland stillactive; WDdisarmed; IRQjobcount1,MMU0,GPU0",
+    "UpstreamPR3 comments confirm raven succeeded withoutcoherencywrite; do not inventcoherencyfix",
+    "G11 clear pass:privateMaliG78MC20,3frames768pixels,0.029s,noGPUerrors,WDdisarmed"
+  ],
+  "limitations": [
+    "One clear pass is not geometry/shader acceleration acceptance",
+    "CurrentbootGPUreset afterG10failure; recordthisconfound",
+    "No productionPM/thermal ornetworkacceptance"
+  ],
+  "exit_gate": "Capture actualresultandcleanup; only a fully passing G10draw permits desktopbenchmark"
+}

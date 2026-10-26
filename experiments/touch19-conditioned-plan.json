@@ -1,0 +1,57 @@
+{
+  "claim": "Determine whether candidate19 can reach its scan-echo gate immediately after the reproducible minimal reset/SysInfo sequence.",
+  "oracle": "Minimal paired reads reproduce known contrast; then full driver must independently validate SysInfo and exact scan echo; clean shared-supply rollback.",
+  "validation": {
+    "user_journey": {
+      "scenario": "PhonebootsLinux, finger tapsand swipes registerwithoutkeyboard; desktoplatermustfollowfinger",
+      "expected": "Actualevdevcoordinates thenvisibleUIinteraction; failurekeepsdiagnosticgateheld"
+    },
+    "code_reasoning": [
+      "Pairedsix-samplehardwaretest: NULLTX threewrongframes vs explicitTX threematchingstockframes",
+      "WrapperallocateszeroTX exactlyRXlen, restorespointer/freesafterspi_sync, handleswriteonly/noalloc; oneRXtransferlimitguard",
+      "Oriole/controllerguard; automaticFWupdateandburnremainblocked; noA/calibrationwrites",
+      "Google216byteSysInfo layout:release8,skip16afterCRC,extra8ssDetecttailunusedforpointerinput",
+      "RejectinvalidSysInfo andsensinginitfailure; existingready-stormguardpreserved"
+    ],
+    "unit": {
+      "red": "OldreceivepathsNULLTX; oldSysInfo208 andwrongreleaseblock",
+      "green": "StaticzeroTXalloc/free/pointerrestore plusparserindex216 andrequiredfieldchecks",
+      "cases": [
+        "RXlengthbounds",
+        "write-onlymessages",
+        "allocationfailure",
+        "restoreafterSPIerror",
+        "SysInfoinvalidreject"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "USBserial",
+        "module",
+        "SPI",
+        "FTSfirmware",
+        "evdev",
+        "laterHyprland"
+      ],
+      "faults": [
+        "wrongSysInfohaltsprobe",
+        "stormguard",
+        "unloadandrailrollback"
+      ],
+      "evidence": [
+        "touch-transport-series2-evidence.json SYSPAIR"
+      ]
+    }
+  },
+  "evidence": [
+    "candidate18 reset failed before scan; no conclusion about scan echo",
+    "Source audit: candidate15 already had Google prepare write; candidate18 accidentally duplicated it; remove duplicate",
+    "Source audit: inherited ProbeErrorExit7 frees DMA parent before reading children and does not uninstall requested IRQ"
+  ],
+  "limitations": [
+    "Conditioned warm state is diagnostic, never a production initialization fix",
+    "Cannot claim independent/cold startup success",
+    "User absent; physical acceptance unavailable"
+  ],
+  "exit_gate": "Outcome isolates initialization versus scan layer; no promotion without repeatable standalone initialization and finger input"
+}

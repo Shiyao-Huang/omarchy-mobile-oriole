@@ -1,0 +1,1156 @@
+[
+  {
+    "cmd": [
+      "/usr/sbin/xmllint",
+      "--noout",
+      "--dtdvalid",
+      "/out/build/../../src/src/util/driconf.dtd",
+      "/out/build/../../src/src/util/00-mesa-defaults.conf",
+      "/src/src/gallium/drivers/panfrost/00-panfrost-defaults.conf"
+    ],
+    "env": {},
+    "name": "drirc xml validation",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:util"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/util/xmlconfig_test"
+    ],
+    "env": {
+      "HOME": "/src/src/util/tests/drirc_home",
+      "DRIRC_CONFIGDIR": "/src/src/util/tests/drirc_configdir"
+    },
+    "name": "xmlconfig",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:util"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "gtest",
+    "depends": [
+      "ed6d25d@@xmlconfig_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/util/util_tests"
+    ],
+    "env": {},
+    "name": "util_tests",
+    "workdir": null,
+    "timeout": 180,
+    "suite": [
+      "mesa:util"
+    ],
+    "is_parallel": false,
+    "priority": 0,
+    "protocol": "gtest",
+    "depends": [
+      "ed6d25d@@util_tests@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/util/process_test"
+    ],
+    "env": {
+      "BUILD_FULL_PATH": "/out/build/src/util/process_test"
+    },
+    "name": "process",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:util"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "ed6d25d@@process_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/util/process_test"
+    ],
+    "env": {
+      "BUILD_FULL_PATH": "/out/build/src/util/process_test",
+      "MESA_PROCESS_NAME": "hello"
+    },
+    "name": "process_with_overrides",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:util"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "ed6d25d@@process_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/util/tests/hash_table/clear_test"
+    ],
+    "env": {},
+    "name": "clear",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:util"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "35abd57@@clear_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/util/tests/hash_table/collision_test"
+    ],
+    "env": {},
+    "name": "collision",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:util"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "35abd57@@collision_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/util/tests/hash_table/delete_and_lookup_test"
+    ],
+    "env": {},
+    "name": "delete_and_lookup",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:util"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "35abd57@@delete_and_lookup_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/util/tests/hash_table/delete_management_test"
+    ],
+    "env": {},
+    "name": "delete_management",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:util"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "35abd57@@delete_management_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/util/tests/hash_table/destroy_callback_test"
+    ],
+    "env": {},
+    "name": "destroy_callback",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:util"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "35abd57@@destroy_callback_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/util/tests/hash_table/insert_and_lookup_test"
+    ],
+    "env": {},
+    "name": "insert_and_lookup",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:util"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "35abd57@@insert_and_lookup_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/util/tests/hash_table/insert_many_test"
+    ],
+    "env": {},
+    "name": "insert_many",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:util"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "35abd57@@insert_many_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/util/tests/hash_table/null_destroy_test"
+    ],
+    "env": {},
+    "name": "null_destroy",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:util"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "35abd57@@null_destroy_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/util/tests/hash_table/random_entry_test"
+    ],
+    "env": {},
+    "name": "random_entry",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:util"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "35abd57@@random_entry_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/util/tests/hash_table/remove_key_test"
+    ],
+    "env": {},
+    "name": "remove_key",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:util"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "35abd57@@remove_key_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/util/tests/hash_table/remove_null_test"
+    ],
+    "env": {},
+    "name": "remove_null",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:util"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "35abd57@@remove_null_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/util/tests/hash_table/replacement_test"
+    ],
+    "env": {},
+    "name": "replacement",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:util"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "35abd57@@replacement_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/util/tests/vma/vma_random_test"
+    ],
+    "env": {},
+    "name": "vma_random",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:util"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "cb05bf1@@vma_random_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/util/tests/format/srgb"
+    ],
+    "env": {},
+    "name": "srgb",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:format"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "1bdd0f7@@srgb@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/util/tests/format/u_format_test"
+    ],
+    "env": {},
+    "name": "u_format_test",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:format"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "1bdd0f7@@u_format_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/util/tests/format/u_format_compatible_test"
+    ],
+    "env": {},
+    "name": "u_format_compatible_test",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:format"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "1bdd0f7@@u_format_compatible_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/compiler/nir/nir_tests"
+    ],
+    "env": {},
+    "name": "nir_tests",
+    "workdir": null,
+    "timeout": 120,
+    "suite": [
+      "mesa:compiler",
+      "mesa:nir"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "gtest",
+    "depends": [
+      "068b2c8@@nir_tests@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/usr/sbin/python3.14",
+      "/out/build/../../src/src/compiler/nir/tests/algebraic_parser_test.py"
+    ],
+    "env": {},
+    "name": "nir_algebraic_parser",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:compiler",
+      "mesa:nir"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/compiler/spirv/spirv_tests"
+    ],
+    "env": {},
+    "name": "spirv_tests",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:compiler",
+      "mesa:spirv"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "gtest",
+    "depends": [
+      "e129d53@@spirv_tests@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/usr/sbin/python3.14",
+      "/out/build/../../src/src/compiler/glsl/glcpp/tests/glcpp_test.py",
+      "src/compiler/glsl/glcpp/glcpp",
+      "/src/src/compiler/glsl/glcpp/tests",
+      "--unix"
+    ],
+    "env": {},
+    "name": "glcpp test (unix)",
+    "workdir": null,
+    "timeout": 60,
+    "suite": [
+      "mesa:compiler",
+      "mesa:glcpp"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "21ba2fb@@glcpp@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/usr/sbin/python3.14",
+      "/out/build/../../src/src/compiler/glsl/glcpp/tests/glcpp_test.py",
+      "src/compiler/glsl/glcpp/glcpp",
+      "/src/src/compiler/glsl/glcpp/tests",
+      "--windows"
+    ],
+    "env": {},
+    "name": "glcpp test (windows)",
+    "workdir": null,
+    "timeout": 60,
+    "suite": [
+      "mesa:compiler",
+      "mesa:glcpp"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "21ba2fb@@glcpp@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/usr/sbin/python3.14",
+      "/out/build/../../src/src/compiler/glsl/glcpp/tests/glcpp_test.py",
+      "src/compiler/glsl/glcpp/glcpp",
+      "/src/src/compiler/glsl/glcpp/tests",
+      "--oldmac"
+    ],
+    "env": {},
+    "name": "glcpp test (oldmac)",
+    "workdir": null,
+    "timeout": 60,
+    "suite": [
+      "mesa:compiler",
+      "mesa:glcpp"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "21ba2fb@@glcpp@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/usr/sbin/python3.14",
+      "/out/build/../../src/src/compiler/glsl/glcpp/tests/glcpp_test.py",
+      "src/compiler/glsl/glcpp/glcpp",
+      "/src/src/compiler/glsl/glcpp/tests",
+      "--bizarro"
+    ],
+    "env": {},
+    "name": "glcpp test (bizarro)",
+    "workdir": null,
+    "timeout": 60,
+    "suite": [
+      "mesa:compiler",
+      "mesa:glcpp"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "21ba2fb@@glcpp@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/compiler/glsl/tests/general_ir_test"
+    ],
+    "env": {},
+    "name": "general_ir_test",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:compiler",
+      "mesa:glsl"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "gtest",
+    "depends": [
+      "1a1e6a5@@general_ir_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/compiler/glsl/tests/sampler_types_test"
+    ],
+    "env": {},
+    "name": "sampler_types_test",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:compiler",
+      "mesa:glsl"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "gtest",
+    "depends": [
+      "1a1e6a5@@sampler_types_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/compiler/glsl/tests/list_iterators"
+    ],
+    "env": {},
+    "name": "list_iterators",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:compiler",
+      "mesa:glsl"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "gtest",
+    "depends": [
+      "1a1e6a5@@list_iterators@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/usr/sbin/python3.14",
+      "/out/build/../../src/src/compiler/glsl/tests/warnings_test.py",
+      "--glsl-compiler",
+      "src/compiler/glsl/glsl_compiler",
+      "--test-directory",
+      "/src/src/compiler/glsl/tests/warnings"
+    ],
+    "env": {},
+    "name": "glsl compiler warnings",
+    "workdir": null,
+    "timeout": 60,
+    "suite": [
+      "mesa:compiler",
+      "mesa:glsl"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "cdfbb49@@glsl_compiler@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/panfrost/shared/panfrost_tiling"
+    ],
+    "env": {},
+    "name": "panfrost_tiling",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:panfrost"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "gtest",
+    "depends": [
+      "efa0757@@panfrost_tiling@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/panfrost/genxml/cs_builder_tests"
+    ],
+    "env": {},
+    "name": "cs_builder_tests",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:panfrost"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "gtest",
+    "depends": [
+      "6927db5@@cs_builder_tests@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/panfrost/lib/panfrost_attribute_test"
+    ],
+    "env": {},
+    "name": "panfrost_attribute",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:panfrost"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "d7d5056@@panfrost_attribute_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/panfrost/lib/panfrost_blend_test"
+    ],
+    "env": {},
+    "name": "panfrost_blend",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:panfrost"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "d7d5056@@panfrost_blend_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/panfrost/lib/panfrost_clear_test"
+    ],
+    "env": {},
+    "name": "panfrost_clear",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:panfrost"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "d7d5056@@panfrost_clear_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/panfrost/lib/panfrost_tests"
+    ],
+    "env": {},
+    "name": "panfrost_tests",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:panfrost"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "gtest",
+    "depends": [
+      "d7d5056@@panfrost_tests@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/panfrost/compiler/bifrost/valhall/valhall_disasm_test",
+      "/out/build/../../src/src/panfrost/compiler/bifrost/valhall/test/assembler-cases.txt"
+    ],
+    "env": {},
+    "name": "valhall_disasm",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:panfrost"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "ed2e7a5@@valhall_disasm_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/usr/sbin/python3.14",
+      "/out/build/../../src/src/panfrost/compiler/bifrost/valhall/test-assembly.py",
+      "/out/build/../../src/src/panfrost/compiler/bifrost/valhall/test/assembler-cases.txt",
+      "/out/build/../../src/src/panfrost/compiler/bifrost/valhall/test/negative-cases.txt"
+    ],
+    "env": {},
+    "name": "valhall_asm",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:panfrost"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/panfrost/compiler/bifrost/test/bifrost_tests"
+    ],
+    "env": {},
+    "name": "bifrost_tests",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:panfrost"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "gtest",
+    "depends": [
+      "6985454@@bifrost_tests@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/panfrost/compiler/bifrost/valhall/test/valhall_tests"
+    ],
+    "env": {},
+    "name": "valhall_tests",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:panfrost"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "gtest",
+    "depends": [
+      "74ffb06@@valhall_tests@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/gallium/auxiliary/gallium-aux"
+    ],
+    "env": {},
+    "name": "gallium-aux",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:gallium"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "gtest",
+    "depends": [
+      "eb820e8@@gallium-aux@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/gallium/drivers/llvmpipe/lp_test_format"
+    ],
+    "env": {},
+    "name": "lp_test_format",
+    "workdir": null,
+    "timeout": 240,
+    "suite": [
+      "mesa:llvmpipe"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "baa9e9c@@lp_test_format@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/gallium/drivers/llvmpipe/lp_test_arit"
+    ],
+    "env": {},
+    "name": "lp_test_arit",
+    "workdir": null,
+    "timeout": 240,
+    "suite": [
+      "mesa:llvmpipe"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "baa9e9c@@lp_test_arit@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/gallium/drivers/llvmpipe/lp_test_blend"
+    ],
+    "env": {},
+    "name": "lp_test_blend",
+    "workdir": null,
+    "timeout": 240,
+    "suite": [
+      "mesa:llvmpipe"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "baa9e9c@@lp_test_blend@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/gallium/drivers/llvmpipe/lp_test_lerp"
+    ],
+    "env": {},
+    "name": "lp_test_lerp",
+    "workdir": null,
+    "timeout": 240,
+    "suite": [
+      "mesa:llvmpipe"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "baa9e9c@@lp_test_lerp@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/gallium/drivers/llvmpipe/lp_test_conv"
+    ],
+    "env": {},
+    "name": "lp_test_conv",
+    "workdir": null,
+    "timeout": 240,
+    "suite": [
+      "mesa:llvmpipe"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "baa9e9c@@lp_test_conv@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/gallium/drivers/llvmpipe/lp_test_printf"
+    ],
+    "env": {},
+    "name": "lp_test_printf",
+    "workdir": null,
+    "timeout": 240,
+    "suite": [
+      "mesa:llvmpipe"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "baa9e9c@@lp_test_printf@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/gallium/drivers/llvmpipe/lp_test_lookup_multiple"
+    ],
+    "env": {},
+    "name": "lp_test_lookup_multiple",
+    "workdir": null,
+    "timeout": 240,
+    "suite": [
+      "mesa:llvmpipe"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "baa9e9c@@lp_test_lookup_multiple@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/mesa/main/tests/main_test"
+    ],
+    "env": {},
+    "name": "main-test",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:mesa"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "gtest",
+    "depends": [
+      "133234f@@main_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/mesa/state_tracker/tests/st_format_test"
+    ],
+    "env": {},
+    "name": "st_format_test",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:st_mesa"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "67189df@@st_format_test@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/usr/bin/python",
+      "/src/bin/symbols-check.py",
+      "--lib",
+      "src/glx/libGLX_mesa.so.0.0.0",
+      "--symbols-file",
+      "/out/build/../../src/src/glx/glvnd-symbols.txt",
+      "--nm",
+      "/usr/sbin/nm"
+    ],
+    "env": {
+      "LD_LIBRARY_PATH": "/out/build/src/gallium/targets/dri:/out/build/src/glx"
+    },
+    "name": "libGL-ABI-check",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:glx"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "3cd34c0@@GLX_mesa@sha"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/out/build/src/gbm/gbm_abi_check"
+    ],
+    "env": {},
+    "name": "gbm-abi-check",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:gbm"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "cd6bfad@@gbm_abi_check@exe"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/usr/bin/python",
+      "/src/bin/symbols-check.py",
+      "--lib",
+      "src/gbm/libgbm.so.1.0.0",
+      "--symbols-file",
+      "/out/build/../../src/src/gbm/gbm-symbols.txt",
+      "--nm",
+      "/usr/sbin/nm"
+    ],
+    "env": {
+      "LD_LIBRARY_PATH": "/out/build/src/gbm"
+    },
+    "name": "gbm-symbols-check",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:gbm"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "cd6bfad@@gbm@sha"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/usr/bin/python",
+      "/src/bin/symbols-check.py",
+      "--lib",
+      "src/egl/libEGL_mesa.so.0.0.0",
+      "--symbols-file",
+      "/out/build/../../src/src/egl/egl-glvnd-symbols.txt",
+      "--nm",
+      "/usr/sbin/nm"
+    ],
+    "env": {
+      "LD_LIBRARY_PATH": "/out/build/src/gallium/targets/dri:/out/build/src/egl:/out/build/src/gbm"
+    },
+    "name": "egl-symbols-check",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:egl"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [
+      "cb1d4f8@@EGL_mesa@sha"
+    ],
+    "extra_paths": []
+  },
+  {
+    "cmd": [
+      "/usr/sbin/python3.14",
+      "/out/build/../../src/src/egl/egl-entrypoint-check.py",
+      "/out/build/../../src/src/egl/main/eglentrypoint.h"
+    ],
+    "env": {},
+    "name": "egl-entrypoint-check",
+    "workdir": null,
+    "timeout": 30,
+    "suite": [
+      "mesa:egl"
+    ],
+    "is_parallel": true,
+    "priority": 0,
+    "protocol": "exitcode",
+    "depends": [],
+    "extra_paths": []
+  }
+]

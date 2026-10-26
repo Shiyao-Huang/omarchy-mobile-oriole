@@ -1,0 +1,22 @@
+{
+  "status": "PASS current-boot GPU desktop retained after independent serial confirmation",
+  "renderer": "Mali-G78 MC20 (Panfrost)",
+  "private_Mesa_mapped": true,
+  "stock_libraries": "unchanged SHA256",
+  "SDDM_and_serial": "active",
+  "recovery_timer": "cancelled after fresh USB probe and kernel fault scan",
+  "watchdog": "disarmed; fd3 absent",
+  "override": "/run/systemd/user/wayland-wm@hyprland.desktop.service.d/90-oriole-mesa-g10.conf",
+  "first_attempt": "90-second auto rollback completed; stock hashes unchanged. Confirmation arrived after rollback and correctly failed. Retry guard initially stopped on unloaded timer; corrected guard then retry succeeded.",
+  "evidence_sha256": {
+    "serial-g14-activate-verified-private.txt": "9b52ca9a5121d86d14dc42a2413bf255492cf13619ee29aa1e1c6e80cc421ff7",
+    "serial-g14-retry-verified-private.txt": "e3cbcd73f005fcb2e6d9e3583ca565c9e9ccd7d29ed207dc95ec39812e2ce0e0",
+    "serial-g14-confirm-verified-private.txt": "4f0cdf9381418045152271d96d8196defb6578cc76f05b2ea99822d26f73f676"
+  },
+  "limitations": [
+    "Current warm boot only",
+    "First-use GPU job timeout unresolved",
+    "No physical touch/smoothness acceptance this checkpoint",
+    "No cellular, WiFi, camera or thermal acceptance"
+  ]
+}

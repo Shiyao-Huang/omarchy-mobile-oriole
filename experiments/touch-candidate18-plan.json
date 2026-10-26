@@ -1,0 +1,57 @@
+{
+  "claim": "Match Google o6 volatile scan wake and0xFF mask, and require firmware command echo rather than only spi return success.",
+  "oracle": "Valid SysInfo plus exact43/01/A0/00/FF echo before enabling IRQ; failure aborts probe; physical input remains required.",
+  "validation": {
+    "user_journey": {
+      "scenario": "PhonebootsLinux, finger tapsand swipes registerwithoutkeyboard; desktoplatermustfollowfinger",
+      "expected": "Actualevdevcoordinates thenvisibleUIinteraction; failurekeepsdiagnosticgateheld"
+    },
+    "code_reasoning": [
+      "Pairedsix-samplehardwaretest: NULLTX threewrongframes vs explicitTX threematchingstockframes",
+      "WrapperallocateszeroTX exactlyRXlen, restorespointer/freesafterspi_sync, handleswriteonly/noalloc; oneRXtransferlimitguard",
+      "Oriole/controllerguard; automaticFWupdateandburnremainblocked; noA/calibrationwrites",
+      "Google216byteSysInfo layout:release8,skip16afterCRC,extra8ssDetecttailunusedforpointerinput",
+      "RejectinvalidSysInfo andsensinginitfailure; existingready-stormguardpreserved"
+    ],
+    "unit": {
+      "red": "OldreceivepathsNULLTX; oldSysInfo208 andwrongreleaseblock",
+      "green": "StaticzeroTXalloc/free/pointerrestore plusparserindex216 andrequiredfieldchecks",
+      "cases": [
+        "RXlengthbounds",
+        "write-onlymessages",
+        "allocationfailure",
+        "restoreafterSPIerror",
+        "SysInfoinvalidreject"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "USBserial",
+        "module",
+        "SPI",
+        "FTSfirmware",
+        "evdev",
+        "laterHyprland"
+      ],
+      "faults": [
+        "wrongSysInfohaltsprobe",
+        "stormguard",
+        "unloadandrailrollback"
+      ],
+      "evidence": [
+        "touch-transport-series2-evidence.json SYSPAIR"
+      ]
+    }
+  },
+  "evidence": [
+    "PinnedGoogle ftsCore.c setScanMode sends FA200000000000 then A0",
+    "PinnedGoogle fts.c mode_handler uses0xFF",
+    "candidate17 bound but postscan showed03 events; finger acceptance pending"
+  ],
+  "limitations": [
+    "Does not prove wake alone: prior wake-only experiment inconclusive/negative",
+    "No touch firmware or flash writes",
+    "User confirmed absent: candidate17 capture expired with0bytes, not a failed physical test. Candidate17 unloaded and supplies double-read restored before candidate18."
+  ],
+  "exit_gate": "Boundedliveprobe andcleanrollbackfirst; thenrealfingerinput; thenintegratepersistentboot/Desktop andpackage"
+}

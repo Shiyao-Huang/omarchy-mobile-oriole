@@ -1,0 +1,44 @@
+{
+  "/sys/fs/cgroup": {
+    "cgroup.controllers": "cpuset cpu io memory hugetlb pids",
+    "cgroup.subtree_control": "cpu memory pids",
+    "cpu.max": null,
+    "cpu.weight": null,
+    "cpu.stat": "usage_usec 595410052\nuser_usec 373536635\nsystem_usec 221873416\nnice_usec 731901"
+  },
+  "/sys/fs/cgroup/user.slice": {
+    "cgroup.controllers": "cpu memory pids",
+    "cgroup.subtree_control": "cpu memory pids",
+    "cpu.max": null,
+    "cpu.weight": "100",
+    "cpu.stat": "usage_usec 479789955\nuser_usec 395423936\nsystem_usec 84366019\nnice_usec 67543"
+  },
+  "/sys/fs/cgroup/user.slice/user-1000.slice": {
+    "cgroup.controllers": "cpu memory pids",
+    "cgroup.subtree_control": "cpu memory pids",
+    "cpu.max": null,
+    "cpu.weight": "100",
+    "cpu.stat": "usage_usec 256938938\nuser_usec 202379050\nsystem_usec 54559887\nnice_usec 67543"
+  },
+  "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service": {
+    "cgroup.controllers": "cpu memory pids",
+    "cgroup.subtree_control": "cpu memory pids",
+    "cpu.max": null,
+    "cpu.weight": "100",
+    "cpu.stat": "usage_usec 252357307\nuser_usec 199122372\nsystem_usec 53234935\nnice_usec 67543"
+  },
+  "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice": {
+    "cgroup.controllers": "cpu memory pids",
+    "cgroup.subtree_control": "memory pids",
+    "cpu.max": null,
+    "cpu.weight": "100",
+    "cpu.stat": "usage_usec 32710697\nuser_usec 22740007\nsystem_usec 9970690\nnice_usec 59669"
+  },
+  "kernel_config": [
+    "# CONFIG_UCLAMP_TASK is not set",
+    "CONFIG_CGROUP_SCHED=y",
+    "CONFIG_FAIR_GROUP_SCHED=y",
+    "# CONFIG_CFS_BANDWIDTH is not set",
+    "CONFIG_SCHED_MC=y"
+  ]
+}

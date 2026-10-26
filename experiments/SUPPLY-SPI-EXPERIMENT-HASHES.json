@@ -1,0 +1,13 @@
+{
+  "touch_modules": {
+    "11": "da7eab62f85b3548d0d25a0679bbaf12c59b2198ec72d834306a6550affa971b",
+    "12": "4fbc6aace69bc40819c24c57982d33e04cd16be55847f534c5b13a9d6618187e",
+    "13": "d878960892e2e095e8afe00724a89ce4cfc5aed87eed704b9435bc495983ee70",
+    "14": "4923f41482b0ee85bf94b027c084bb1e65d78a3dcccda90fb7a1911101550f00"
+  },
+  "spi_rx32": "aeb11fb5633a18a3251b55dab3e34abeeb3bd265f1f6707ef319aa9ce0c8644a",
+  "power_hold": "aaa2ea09973878ce2e5f21e825b48aa08357c43da1797546c7a5d0061d90de1e",
+  "power_read": "c2c1821fd74b62c91e4142ba86aa2279112a7ef2dcbb7c35c78f6c1c0e8294f2",
+  "status": "all touch identity/physical acceptance failed; no experimentalbinary shipped",
+  "limits": "Compiledmodulehashes donotprove reproduciblebinary build or workinghardware"
+}

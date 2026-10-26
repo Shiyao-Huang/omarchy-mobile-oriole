@@ -1,0 +1,39 @@
+{
+  "claim": "GS101 PIO receiver should honor use_32bit_io as transmitter does; 8bit reads may explain incorrecttouchdata",
+  "oracle": "Samecandidate13identitytest yieldsstable3648 withreplacementcontroller; original/replacementcomparison, thenvalidsysinfo andphysicaltouch beforeUIclaim",
+  "validation": {
+    "user_journey": "KeepUSBconsole andinstalledOmarchy; temporarilyunbindonly10d40000.spi, bind scopedcontroller; nohumanbuttons; onfailure rebindoriginal andrestoresupplies",
+    "code_reasoning": [
+      "Exactgoogle,gs101-oriole board and10d40000.spi nameguard",
+      "No otherplatformcontroller canbind",
+      "Same pinnedSPIcode except32bitRXaccess forflaggedSoC anddiagnosticdrivername/guard",
+      "8/16bitwireword semantics preserved; 32bitwordpathunchanged",
+      "Autoload off duringcontrollerreplacement; noflash/no partitionwrites"
+    ],
+    "unit": {
+      "red": "Sourcecontract: flagged8/16bitRXcurrentlyusesioread8/16_rep",
+      "green": "Flaggedpathusesreadl perFIFOitem andtruncates towireword; unflaggedunchanged",
+      "cases": [
+        "8bit value masking",
+        "16bit little-endian store",
+        "32bitpathunchanged",
+        "exactboard/controllerguard"
+      ]
+    },
+    "end_to_end": "Watchdog+hostlog; originaldriverownerrecorded; newmodulehash; knownidentitydiagnostic; freshSSH; rollbackoriginalcontroller andsupplydouble-read"
+  },
+  "evidence": [],
+  "limitations": [
+    "Not yet tested",
+    "RXaccesswidthrequirement inferredfromexistingdriverfieldcomment; needsactualtest",
+    "Driverreplacementitself reinitializeshardware andisaconfounder; originalrebindcontrolneeded"
+  ],
+  "exit_gate": "Anyfailure restoresoriginalowner; no successwithout valididentity andlater physicalcoordinates",
+  "result": {
+    "status": "rejected_no_improvement",
+    "observation": "Samecandidate13 reads02repeated/commandlikeecho, no3648",
+    "rollback": "Originals3c64xx-spi rebound, experimentalmodule removed, supplydouble-read2c/3c, watchdogdisarmed, USBhealthy",
+    "limits": "No causalfix proven; productionkernel untouched",
+    "unit_execution": "No standalone hardware unit test; sourcecheck andW=1compile only"
+  }
+}

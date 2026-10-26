@@ -1,0 +1,42 @@
+{
+  "complete": true,
+  "partitions": [
+    {
+      "name": "persist",
+      "bytes": 67108864,
+      "source_copy_source_hash_match": true
+    },
+    {
+      "name": "modem_a",
+      "bytes": 209715200,
+      "source_copy_source_hash_match": true
+    },
+    {
+      "name": "modem_b",
+      "bytes": 209715200,
+      "source_copy_source_hash_match": true
+    },
+    {
+      "name": "efs",
+      "bytes": 10485760,
+      "source_copy_source_hash_match": true
+    },
+    {
+      "name": "efs_backup",
+      "bytes": 5242880,
+      "source_copy_source_hash_match": true
+    },
+    {
+      "name": "modem_userdata",
+      "bytes": 5242880,
+      "source_copy_source_hash_match": true
+    },
+    {
+      "name": "devinfo",
+      "bytes": 8192,
+      "source_copy_source_hash_match": true
+    }
+  ],
+  "method": "read-only pinned USB SSH; new private Mac4 directory; source/copy/source SHA256 match",
+  "restore_tested": false
+}

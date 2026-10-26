@@ -1,0 +1,61 @@
+{
+  "claim": "The Oriole BCM4389 path can associate with an operator-authorized Wi-Fi network and carry ordinary IP traffic, then recover after a controlled disconnect.",
+  "oracle": "The phone reports a connected wlan0 with a DHCP lease; a numeric HTTPS request succeeds; DNS resolves a public name; after link loss and restoration the interface reacquires an address and the same HTTPS probe succeeds. All temporary radio state is removed or the watchdog recovery path remains armed.",
+  "validation": {
+    "user_journey": {
+      "scenario": "User opens the Linux phone away from USB, selects a saved network, runs an Agent API request, loses coverage briefly, and returns to a working connection.",
+      "expected": "Connection, address, name resolution and HTTPS are visible; a failed association leaves a bounded diagnostic result and the existing Android slot remains the recovery path."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Only slot-B Linux runtime and temporary /run state are touched",
+        "Firmware and calibration stay in the private phone stage; no proprietary bytes or credentials enter the repository",
+        "The firmware_class path is restored before teardown",
+        "The PCI endpoint is unbound before host and PHY removal",
+        "No claim is made from wlan0 creation alone"
+      ],
+      "gitnexus": [
+        "External pinned kernel subtree is not indexed; direct call-site and runbook audit used"
+      ],
+      "ast": [
+        "Existing W2 teardown helper refuses host removal after endpoint-unbind failure"
+      ]
+    },
+    "unit": {
+      "red": "A live probe without the temporary firmware path fails with Direct firmware load and must not be reported as an association attempt.",
+      "green": "The corrected probe sets the private firmware path, produces wlan0, and reaches the userspace association stage without kernel fault.",
+      "cases": [
+        "firmware path missing",
+        "scan finds no authorized AP",
+        "association timeout",
+        "DHCP timeout",
+        "DNS failure",
+        "HTTPS certificate or route failure",
+        "disconnect and reconnect"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "GS101 PCIe host",
+        "BCM4389 firmware",
+        "brcmfmac/cfg80211",
+        "wpa_supplicant or NetworkManager",
+        "DHCP and resolver",
+        "HTTPS endpoint"
+      ],
+      "faults": [
+        "firmware load failure",
+        "watchdog expiry",
+        "endpoint unbind failure",
+        "USB serial interruption"
+      ],
+      "evidence": []
+    }
+  },
+  "limitations": [
+    "The authorized SSID and password are supplied at runtime and are intentionally absent from this file.",
+    "The current overlay has no restricted DMA pool; this remains a development-only test.",
+    "One successful association does not prove suspend, cellular, camera or production readiness."
+  ],
+  "exit_gate": "Record association, DHCP, DNS, HTTPS and reconnect evidence without a kernel/storage fault, then update the public README and release evidence with only redacted facts."
+}

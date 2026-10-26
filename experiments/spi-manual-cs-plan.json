@@ -1,0 +1,30 @@
+{
+  "claim": "Target GS101 SPI driver forces automatic native CS despite GPIO CS and stock child manual-CS setting; test manual controller-CS behavior only.",
+  "oracle": "Configuration CS register becomes0 during transfer, externalCS remainslow; minimal probe returnsstable3648in3pairs. Otherwise reject andrestore.",
+  "validation": {
+    "user_journey": "\u5c4f\u5e55\u4fdd\u6301\u8bca\u65ad\u547d\u4ee4\u884c\uff0c\u65e0\u9700\u7528\u6237\u89e6\u6478\uff1b\u4e34\u65f6\u66ff\u6362\u4ec5\u89e6\u6478 SPI \u63a7\u5236\u5668\uff0c\u8bb0\u5f55\u540e\u6062\u590d\u539f\u9a71\u52a8\u548c\u4e24\u8def\u4f9b\u7535\u3002",
+    "code_reasoning": [
+      "From baseline targetkernel SPI source plus bounded state logger; change only GS101 .quirks CS_AUTO to0, newnameand exactboard/controllerguard",
+      "Google enable_cs writesmanual0 when cs_mode0; factorychilddeclaresmanualmode0",
+      "No RXwidth or protocol changes; known minimal-mux client unchanged",
+      "Restore originalcontroller aftertest; no storageorfirmware writes"
+    ],
+    "unit": "\u6784\u5efa\u524d\u65ad\u8a00\u63d2\u5165\u4f4d\u7f6e\u552f\u4e00\u3001\u4ec5\u8bfb\u53d6\u5141\u8bb8\u914d\u7f6e\u5bc4\u5b58\u5668\uff0cW=1\u7f16\u8bd1\uff1b\u786c\u4ef6\u7535\u6c14\u6b63\u786e\u6027\u4e0d\u80fd\u9760\u5355\u6d4b\u8bc1\u660e\u3002",
+    "end_to_end": "USB serial fallback (Maclocked) with watchdog and hostcapture; originalminimal-mux bytes, same supplies; replacecontroller temporarily; snapshotCSandidentity; restorecontroller andrails."
+  },
+  "evidence": [
+    "OfficialGoogleSPI source 2040787 drivers/spi/spi-s3c64xx.c enable_cs and transfer_one_message",
+    "Stocko6 controller-data samsung,spi-chip-select-mode0",
+    "Observed currentcontroller CSregister23, GPIO CSraw0"
+  ],
+  "limitations": [
+    "\u5bc4\u5b58\u5668/ GPIO\u8bfb\u53d6\u4e0d\u4ee3\u66ff\u793a\u6ce2\u5668\u4fe1\u53f7\u8d28\u91cf\u6d4b\u91cf",
+    "\u4e34\u65f6\u66ff\u6362\u9a71\u52a8\u548c\u65e5\u5fd7\u65f6\u5e8f\u4f1a\u5f71\u54cd\u72b6\u6001\uff1b\u5fc5\u8981\u65f6\u9700\u51b7\u542f\u52a8\u590d\u9a8c",
+    "\u4e0d\u8bc1\u660e\u771f\u5b9e\u89e6\u6478\u6216\u684c\u9762\u64cd\u4f5c"
+  ],
+  "exit_gate": "Requirevalididentity and restored originalcontroller/rails; failedvariant remains experiment.",
+  "result": {
+    "status": "failed_identity_gate",
+    "observation": "Manual-CS register0 observed; stillc0 reply andcommand echo. Originalcontrollerrebound, rails2c/3c verified."
+  }
+}

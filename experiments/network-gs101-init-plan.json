@@ -1,0 +1,73 @@
+{
+  "claim": "Correct GS101-only PCIe PMU ownership and initial controller reset ordering without altering calibration tables or enabling endpoint DMA.",
+  "oracle": "Offline tests reject bit10 writes, preserve all unowned PMU bits, exercise cleanup failures, and prove controller reset occurs with PERST asserted before initial link training. Hardware gate requires bounded trial with checked backups, PCI enumeration evidence and clean power-off.",
+  "validation": {
+    "user_journey": {
+      "scenario": "User opens an Agent while WiFi is unavailable; first restore actual WLAN hardware discovery before claiming usable networking. Interrupted bring-up must leave serial recovery and stock A available.",
+      "expected": "Eventually association, DNS and HTTPS from the phone; this stage proves only host/endpoint discovery and failure recovery."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Pinned Google GS101 isolation mask is bit0 only.",
+        "PHY calibration bodies compared with pinned stock, no numeric tuning changes.",
+        "PHY powered/clocks enabled before bounded status reads.",
+        "Both initial and relink reset order use the same helper while PERST asserted.",
+        "WLAN-only overlay, no modem, IOMMU or S2MPU changes.",
+        "Do not load endpoint drivers or initiate DMA in enumeration test."
+      ],
+      "gitnexus": [
+        "External hardware source is not indexed by neweval; inspect host init, PHY init, poweron, teardown, regulator and IRQ ownership directly."
+      ],
+      "ast": [
+        "Extract actual C functions/includes into fault-injection harness."
+      ]
+    },
+    "unit": {
+      "red": "Run new ownership/order contract against diagnostics-v3 before changes.",
+      "green": "Same actual-C harness against v4; ASan/UBSan; supply/IRQ/MSI regression checks.",
+      "cases": [
+        "bit10 rejection",
+        "unowned bits preserved",
+        "snapshot/read/write errors",
+        "ambiguous write restore",
+        "failed restore retains clocks",
+        "PERST/reset/RC-mode ordering",
+        "bounded lock poll ready/late/timeout"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "Exact kernel W=1 module build",
+        "Mac4 -> serial verified upload -> paused init -> kernel probe -> cleanup"
+      ],
+      "faults": [
+        "No endpoint/link training failure",
+        "Readback mismatch",
+        "Watchdog reboot on hang"
+      ],
+      "evidence": [
+        "G15 recovered Linux B through private ADB; current GPU desktop observed, modules frozen. A fresh diagnostic reboot is necessary for v4a.",
+        "Final v4a: PLL/CDR/OC pass; Gen2x1;14e4:4441;PCI_COMMAND0;driver absent;unload and rail-off verified."
+      ]
+    }
+  },
+  "evidence": [
+    "gs101-stock-pcie-source.json",
+    "network-enumeration-runtime-evidence.json",
+    "network-gs101-init-evidence.json"
+  ],
+  "limitations": [
+    "No working WiFi, calls, cellular or camera claimed.",
+    "Stock PHY lock checks are diagnostic, not hard gates; preserve this semantics and record all results.",
+    "Other stock controller options may still be needed; do not claim whole vendor driver parity."
+  ],
+  "exit_gate": "Actual-C tests, pinned-source review and exact kernel build pass before powered trial; endpoint discovery plus safe cleanup required before firmware/DMA work.",
+  "status": "Powered enumeration and clean teardown passed; next firmware/interface trial has a separate plan.",
+  "current_trial": {
+    "claim": "Final v4a removes the known bit10 readback failure and may enumerate BCM4389; not yet proven.",
+    "oracle": "Exactly one Broadcom14e4:4441 endpoint, no endpoint driver and bus-master bit clear; then host/PHY unload, rail disabled and serial healthy.",
+    "stop": "Any backup mismatch, unexpected modules, teardown failure or watchdog ownership conflict blocks loading.",
+    "rollback": "Unload host before PHY; verify rail disabled; DT overlay remains until reboot. Restore G15/input30 GUI using hash-checked saved artifacts after trial.",
+    "limits": "No association, DMA, cellular or camera proof from enumeration alone."
+  }
+}

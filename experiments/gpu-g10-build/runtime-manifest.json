@@ -1,0 +1,93 @@
+{
+  "archive": "mesa-g10-runtime.tar.gz",
+  "bytes": 6607732,
+  "sha256": "e015a0a696a2de5ccd4c7bf907c794b53d889dcecf8e477d02e9e645615d5b50",
+  "toolchain_image": "sha256:f3fe1b9f6fe6468a6964773950327332d8d3c085eda5ef980217f8c8a378d95e",
+  "source": {
+    "source_sha256": "bce5f7fbebb934373b86c999a064d52fb5065878dc57f287f95346648ec832e9",
+    "patches": [
+      {
+        "name": "0001-panfrost-add-Mali-G710-to-the-model-table.patch",
+        "sha256": "1a6ac513fb44579f6ca72a2c92bb7fd86743a4a9dc01f452ac1ab93073100ce1"
+      },
+      {
+        "name": "0002-panfrost-don-t-make-image-BOs-private-on-panthor.patch",
+        "sha256": "f064ce851d4898b87c95ea55c3367de9cdddb4e6a99e6ba89033e76dc9adecb8"
+      },
+      {
+        "name": "0003-panfrost-Advertise-Mali-G68-support.patch",
+        "sha256": "edec51dfb5147de62aca0093bf2915d0cccf27e216f63ec8588064f18990ab3d"
+      },
+      {
+        "name": "0004-panfrost-add-Mali-G78-to-the-model-table.patch",
+        "sha256": "b4e6d7d29277cf4f11317968c26eb5c9f3fb89cd18f36615d45aa5d40134817a"
+      }
+    ]
+  },
+  "test_exit": 0,
+  "files": [
+    "include/EGL/eglext_angle.h",
+    "include/EGL/eglmesaext.h",
+    "include/GL/internal/dri_interface.h",
+    "include/gbm.h",
+    "include/gbm_backend_abi.h",
+    "lib/dri/apple_dri.so",
+    "lib/dri/armada-drm_dri.so",
+    "lib/dri/exynos_dri.so",
+    "lib/dri/gm12u320_dri.so",
+    "lib/dri/hdlcd_dri.so",
+    "lib/dri/hx8357d_dri.so",
+    "lib/dri/ili9163_dri.so",
+    "lib/dri/ili9225_dri.so",
+    "lib/dri/ili9341_dri.so",
+    "lib/dri/ili9486_dri.so",
+    "lib/dri/imx-dcss_dri.so",
+    "lib/dri/imx-drm_dri.so",
+    "lib/dri/imx-lcdif_dri.so",
+    "lib/dri/ingenic-drm_dri.so",
+    "lib/dri/kirin_dri.so",
+    "lib/dri/kms_swrast_dri.so",
+    "lib/dri/komeda_dri.so",
+    "lib/dri/libdril_dri.so",
+    "lib/dri/mali-dp_dri.so",
+    "lib/dri/mcde_dri.so",
+    "lib/dri/mediatek_dri.so",
+    "lib/dri/meson_dri.so",
+    "lib/dri/mi0283qt_dri.so",
+    "lib/dri/mxsfb-drm_dri.so",
+    "lib/dri/panel-mipi-dbi_dri.so",
+    "lib/dri/panfrost_dri.so",
+    "lib/dri/panthor_dri.so",
+    "lib/dri/pl111_dri.so",
+    "lib/dri/rcar-du_dri.so",
+    "lib/dri/repaper_dri.so",
+    "lib/dri/rockchip_dri.so",
+    "lib/dri/rzg2l-du_dri.so",
+    "lib/dri/ssd130x_dri.so",
+    "lib/dri/st7586_dri.so",
+    "lib/dri/st7735r_dri.so",
+    "lib/dri/sti_dri.so",
+    "lib/dri/stm_dri.so",
+    "lib/dri/sun4i-drm_dri.so",
+    "lib/dri/swrast_dri.so",
+    "lib/dri/udl_dri.so",
+    "lib/dri/vkms_dri.so",
+    "lib/dri/zynqmp-dpsub_dri.so",
+    "lib/gbm/dri_gbm.so",
+    "lib/libEGL_mesa.so",
+    "lib/libEGL_mesa.so.0",
+    "lib/libEGL_mesa.so.0.0.0",
+    "lib/libGLX_mesa.so",
+    "lib/libGLX_mesa.so.0",
+    "lib/libGLX_mesa.so.0.0.0",
+    "lib/libgallium-26.2.4-oriole.g10.so",
+    "lib/libgbm.so",
+    "lib/libgbm.so.1",
+    "lib/libgbm.so.1.0.0",
+    "lib/pkgconfig/dri.pc",
+    "lib/pkgconfig/gbm.pc",
+    "share/drirc.d/00-mesa-defaults.conf",
+    "share/drirc.d/00-panfrost-defaults.conf",
+    "share/glvnd/egl_vendor.d/50_mesa.json"
+  ]
+}

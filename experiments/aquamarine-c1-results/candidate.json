@@ -1,0 +1,21 @@
+{
+  "label": "candidate",
+  "duration_s": 17.34,
+  "foot_exit": 0,
+  "scanout_samples": 16,
+  "unique_scanout_fb_ids": 3,
+  "screenshots": [
+    "8ad67af9e50a37cc7842b81097f4da0446a744040f84a9dfa2a160a95cec4616",
+    "4f02c37c2be084229ff530937431b724c84a5b0ba9535b5e84827fabff6ce555"
+  ],
+  "distinct_screenshots": 2,
+  "cpu_percent_one_core": {
+    "Hyprland": 184.82,
+    "quickshell": 6.52
+  },
+  "new_log_bytes": 0,
+  "initMgpu_errors": 0,
+  "applyCommit_errors": 0,
+  "log_sample_capped": false,
+  "limits": "DRM framebuffer IDs and compositor screenshots do not prove physical panel output or touch latency; /dev/fb0 emulation buffer was not the active Hyprland framebuffer"
+}

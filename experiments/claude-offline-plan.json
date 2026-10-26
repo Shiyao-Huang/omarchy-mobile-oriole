@@ -1,0 +1,62 @@
+{
+  "claim": "Verified Claude starts without mise; an agent terminal remains visible after offline failure.",
+  "oracle": "Pinned version/help pass. On exact launch, EAI_AGAIN is visible and the agent terminal remains mapped after Claude exits1. This does not claim online access.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Tap Claude after offline installation; restart it; fail network/authentication without re-running installer; retain rollback to original wrapper.",
+      "expected": "Program starts locally; online requirement remains explicit; user authentication is not performed automatically."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Official HTTPS source plus manifest SHA256",
+        "Pin version and architecture",
+        "Backup exact existing mise wrapper; reject unexpected existing installation",
+        "No credentials copied",
+        "Do not enable bypass-permission flags or run model tasks",
+        "Only --app-id=org.omarchy.agent receives terminal --hold; all other TUI launches delegate unchanged to original /usr/bin launcher",
+        "Preserve /usr/bin launcher bytes; redirect the inspected /usr/share/omarchy/bin symlink so both session PATH orderings reach scoped override; record original symlink and hashes"
+      ],
+      "gitnexus": [
+        "External deployment not indexed in neweval; inspect launcher and installer source"
+      ],
+      "ast": [
+        "Omarchy user_install recognizes custom installed binary and avoids mise"
+      ]
+    },
+    "unit": {
+      "red": "Phone mise where claude fails version fetch; curl returns DNS error6",
+      "green": "Pinned binary --version plus verified deployment checks",
+      "cases": [
+        "digest mismatch rejects",
+        "existing wrapper backup",
+        "manual-edit-safe rollback",
+        "version target verification",
+        "Agent hold exact argv with whitespace/quotes",
+        "Non-agent TUI passthrough unchanged"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "official download -> local manifest verification -> Mac4 -> USB serial -> phone checksum -> agent UID -> terminal"
+      ],
+      "faults": [
+        "offline phone",
+        "repeated launch"
+      ],
+      "evidence": []
+    }
+  },
+  "evidence": [
+    "serial-claude-network: usb0 NO-CARRIER, only loopback otherwise; curl DNS error6 for GitHub and claude.ai",
+    "No proxy configured; time unsynchronized",
+    "Native Claude PTY: welcome2.1.308, api.anthropic.com EAI_AGAIN, exit1"
+  ],
+  "limitations": [
+    "Network and authentication remain unavailable",
+    "Physical touch acceptance separate",
+    "Direct pinned binary deployment differs from online self-updating installer",
+    "Actual screenshot shows lockscreen; do not infer user-visible success from compositor mapped flag"
+  ],
+  "exit_gate": "Verify all hashes and version, preserve launcher backup, demonstrate desktop entry launch before calling installation complete; never claim API success without actual request.",
+  "current_status": "Local Claude installation repaired; offline terminal retention verified remotely; physical visibility pending system unlock; online use blocked"
+}

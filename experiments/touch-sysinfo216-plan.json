@@ -1,0 +1,29 @@
+{
+  "claim": "Current touch firmware system-info layout is216bytes, while old208byteparser canmisreadgeometry. Aseparateframebuffer read canverifytransportandidentity despitefailedhardware-registeridentity.",
+  "oracle": "Threefresh216byteframes haveA5/01header, chip0Id4836, fw0049, SVN4694,cfg0308,coords2399x1079,TX16/RX34 perstockthisphone. ReportconflictwithHWID; noIRQ/inputpromotion.",
+  "validation": {
+    "user_journey": "Diagnosticremainsconnected; installationstillincompletewithoutrealinput.",
+    "code_reasoning": [
+      "GoogleftsCore.c readSysInfo exactoffsetderivation: chipid10 FW16 SVN18 CFG20 XY80/82 TX84 RX85",
+      "OnlyA7 framebuffer reads, five48-byteboundedchunks at16bitoffsets0/48/96/144/192;64bytebuffers",
+      "NoFW/config writes,noIRQhandler; no dieinfo/uniqueidentifier printed"
+    ],
+    "unit": "Offsetsfromindependentlyknownstockparser; sourceboundscheck andW=1build; nothardwareunitproof",
+    "end_to_end": "Threeframesreadonphone; comparespecificfieldswithoriginalstockdmesg thenindependentrailrollback"
+  },
+  "evidence": [
+    "Stockthisphone FW0049 SVN4694 CFG0308 XY2399/1079 TX16 RX34 and216bytesparsed",
+    "GPIOmode0 andhardwareSPIbothproduceidenticalresponses; transportfaultnotestablished",
+    "OldFTScandidatesreadFW0049 butimplausiblegeometry"
+  ],
+  "limitations": [
+    "Chunkedreadnotyetverified",
+    "Hardware-registerIDfailure remains unresolved",
+    "No touchscreenusabilityproof"
+  ],
+  "exit_gate": "IfcompleteconsistentSysInfo, update initializationexperiment basedonGoogle216byteprotocol; do notignoreconflictingHWID orpromoteuntilknownidentityandrealinputvalidated",
+  "result": {
+    "status": "chunked_singletransfer_failed",
+    "observation": "HeadernotA501, no validfields; noIRQenabled; rollbackverified"
+  }
+}

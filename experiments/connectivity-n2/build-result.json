@@ -1,0 +1,26 @@
+{
+  "returncode": 0,
+  "command": [
+    "make",
+    "-C",
+    "<local-build-root>/linux-omarchy-mobile",
+    "O=<local-build-root>/out-oriole-m1",
+    "ARCH=arm64",
+    "CROSS_COMPILE=aarch64-linux-gnu-",
+    "M=<local-build-root>/connectivity-n2",
+    "W=1",
+    "-j2",
+    "modules"
+  ],
+  "exact_kernel_irq_source_sha256": "a909f8130256992a1791a7b26e65fe110fe94f174ea7c79f691941df1d6ea379",
+  "artifacts": {
+    "pcie-gs101.ko": "611615033b545484aed09138b00e895c7195b3872721cd97eda5e1180862c318",
+    "phy-gs101-pcie.ko": "335683cdb2eede5ada1dcaf8b23e9b4d62083110798cfb45422d919d43dd5ac9"
+  },
+  "limitations": [
+    "build candidate only",
+    "driver remove/IRQ/error cleanup requires review before load",
+    "DT and DMA firewall not integrated",
+    "no wireless or cellular test"
+  ]
+}

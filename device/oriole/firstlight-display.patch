@@ -1,0 +1,12 @@
+--- a/arch/arm64/boot/dts/exynos/google/gs101-oriole.dts
++++ b/arch/arm64/boot/dts/exynos/google/gs101-oriole.dts
+@@ -44,6 +44,9 @@
+ };
+ 
+ &framebuffer0 {
++	/* First-light only: PMIC drivers are not installed in the minimal initramfs. */
++	/delete-property/ vci-supply;
++	/delete-property/ vddi-supply;
+ 	width = <1080>;
+ 	height = <2400>;
+ 	stride = <(1080 * 4)>;

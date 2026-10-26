@@ -1,0 +1,36 @@
+{
+  "bytes": 5664,
+  "events": 236,
+  "types_codes": {
+    "(3, 57)": 10,
+    "(3, 53)": 44,
+    "(3, 54)": 39,
+    "(1, 330)": 10,
+    "(3, 0)": 44,
+    "(3, 1)": 39,
+    "(0, 0)": 50
+  },
+  "tracking_start": 5,
+  "tracking_end": 5,
+  "coordinate_ranges": {
+    "53": [
+      258,
+      1073
+    ],
+    "54": [
+      1259,
+      1474
+    ]
+  },
+  "coordinate_unique": {
+    "53": 40,
+    "54": 28
+  },
+  "physical_timing": "Userconfirm immediatelyafterready prompt; livecapture read whilewindowactive;5starts/5ends withchangingXY",
+  "rollback": "INPUT28_END reports71; FRESHBOOT_ROLLBACK_OK; independent2c/3c at2611.197",
+  "limits": [
+    "Inputevents verified, notGUI acceptance",
+    "Repeatedframe reports notseparatephysicalgestures",
+    "20ms polling andfinger1onlydiagnostic"
+  ]
+}

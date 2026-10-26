@@ -1,0 +1,33 @@
+{
+  "settings": {
+    "cpu_weight": "25",
+    "nice": 10,
+    "affinity": "0-5"
+  },
+  "workers": [
+    {
+      "x": -66818671,
+      "affinity": "0-5"
+    },
+    {
+      "x": -56219055,
+      "affinity": "0-5"
+    }
+  ],
+  "elapsed_ms": 2080.118491,
+  "used_cpu_usec": 4182696,
+  "status": "PASS bounded transient background resource-control test",
+  "desktop_affinity": "0-7 unchanged",
+  "desktop_PID": "unchanged",
+  "GPU": "private Mesa still mapped; no new kernel GPU fault",
+  "cleanup": "Transient unit LoadState=not-found",
+  "persistent_changes": "none; diagnostic source retained only",
+  "limitations": [
+    "CPUWeight25/Nice10 do not constitute a hard CPU time quota",
+    "Affinity0-5 excludes two X1 cores for this test, but does not reserve them exclusively for GUI",
+    "Two workers used about4.18 CPU seconds in2.08 wall seconds; this proves actual parallel work, not physical responsiveness",
+    "No default Agent concurrency or sustained thermal/energy certification",
+    "No physical touch journey while user away"
+  ],
+  "private_log_sha256": "8d7b5265e23722a5e3c5bf083886b68e25359e825b0639153a7cff357aebdeb9"
+}

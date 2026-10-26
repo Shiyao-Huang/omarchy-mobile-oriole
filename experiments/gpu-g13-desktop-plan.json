@@ -1,0 +1,87 @@
+{
+  "claim": "G13 private Mesa can render actual Hyprland desktop with lessCPU than samekernel softwarebaseline, and automaticallyrestorebaseline.",
+  "oracle": "HyprlandlogMaliG78+processmapsprivateMesa; same17sfootbenchmarkchangedframes, noGPUfault, no terminalerror; CPUlowerthan111.53%;90sautomaticrollback restoresbaseline andstocklibraryhashes. No physicalacceptance.",
+  "validation": {
+    "user_journey": {
+      "scenario": "User opensFiles/types/scrolls afterreturn; build/deployfailure restoresstocklibrariesanddesktop; USBshellretained",
+      "expected": "Physicaltouch/smoothnessstillpendingwhenuseraway; remoteprooflimitedtochangedframes+CPU+actualrenderer"
+    },
+    "code_reasoning": {
+      "invariants": [
+        "KernelG9supplyheldbeforeprobe andPMcontrolon",
+        "Mesa26.2.4sha256bce5f7fbebb934373b86c999a064d52fb5065878dc57f287f95346648ec832e9",
+        "UseupstreamOmarchyMobilepatches1-4withzero-fuzz; omitunrelatedv11backportsandVulkanfeatures",
+        "Do notoverwriteinstalledMesa26.2.5; selectprivateEGL/GBM/DRIpathsperprocess",
+        "BuildARM64isolatedtaskcontainerwithboundedCPU; nootherhostcontainerschanged",
+        "GLESfailure/errorblocksdesktophardwareacceptance",
+        "Candidate archive is SHA256 checked, extracted only inside a new private prefix; reject traversal, escaping links, special files and existing destination.",
+        "Transfer in bounded8MiB chunks with perchunk digest and fullarchive digest; interrupted staging never becomes selected Mesa.",
+        "Target dynamic symbol resolution checked; LLVM23.1.4 build versus23.1.3 target is an explicit compatibility gate.",
+        "Only90-oriole-mesa-g10.conf changes;85softwarebaseline stays intact;UnsetEnvironment removes software flags in candidate only.",
+        "Aquamarine0.15.1 Session.cpp permits sole-renderD fallback forsplitKMS/GPU; card0remainsoutput.",
+        "Rootsystemd90srollback armed before override;180sboundedhardwarewatchdog; originalMesa unchanged."
+      ],
+      "gitnexus": [
+        "ExternalMesa source/model/loadercallchain; no workspacepublicinterfacechange"
+      ]
+    },
+    "unit": {
+      "red": "Stocktargetcontextreturnsllvmpipe; G78absentfrominstalledbinarystrings",
+      "green": "Model/driverbuildtestswhenavailable; verifybuiltmodelentry anddependencyresolution; actualGPUdrawisendtoendnotunit",
+      "cases": [
+        "G78productid9.2.2",
+        "nonsoftwareoraclerejectsllvmpipe",
+        "allRGBpixelsmatch",
+        "missingdriverfailswithoutglobalpackagechange",
+        "reject archive traversal/escaping symlink/device/hardlink",
+        "reject wrong digest and existing/manual-modified destination; remove failed staging",
+        "Publishedprefix0755 andlibrarypathsreadablebyordinarydesktopuser;root-onlyABIcheckdoesnotproveuseraccess."
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "privateMesa",
+        "GBMrenderD128",
+        "Panfrost",
+        "GPUjob/MMU",
+        "readback",
+        "Hyprland/simpledrm"
+      ],
+      "faults": [
+        "timeoutwatchdog",
+        "perprocessenvoverride removal",
+        "nativeLinuxrecoveryonGPUhang",
+        "Capture serial bytes immediately to Mac log before GPU probe; a hung or disconnected probe cannot erase already captured output.",
+        "Existing hardware watchdog with bounded feeder, verify FD ownership before draw and disarmed FD after; no watchdog sysfs state attribute on this kernel, so use actual device and process evidence."
+      ],
+      "evidence": [
+        "Nexttrialrequiresrunuseragent sharedlibraryloading beforeanySDDMrestart."
+      ]
+    }
+  },
+  "evidence": [
+    "G9 cleanbootall20coresreadywithoutpowererrors",
+    "CurrentMesa26.2.5rendererllvmpipe,includingforcedpanfrostloader",
+    "Mesa26.2.4sourcearchivedownloadhashverified",
+    "Build configuration passed after installing isolated X11 dependencies; compiling with4jobs on4boundedhostCPUs.",
+    "Software GUI restored, baseline16.93s CPUHyprland111.53% with54repeatedrendererrors; actualframeschanged.",
+    "CurrentCPUcpufreq-dt schedutil3policies; no thermalzones,PCIdevices,WiFi/cell/camerainterfaces.",
+    "Staging tests passed: wrong digest, traversal, escaping links, special/hardlinked files, duplicate names, symlink parents, missing link, cleanup, manual destination preservation.",
+    "Runtime archive built6,607,732bytes SHA256e015a0a696a2de5ccd4c7bf907c794b53d889dcecf8e477d02e9e645615d5b50;10Panfrostupstreamtests passed.",
+    "Exactarchive staging validated locally, then phone0.227s rawserial transfer andindependentSHA256 accepted.",
+    "Phoneprivate4top-levelAArch64libraries relocation passed againstinstalledLLVM23.1.3; nowcheckingnestedGBM/DRIbackends too.",
+    "G10 target probe FAIL: actualprivateMesa reportsMaliG78MC20 butfirstglDrawArrays\u2192js1timeoutstatus0x8\u2192pixelmismatch;GPUresetrecoveredreadybits;WDdisarmed,freshUSB,SDDMactive. Desktop gate remains closed.",
+    "G11clear3frames768pixelspass0.029s;G12exactoriginalgeometry3frames768pixelspass0.031s afterG10reset.",
+    "Cold first-job timeout unresolved; bounded desktop trial permitted but notpersistent promotion.",
+    "G13failedbeforeGUI:GBMbackendPermissiondenied becauseprivateprefix inheritedmkdtemp0700;rootGLESwasinsufficient.90srollbackrestoredstockmaps,stockhashes,overrideabsent,WDdisarmed.",
+    "G13permissionfix:prefix0755;actualagentUID loads6candidateELFlibraries andcanaccessrenderD128; correctedstagerunitPASS."
+  ],
+  "limitations": [
+    "Private26.2.4build isexperimental alongside26.2.5",
+    "Kernelrailhold/realPMICregulatorsandthermal/suspendnotproductionready",
+    "NoWiFi/cell/cameraacceptancefromgraphicsprogress",
+    "Laterautomaticboothandlingrequiresverifiedslotsuccessintegration",
+    "No coldbootacceptance; hardwarecandidateautomaticallyrevertsaftertrial."
+  ],
+  "exit_gate": "ActualGPUdesktop+sameworkloadresult+rollbackproof;retainexperimentalstatusuntilcoldbootandphysicalchecks."
+}

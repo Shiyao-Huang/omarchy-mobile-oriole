@@ -1,0 +1,23 @@
+{
+  "claim": "Comparing identical read-only transactions with physical reset held low and released can reveal whether observed reply depends on touchchip reset state.",
+  "oracle": "Resetraw0 confirmed after100ms and raw1 after500ms; same bounded FB20000000+zeroTX read in each phase. LogreplyandIRQ; no resetpolarityassumptions fromimmediatereads.",
+  "validation": {
+    "user_journey": "Keepconsoleconnected, no human input; do not enableIRQ.",
+    "code_reasoning": [
+      "Retain exactboard/parentguard, originalSPI mode0 and10MHz max",
+      "Sameallocated64byte buffers to protectagainstFIFO64; txonlyhardwareIDread",
+      "Sixphases (low/high x3), one read each; alwaysdeassertresetbeforeexit andrestoreSPI"
+    ],
+    "unit": "W=1 and sourceboundsreview; deterministic internalSPIloopbackalready passedall6lengths",
+    "end_to_end": "Actualresetreads+SPIreply comparedonphone; independentrailreadcleanup"
+  },
+  "evidence": [
+    "Internal loopback passed lengths1,3,5,9,14,32 with intactcanaries",
+    "USIread con0 option1 route2"
+  ],
+  "limitations": [
+    "GPIOreadnotprobeattouchchip pin",
+    "Anyresetdependentresponsealone notvalidchipID"
+  ],
+  "exit_gate": "Differentiate resetdependent versus unchangedreply; require3648 before input."
+}

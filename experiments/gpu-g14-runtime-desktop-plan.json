@@ -1,0 +1,57 @@
+{
+  "claim": "Keep validatedG10hardwaredesktop for thisboot with a runtime-onlyserviceoverride; rebootdoesnotretain thisselection.",
+  "oracle": "Unitlookupincludes/run/systemd/user;runtime90override selectsprivateMesa;freshHyprlandmaps+rendererprovehardware;timedrollbackarmed untilfreshserialverification, thenstop timeranddisarmWD. Home85softwarebaselineandstockhashesunchanged.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Userreturns to usableacceleratedGUI on currentboot; experimentfailure restoressoftwarebaseline; laterboot stillrequireskernelintegration",
+      "expected": "CurrentGUIusesGPU;physicaltouch/smoothnessnotyetaccepted;no fullinstallation claim"
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Only/run/systemd/user/wayland-wm@hyprland.desktop.service.d/90-oriole-mesa-g10.conf added",
+        "Samebytes as validatedG13R override;globalruntimeuserunitpath exists on phone",
+        "GPUalreadyinitialized andrealshaderpassbeforeactivation",
+        "No bootimage,calibration,stockMesaorhomebaseline modification"
+      ]
+    },
+    "unit": {
+      "red": "Existing/manual-modified/symlinkoverride must notbeoverwritten",
+      "green": "Reuseactualoverrideownership/idempotencecontract withruntimepath; sourcebytes samecandidateenv",
+      "cases": [
+        "enable",
+        "rollback",
+        "manualeditpreserve",
+        "symlinkrefuse",
+        "homebaseline untouched"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "systemduserunitlookup",
+        "SDDM",
+        "Hyprland",
+        "privateMesa",
+        "kernelGPU",
+        "USB"
+      ],
+      "faults": [
+        "90srootrollbacktimer beforeactivation",
+        "180sboundedhardwarewatchdog",
+        "cancelonlyafterfreshserialprobe"
+      ],
+      "evidence": [
+        "G13R A/B/A111.53/3.19/111.73%CPU;errors54/0/45,changedframes;stockhashesrestored"
+      ]
+    }
+  },
+  "evidence": [
+    "G13RrendererMaliG78MC20;geometry/readbackpass",
+    "Runtime-only policy avoids enablingprivateMesa onfutureboot beforeG9kernelbringup"
+  ],
+  "limitations": [
+    "Runtimefileclearsbytmpfsrebootsemantics;not a testedcoldbootintegration",
+    "No thermal/suspend,WiFi,SIM,cameraacceptance",
+    "Physicalscreen/inputnotcheckedwhileuseraway"
+  ],
+  "exit_gate": "Freshserial confirmsruntimeoverride+GPUdesktop+no newGPUfault;cancelrecoverytimer/disarmWD onlythen;stillnotproductionready"
+}

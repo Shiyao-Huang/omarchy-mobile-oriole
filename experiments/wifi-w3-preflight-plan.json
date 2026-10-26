@@ -1,0 +1,58 @@
+{
+  "claim": "Replace the BCM4389 versioned join request's deprecated one-element array without changing its firmware wire layout or truncating the optional channel allocation.",
+  "oracle": "Actual-C tests preserve 76/78-byte wire requests and all field offsets, cover allocation and firmware errors, and detect the header-only under-allocation mutation under ASan. Exact-kernel W=1 build passes.",
+  "validation": {
+    "user_journey": {
+      "scenario": "User selects Wi-Fi with or without a fixed channel; request reaches firmware with the same correct bytes, and allocation/firmware errors return cleanly.",
+      "expected": "No association regression or heap overflow introduced by the flexible-array cleanup; hardware association remains a separate test."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Only versioned BCM4389 join structure and its allocation change",
+        "All allocation sizes derive from the existing wire-length calculation",
+        "No change to legacy join or radio power",
+        "All references to the two versioned structs audited"
+      ],
+      "gitnexus": [
+        "External pinned source; direct call-site search used instead of an unavailable graph"
+      ],
+      "ast": [
+        "Compile extracted actual structs and join function with mocked allocation and firmware boundary"
+      ]
+    },
+    "unit": {
+      "red": "Changing only array[1] to array[] while retaining sizeof allocation must trigger ASan on channel-present case",
+      "green": "Length-based allocation passes golden byte-layout tests, absent/present BSSID, channel, empty/max SSID, allocation failure and firmware rejection",
+      "cases": [
+        "76/78 bytes",
+        "zero padding",
+        "firmware-error flag reset",
+        "no firmware call on allocation failure"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "pinned BCM4389 subtree",
+        "actual installed-kernel build",
+        "new candidate module hashes"
+      ],
+      "faults": [
+        "header-only mutation",
+        "allocation failure",
+        "firmware error"
+      ],
+      "evidence": []
+    }
+  },
+  "evidence": [
+    "Pinned W2 source uses chanspec_list[1] and kzalloc_obj(*jp); blindly converting the array reduces sizeof and would lose space for one channel.",
+    "See wifi-w3-build-evidence.json and test-wifi-w3-join.py"
+  ],
+  "limitations": [
+    "No radio load or association in this offline stage",
+    "Golden layout is based on existing working protocol source, not independent firmware reverse engineering",
+    "W3 still requires authorized network and DMA/recovery plan"
+  ],
+  "exit_gate": "Actual-C RED/GREEN and unchanged wire layout, warning-free kernel build and scoped checkpatch before any W3 driver load.",
+  "status": "Actual-code RED/GREEN and exact-kernel W=1 build passed; no phone driver trial or association."
+}

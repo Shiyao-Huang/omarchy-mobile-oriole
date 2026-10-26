@@ -1,0 +1,35 @@
+{
+  "claim": "A reset asserted before DVDD/AVDD enable, as in Google fts_chip_powercycle and SALIXP PR32, may change the failed chip identity.",
+  "oracle": "Verify rails initially2c/3c and fixedresetGPIO initiallyhigh; assertresetlow before enablingL25/L26, wait15ms thenrelease; same explicitTX identity client mustread3648. All temporary modules removed and rails restored independently.",
+  "validation": {
+    "user_journey": "No user touch needed. Console and USB stay available during bounded diagnostic; no new image install.",
+    "code_reasoning": [
+      "Exactoriole board, gpp26 offset0, parent10c40000.pinctrl guard",
+      "Read both originalPMICregs before reset or railwrites; sameBIT7only transitions as auditedholdmodule",
+      "OwnresetGPIO failsclosedifbusy; restorehigh andfree on all exits; success releases GPIO beforeminimalclientbinds",
+      "Separate9byteTXreply minimalclientunchanged",
+      "After100ms resetlow must read0 beforeenablingrails; release read delayed5ms. Immediateoldlevelnotassumed physicalpolarityerror."
+    ],
+    "unit": "W=1 exactkernelbuild and sourcecleanup review; no hardware simulation claimed",
+    "end_to_end": "Samewatchdog/SSH/independentrailread protocol; expectednewpowerseq logs; preserve kernel and rootfs"
+  },
+  "evidence": [
+    "Google pinned fts.c fts_chip_powercycle, resetlowbeforevdd1msavdd15msrelease",
+    "https://github.com/derekross/linux-omarchy-mobile/pull/32"
+  ],
+  "limitations": [
+    "Existinghold10ms railspacing retained; additionalresetpulse inminimalclient retained to isolateinitialpowerordering",
+    "Registerreadback cannot prove electrical voltage",
+    "No actualfingerinputclaim"
+  ],
+  "exit_gate": "Record identity and cleanup, do not promote failedexperiment into defaultimage.",
+  "initial_observation": "Immediate resetread returnedoldlevel afterboth writes; no validID. Repeatwith100mssettled assertioncheck and5msreleaseread; abortbeforepower iflow notconfirmed.",
+  "result": {
+    "status": "failed_identity_gate",
+    "reset_before_rails": "100ms settled raw=0, then L25M/L26M enable, then release after15ms and raw=1 after5ms",
+    "identity": "Three split pairs00+c0x8 and singles80fb20000000+c0x8; no3648",
+    "rollback": "Module unloaded; L25M/L26M2c/3c independently double-read; watchdog disarmed; USB SSHhealthy",
+    "module_sha256": "121fceb2d6c5709354a49e8b42db72be69ec5296b5cd233e8de93ea4994fad80",
+    "limits": "Control/GPIO readback is not oscilloscope or electricalvoltageproof; touch remainsfailed."
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "release": "oriole-bringup-2026.10.25.1",
+  "kind": "source-and-evidence-checkpoint",
+  "daily_use_ready": false,
+  "one_click_full_install_ready": false,
+  "device": "Pixel6 oriole",
+  "components": [
+    {
+      "component": "native Linux and Omarchy userspace",
+      "version": "kernel7.3.0-rc6-omamobile-oriole-m1 / Omarchy4.0.6 / Hyprland0.56.2",
+      "status": "boots GUI with manual diagnostic handoff",
+      "evidence": "PID1systemd,SDDMactive,Hyprland,screenshot",
+      "limits": [
+        "B successful flag unset; retry exhaustion enters A recovery",
+        "not persistent touch autoload"
+      ]
+    },
+    {
+      "component": "touch",
+      "version": "input30",
+      "status": "physical GUI touch demonstrated; experimental",
+      "evidence": "user opened Files; later screenshot confirms Files; capture26040bytes; no END after handoff",
+      "module_sha256": "a7d261147cd975fb69d8258b0bd43a91570266e95ccbff875507d74e49031f0e",
+      "limits": [
+        "polling path",
+        "power/suspend not tested",
+        "not a whole-phone usability pass"
+      ]
+    },
+    {
+      "component": "graphics/performance",
+      "version": "simple-framebuffer baseline; animation trial1 rolled back",
+      "status": "FAILED usability",
+      "evidence": "GPU DT disabled/no renderD node; user extreme lag; black/unresponsive after trial",
+      "limits": [
+        "need Panfrost GS101/G78 integration and display validation",
+        "7Pro Panthor G710 path is not directly interchangeable"
+      ]
+    },
+    {
+      "component": "USB debug",
+      "version": "NCM+ACM / current-boot serial service",
+      "status": "serial working; network intermittent",
+      "limits": [
+        "Mac lock can prevent enumeration",
+        "USB network presence not Internet connectivity"
+      ]
+    },
+    {
+      "component": "WiFi",
+      "version": null,
+      "status": "not brought up",
+      "evidence": "only lo/usb0, no wireless interface"
+    },
+    {
+      "component": "SIM data",
+      "version": null,
+      "status": "not brought up",
+      "evidence": "no cellular interface,ModemManagerinactive",
+      "limits": [
+        "SIM inserted does not establish modem registration",
+        "upstream7Pro cellular data itself not yet validated in fetched status"
+      ]
+    },
+    {
+      "component": "camera",
+      "version": null,
+      "status": "not brought up",
+      "evidence": "no /dev/video* or /dev/media*"
+    },
+    {
+      "component": "keyboard/rotation/lock/wake",
+      "version": "existing mobile shell + Squeekboard",
+      "status": "not user-accepted",
+      "evidence": "Squeekboard registered; physical interaction not accepted; black/unresponsive report unresolved"
+    },
+    {
+      "component": "Node/Go/API harness",
+      "version": null,
+      "status": "not end-to-end accepted",
+      "limits": [
+        "requires usable network and uninterrupted background execution test"
+      ]
+    }
+  ],
+  "rollback": {
+    "boot_images_changed_this_checkpoint": false,
+    "configuration": "Original hyprland.lua restored from phone /var/tmp/oriole-performance-20261025/hyprland.lua.before",
+    "device_state": "running native Linux input30 with modules frozen; current-boot USBroot diagnostic shell; UI backbuffer shows Files",
+    "physical_screen_recovery": "unconfirmed; user away"
+  },
+  "next_order": [
+    "GPU/display performance and black/wake diagnosis",
+    "stable WiFi/API harness connectivity",
+    "persistent touch boot and verified B success handling",
+    "SIM modem data bringup",
+    "camera and remaining mobile UX"
+  ],
+  "sources": [
+    "https://github.com/derekross/omarchy-mobile/blob/main/docs/DEVICES.md",
+    "https://github.com/derekross/omarchy-mobile/blob/main/device/oriole/NOTES.md",
+    "https://github.com/gs101-mainline/linux/tree/d28cfa4275b95e93f4b7a1e743de31b723bd21b8"
+  ],
+  "publication": "No vendor blobs,calibration,deviceidentifiers or private host credentials in this source release"
+}

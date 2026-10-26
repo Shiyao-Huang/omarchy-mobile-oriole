@@ -1,0 +1,50 @@
+{
+  "claim": "The existing kernel PMU regmap can read one allowlisted GS101 G3D domain status without accessing the unpowered GPU MMIO block.",
+  "oracle": "One selected status register returns identical double reads, no write API, clean unload, watchdog disabled afterward and USB remains responsive.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Read G3D status in current diagnostic gate before considering GPU enable; keep touchscreen/GUI restoration possible.",
+      "expected": "Recorded domain status without screen/voltage/boot image change."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Use exynos_get_pmu_regmap/regmap_read only",
+        "Only GS101_SUBBLK_STATUS(G3D) and STATUS(EMBEDDED_G3D), exact target header macros",
+        "Both within gs101_pmu_rd_table allowlist, PMU_ALIVE not GPU MMIO",
+        "One register selected per load; index bounds reject arbitrary offsets",
+        "No PMU configuration/write/SMC write calls"
+      ]
+    },
+    "unit": {
+      "cases": [
+        "index0/1 exact offsets",
+        "outofrange rejects without read",
+        "first/second read errors propagated",
+        "double-read mismatch returns EIO",
+        "W=1 build"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "module",
+        "existing PMU regmap",
+        "PMU_ALIVE",
+        "USBserial"
+      ],
+      "faults": [
+        "watchdog bounded firstprobe",
+        "unload between registers"
+      ],
+      "evidence": [
+        "Exact target header G3D0x1e00/EMBEDDED0x2000,STATUS+4",
+        "Kernel read callback pmu_raw_readl; supplied driver tables permit offsets",
+        "G1 read-only PMIC snapshot passed"
+      ]
+    }
+  },
+  "evidence": [],
+  "limitations": [
+    "Domain status is not proof of clock rates, rail voltage, GPU rendering or thermal safety"
+  ],
+  "exit_gate": "Static/build/faulttests pass; arm watchdog before each single-register firstprobe; stop on error/hang; only proceed to next allowlisted status after responsive USB and cleanup verified."
+}

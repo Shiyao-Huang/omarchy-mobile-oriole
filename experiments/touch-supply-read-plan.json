@@ -1,0 +1,41 @@
+{
+  "claim": "Read actual S2MPG10 touch-supply control values through existing kernel ACPM read API without changing rails",
+  "oracle": "Board-guarded helper reads L25M/L26M twice consistently, USB survives; no PMIC regulator/clock/modem drivers loaded",
+  "validation": {
+    "user_journey": "After failed physical touch, inspect supply state remotely; retain shell and known boot fallback; user need not tap again",
+    "code_reasoning": [
+      "Fresh seven-partition backup passed",
+      "Load only mailbox and ACPM protocol; disable userspace module autoload temporarily",
+      "No sec-acpm or clk-acpm load, so built-in regulator consumers cannot be created by MFD",
+      "Helper contains read_reg calls only, channel2 speedychannel0 typePMIC1 per sec-acpm source",
+      "Watchdog and streamed logs protect module init; restore modprobe helper path after success"
+    ],
+    "unit": "Compile and source write-operation prohibition checks; mocks cannot prove firmware or physical voltage",
+    "end_to_end": "kernelMailbox -> ACPM firmware -> PMIC read -> host log; check repeated values and freshSSH"
+  },
+  "evidence": [
+    "fresh-calibration-backup-sanitized.json",
+    "Mailbox and ACPM protocol loaded under watchdog;15channels14usable. No sec_acpm or clk_acpm loaded; freshSSH and watchdog disarm passed. First helper rejected by board guard before reads: actualDT compatible google,gs101-oriole, not guessedgoogle,oriole. Correct exact guard from liveDT; no broadening togenericGS101."
+  ],
+  "limitations": [
+    "Control values do not measure actual rail voltage",
+    "ACPM init changes volatile IPC/mailbox state; not a purely passive physical measurement",
+    "No touchscreen success inferred from supply state"
+  ],
+  "exit_gate": "No rail enable/voltage writes from this experiment; stop if unsupportedIPC, timeout, unexpected driver load or USB loss",
+  "result": {
+    "status": "verified_read_only",
+    "board_guard": "google,gs101-oriole",
+    "values": {
+      "L25M": [
+        "2c",
+        "2c"
+      ],
+      "L26M": [
+        "3c",
+        "3c"
+      ]
+    },
+    "limits": "Register values only, no actual voltage measurement"
+  }
+}

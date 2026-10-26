@@ -1,0 +1,61 @@
+{
+  "candidate": "C1",
+  "status": "verified error-loop correction; not promoted as performance fix",
+  "source_commit": "f31c47a1b9d300847d8fc3108ad959448103dfc1",
+  "artifact_sha256": "23b338525f650d9e6f51218bfa385b851d676bb1d81cfd9f0f057b33e9957241",
+  "build": "ARM64 GCC16.1.1; QEMU64MiB stack; DRM.cpp O1, remaining ReleaseO3",
+  "target_dependency_relocation_check": "ldd -r PASS; ELF AArch64; SONAME14 matches",
+  "target_mapping": "Private candidate library mapped into actual Hyprland process during trial",
+  "sequence": [
+    "stock baseline",
+    "candidate",
+    "timed stock rollback"
+  ],
+  "result": {
+    "initMgpu_errors": [
+      45,
+      0,
+      45
+    ],
+    "hyprland_cpu_percent_one_core": [
+      175.34,
+      184.82,
+      174.44
+    ],
+    "distinct_compositor_screenshots": [
+      2,
+      2,
+      2
+    ],
+    "unique_active_drm_fb_ids": [
+      3,
+      3,
+      3
+    ]
+  },
+  "rollback": {
+    "timer_seconds": 120,
+    "service_result": "success",
+    "exit_status": 0,
+    "original_library_hash_unchanged": true,
+    "override_removed": true,
+    "actual_hyprland_stock_mapping_confirmed": true,
+    "serial_fresh_command": "pass",
+    "sddm": "active"
+  },
+  "tests": [
+    "actual registerGPU branch RED\u2192GREEN ASan/UBSan",
+    "upstream attachments/output/commitThread 3/3",
+    "session override idempotence, absent, manual edits, symlink refusal",
+    "target timed rollback and stock hash/mapping check"
+  ],
+  "limitations": [
+    "No CPU improvement in this workload; not a solution to severe lag",
+    "Physical screen/touch unconfirmed while user away",
+    "Software llvmpipe remains, no GPU acceleration",
+    "Short workloads, no temperature telemetry or sustained thermal result",
+    "No WiFi/SIM/camera improvement"
+  ],
+  "current_default": "Stock library; candidate staged privately only",
+  "source": "https://github.com/hyprwm/aquamarine/issues/425"
+}

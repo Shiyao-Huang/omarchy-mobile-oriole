@@ -1,0 +1,34 @@
+{
+  "selected_offline_candidate": "connectivity-pmu-owner-v1",
+  "status": "offline failure-path tests and exact-kernel build passed; not loaded",
+  "unit": {
+    "IRQ_red": "N2 actual handler returned IRQ_HANDLED for zero status; independent assertion failed",
+    "IRQ_green": "Actual handler/cleanup C with ASan+UBSan: unrelated flags, masked ack, request failure, action failure, stop-child/mask/free/deinit order, registry ownership",
+    "PMU_red": "Original host_init returned success after injected isolation update failure; actual assertion failed",
+    "PMU_green": "Actual C with ASan+UBSan: snapshot/clock/isolation/readback/PHY/link failure, ambiguous writes, restore errors retaining clocks, normal masked restoration, bad channel-offset refusal"
+  },
+  "code_evidence": {
+    "DWC_deinit": "Stops/removes root bus, stops link, frees MSI domain, calls host deinit",
+    "PCI_stop_dev": "pci_dev_test_and_clear_added prevents duplicate driver shutdown",
+    "PMU_allowed_range": "GS101_PHY_CTRL_USB20=0x3eb0 through GS101_PHY_CTRL_UFS=0x3ec8 includesPCIe0/1 0x3ec0/0x3ec4",
+    "PMU_security": "syscon uses tensor_sec_update_bits per-bit SMC; actual secure firmware permissions not exercised",
+    "native_driver": "Current kernel brcmfmac pcie.c contains BRCMF_FW_CLM_DEF4389C1, firmware map and PCIID0x4441/WCC_SEED; prefer native path, bcmdhd retained fallback"
+  },
+  "build_evidence": "connectivity-pmu-owner-v1/build-result.json",
+  "phone_evidence": "network-owner-phone-observation.json",
+  "firmware_evidence": "wifi-firmware-stage-evidence.json",
+  "side_effects": [
+    "Phone only received a private firmware staging directory; no radio enable/module load/boot or NV writes",
+    "Separate build directories preserved; source snapshots distinguish candidates"
+  ],
+  "unproven": [
+    "PCIe link and IRQ delivery on phone",
+    "PMU restore on physical hardware",
+    "DMA mapping/firewall compatibility",
+    "native brcmfmac stock firmware filename/protocol compatibility",
+    "WiFi association/DNS/HTTPS/reconnect withoutUSB",
+    "SIM enumeration/registration/data/voice",
+    "cold GPU first-job reliability and camera functionality"
+  ],
+  "next_gate": "Fresh calibration backup verification, DT/power/clock/range check, bounded initramfs/watchdog/recovery plan; enumerate PCIe before loading endpoint driver. Then independent WiFi and SIM traffic journeys."
+}

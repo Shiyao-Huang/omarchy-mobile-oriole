@@ -1,0 +1,61 @@
+{
+  "claim": "G8 extends the proven read-only snapshot with LDO_CTRL1 and PCTRLSEL1/3/5 to interpret the actual B2S/B8S/L1S enable fields after failed GPU probe.",
+  "oracle": "All15allowlisted registers double read equal, no writes; exact S2MPG11 regulator descriptor masks used. L1S_CTRL1 is a voltage selector, NOT its enable.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Preserve current touch30 GUI and files, reboot to existing diagnostic gate, take snapshot, then restore touch30/GUI; failure stops and leaves recoverable baseline. Operator is away, no physical touch acceptance claimed.",
+      "expected": "Remote reconnection and recorded supply snapshot without boot image changes or calibration writes."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Only pmic.read_reg API; no MMIO/PMU userspace access",
+        "Channel2/type1; S2MPG10 SPEEDY0 for B7M, S2MPG11 SPEEDY1 for B2S/B8S/L1S",
+        "Register constants from exact target headers; controls/selectors only, no interrupt-clear/status windows",
+        "No general PMIC provider load, no voltage or external-control writes",
+        "Same kernel ABI, strict oriole compatibility",
+        "Existing boot modules freeze retained; new read module loaded only in diagnostic gate before freeze"
+      ]
+    },
+    "unit": {
+      "cases": [
+        "Actual loop30orderedreads",
+        "All30read-error positions abort",
+        "All15double-read mismatch positions abort",
+        "Read-only15registerallowlist",
+        "W=1 againstexactkernel"
+      ],
+      "red": "No GPU rail evidence in current checkpoint",
+      "green": "pending"
+    },
+    "end_to_end": {
+      "boundaries": [
+        "Linuxbuilder",
+        "exact kernel ABI",
+        "USBSSH/serial",
+        "ACPMfirmware",
+        "PMICregisterread",
+        "host evidence"
+      ],
+      "faults": [
+        "watchdog on probe",
+        "no reset/write recovery attempted on failed reads",
+        "restore baseline touch30 before GUIhandoff"
+      ],
+      "evidence": [
+        "Fresh seven calibration partitions source/copy/source hashes matched",
+        "Current target header constants and sec-acpm channelmapping reviewed"
+      ]
+    }
+  },
+  "evidence": [
+    "G6 shader power timeout",
+    "G7 unload power transitions timed out, subsequent GPU reset timed out; no GLES jobs executed",
+    "Exact driver: B2S enable CTRL bits7:6; L1S enable LDO_CTRL1 bits5:4; external route PCTRLSEL1 high nibble and PCTRLSEL5 low nibble"
+  ],
+  "limitations": [
+    "No GPU acceleration acceptance",
+    "Registers may change under firmware DVFS; mismatch is stop not workaround",
+    "No physical screen confirmation while user away"
+  ],
+  "exit_gate": "Actual read loop30reads fault/mismatch tests and W=1 before runtime; do not change rails until complete stable snapshot and separate reversible plan."
+}

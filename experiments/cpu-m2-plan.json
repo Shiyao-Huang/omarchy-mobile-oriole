@@ -1,0 +1,53 @@
+{
+  "claim": "M2: transient background Node service enforces affinity0-5, CPUWeight25, Nice10 for two workers, preserving desktop affinity0-7.",
+  "oracle": "Actual cgroup cpu.weight25; process Nice10 and affinity0-5; both workers inherit0-5; each completes bounded2second work; service disappears; same desktopPID/privateGPUmapping/no new fault.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Open Files and type while API Agents wait/run tools; interrupt/reconnect or manually adjust settings, then recover the desktop.",
+      "expected": "Desktop remains responsive and Agent processes retain progress; remote test alone cannot accept physical feel."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "No CPUQuota claim: M1 discovered CONFIG_CFS_BANDWIDTH unset",
+        "Only transient Node service affinity; no Hyprland or IRQ affinity edits",
+        "Two worker_threads, each2seconds; RuntimeMaxSec20s",
+        "Affinity0-5 excludes X1 cores6-7 for this background trial; other tasks/kernel may still use all cores",
+        "CPUWeight25 relative to siblings, Nice10 inherited by workers; no fixed UI resource guarantee"
+      ],
+      "gitnexus": [
+        "Not applicable: standalone phone experiment outside neweval execution graph; inspect systemd command and actual cgroup files instead"
+      ]
+    },
+    "unit": {
+      "red": null,
+      "green": null,
+      "cases": [],
+      "not_applicable_reason": "No new reusable scheduler/launcher or parser is introduced. This experiment exercises existing systemd/Linux resource control with explicit runtime assertions; workload loops are not production logic. A reusable configurable launcher requires separate boundary tests."
+    },
+    "end_to_end": {
+      "boundaries": [
+        "USB serial",
+        "Linux sysfs/DT",
+        "systemd",
+        "cgroup v2",
+        "actual Node/Go process"
+      ],
+      "faults": [
+        "RuntimeMaxSec20s",
+        "Normal transient unit collection",
+        "Assert all worker affinities before accepting"
+      ],
+      "evidence": []
+    }
+  },
+  "evidence": [
+    "cpu-topology-observed.json: capacities160/498/1024; policy0/4/6 schedutil; EAS enabled; Node sees8"
+  ],
+  "limitations": [
+    "No thermal zones in prior inventory; avoid extended stress",
+    "CPU distribution cannot repair missing GPU, modem, WiFi or camera drivers",
+    "Node main event loop is single threaded; worker processes/threads and Go scheduler require workload-specific configuration",
+    "No background Harness production workload yet"
+  ],
+  "exit_gate": "Real settings+worker inheritance+cleanup pass. Physical responsiveness, power, sustained throughput and production Agent defaults remain unaccepted."
+}

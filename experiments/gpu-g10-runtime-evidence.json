@@ -1,0 +1,66 @@
+{
+  "status": "G10 real hardware shader test FAILED; software desktop retained",
+  "kernel": "7.3.0-rc6-omamobile-oriole-m1",
+  "systemd": true,
+  "sddm": "active",
+  "serial_service": "active",
+  "Input30_READY": true,
+  "Input30_END_observed": false,
+  "stock_mesa": "1:26.2.5-1",
+  "private_mesa": "26.2.4-oriole.g10 built,10PanfrosttestsPASS,6targetELFdependencychecksPASS",
+  "cpu_driver": "cpufreq-dt",
+  "cpu_governor": "schedutil",
+  "cpu_policies": 3,
+  "thermal_zones": 0,
+  "network_interfaces": [
+    "lo",
+    "usb0"
+  ],
+  "pci_devices": 0,
+  "camera_nodes": [],
+  "gpu_page_table_source": "gs101 compatible uses GPU_QUIRK_FORCE_AARCH64_PGTABLE; panfrost_mmu selects ARM_64_LPAE_S1; confirmed actual G7 source",
+  "synthetic_baseline": "gpu-g10-results/baseline.json",
+  "test_staging": "PASS digest/traversal/link/device/duplicate/cleanup/existing-edit guards; initial macOS symlink-parent false rejection corrected using canonical staging path",
+  "limits": [
+    "GPU context now hardware, but real shader execution FAILED; no hardware acceleration/performance acceptance",
+    "No physicaltouchtest thischeckpoint",
+    "No wireless/cellular/cameraacceptance"
+  ],
+  "private_runtime_log_sha256": "3f7cf22e10fc93c6060f2f28f03d0c3bbbb3df90487229d6c1d47848517efea2",
+  "runtime_archive": {
+    "sha256": "e015a0a696a2de5ccd4c7bf907c794b53d889dcecf8e477d02e9e645615d5b50",
+    "bytes": 6607732,
+    "phone_transfer_seconds": 0.227,
+    "phone_hash_accepted": true
+  },
+  "build_attempts": [
+    "Missing isolated dependencies corrected; no phone package upgrades",
+    "4job build in4CPU/8GBcontainer",
+    "Runtime install targets+10Panfrost tests selected from Meson introspection; mistaken9count and source-script target rejected before final correct15targetsbuild",
+    "Build and stagedinstall exit0; Panfrost10/10 pass"
+  ],
+  "hardware_probe": {
+    "renderer": "Mali-G78 MC20 (Panfrost)",
+    "version": "OpenGL ES3.1 Mesa26.2.4-oriole.g10",
+    "actual_private_libraries_loaded": true,
+    "result": "FAIL pixel mismatch",
+    "kernel": "gpu sched timeout, js=1,config0x7b00,status0x8,head==tail",
+    "GPU_reset": "G7readback L2/shader20/tiler/stacks allready again",
+    "watchdog_disarmed": true,
+    "fresh_USB_command": true,
+    "SDDM_Hyprland_still_active": true,
+    "IRQs_after": {
+      "GPU": 0,
+      "MMU": 0,
+      "job": 1
+    }
+  },
+  "desktop_candidate_selected": false,
+  "private_shader_log_sha256": "5cddf1e621eaf6050149736023d97587fa2bea49fb153c9a43b0ca0cee645b5d",
+  "later_evidence": [
+    "gpu-g12-runtime-evidence.json",
+    "gpu-g13r-runtime-evidence.json",
+    "gpu-g14-runtime-evidence.json"
+  ],
+  "historical_scope": "This record preserves its original failed/staging experiment; later evidence describes subsequent success, not erasure of this failure."
+}

@@ -1,0 +1,24 @@
+{
+  "source_build": "CP1A.260305.018",
+  "factory_sha256": "9f6e03733e585d43153d4e02e27588c2666bee4db4b9f33d5d67e6617b885389",
+  "archive_sha256": "99bcec5401a29fb132e33fd259c09ae5fccd81d9af7bcb30c0b8fe2689a398cc",
+  "files": {
+    "fw_bcmdhd.bin": {
+      "bytes": 1764091,
+      "sha256": "8a52ffe1d71d29f3729247a31be912ff9e9b9959effa36fe94f2e3f5cccf916b"
+    },
+    "fw_bcmdhd.map": {
+      "bytes": 1855804,
+      "sha256": "e8c28ca5cd6093e4d6f07ff9da9633b5c913e3742d0eb90ef7e1505728fcbf5a"
+    },
+    "bcmdhd.cal": {
+      "bytes": 24552,
+      "sha256": "b369f94cf7b8c8534c3e955bcca4c7297043c12b0759ee1dffc66133c350da4f"
+    },
+    "bcmdhd_clm.blob": {
+      "bytes": 15976,
+      "sha256": "70b790397a3d6b952821d2459e19ae9c0e69a7f61392204e4e6dd7378fa0abf1"
+    }
+  },
+  "redistributable": false
+}

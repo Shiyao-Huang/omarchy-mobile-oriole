@@ -1,0 +1,16 @@
+{
+  "upstream": "1cb4bd36f3befa4f331bc4e08fe58becb41e4926",
+  "kernel": "7.3.0-rc6-omamobile-oriole-m1",
+  "W": 1,
+  "warnings": [],
+  "module_sha256": {
+    "brcmfmac/brcmfmac.ko": "6e11d3acf96d64bad602cdbca4f86283d172b0b10dbdfeae0ad902678d877504",
+    "brcmfmac/bca/brcmfmac-bca.ko": "e07d725f83b246ff9b115a5b8317f5f2174c0b936559deb7dad63dd34f50f4db",
+    "brcmfmac/wcc/brcmfmac-wcc.ko": "ed2533db9519c9280ab45343d8cdd938a04915467a03285dccfe67636f7aea80",
+    "brcmfmac/cyw/brcmfmac-cyw.ko": "69184df70364931b696583c73af7d0dc8cf53e7345a62295a79d8883756086e6",
+    "brcmutil/brcmutil.ko": "d97def251151a787c57121fd0b5f2ee131e6f57cbdf2dbb74e6583d2bfd0ae7c"
+  },
+  "hardware_loaded": false,
+  "checkpatch_exit": 0,
+  "patch_sha256": "c79b2a6034bec23522c9623be7d8f74d06ec6c57e6c120f66eb36fc479eb04b0"
+}

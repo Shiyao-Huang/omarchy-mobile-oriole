@@ -1,0 +1,30 @@
+{
+  "claim": "Three repeated hardware chip-ID reads can establish whether addressable SPI communication is stable before trusting reset/FIFO",
+  "oracle": "Allthree reads return expected3648 in firsttwo bytes with zeroerrors; anymismatch abortsprobe",
+  "validation": {
+    "user_journey": "No physicalaction; return diagnostic shell onfailure",
+    "code_reasoning": [
+      "Hardware ID register0x20000000, FAread command, existingdummy1",
+      "Eight-byte boundedread repeated3times; no new controllerwrites",
+      "Failclosed before IRQ enabling; preserve firmware prohibitions"
+    ],
+    "unit": "Source guards and compiler only; SPI semantics require hardware E2E",
+    "end_to_end": "Same supply2bit enable, hashverifiedmodule, watchdog/log; three chip-IDreads; rollback andreadback"
+  },
+  "evidence": [],
+  "limitations": [
+    "Warmstate; no signalanalyzer",
+    "ValidID alone doesnotprove touch or framebufferlayout"
+  ],
+  "exit_gate": "No scan/UI/userretest unless valididentity; rollback onfailure",
+  "result": {
+    "status": "identity_failed",
+    "samples": [
+      "0000000000870300",
+      "0000000000000000",
+      "0000000000000000"
+    ],
+    "expected_prefix": "3648",
+    "limitation": "Reads began only milliseconds after GPIO release; readiness not independently verified"
+  }
+}

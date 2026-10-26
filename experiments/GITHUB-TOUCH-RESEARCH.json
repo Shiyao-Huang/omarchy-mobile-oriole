@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-24",
+  "queries": [
+    "gs101 touchscreen",
+    "FTM5 chip id",
+    "oriole touchscreen",
+    "fts spi gs101"
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/gs101-mainline/linux/pull/1",
+      "head": "06513430617d01d7541cd509bd483a347fed57ca",
+      "merged_commit": "ba8d738e01aa17a61dcb302be6c9b7b4f4d0efe9",
+      "evidence": "Author and second tester report bluejay touch works; includes regulator dependencies, GPIOcleanup and ALIX ID. Not independent proof on ouroriole."
+    },
+    {
+      "url": "https://github.com/derekross/linux-omarchy-mobile/pull/32",
+      "head": "dd05dd347ad08f07409fa6b46e43314027aec8de",
+      "evidence": "SALIXP ID36 40; explicitreply TXzeros and reset-before-power sequence. Previousbuilt-in revision hasreportedIDproof; latestmodulerevision notbooted accordingtoPR. Differentdevice/chip."
+    },
+    {
+      "url": "https://github.com/derekross/linux-omarchy-mobile/pull/8",
+      "head": "ec3524357fcbe8693ae89838ad34714c3a116d93",
+      "evidence": "Raven SamsungS6SY79x SPI mode3, TS_SPI_SEL gpp26.1 outputlow. Author reportsrealOmarchytouch; differentchip andcannotcopyprotocoltooriole."
+    },
+    {
+      "url": "https://github.com/derekross/omarchy-mobile/issues/2",
+      "evidence": "Oriole remainscommunityWIP; linksGS101PMOSsource, no completeoriole touchimageverifiedthere."
+    },
+    {
+      "url": "https://github.com/freak07/Kirisakura_Raviole/issues/2",
+      "evidence": "OldAndroid failure resolvedincorrectvendor_dlkm installation. Notour nativeSPIidentityproblem."
+    }
+  ],
+  "derived_tests": [
+    "touch-explicit-tx-plan.json",
+    "touch-power-order-plan.json"
+  ],
+  "limits": [
+    "Publictestreports aresecondaryevidence, notours.",
+    "No upstream patch has yetpassed ouridentity orphysicaltouchgate.",
+    "Fullprivatecaptures and hardwareidentifiers excluded."
+  ],
+  "local_reference_hashes": {
+    "bluejay-reference-gs101-pixel-common.dtsi": "922ff629c475fe26d9fa9b4b6c7cf6e3d2c43344bd85b9a3102a2de8d0be6e73",
+    "bluejay-reference-ftsHardware.h": "733de02acff564934fb098f33ee18722b4fe0ab7f3e03f609285e13d58b3a570",
+    "bluejay-reference-ftsIO.c": "db2130086f8baf1994ceb1edd00f8bc830730fe922facf9fe7e421476a9ec77f"
+  }
+}

@@ -1,0 +1,231 @@
+{
+  "release": "oriole-bringup-2026.10.26.8",
+  "kind": "source-and-evidence-checkpoint",
+  "daily_use_ready": false,
+  "one_click_full_install_ready": false,
+  "device": "Pixel6 oriole",
+  "components": [
+    {
+      "component": "native Linux and Omarchy userspace",
+      "version": "kernel7.3.0-rc6-omamobile-oriole-m1 / Omarchy4.0.6 / Hyprland0.56.2",
+      "status": "boots GUI with manual diagnostic handoff",
+      "evidence": "Current serialLinuxB, Hyprlandmenu screenshot, boot-b2-evidence.json",
+      "limits": [
+        "Bsuccess flag now set, but next-boot result not tested",
+        "GPU/touch still require diagnostic handoff; not automatic graphicalstartup"
+      ]
+    },
+    {
+      "component": "touch",
+      "version": "input30",
+      "status": "physical GUI touch demonstrated; experimental",
+      "evidence": "user opened Files; later screenshot confirms Files; capture26040bytes; no END after handoff",
+      "module_sha256": "a7d261147cd975fb69d8258b0bd43a91570266e95ccbff875507d74e49031f0e",
+      "limits": [
+        "polling path",
+        "power/suspend not tested",
+        "not a whole-phone usability pass"
+      ]
+    },
+    {
+      "component": "graphics/performance",
+      "version": "G15 Panfrost + private Mesa26.2.4-oriole.g10",
+      "status": "First geometry passed on two separate kernel boots; current hardware desktop confirmed via fresh serial",
+      "evidence": "experiments/gpu-g15-mmu-init-evidence.json",
+      "limits": [
+        "No physical smoothness, sustained load or thermal acceptance",
+        "No persistent GPU startup"
+      ]
+    },
+    {
+      "component": "USB debug",
+      "version": "NCM+ACM; verified binary upload + framed/paced backup download",
+      "status": "Single-owner serial transport, file digest receipt and fresh runtime confirmation passed",
+      "limits": [
+        "Default ADB empty did not imply no transport: private ADB15037 reached Recovery",
+        "Transfer does not establish Internet or standalone mobile networking"
+      ]
+    },
+    {
+      "component": "WiFi",
+      "version": "GS101 init-v4a + BCM4389 W2 pinned1cb4bd36",
+      "status": "Actual Gen2x1 endpoint, firmware20.101.90 and wlan0 PASS; clean unbind/rail-off separately confirmed",
+      "evidence": [
+        "experiments/network-gs101-init-evidence.json",
+        "experiments/wifi-w2-bcm4389-evidence.json"
+      ],
+      "limits": [
+        "No association, DHCP, DNS, HTTPS or API acceptance",
+        "No DMA confinement/default-on promotion",
+        "Radio unloaded after bounded test",
+        "Pinned upstream checkpatch findings unresolved; not a production patch release"
+      ]
+    },
+    {
+      "component": "SIM data",
+      "version": null,
+      "status": "not brought up",
+      "evidence": "no cellular interface,ModemManagerinactive",
+      "limits": [
+        "SIM inserted does not establish modem registration",
+        "Other-device/community reports do not establish registration on this phone"
+      ]
+    },
+    {
+      "component": "camera",
+      "version": null,
+      "status": "not brought up",
+      "evidence": "no /dev/video* or /dev/media*"
+    },
+    {
+      "component": "keyboard/rotation/lock/wake",
+      "version": "existing mobile shell + Squeekboard",
+      "status": "not user-accepted",
+      "evidence": "Squeekboard registered; physical interaction not accepted; black/unresponsive report unresolved"
+    },
+    {
+      "component": "Node/Go/API harness",
+      "version": "Node26.12.0 / Go1.27.3-X:nodwarf5 linux/arm64",
+      "status": "not end-to-end accepted",
+      "limits": [
+        "requires usable network and uninterrupted background execution test"
+      ],
+      "evidence": "Both version commands execute on phone; network/API end-to-end still pending"
+    },
+    {
+      "component": "GPU power/clock diagnostics",
+      "version": "G4/G5/G6/G7/G8/G9",
+      "status": "Historical G4-G9 power diagnostics; first-job timeout superseded by G15 two-boot geometry evidence",
+      "evidence": [
+        "experiments/gpu-g4-g6-runtime-evidence.json",
+        "experiments/gpu-g7-runtime-evidence.json",
+        "experiments/gpu-g8-runtime-evidence.json",
+        "experiments/gpu-g9-runtime-evidence.json"
+      ],
+      "limits": [
+        "Volatile B2S_CTRL mask0xc0 hold, selectors unchanged; pulse restore verified",
+        "20 shader cores/L2/tiler/stacks ready; G9 subsequent geometry passed after reset; G15 later first-job tests passed",
+        "Production regulators, thermal, DVFS and suspend unresolved"
+      ]
+    },
+    {
+      "component": "CPU power/thermal telemetry",
+      "version": "clk-acpm + cpufreq-dt / schedutil",
+      "status": "8 online heterogeneous cores; schedutil3groups and EAS enabled; thermal zones0; CFS_BANDWIDTH absent",
+      "evidence": [
+        "experiments/cpu-topology-observed.json",
+        "experiments/cpu-inventory-observed.json",
+        "experiments/cpu-controller-observed.json",
+        "experiments/cpu-m1-evidence.json"
+      ],
+      "limits": [
+        "Not sustained frequency or thermal certification",
+        "CPU provider activation accompanied G6GPUoverlay; baseline repeated after change"
+      ]
+    },
+    {
+      "component": "background multi-core allocation",
+      "version": "M1 rejected quota; M2 transient affinity/weight/nice test",
+      "status": "M2 resource-control plumbing passed, no production default promoted",
+      "evidence": "experiments/cpu-m2-evidence.json",
+      "limits": [
+        "CONFIG_CFS_BANDWIDTH unset; CPUQuota does not work in current kernel",
+        "TwoNodeworkers0-5, desktop0-7, Nice10/CPUWeight25; task removed after test",
+        "Not sustained or physical responsiveness acceptance"
+      ]
+    },
+    {
+      "component": "PCIe failure handling",
+      "version": "GS101 init-v4a / supply-owner-v2 / IRQ lifetime",
+      "status": "v4a host/PHY enumerated endpoint; both enumeration and firmware trials cleaned up successfully",
+      "evidence": "experiments/network-gs101-init-evidence.json",
+      "limits": [
+        "Do not mix with unrelated connectivity-n3 work",
+        "Modem relink/concurrency/suspend untested"
+      ]
+    },
+    {
+      "component": "Claude Code",
+      "version": "2.1.308 Linux ARM64",
+      "status": "Welcome and retained EAI_AGAIN error visible in screenshot; local startup verified, external network unavailable",
+      "evidence": [
+        "experiments/claude-offline-evidence.json",
+        "experiments/claude-visible-recheck.json"
+      ],
+      "limits": [
+        "No authentication or model call acceptance"
+      ]
+    },
+    {
+      "component": "boot acknowledgement",
+      "version": "B2 / Google-derived3.15 layout",
+      "status": "Single successfulB bit set; full8192byte comparison and freshserialROreadback passed",
+      "evidence": "experiments/boot-b2-evidence.json",
+      "limits": [
+        "No reboot test",
+        "No permanent service/autostart integration",
+        "Manual Fastboot recovery required when Bfails"
+      ]
+    },
+    {
+      "component": "CPU scheduling rate experiment",
+      "version": "M3 750us/10000us A-B-A",
+      "status": "10000us candidate rejected for retention; original750us restored and verified",
+      "evidence": "experiments/cpu-m3-evidence.json",
+      "limits": [
+        "Lower transitioncount does not imply higherthroughput",
+        "No thermal or physicalsmoothness acceptance"
+      ]
+    },
+    {
+      "component": "WiFi join allocation",
+      "version": "W3 preflight",
+      "status": "ActualC ASan RED/GREEN and warningfree exactkernelbuild; not loaded",
+      "evidence": "experiments/wifi-w3-build-evidence.json",
+      "limits": [
+        "No association/DHCP/APItest"
+      ]
+    }
+  ],
+  "rollback": {
+    "boot_images_changed_this_checkpoint": false,
+    "configuration": "Stock Mesa libraries preserved; runtime-only GPU override independently confirmed this boot, stored under persistent /opt",
+    "device_state": "Linux B systemd; Input30 bound; Hyprland hardware rendering on Mali-G78; runtime GPU override confirmed and watchdog disarmed. Wi-Fi trial cleaned up: radio off, no current wlan0; actual networking pending.",
+    "physical_screen_recovery": "Pending physical desktop test",
+    "boot_recovery": "B successful flag now set and independently verified. This checkpoint did not reboot; manual Fastboot remains recovery route. No automatic fallback assumed."
+  },
+  "next_order": [
+    "Bounded W3 association/traffic/reconnect using an authorized network, DMA and association-layout review first",
+    "Persistent boot/touch/GPU integration with recovery and physical acceptance",
+    "SIM data/voice, camera and thermal/mobile Agent journey",
+    "One-click full installation only after acceptance"
+  ],
+  "sources": [
+    "https://github.com/derekross/omarchy-mobile/blob/main/docs/DEVICES.md",
+    "https://github.com/derekross/omarchy-mobile/blob/main/device/oriole/NOTES.md",
+    "https://github.com/gs101-mainline/linux/tree/d28cfa4275b95e93f4b7a1e743de31b723bd21b8",
+    "https://github.com/hyprwm/aquamarine/issues/425",
+    "https://github.com/gs101-mainline/linux/blob/d28cfa4275b95e93f4b7a1e743de31b723bd21b8/drivers/pci/controller/dwc/pci-exynos.c",
+    "https://github.com/torvalds/linux/commit/8a597d099b8b2f25df655cbe8e30765013784fed",
+    "https://github.com/derekross/linux-omarchy-mobile/commit/1cb4bd36f3befa4f331bc4e08fe58becb41e4926"
+  ],
+  "publication": "No vendor blobs,calibration,deviceidentifiers or private host credentials in this source release",
+  "supersedes": "oriole-bringup-2026.10.26.7",
+  "device_observation": "experiments/wifi-w2-bcm4389-evidence.json",
+  "build_reproducibility": "Pinned source and package inventory included; build.sh uses repositories, so byte-identical reproduction additionally requires preserving exact dependency packages/container.",
+  "firmware_stage": {
+    "prefix": "/opt/oriole-experiments/wifi-firmware-cp1a-260305-018",
+    "files": 4,
+    "selected": "temporarily during W2, original firmware loader path restored",
+    "binary_distribution": false
+  },
+  "checkpoint_evidence": [
+    "experiments/boot-b1-evidence.json",
+    "experiments/boot-b2-evidence.json",
+    "experiments/cpu-m3-evidence.json",
+    "experiments/wifi-w3-build-evidence.json",
+    "experiments/cellular-m0-evidence.json"
+  ],
+  "inherited_evidence_note": "Earlier component results are retained with their original scope; no cellular/camera/network acceptance inferred.",
+  "current_device_state": "LinuxB systemd hardware desktop remains running; B successful flag set and independently read back. No reboot this checkpoint. CPU rate restored750us. WiFi remains unloaded."
+}

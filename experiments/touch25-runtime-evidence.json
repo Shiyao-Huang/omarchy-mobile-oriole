@@ -1,0 +1,34 @@
+{
+  "serial-touch25-status": [
+    "[   16.581593] [ FTS ] Event found in (2 iterations)! Number of errors found = 0 ",
+    "[   16.582887] [ FTS ] Parsed 216 bytes! ",
+    "[   16.582895] fts spi0.0: Oriole SysInfo validated: chip3648 fw0049 screen2399x1079 matrix16x34",
+    "[   16.583665] [ FTS ] Probe Finished! ",
+    "TOUCH25_CAPTURE_READY /dev/input/event1",
+    "0 /run/touch25-events.bin",
+    "TOUCH25_CAPTURE_FINISHED",
+    "FRESHBOOT_ROLLBACK_OK",
+    "[  196.773657] oriole-touch-supply-read: L25M reg=5c first=2c second=2c",
+    "[  196.773722] oriole-touch-supply-read: L26M reg=5d first=3c second=3c",
+    "[  196.773790] oriole-touch-supply-read: finished ret=0 (no rail writes)",
+    "[  196.684374] [ FTS ] Number of disable = 0 ",
+    "[  196.684385] [ FTS ] Excecuting Disable... ",
+    "[  196.684392] [ FTS ] Interrupt Disabled!",
+    "[  196.723734] oriole-touch-supply-hold: restore L26M ret=0",
+    "[  196.723827] oriole-touch-supply-hold: restore L25M ret=0",
+    "[  196.773657] oriole-touch-supply-read: L25M reg=5c first=2c second=2c",
+    "[  196.773722] oriole-touch-supply-read: L26M reg=5d first=3c second=3c",
+    "[  196.773790] oriole-touch-supply-read: finished ret=0 (no rail writes)"
+  ],
+  "serial-touch25-power-check": [
+    "runtime_status: unsupported",
+    "control: auto",
+    "runtime_active_time: 0",
+    "runtime_suspended_time: 0",
+    "runtime_status: suspended",
+    "control: auto",
+    "runtime_active_time: 5055",
+    "runtime_suspended_time: 155339",
+    "0 /run/touch25-events.bin"
+  ]
+}

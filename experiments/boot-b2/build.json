@@ -1,0 +1,18 @@
+{
+  "command": [
+    "aarch64-linux-gnu-gcc",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-static",
+    "omamobile-bootctl.c",
+    "-o",
+    "omamobile-bootctl"
+  ],
+  "warnings": 0,
+  "binary_bytes": 651128,
+  "binary_sha256": "21fb2b187be1a5f5bc5b1bcc4f8a05c9418be669ac60d1635779ce3010048ee6",
+  "phone_copy_test": true,
+  "binary_distributed_in_git": false
+}

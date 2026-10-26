@@ -1,0 +1,27 @@
+{
+  "state": {
+    "pid": 668,
+    "command": [
+      "make",
+      "-C",
+      "<local-build-root>/linux-omarchy-mobile",
+      "O=<local-build-root>/out-oriole-m1",
+      "ARCH=arm64",
+      "CROSS_COMPILE=aarch64-linux-gnu-",
+      "M=<local-build-root>/connectivity-wifi-build/source/bcmdhd",
+      "BCMDHD_ROOT=<local-build-root>/connectivity-wifi-build/source/bcmdhd",
+      "LINUXDIR=<local-build-root>/linux-omarchy-mobile",
+      "W=1",
+      "-j2",
+      "modules"
+    ],
+    "start_time": 1793017373.2009587,
+    "log": "build-r6-foreground.log",
+    "status": "completed",
+    "returncode": 0
+  },
+  "module": {
+    "bcmdhd.ko": "12f4940f52dc645ce85880b1a0240de699f2473b6e3e79211066c430fceb6704"
+  },
+  "status": "Build-only; current native brcmfmac also includes BCM4389; vendor candidate remains fallback"
+}

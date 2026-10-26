@@ -1,0 +1,14 @@
+{
+  "base": "https://github.com/m8l8th814n-eng/gs101-mainline/tree/850061c79264d018317e9f849701f165e138e20c",
+  "base_files": [
+    "drivers/pci/controller/dwc/pcie-gs101.c",
+    "drivers/phy/samsung/phy-gs101-pcie.c"
+  ],
+  "ABI_predecessor": "../connectivity-n2/module-compat.patch",
+  "DWC_helper": "msi-demux.inc borrowed from exact running-kernel drivers/pci/controller/dwc/pcie-designware-host.c; original license/copyright retained in DWC-NOTICE.txt",
+  "DWC_source_sha256": "a909f8130256992a1791a7b26e65fe110fe94f174ea7c79f691941df1d6ea379",
+  "limits": [
+    "No hardware acceptance from build/tests",
+    "Do not mix artifact hashes with remote connectivity-n3 candidate"
+  ]
+}

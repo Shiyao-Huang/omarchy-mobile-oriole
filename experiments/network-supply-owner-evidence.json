@@ -1,0 +1,94 @@
+{
+  "status": "Offline supply-owner and enumeration overlay verified; hardware activation blocked by calibration recheck mismatch",
+  "kernel": "7.3.0-rc6-omamobile-oriole-m1",
+  "driver_artifacts": {
+    "pcie-gs101.ko": "617f403da97eeefcad37b5fbdba0d89ff6b136b7abab5c3ec4ec9a0eb72aee7c",
+    "phy-gs101-pcie.ko": "335683cdb2eede5ada1dcaf8b23e9b4d62083110798cfb45422d919d43dd5ac9"
+  },
+  "driver_source_sha256": {
+    "supply-owner.inc": "664866eb023b8e10861637369316a7afe33f711106d5661d4c4f0dee81cf6449",
+    "msi-demux.inc": "b8312f8168e53b5e03e6787ed24e99b007e83fec5d26cfb267abcd91bf394f87",
+    "Makefile": "e0e5fe15abfb77b72ec92625b6af19fcee21c855fb1f598b1ff1d266784335f1",
+    "pmu-owner.inc": "45e56dc3d9ada99bfe31316c904bcfa481653ca243b97b0877579231b16dee87",
+    "irq-lifetime.inc": "f762c7845f0365b4bf706e5ff75d0e58c7c5b203712487f18944be71733a7e16",
+    "phy-gs101-pcie.c": "4598e077263a8770fcc7c5e3526fd5ab8d633d48dc404aa9a9641f0e0bd32952",
+    "pcie-gs101.c": "72117110c6364c02bd0a6d35b68aa030456a0810f1c03a66439ed337c1097501"
+  },
+  "overlay": {
+    "status": "offline pass, NOT loaded",
+    "kernel": "7.3.0-rc6-omamobile-oriole-m1",
+    "dtc_warnings": "",
+    "base_sha256": "ec7a2000655b20447e32d3f66711f8d82024183ee8c15990e64ef6472d2d0e45",
+    "artifacts": {
+      "wifi.dts": "4fbf58736a1a96f06a2b97a239332dba7b4f14a359a6b3fb3e5689a95be27bd1",
+      "wifi.dtbo": "573db93e6267c190cad9db7d14a262b92e15b093d253fae79b22c239b49c274f",
+      "oriole_wifi_overlay.ko": "40587dd58f367aa39c2c3ae82bd3402e027dc2cfa26a9f75ebded2cbe30dee93",
+      "wifi-merged.dtb": "0b35b0ef26ec4731d7d0d525c84487ae131ed065240d97bad3bbb216bdd73fae"
+    },
+    "checks": [
+      "board",
+      "domain1 only",
+      "supply not always-on",
+      "GPIO polarity",
+      "IRQ509",
+      "stock register ranges",
+      "PMU offset",
+      "phandle resolution",
+      "no IOMMU/S2MPU/DMA pool change"
+    ],
+    "limits": [
+      "No powered enumeration",
+      "No custom DT binding schema; dtc/fdtoverlay and exact numeric assertions only",
+      "Overlay removal requires reboot"
+    ]
+  },
+  "validation": {
+    "user_journey": "Not completed: network remains unavailable; no driver loaded or reboot performed in this checkpoint",
+    "code_reasoning": "Stock PCIe1 regs/IRQ509/PERST and 18 board WLAN enable mappings checked. Vendor GPIO API explicitly drives high to enable. Domain0 skipped. devres supply cleanup follows host/IRQ teardown. DT lifetime ends at reboot.",
+    "unit": [
+      "SUPPLY_OWNER_FAULT_TESTS_PASS with ASan/UBSan",
+      "PMU owner fault tests PASS",
+      "IRQ lifetime tests PASS",
+      "MSI demux tests PASS"
+    ],
+    "end_to_end": "Exact running-kernel W=1+modpost build; dtc no warnings; fdtoverlay and numeric property assertions PASS. These are build integration evidence, NOT powered PCIe tests."
+  },
+  "backup_recheck": {
+    "result": "FAIL versus old G4 manifest",
+    "size_matches": 7,
+    "sha256_matches": [
+      "modem_a",
+      "modem_b"
+    ],
+    "sha256_differs": [
+      "modem_userdata",
+      "efs",
+      "devinfo",
+      "persist",
+      "efs_backup"
+    ],
+    "all_seven_read_only": true,
+    "interpretation": "Mismatch observed; cause not established. Prior stock boots may change mutable partitions, but no fresh baseline assumed. Stop hardware activation, preserve old backup, collect and verify fresh off-device copy before proceeding."
+  },
+  "limits": [
+    "No WiFi interface or traffic",
+    "No modem/camera progress claimed",
+    "Mac4 currently locked; USB net carrier0, serial available",
+    "No module staged or loaded on phone in this checkpoint"
+  ],
+  "evidence": [
+    {
+      "private_log": "serial-claude-current-check-verified-private.txt",
+      "sha256": "88eec8e221de73a9c194a5b07530753ba5dff46f5808a7bba275d332a43065d2"
+    },
+    {
+      "private_log": "serial-network-prep-check-verified-private.txt",
+      "sha256": "120860de5fd53465a42b681390a3a13cdb9de71ea93b52071a6ea4830bbd240f"
+    },
+    {
+      "private_log": "serial-network-backup-result-verified-private.txt",
+      "sha256": "d252cbdb6bc91e14b332e1b4704b3d443078de7c38ecf698650d66c96ff7f573"
+    }
+  ],
+  "superseded_by": "network-enumeration-runtime-evidence.json: fresh backups passed; actual trials reached PMU link failure and cleaned up. This file preserves the earlier checkpoint."
+}

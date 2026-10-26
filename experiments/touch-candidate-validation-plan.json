@@ -1,0 +1,34 @@
+{
+  "claim": "Compile and review a Pixel6-specific ST FTS SPI input candidate against the known-good kernel without changing the running phone.",
+  "oracle": "Source origin/license pinned; no firmware-update-on-probe path; isolated module build and device-tree dry check. Hardware support remains unproven until real touch events and UI operation.",
+  "validation": {
+    "user_journey": [
+      "User taps and swipes real Omarchy desktop; USB remains reconnectable; failed candidate recoverable through preserved images."
+    ],
+    "code_reasoning": [
+      "Trace probe, reset, supplies, firmware update and sysfs write paths; DT only oriole SPI/input pins; no unrelated PMIC/modem nodes enabled.",
+      "Replace integer GPIO ownership with devm descriptors, preserve physical reset polarity using raw setters, propagate EPROBE_DEFER, avoid double-free during error/remove paths."
+    ],
+    "unit": [
+      "W=1 compiler checks are static/code-reasoning evidence, not runtime touch proof",
+      "source assertions: no legacy GPIO calls; automatic firmware update remains disabled; error pointers fail probe before hardware access"
+    ],
+    "end_to_end": [
+      "Deferred: fresh SSH and input events plus human visible touch response; bounded log capture/watchdog before any hardware load."
+    ]
+  },
+  "evidence": [
+    "M8 gs101-mainline 850061c79264d018317e9f849701f165e138e20c has fts_spi; Nura a74e18dec7598f65cd504f0c75c10b8d7fc4422b enables it.",
+    "Current known-good kernel lacks this driver; only gpio-keys is enumerated.",
+    "W=1 external module build against7.3 failed at removed linux/of_gpio.h; original kernel Image unchanged; no module built or loaded.",
+    "Full Omarchy4.0.6 now boots native systemd from userdata; user observed desktop then lock-screen blanking; touch remains absent from kernel input enumeration.",
+    "Descriptor GPIO port W=1 external module build exit0; exact current kernel vermagic; no kernel Image change. Preexisting warnings remain under review."
+  ],
+  "limitations": [
+    "Reference driver defines FTS_FW_UPDATE and FW_UPDATE_ON_PROBE; must remove automatic firmware-writing path for bringup.",
+    "No source applied to running kernel; no touch capability claimed.",
+    "M8 driver targets7.2 with legacy GPIO APIs; descriptor API port or separately audited compatible kernel needed."
+  ],
+  "exit_gate": "Offline build/source review required before a separate real-device input experiment; no automatic module insertion or flashing in this stage.",
+  "status": "descriptor_gpio_module_compiled_hardware_pending"
+}

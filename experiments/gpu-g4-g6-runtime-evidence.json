@@ -1,0 +1,47 @@
+{
+  "G4": {
+    "status": "firmware_get_rate_verified",
+    "gpu_hz": 151000000,
+    "gpu_l2_hz": 151000000,
+    "cpu_hz": [
+      1598000000,
+      1197000000,
+      1106000000
+    ],
+    "validation": "two equal GET reads per clock; W=1; actual-source ASan/UBSan guards; clean unload and fresh USB",
+    "limits": "reported rates not physical measurement or electrical validation",
+    "module_sha256": "956d1067d0c1d1f3c5500f95ef16b33e66815e564b7d51d636f6ecdfe5ed387c"
+  },
+  "G5": {
+    "status": "identity_read_verified",
+    "reads": [
+      "0x92020010",
+      "0x92020010"
+    ],
+    "validation": "board/resource/PMU guards, exclusive4byte map, W=1, fault tests; clean unload",
+    "limits": "no reset/DMA/jobs in this test",
+    "module_sha256": "bd2ec682b7896d08e42231676829e3ac99c4b9c1fbe661151979c47d3077dce3"
+  },
+  "G6": {
+    "status": "probe_completed_but_acceleration_gate_failed",
+    "clock_hz": [
+      151000000,
+      151000000
+    ],
+    "gpu_model": "mali-g78",
+    "shader_present": "0x779fff",
+    "l2_present": "0x1",
+    "render_node": "renderD128",
+    "error": "error powering up gpu shader",
+    "gles_test_run": false,
+    "validation": "unit guards ASan/UBSan; W=1 build; offline DT only3allowedGPUproperties differ; real probe under watchdog, freshserial verified",
+    "limits": [
+      "DRM registration does not imply rendering",
+      "Inherited powered rails, fourdummyregulators",
+      "OF warns three property allocations may leak on removal; current-boot experimental only",
+      "ACPMprovider activated CPU cpufreq-dt schedutil, unexpected extra side effect recorded",
+      "No boot image/NV/calibration changes"
+    ],
+    "module_sha256": "b8e4d9dbaa016d5f0c33f781ca9977aceeb84246c21676b53cc554a330fea669"
+  }
+}

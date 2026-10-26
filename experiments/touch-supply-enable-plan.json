@@ -1,0 +1,52 @@
+{
+  "claim": "Disabled L25M digital/L26M analog touch supplies may explain absent input",
+  "oracle": "Enable onlyBIT7 at confirmed original2c/3c; readbackac/bc; samecandidate10 produces physical coordinates, then repeatable behavior required",
+  "validation": {
+    "user_journey": "Stop touch driver under watchdog; enabletwo rails without changing voltage; load same driver; ask physical tap/swipe only after stable probe; restoreenablebits on failed test",
+    "code_reasoning": [
+      "Board guard google,gs101-oriole",
+      "Source s2mps11.c standardLDO25/26 enable_maskBIT7, vselGENMASK5,0; ranges give1.8V/3.3V",
+      "ACPMchannel2,type1,speedychannel0",
+      "Require exact2c/3c before writes; preserveallotherbits usingupdate_reg mask80",
+      "Rollback on any write/readback failure and moduleexit; no other register addresses",
+      "No sec_acpm/clk_acpm, no voltage/firmware/storage writes"
+    ],
+    "unit": "Exhaustive byte-mask preservation and fixeddecoder cases; source-bound register allowlist; W=1 compile",
+    "end_to_end": "Freshbackupverified, hostlog/watchdog, readbackeachwrite, sameFTSmodule, realuserinput, posttestreadback"
+  },
+  "evidence": [
+    "touch-supply2-result-private.log",
+    "fresh-calibration-backup-sanitized.json"
+  ],
+  "limitations": [
+    "Registerenable does not measurevoltage; upstreamsupply stillunverified",
+    "RequiresproperDTregulatorconsumerintegrationbeforeoneclickpackage"
+  ],
+  "exit_gate": "Stoponmismatch/USBfailure; no successclaim without realcoordinateandUI proof",
+  "result": {
+    "status": "failed_touch_initialization",
+    "enabled_readback": {
+      "L25M": "ac",
+      "L26M": "bc"
+    },
+    "driver": "candidate10",
+    "observed": "initial reset failed after three attempts; no bound input device",
+    "rollback": {
+      "hold_module_removed": true,
+      "independent_double_read": {
+        "L25M": [
+          "2c",
+          "2c"
+        ],
+        "L26M": [
+          "3c",
+          "3c"
+        ]
+      },
+      "watchdog_disarmed": true,
+      "usb_ssh_healthy": true
+    },
+    "proves": "Masked supply control writes and rollback observed; touch not repaired",
+    "does_not_prove": "Actual electrical rail voltage, upstream power, protocol compatibility"
+  }
+}

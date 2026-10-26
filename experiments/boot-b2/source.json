@@ -1,0 +1,8 @@
+{
+  "upstream": "https://github.com/derekross/omarchy-mobile",
+  "local_upstream_head": "32e5d24b096dcd3bbf02d9c65470fee3b5a021d4",
+  "path": "packages/omamobile-device-cheetah/src/omamobile-bootctl.c",
+  "sha256": "89d03460947c047a241e7caab6b61ff0c6bc66104c78f5287d908cba3c96b2dd",
+  "modified": false,
+  "provenance_note": "Copied unchanged from local port; Mac4 mirror origin independently read as https://github.com/derekross/omarchy-mobile.git."
+}

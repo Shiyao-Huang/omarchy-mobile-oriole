@@ -1,0 +1,48 @@
+{
+  "claim": "A read-only readiness collector reports observed hardware/software presence without equating presence with working features",
+  "oracle": "Outputs valid JSON on this phone, no identifiers/secrets, no mutation, camera/network/GPU missing paths shown explicitly, touch presence distinct from physical acceptance",
+  "validation": {
+    "user_journey": {
+      "scenario": "Maintainer runs collector before/after a change or reconnection and compares versioned results",
+      "expected": "Can distinguish disconnected hardware from accepted user functions"
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Read-only /proc,/sys,device names and bounded filtered dmesg",
+        "No full dmesg,MAC/serial/SSID/IMEI output",
+        "Unavailable diagnostics remain unknown rather than pass"
+      ]
+    },
+    "unit": {
+      "cases": [
+        "Python syntax compilation",
+        "JSON parsed by host"
+      ],
+      "limitations": "Hardware availability assertions require live phone; no selfreported usability pass"
+    },
+    "end_to_end": {
+      "boundaries": [
+        "USBserial",
+        "phonePython",
+        "sysfs/proc",
+        "hostJSON"
+      ],
+      "faults": [
+        "Missing thermal/camera/GPU paths represented explicitly"
+      ],
+      "evidence": [
+        "Actual phone run to be saved"
+      ]
+    }
+  },
+  "evidence": [
+    "Actual phone source execution via USBserial returned valid JSON",
+    "card0\u2192simple-framebuffer matched independent sysfs read",
+    "touch present with READY marker, no END; radio/camera endpoints absent",
+    "No runtime writes in collector"
+  ],
+  "limitations": [
+    "Snapshot only; no human latency or camera/network functional validation"
+  ],
+  "exit_gate": "Actual phone output parses and matches independent observed endpoints; publish no daily-ready claim"
+}

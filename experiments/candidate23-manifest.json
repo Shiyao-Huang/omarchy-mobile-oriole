@@ -1,0 +1,12 @@
+{
+  "candidate": 23,
+  "module_sha256": "c1e7fb36432be1ad03285b409d49c69cdd3087d07a0a897711d9279f0bb35008",
+  "source_base_commit": "80ab24bce302225c95aa406958a20fa28333e886",
+  "source_patch": "candidate23-no-ready-rescan-from21.patch",
+  "state": "freshboot bound and idleIRQ stable; performed physicaltouch failed",
+  "limits": "No automatic reset recovery; do not promote based on idle IRQ count alone",
+  "physical_test": "User explicitly confirmed3taps+left/rightswipes while capture active;0bytes,IRQ107 stays2",
+  "rollback": "180second capture autoended; module/hold unloaded; independentrails2c/3c at203.101",
+  "proven": "No-rescan diagnostic eliminates prior immediate ready-feedback storm in this run",
+  "not_proven": "Workingtouch or genuine resetrecovery"
+}

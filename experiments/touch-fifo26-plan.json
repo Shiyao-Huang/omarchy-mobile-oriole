@@ -1,0 +1,61 @@
+{
+  "claim": "Bounded raw FIFO polling can determine whether touch records exist independently of Linux IRQ delivery and full-driver event dispatch.",
+  "oracle": "Exact stock SysInfo before scan; raw touch event types13/23/33 including slot variants during a confirmed finger window. Empty polling without confirmed timing cannot prove failure.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Operator ready first, then after FIFO26 READY tap and swipe; save raw data before testing GUI",
+      "expected": "Raw coordinate-changing touch records during action, then later actual GUI acceptance"
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Known22 minimal client, no IRQ or input registration",
+        "Only volatile reset, FIFO87, SysInfoA7, prepareFA20, flushA40001, scanA000FF",
+        "Three256byte transfer buffers and216byte SysInfo; max217RX",
+        "Strict board/controller and chip/fw/dimensions check; abort before scan on mismatch",
+        "9000poll maximum,180second deadline, capped64nonemptylogrows; counts retained",
+        "All RX explicit zeroTX matching25"
+      ],
+      "gitnexus": [
+        "External source not indexed; direct bounded control-flow review used"
+      ],
+      "ast": []
+    },
+    "unit": {
+      "red": "No existing hardware simulation can prove actualFIFO",
+      "green": "W=1 warning-free build; extracted actual identity gate passes ASan/UBSan exact match, no ready, each checked byte corrupted and all-zero frame",
+      "cases": [
+        "wrong identity stops before scan",
+        "ready storm stops at8",
+        "deadline/maxpoll cap",
+        "SPI error exits into devm cleanup"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "Mac4 USB serial",
+        "supplyhold with independent readback",
+        "realSPI",
+        "FTS rawFIFO"
+      ],
+      "faults": [
+        "Read error and identity mismatch abort",
+        "watchdog and readonly storage guard",
+        "unload and double rail verification"
+      ],
+      "evidence": []
+    }
+  },
+  "evidence": [
+    "23 confirmedfinger test0evdev, IRQ2",
+    "24/25 gestures now userconfirmed, precise timing pending",
+    "22 exact FIFOflush response and emptyqueue demonstrated but did not include finger test",
+    "Module87b37f5e... built; physical/runtime not yet attempted"
+  ],
+  "limitations": [
+    "Rawprotocol support is not GUI touch",
+    "No scope measurement or persistent promotion",
+    "Polling runs only after operator readiness; no autoload",
+    "Freshboot needed because prior warmSysInfo allzero"
+  ],
+  "exit_gate": "Build warning-free; obtain ready confirmation before physicalcapture; preserve rawrecords, independently verify cleanup, then decide IRQ vs sensing investigation."
+}

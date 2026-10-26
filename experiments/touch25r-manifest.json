@@ -1,0 +1,11 @@
+{
+  "module_sha256": "450a03caba4789c782ff6a04e5a8f89bd515b5ab8aba33d46f0060102093f502",
+  "status": "Unchanged25repeat0evdev; gesturesconfirmedlatertimingunresolved",
+  "window_uptime": [
+    39.656,
+    219.756
+  ],
+  "rollback": "FRESHBOOT_ROLLBACK_OK;2c/3c double-read219.833; modulesremoved",
+  "limits": "Do not claim a performed finger failure untilaction/timingconfirmed",
+  "physical_confirmation": "User later confirmed25R gestures incombinedreply withreadiness28; precisealignmentof25R action/window unresolved"
+}

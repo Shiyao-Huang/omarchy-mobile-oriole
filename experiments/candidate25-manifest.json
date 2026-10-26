@@ -1,0 +1,10 @@
+{
+  "module_sha256": "450a03caba4789c782ff6a04e5a8f89bd515b5ab8aba33d46f0060102093f502",
+  "state": "Freshboot bound; physical confirmation pending; bounded trial cleaned up",
+  "difference": "Only short-RX explicit zero TX vs23; restores Google prepare vs24",
+  "acceptance": "No accepted physicaltouch or GUI result",
+  "runtime": "Exact SysInfo at16.582; event1; IRQ107 count2 remained stable;180second capture0bytes",
+  "physical_test": "User explicitly confirmed the separately requested gestures for this candidate in a later combined reply. Precise action time relative to the180second capture window is pending clarification; capture0bytes remains the observation.",
+  "rollback": "Independent L25M2c/L26M3c double reads at196.773; module/hold unloaded; FRESHBOOT_ROLLBACK_OK includes watchdog FD closed",
+  "validation": "W=1 compiled14 inherited warnings; actual RX ASan/UBSan, actual ready callback guard, actual scan order and actual DMA cleanup pass; patch chain exact-source reproduction passes"
+}

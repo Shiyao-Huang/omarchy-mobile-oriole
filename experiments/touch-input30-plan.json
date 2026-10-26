@@ -1,0 +1,61 @@
+{
+  "claim": "Idle GPIO-high ready-looking records must not count as asserted controller-reset events or terminate continuous touch polling.",
+  "oracle": "Classifier rejects high-IRQ/invalid-prefix records; eight qualified ready records still stop; fresh phone remains polling beyond previous 12.5s failure and through GUI; physical GUI actions required for acceptance.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Phone starts Omarchy and remains tappable after desktop handoff and idle; error retains USB diagnosis.",
+      "expected": "Tap app opens visible window, later taps still work."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Guard stays active for eight valid prefix87/IRQlow/id03 records",
+        "No new commands or firmware writes",
+        "Decoder and cleanup unchanged",
+        "No inference that invalid idle reads prove corruption"
+      ],
+      "gitnexus": [
+        "External out-of-tree source, direct control-flow review"
+      ],
+      "ast": []
+    },
+    "unit": {
+      "red": "Input29 counts GPIOhigh03 as ready; observed8counts in513polls",
+      "green": "Extract actual predicate and test prefix/IRQ/type/length and guard threshold",
+      "cases": [
+        "valid ready",
+        "idle high03",
+        "invalid prefix",
+        "short record",
+        "negative GPIO",
+        "eight qualified resets"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "GPIO",
+        "SPI",
+        "polling thread",
+        "evdev",
+        "Hyprland",
+        "physical operator"
+      ],
+      "faults": [
+        "stop on eight qualified ready events",
+        "unbind worker verified29; rerun if lifecycle changes"
+      ],
+      "evidence": [
+        "Input29 at39.245 ready,51.729 end; 513polls/8ready but only2IRQlow total",
+        "Same prefix87/03 repeated at IRQhigh at samples256 and512"
+      ]
+    }
+  },
+  "evidence": [
+    "Private serial-input29 logs retained"
+  ],
+  "limitations": [
+    "Cause of idle03 repeat unproven",
+    "Physical GUI remains unaccepted",
+    "Nextboot diagnosticgate; slotretry recovery may be necessary"
+  ],
+  "exit_gate": "Sanitizer predicates+decoder pass, exact kernel clean build, hashverification, freshload >60seconds noend, then desktop handoff and physical acceptance."
+}

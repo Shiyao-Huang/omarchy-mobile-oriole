@@ -1,0 +1,56 @@
+{
+  "claim": "M1: a transient user service constrains four Node workers to aggregate one CPU worth of time, leaves all eight CPUs eligible, and disappears after a bounded four-second workload.",
+  "oracle": "Actual service cpu.max=100000 100000, cpu.weight=25, nice=10, affinity0-7; nr_throttled increases and consumedCPU fits bounded elapsed time; service collected; unchanged desktop PID/private GPU mapping and no new GPU fault.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Open Files and type while API Agents wait/run tools; interrupt/reconnect or manually adjust settings, then recover the desktop.",
+      "expected": "Desktop remains responsive and Agent processes retain progress; remote test alone cannot accept physical feel."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Observe cpu_capacity, compatible and cpufreq policy before choosing limits",
+        "Retain Linux scheduler access to all online cores for UI",
+        "Only task-owned transient background cgroup; no global affinity or IRQ writes",
+        "No sustained load while thermal telemetry unavailable",
+        "systemd-run --user --collect --wait --pipe; task-owned random transient unit",
+        "CPUQuota100% is aggregate one core time, not affinity or one physically reserved core",
+        "RuntimeMaxSec20s bounds failure; workload4s and four threads; no persistent files or global knobs",
+        "CPUWeight25 is relative only among sibling cgroups; does not prove fixed GUI priority ratio"
+      ],
+      "gitnexus": [
+        "Not applicable: standalone phone experiment outside neweval execution graph; inspect systemd command and actual cgroup files instead"
+      ]
+    },
+    "unit": {
+      "red": null,
+      "green": null,
+      "cases": [],
+      "not_applicable_reason": "No new reusable scheduler/launcher or parser is introduced. This experiment exercises existing systemd/Linux resource control with explicit runtime assertions; workload loops are not production logic. A reusable configurable launcher requires separate boundary tests."
+    },
+    "end_to_end": {
+      "boundaries": [
+        "USB serial",
+        "Linux sysfs/DT",
+        "systemd",
+        "cgroup v2",
+        "actual Node/Go process"
+      ],
+      "faults": [
+        "Enforced quota must show throttling under four workers",
+        "RuntimeMaxSec20s terminates runaway trial",
+        "Normal unit collection; exit/failure status preserved"
+      ],
+      "evidence": []
+    }
+  },
+  "evidence": [
+    "cpu-topology-observed.json: capacities160/498/1024; policy0/4/6 schedutil; EAS enabled; Node sees8"
+  ],
+  "limitations": [
+    "No thermal zones in prior inventory; avoid extended stress",
+    "CPU distribution cannot repair missing GPU, modem, WiFi or camera drivers",
+    "Node main event loop is single threaded; worker processes/threads and Go scheduler require workload-specific configuration",
+    "No background Harness production workload yet"
+  ],
+  "exit_gate": "Kernel cgroup files + Node worker execution + successful cleanup pass; this validates resource-control plumbing only, no default policy promotion or physical responsiveness claim."
+}

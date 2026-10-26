@@ -1,0 +1,24 @@
+{
+  "claim": "Extra GPIO CS setup time may address initialedge timing which internal loopback excludes.",
+  "oracle": "Change only cs_setup to100us fromdefault; sameSPIread at10MHz, reset andrails. Three identitypairs mustreturn3648; savedcs_setup restoredonexit.",
+  "validation": {
+    "user_journey": "No screen/partitionchange, bounded diagnostic in console.",
+    "code_reasoning": [
+      "Use standardSPIcore cs_setup delay, no manualCSGPIO override",
+      "Save originalspi_delay struct andrestorebefore spi_setup cleanup",
+      "The currentkernel applies cs_setup for GPIOCS; verify sourcebefore run"
+    ],
+    "unit": "W=1compile and codepathreview; no mockedhardwareclaim",
+    "end_to_end": "Run same6readtransactions onoriginalcontroller; independentlyrestoreandverifyrails"
+  },
+  "evidence": [
+    "Stockcontroller DT cs-clock-delay2; currentcore GPIO-CS path differs",
+    "ImmediateGPIOread canlag write; settledreset0/1verified",
+    "SPIinternal loopback good, externalidentitybad"
+  ],
+  "limitations": [
+    "100us diagnostic margin isnotstockexacttiming",
+    "No external scope; softwaredelayonly"
+  ],
+  "exit_gate": "Ifnofix recordandrestore; ifvalid verifyrealinput beforepromote."
+}

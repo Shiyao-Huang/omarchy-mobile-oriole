@@ -1,0 +1,36 @@
+{
+  "status": "mitigation_rejected_config_restored",
+  "observations": {
+    "gpu_device_tree_status": "disabled",
+    "drm_driver": "simple-framebuffer",
+    "drm_render_nodes": [],
+    "network_interfaces": [
+      "lo",
+      "usb0"
+    ],
+    "camera_device_nodes": [],
+    "NetworkManager": "active",
+    "ModemManager": "inactive",
+    "memory_available_MiB": 5331,
+    "Hyprland_cpu_lifetime_percent_at_first_sample": 103,
+    "render_errors": [
+      "no matching devices found",
+      "drm initMgpu no renderer",
+      "Failed to update renderer state"
+    ]
+  },
+  "experiment": {
+    "change": "disable animations only; blur/shadow already disabled",
+    "parse_and_reload": "passed",
+    "user_feedback": "Cannot operate or black screen",
+    "outcome": "Not accepted; exact pre-change config restored",
+    "recovery": "Hyprland reports animations=true,DPMS=true; screenshot shows Files; physical recovery unconfirmed while user away",
+    "postchange_idle_cpu_5sec": {
+      "Hyprland": 0,
+      "quickshell": 1
+    },
+    "cpu_limit": "Not comparable to prior active-use lifetime average; cannot claim performance improvement"
+  },
+  "next": "GPU and display dependencies first; do not enable missing power/clock dependencies by changing status alone",
+  "reference": "https://github.com/derekross/omarchy-mobile/blob/main/device/oriole/NOTES.md"
+}

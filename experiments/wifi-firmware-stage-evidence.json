@@ -1,0 +1,15 @@
+{
+  "prefix": "/opt/oriole-experiments/wifi-firmware-cp1a-260305-018",
+  "archive_sha256": "99bcec5401a29fb132e33fd259c09ae5fccd81d9af7bcb30c0b8fe2689a398cc",
+  "selected": false,
+  "files_verified": 4,
+  "loader_path_unchanged": true,
+  "modules_unchanged": true,
+  "GPU_desktop_retained": true,
+  "network_interfaces": [
+    "lo",
+    "usb0"
+  ],
+  "radio_activated": false,
+  "private_log_sha256": "d16033e4b40dea8ce5860e6ac58eb536f0c3a4b04fc547d93402019b4f3d567b"
+}

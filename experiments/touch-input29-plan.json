@@ -1,0 +1,66 @@
+{
+  "claim": "Run the physicallyverified28 input translation in a stoppable kernelthread so probe completes and the inputdevice can serve the existing Omarchy desktop.",
+  "oracle": "Actual29 evdev continues afterprobe, remove stopsworker and releasescontacts beforedevm cleanup; then existingOmarchy desktop recognizesdevice and usercanoperate visiblecontrols.",
+  "validation": {
+    "user_journey": {
+      "scenario": "User taps/swipes the Linuxphone withoutkeyboard",
+      "expected": "First actualevdev, then visible desktop response in a separatepromotionstep; cleanup aftertrial releasescontacts"
+    },
+    "code_reasoning": {
+      "invariants": [
+        "28decoderandcommandsunchanged",
+        "Device-managed context/buffers outliveworker; remove kthread_stop beforedevmfree",
+        "Worker releasescontacts onerror/stop; remainsalive idleafterfinite-session untilremove toavoidstalethreadpointer",
+        "session_seconds0 deliberatelycontinuous;finiteoption1..3600bounded for test",
+        "Currentbootonly, no persistentautoload orpartitionwrites"
+      ],
+      "gitnexus": [
+        "Externalkernel source, directcontrolflow reviewed"
+      ],
+      "ast": [
+        "Extract actual decoder function into sanitizer harness"
+      ]
+    },
+    "unit": {
+      "red": "Oldrawclient exposes noinputdevice; translationgate tests definedbeforeimplementation",
+      "green": "Repeat actualdecoder/identity sanitizer tests; lifecycle correctness additionally requiresreal unload test",
+      "cases": [
+        "capturedbordercoordinates",
+        "invalid65idleframe",
+        "non-finger",
+        "slot10",
+        "outofrange",
+        "leavezeropressure"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "realSPI+IRQlevel",
+        "decoder",
+        "Linuxinputcore",
+        "evdev",
+        "physicalfinger"
+      ],
+      "faults": [
+        "explicitremove whilepolling",
+        "workerstop beforeinputdestroy",
+        "hardwarewatchdogduringload/unload check",
+        "beforeGUIhandoff disarmwatchdog andverifyUSBremotecontrol",
+        "reboot restoresdiagnosticgate"
+      ],
+      "evidence": []
+    }
+  },
+  "evidence": [
+    "28 confirmedfingerwindow:5trackingstarts/5ends,236events,changingXY",
+    "28 cleanrollback2c/3c at2611.197",
+    "ExistingrootOmarchy desktop previouslybooted; currentRAMstage stillholdsdiagnosticgate"
+  ],
+  "limitations": [
+    "Pollingpower/latency notyetprofiled",
+    "Finger type1 only; no gestures/rotation/SIMacceptance",
+    "No imageflash orbootautoload inthistrial",
+    "GUIboot retains existingmodulefreeze; sysfs unbind stops29 butfullrailsrollback requiresreboot whilemoduleunloadisfrozen"
+  ],
+  "exit_gate": "Build/decoder tests; real load/unbind/rmmod thread-lifecycle check; then freshload, input/USB checks, stopwatchdog beforehandoff, GUIphysicalacceptance. No finalinstallationclaim untilboot/usabilityaccepted."
+}

@@ -1,0 +1,50 @@
+--- a/fts_lib/ftsIO.c
++++ b/fts_lib/ftsIO.c
+@@ -201,8 +201,47 @@
+ * @param byteToRead number of bytes to read
+ * @return OK if success or an error code which specify the type of error encountered
+ */
++#ifndef I2C_INTERFACE
++/* Diagnostic: keep command and response clocks in a single SPI transfer. */
++static int fts_bringup_spi_read(u8 *cmd, int cmd_len, u8 *out, int read_len)
++{
++	struct spi_transfer transfer = { 0 };
++	u8 *tx, *rx;
++	int ret, total;
++	if (!client || (fts_info && fts_info->tp_pm_suspend))
++		return ERROR_BUS_O;
++	if (cmd_len <= 0 || read_len <= 0 || cmd_len > 16 || read_len > 2048)
++		return ERROR_OP_NOT_ALLOW;
++	total = cmd_len + read_len;
++	tx = kzalloc(total, GFP_KERNEL);
++	rx = kzalloc(total, GFP_KERNEL);
++	if (!tx || !rx) {
++		kfree(tx);
++		kfree(rx);
++		return -ENOMEM;
++	}
++	memcpy(tx, cmd, cmd_len);
++	transfer.tx_buf = tx;
++	transfer.rx_buf = rx;
++	transfer.len = total;
++	transfer.delay.value = SPI_DELAY_CS;
++	transfer.delay.unit = SPI_DELAY_UNIT_USECS;
++	ret = spi_sync_transfer(getClient(), &transfer, 1);
++	if (ret == 0)
++		memcpy(out, rx + cmd_len, read_len);
++	kfree(tx);
++	kfree(rx);
++	return ret < 0 ? ERROR_BUS_WR : OK;
++}
++#endif
++
+ int fts_writeRead(u8 *cmd, int cmdLength, u8 *outBuf, int byteToRead)
+ {
++#ifndef I2C_INTERFACE
++	if (FTS_INPUT_ONLY_BRINGUP)
++		return fts_bringup_spi_read(cmd, cmdLength, outBuf, byteToRead);
++#endif
++
+ 	int ret = -1;
+ 	int retry = 0;
+ 

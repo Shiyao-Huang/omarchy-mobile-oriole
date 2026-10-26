@@ -1,0 +1,21 @@
+{
+  "status": "probe_failed_after_prior_power_transition_timeout",
+  "module_sha256": "2ff9d1e841d5a019b237973ea6a6db7fb0dd30c44abfd0bd39b5ad695ffd06b7",
+  "observations": [
+    "Original Panfrost removal: shader power transition timeout and l2 power transition timeout",
+    "Instrumented reload: soft reset timeout then hard reset timeout; error-110",
+    "No G7 power_on state log reached",
+    "USB command remained responsive; watchdog disarmed"
+  ],
+  "validation": [
+    "Only4log/readlines added; deletingthem yieldsbyteidenticaloriginalsource",
+    "W=1 exactkernelbuildwithoutwarnings",
+    "Real guardedunload/reload; failurecaptured"
+  ],
+  "unproven": [
+    "Core-readybitmap",
+    "GPUrendering",
+    "safeGPUrebindwithoutpowercycle"
+  ],
+  "next": "Read enable/routing controls and selectors throughACPM before anyrailchange; no GLES accepted"
+}
