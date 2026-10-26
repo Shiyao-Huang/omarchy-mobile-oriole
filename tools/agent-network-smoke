@@ -1,0 +1,84 @@
+#!/bin/bash
+# SPDX-License-Identifier: MIT
+# Read-only connectivity check for an Agent workload on Omarchy Mobile.
+# It deliberately prints transport names and public endpoint hosts only; it
+# never prints SSIDs, MAC addresses, credentials, profiles or full routes.
+set -euo pipefail
+
+attempts=1
+delay=2
+endpoints=(api.github.com api.anthropic.com registry.npmjs.org)
+
+usage() {
+  cat <<'EOF'
+Usage: agent-network-smoke [--attempts N] [--delay SECONDS]
+Checks the active default route, IPv4, DNS and HTTPS for Agent service hosts.
+The command is read-only and accepts any active transport (Wi-Fi, USB or cellular).
+EOF
+}
+
+while (($#)); do
+  case "$1" in
+    --attempts)
+      [[ ${2:-} =~ ^[1-9][0-9]*$ ]] || { echo 'FAIL --attempts needs a positive integer' >&2; exit 2; }
+      attempts=$2; shift 2 ;;
+    --delay)
+      [[ ${2:-} =~ ^[0-9]+([.][0-9]+)?$ ]] || { echo 'FAIL --delay needs seconds' >&2; exit 2; }
+      delay=$2; shift 2 ;;
+    -h|--help) usage; exit 0 ;;
+    *) echo "FAIL unknown option: $1" >&2; usage >&2; exit 2 ;;
+  esac
+done
+
+fail=0
+for cmd in ip getent curl; do
+  command -v "$cmd" >/dev/null 2>&1 || { printf 'FAIL missing command: %s\n' "$cmd"; fail=1; }
+done
+(( fail == 0 )) || exit 2
+
+transport_for() {
+  case "$1" in
+    wlan*|wifi*) printf 'wifi' ;;
+    wwan*|rmnet*|ccmni*|pdp*) printf 'cellular' ;;
+    usb*|en*|eth*) printf 'usb-or-ethernet' ;;
+    *) printf 'other' ;;
+  esac
+}
+
+check_once() {
+  local route dev state
+  route=$(ip -4 route show default 2>/dev/null | awk 'NR==1 {print; exit}')
+  dev=$(awk '{for (i=1;i<NF;i++) if ($i == "dev") {print $(i+1); exit}}' <<<"$route")
+  [[ -n "$dev" ]] || { echo 'FAIL no IPv4 default route'; return 1; }
+  state=$(cat "/sys/class/net/$dev/operstate" 2>/dev/null || printf unknown)
+  echo "INFO transport=$(transport_for "$dev") interface=$dev state=$state"
+  if ! ip -4 addr show dev "$dev" scope global | grep -Eq 'inet [0-9]+(\.[0-9]+){3}'; then
+    echo "FAIL interface=$dev has no IPv4 address"
+    return 1
+  fi
+  echo 'PASS IPv4 address present'
+
+  local host status
+  for host in "${endpoints[@]}"; do
+    if ! getent ahostsv4 "$host" >/dev/null; then
+      echo "FAIL DNS resolution: $host"
+      return 1
+    fi
+    echo "PASS DNS resolution: $host"
+    status=$(curl --silent --show-error --connect-timeout 5 --max-time 15 \
+      --output /dev/null --write-out '%{http_code}' "https://$host/" 2>/dev/null || printf 000)
+    case "$status" in
+      2*|3*|4*) echo "PASS HTTPS transport: $host status=$status" ;;
+      *) echo "FAIL HTTPS transport: $host status=$status"; return 1 ;;
+    esac
+  done
+  echo 'PASS Agent network smoke test'
+}
+
+for ((attempt=1; attempt<=attempts; attempt++)); do
+  echo "INFO attempt=$attempt/$attempts"
+  if check_once; then exit 0; fi
+  (( attempt < attempts )) || break
+  sleep "$delay"
+done
+exit 1

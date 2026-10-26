@@ -11,7 +11,9 @@ Wi-Fi W2 brought up the GS101 PCIe path, BCM4389 firmware and `wlan0`; W3 fixes 
 
 The association evidence is [wifi-w3-association-evidence](../../experiments/wifi-w3-association-evidence.json), with the gated plan in [wifi-w3-association-plan](../../experiments/wifi-w3-association-plan.json). The authorized network name, credentials, BSSID, MAC address and private serial logs are intentionally excluded.
 
-The latest evidence is [oriole-bringup-2026.10.26.9](../../releases/oriole-bringup-2026.10.26.9.json). Private partition images, factory firmware, calibration, serial numbers, credentials and host logs are deliberately excluded.
+The device package now includes a read-only Agent connectivity probe. It reports the active transport (Wi-Fi, USB-shared or cellular), IPv4, route, DNS and HTTPS reachability for the public GitHub, Anthropic and npm endpoints, with bounded retries. This diagnoses the failure layer behind Agent installers such as mise without configuring a network or exposing credentials. It is a userspace diagnostic only; it does not close the cold Omarchy desktop gate.
+
+The latest evidence is [oriole-bringup-2026.10.26.11](../../releases/oriole-bringup-2026.10.26.11.json). Private partition images, factory firmware, calibration, serial numbers, credentials and host logs are deliberately excluded.
 
 ## Device facts
 

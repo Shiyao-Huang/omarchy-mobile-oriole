@@ -1,0 +1,39 @@
+{
+  "release": "oriole-bringup-2026.10.26.11",
+  "kind": "source-and-evidence-checkpoint",
+  "daily_use_ready": false,
+  "one_click_full_install_ready": false,
+  "device": "Pixel 6 oriole",
+  "kernel": "7.3.0-rc6-omamobile-oriole-m1",
+  "changes": [
+    {
+      "component": "Agent network diagnosis",
+      "status": "offline source and fixture validation passed; hardware gate remains open",
+      "evidence": [
+        "tools/agent-network-smoke",
+        "experiments/test-agent-network-smoke.py",
+        "experiments/agent-network-smoke-plan.json",
+        "packages/omamobile-device-oriole/test/all"
+      ],
+      "proved": [
+        "The package stages a read-only route, IPv4, DNS and HTTPS probe for Agent service hosts",
+        "The probe identifies Wi-Fi, USB-shared or cellular transport without printing credentials or radio identifiers",
+        "A bounded retry path exposes whether failure is route, DNS or HTTPS transport",
+        "Offline fixtures cover success, retry failure and redaction"
+      ],
+      "limits": [
+        "No Pixel 6 was connected during this checkpoint",
+        "No cold Omarchy desktop run or cellular registration was captured",
+        "The probe does not configure Wi-Fi, load modem firmware or repair a missing kernel driver"
+      ]
+    }
+  ],
+  "rollback": {
+    "boot_images_changed": false,
+    "radio_state": "no phone mutation performed",
+    "partition_writes": "none"
+  },
+  "publication": "No vendor firmware, calibration, credentials, private logs, MAC addresses, SSIDs or serial numbers are included.",
+  "supersedes": "oriole-bringup-2026.10.26.10",
+  "next_gate": "Restore the serial handoff, cold-boot normal Omarchy, run omamobile-network-smoke and omamobile-agent-network-smoke, then capture Wi-Fi reconnect and an Agent API request."
+}

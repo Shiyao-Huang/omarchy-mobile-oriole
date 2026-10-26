@@ -1,0 +1,58 @@
+{
+  "claim": "An Omarchy Agent launch can distinguish a missing transport, route, DNS or remote-service failure without mutating radio state.",
+  "oracle": "The probe reports one active default-route transport, an IPv4 address, DNS results and HTTPS status for GitHub, Anthropic and npm; a link or service failure is named and retried within the configured bound.",
+  "validation": {
+    "user_journey": {
+      "scenario": "The user opens an Agent while Wi-Fi is unavailable, then reconnects over Wi-Fi, USB-shared internet or cellular data.",
+      "expected": "The user gets an actionable layer-specific result and can retry the Agent without entering credentials into the diagnostic tool."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "The probe is read-only: it does not call NetworkManager, wpa_supplicant, ModemManager or a partition tool.",
+        "Output contains transport names and public endpoint hosts only; no SSID, MAC, password, IMEI or full route is printed.",
+        "A bounded retry cannot loop forever and a failed endpoint does not get reported as reachable."
+      ],
+      "gitnexus": [
+        "The package install boundary stages the same probe used by the host tools copy.",
+        "No boot, modem, calibration or slot-success path imports the probe."
+      ],
+      "ast": [
+        "The script has no write calls and only invokes ip, getent, curl, cat, awk and sleep.",
+        "HTTP 2xx-4xx proves transport reachability while 000/5xx remains a failure."
+      ]
+    },
+    "unit": {
+      "red": "The package had no Agent-specific probe and the mise failure could not be separated into route, DNS or HTTPS layers.",
+      "green": "Fixtures cover Wi-Fi success with an authenticated HTTP response, bounded HTTPS retry failure and output redaction.",
+      "cases": [
+        "missing default route",
+        "missing IPv4",
+        "DNS failure",
+        "HTTPS transport failure",
+        "Wi-Fi, USB or cellular interface name classification"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "normal Omarchy desktop -> default route -> resolver -> public Agent service host",
+        "package staging -> installed executable"
+      ],
+      "faults": [
+        "Wi-Fi link loss",
+        "USB host-sharing loss",
+        "cellular bearer absent",
+        "DNS timeout",
+        "GitHub/Anthropic/npm HTTPS failure"
+      ],
+      "evidence": [
+        "Offline fixtures and package test pass; Pixel 6 cold-desktop execution remains pending."
+      ]
+    }
+  },
+  "limitations": [
+    "The probe cannot establish a SIM bearer or repair missing kernel firmware.",
+    "A successful HTTP response does not prove authenticated Agent API access.",
+    "No phone was connected for this checkpoint."
+  ],
+  "exit_gate": "Run the probe after a cold normal Omarchy boot on the Pixel 6, then repeat after a controlled Wi-Fi reconnect and one Agent API request."
+}

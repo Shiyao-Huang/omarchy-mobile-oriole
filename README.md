@@ -10,8 +10,8 @@ This repository publishes the Pixel 6 native Omarchy port as a source and eviden
 - `packages/omamobile-device-oriole/`: conservative device package skeleton adapted to the GS101 layout.
 - `drivers/`: GPL-licensed touchscreen source and the source changes under test.
 - `experiments/`: six-field plans, source tests, build evidence and recovery records. Each result states what it proves and what it does not prove.
-- `releases/`: dated checkpoint manifests. The latest is [oriole-bringup-2026.10.26.9](releases/oriole-bringup-2026.10.26.9.json).
-- `tools/`: read-only collectors and guarded helpers. `tools/phone-network-smoke` checks a normal desktop boot for Wi-Fi, IPv4, route, DNS and HTTPS without printing credentials or radio identifiers.
+- `releases/`: dated checkpoint manifests. The latest is [oriole-bringup-2026.10.26.11](releases/oriole-bringup-2026.10.26.11.json).
+- `tools/`: read-only collectors and guarded helpers. `tools/phone-network-smoke` checks a normal desktop boot for Wi-Fi, IPv4, route, DNS and HTTPS without printing credentials or radio identifiers. `tools/agent-network-smoke` checks the active Wi-Fi, USB-shared or cellular route against GitHub, Anthropic and npm endpoints so an Agent launch can distinguish missing hardware, routing, DNS and remote-service failures.
 
 ## Reproduce the offline checks
 
@@ -23,9 +23,10 @@ cc -O2 -Wall -Wextra -Werror experiments/boot-b2/omamobile-bootctl.c -o /tmp/oma
 python3 experiments/test-boot-b2-write.py /tmp/omamobile-bootctl
 python3 experiments/test-cpu-m3-rate-guard.py
 python3 experiments/test-wifi-w3-join.py experiments/wifi-w3-fixture/brcmfmac
+python3 experiments/test-agent-network-smoke.py
 ```
 
-A real hardware run needs the exact configured Linux kernel, the user's own factory image and private calibration backups. Read `AGENTS.md`, `CONTRIBUTING.md` and the relevant plan before any phone operation. Keep Android slot A as the recovery path and never flash an unsuffixed partition. The next network gate is [network-desktop-boot-plan](experiments/network-desktop-boot-plan.json); the diagnostic Wi-Fi result does not close it.
+A real hardware run needs the exact configured Linux kernel, the user's own factory image and private calibration backups. Read `AGENTS.md`, `CONTRIBUTING.md` and the relevant plan before any phone operation. Keep Android slot A as the recovery path and never flash an unsuffixed partition. The next network gate is [network-desktop-boot-plan](experiments/network-desktop-boot-plan.json); the diagnostic Wi-Fi result does not close it. After a normal desktop boot, run `omamobile-agent-network-smoke --attempts 3` to diagnose the route used by Agent tools; it does not configure Wi-Fi or print credentials.
 
 ## Evidence policy
 
