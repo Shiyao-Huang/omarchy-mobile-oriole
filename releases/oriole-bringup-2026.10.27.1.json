@@ -1,0 +1,67 @@
+{
+  "release": "oriole-bringup-2026.10.27.1",
+  "kind": "live-initramfs-touch-gate-failure",
+  "daily_use_ready": false,
+  "one_click_full_install_ready": false,
+  "device": "Pixel 6 oriole",
+  "claim": "The current diagnostic initramfs can bind the Oriole polling touchscreen, but it is not yet safe to hand off to a normal Omarchy desktop because the matching touch-supply hold module cannot resolve its ACPM symbol.",
+  "oracle": "A safe handoff requires the input device, touch-supply hold, recovery serial service and the guarded stage continuation marker to coexist; a failed module load must leave the phone recoverable without a forced partition write.",
+  "validation": {
+    "user_journey": {
+      "scenario": "The operator reboots the unlocked test Pixel 6 into the Linux diagnostic environment and expects a usable touch desktop; the recovery path must remain available if a driver experiment fails.",
+      "expected": "The device either reaches a responsive Omarchy desktop or remains in a recoverable Fastboot/serial state with the failure identified. No Android recovery slot is overwritten."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "The input30 module vermagic matches the running 7.3.0-rc6-omamobile-oriole-m1 kernel.",
+        "The touch-supply hold module is not considered loaded when insmod reports an unresolved symbol.",
+        "The GUI handoff marker is not created while a required guard is missing."
+      ],
+      "gitnexus": [
+        "serial-input30-gui-handoff.sh requires INPUT30_READY, SPI binding, the touch-supply hold module, a recovery serial service and read-only partition guards before stage continuation."
+      ],
+      "ast": [
+        "The handoff script checks each prerequisite independently and does not treat a registered event device as proof of a complete desktop boot."
+      ]
+    },
+    "unit": {
+      "red": "insmod of oriole_touch_supply_hold.ko failed with unknown symbol devm_acpm_get_by_node (err -2).",
+      "green": "insmod of oriole-input30.ko succeeded and registered Oriole polling touchscreen as Linux event1; the result is diagnostic only.",
+      "cases": [
+        "input module vermagic matches running kernel",
+        "SPI device binds to oriole-touch-minimal",
+        "INPUT30 identity reports chip 3648, firmware 0049 and panel geometry 2399x1079",
+        "ACPM-dependent hold module unresolved symbol",
+        "stage continuation withheld"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "Mac4 USB serial -> initramfs root shell -> kernel module loader -> SPI touch device"
+      ],
+      "faults": [
+        "ACPM symbol unavailable in running kernel",
+        "serial shell stopped executing after the ACPM load attempt",
+        "Fastboot was not enumerated by Mac4 during recovery"
+      ],
+      "evidence": [
+        "Fresh serial log observed INPUT30_READY and event1 registration.",
+        "Fresh serial log observed unknown symbol devm_acpm_get_by_node for oriole_touch_supply_hold.ko.",
+        "No stage continuation marker or normal desktop acceptance was claimed."
+      ]
+    }
+  },
+  "limitations": [
+    "This checkpoint does not prove a persistent touch driver, GPU acceleration, Wi-Fi, cellular data, camera capture or a normal Omarchy desktop.",
+    "The failed experiment left the current diagnostic boot unresponsive and requires a physical power-cycle before another trial.",
+    "No partition, radio, calibration or Android recovery data was written in this checkpoint."
+  ],
+  "rollback": {
+    "boot_images_changed": false,
+    "radio_state": "no phone mutation performed",
+    "partition_writes": "none"
+  },
+  "publication": "No vendor firmware, calibration, credentials, private logs, MAC addresses, SSIDs, IMEIs or serial numbers are included.",
+  "supersedes": "oriole-bringup-2026.10.26.23",
+  "next_gate": "Power-cycle the phone, verify Fastboot/serial enumeration, then fix the ACPM symbol boundary or use a kernel-built touch-supply module before any GUI handoff."
+}
