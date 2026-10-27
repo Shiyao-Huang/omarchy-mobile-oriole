@@ -1,0 +1,67 @@
+{
+  "release": "oriole-bringup-2026.10.27.2",
+  "kind": "touch-stage-order-correction",
+  "daily_use_ready": false,
+  "one_click_full_install_ready": false,
+  "device": "Pixel 6 oriole",
+  "claim": "The previous ACPM unresolved-symbol failure was caused by loading acpm-protocol without its exynos-mailbox prerequisite; the corrected stage now enforces mailbox -> ACPM -> touch-supply-hold -> input30 order.",
+  "oracle": "On a fresh diagnostic boot, all four modules load without an unresolved symbol, the SPI device binds, INPUT30_READY appears, and the guarded GUI handoff remains pending until its own serial/watchdog/partition checks pass.",
+  "validation": {
+    "user_journey": {
+      "scenario": "The operator recovers a Pixel 6 that is stuck at the Linux command line and wants the touch-enabled Omarchy desktop without overwriting Android slot A.",
+      "expected": "The recovery sequence is repeatable from a clean boot, reports a precise module-order failure if a prerequisite is missing, and leaves the device recoverable through Fastboot or serial."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "The stage refuses to continue when modules_disabled is nonzero or the stage marker already exists.",
+        "exynos-mailbox is loaded before acpm-protocol; acpm-protocol is loaded before the rail-hold module.",
+        "The script only loads modules and validates input; it never writes a partition or creates the GUI continuation marker."
+      ],
+      "gitnexus": [
+        "The module stage is a prerequisite of serial-input30-gui-handoff.sh and keeps the handoff's existing guards intact."
+      ],
+      "ast": [
+        "The shell script has explicit file, state, binding and dmesg checks; its syntax passes sh -n."
+      ]
+    },
+    "unit": {
+      "red": "The live trial loaded acpm-protocol without exynos-mailbox and produced unknown symbol devm_acpm_get_by_node.",
+      "green": "The corrected loader encodes the known-good mailbox -> ACPM order and passes sh -n.",
+      "cases": [
+        "missing module file",
+        "modules_disabled guard",
+        "stage marker guard",
+        "already-loaded module idempotence",
+        "SPI binding and INPUT30_READY checks"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "Fastboot recovery -> diagnostic initramfs -> module dependency order -> SPI touch input -> guarded GUI handoff"
+      ],
+      "faults": [
+        "ACPM loaded without mailbox",
+        "USB serial unavailable",
+        "Fastboot not enumerated"
+      ],
+      "evidence": [
+        "Prior private logs show successful runs load exynos-mailbox.ko before acpm-protocol.ko.",
+        "The new loader is checked into experiments/serial-input30-module-stage.sh and has passed sh -n.",
+        "A fresh hardware rerun is still required before claiming desktop readiness."
+      ]
+    }
+  },
+  "limitations": [
+    "The corrected loader has not yet been rerun on a fresh phone boot in this checkpoint.",
+    "GPU acceleration, Wi-Fi, China Mobile data, camera capture, sensors and persistent graphical startup remain unverified.",
+    "No partition, radio, calibration or Android recovery data was written."
+  ],
+  "rollback": {
+    "boot_images_changed": false,
+    "radio_state": "no phone mutation performed",
+    "partition_writes": "none"
+  },
+  "publication": "No vendor firmware, calibration, credentials, private logs, MAC addresses, SSIDs, IMEIs or serial numbers are included.",
+  "supersedes": "oriole-bringup-2026.10.27.1",
+  "next_gate": "After the user confirms Fastboot recovery, run the corrected module stage on a fresh boot, then execute the existing guarded GUI handoff and capture fresh GPU/input evidence."
+}
