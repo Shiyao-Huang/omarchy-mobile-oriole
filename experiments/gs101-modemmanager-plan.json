@@ -1,0 +1,64 @@
+{
+  "claim": "Prepare the pinned ModemManager Shannon/SIT userspace source needed for Pixel 6 data and voice without running modem commands.",
+  "oracle": "The exact upstream commit and Nura revision are verified, the three pinned patches apply, and the patched source contains the Shannon plugin, SIT port, carrier, bearer and IMS/voice classes. Compilation and device registration remain separate gates.",
+  "validation": {
+    "user_journey": {
+      "scenario": "After the modem boots, a China Mobile SIM registers, obtains a bearer, makes an API request and completes a voice call with working audio; reconnect and reboot retain usability.",
+      "expected": "The userspace manager can represent the Shannon modem, data sessions and calls. No claim of carrier support follows from source preparation."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Pinned commits and patch checksums",
+        "Never source APKBUILD",
+        "Use disposable worktrees",
+        "No daemon starts",
+        "No firmware, calibration, subscriber identifiers or unlicensed tinycbd copied"
+      ],
+      "gitnexus": [
+        "External source not indexed; inspect meson plugin wiring and SIT/IMS classes directly."
+      ],
+      "ast": [
+        "Required integration paths and plugin option checked after patch application."
+      ]
+    },
+    "unit": {
+      "red": "Unmodified upstream lacks the local Shannon plugin and SIT port type.",
+      "green": "Actual pinned-source preparation passed; default target unchanged; dirty apply target, wrong revision and altered patch all refused without target mutation.",
+      "cases": [
+        "wrong revision",
+        "changed patch",
+        "dirty apply target",
+        "patch failure",
+        "missing plugin wiring"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "official source commit -> licensed Nura patches -> patched source -> aarch64 build -> CPIF -> SIM/bearer/IMS"
+      ],
+      "faults": [
+        "download failure",
+        "checksum mismatch",
+        "dependency failure",
+        "SIM registration failure",
+        "IMS unavailable"
+      ],
+      "evidence": [
+        "Official upstream pinned commit fetched successfully; three pinned Nura patches applied in isolated worktree.",
+        "Native aarch64 Arch container configured compiler and GLib/SQLite/gudev; initial configure stopped on missing bash-completion. Dependency image extension also includes missing polkit and introspection development packages.",
+        "Dependency extension succeeded with signature/integrity checks; new isolated ARM64 build launched retaining strict polkit and introspection.",
+        "Second configure passed polkit and introspection dependency checks, then found missing xsltproc used for generated headers. Added libxslt and DocBook in a second isolated layer; third ARM64 build launched."
+      ]
+    }
+  },
+  "evidence": [
+    "Pinned Nura APKBUILD uses upstream ModemManager 7f0bf17ab518cd78925cf7e53cc0d5c42f88b41a and three local patches; Shannon adds SQLite carrier lookup and separate call classes."
+  ],
+  "limitations": [
+    "tinycbd is described as having no license at the pinned reference; it is not copied into the public project.",
+    "This work does not boot the CP, provision an APN, enable VoLTE, or demonstrate China Mobile 4G/5G support.",
+    "Pinned plugin hardcodes preferred network type 9 and NR mode 1 while supported/current masks omit 5G; consistent mode selection and actual NR acceptance remain required."
+  ],
+  "exit_gate": "Exact source preparation and actual build/test before guarded device activation; cellular data and two-way call audio require independent live acceptance.",
+  "status": "source_prepared_arm64_build_running"
+}

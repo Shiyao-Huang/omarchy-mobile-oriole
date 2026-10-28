@@ -1,0 +1,65 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
+"""Check/apply licensed Shannon patches offline; never starts a daemon."""
+import argparse
+import hashlib
+import re
+import subprocess
+import tempfile
+from pathlib import Path
+
+NURA = 'a74e18dec7598f65cd504f0c75c10b8d7fc4422b'
+UPSTREAM = '7f0bf17ab518cd78925cf7e53cc0d5c42f88b41a'
+PATCHES = ['0001-intel-XMM7360-fix-big-endian-handling-of-ASN-integer.patch',
+           '0002-core-sit-port-type.patch', '0003-plugin-shannon.patch']
+
+
+def git(root, *args, **kwargs):
+    return subprocess.check_output(['git', '-C', str(root), *args], **kwargs)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--apply', action='store_true')
+    parser.add_argument('nura', type=Path)
+    parser.add_argument('upstream', type=Path)
+    args = parser.parse_args()
+    nura, upstream = args.nura.resolve(), args.upstream.resolve()
+    for root, commit in [(nura, NURA), (upstream, UPSTREAM)]:
+        if git(root, 'rev-parse', 'HEAD', text=True).strip() != commit:
+            raise SystemExit('FAIL pinned revision mismatch')
+    if args.apply and git(upstream, 'status', '--porcelain'):
+        raise SystemExit('FAIL apply target must be clean and disposable')
+    recipe = git(nura, 'show', NURA + ':temp/modemmanager/APKBUILD', text=True)
+    hashes = dict((name, digest) for digest, name in re.findall(r'^([a-f0-9]{128})  (.+)$', recipe, re.M))
+    patch_dir = nura/'temp/modemmanager'
+    for name in PATCHES:
+        if hashlib.sha512((patch_dir/name).read_bytes()).hexdigest() != hashes.get(name):
+            raise SystemExit('FAIL patch checksum: ' + name)
+    with tempfile.TemporaryDirectory(prefix='oriole-mm-') as td:
+        work = Path(td)/'source'
+        git(upstream, 'worktree', 'add', '--detach', str(work), UPSTREAM)
+        try:
+            for name in PATCHES:
+                git(work, 'apply', '--index', str(patch_dir/name))
+            required = ['mm-port-sit.c', 'mm-broadband-modem-shannon.c', 'mm-bearer-shannon.c',
+                        'mm-shannon-carrier.c', 'mm-shannon-ims.c', 'mm-call-shannon.c',
+                        'mm-sim-shannon.c', 'mm-sms-shannon.c', '77-mm-shannon.rules']
+            for name in required:
+                if not (work/'src/plugins/shannon'/name).is_file():
+                    raise SystemExit('FAIL missing Shannon source: ' + name)
+            if "option('plugin_shannon'" not in (work/'meson_options.txt').read_text():
+                raise SystemExit('FAIL missing plugin option')
+            if "dependency('sqlite3')" not in (work/'src/plugins/meson.build').read_text():
+                raise SystemExit('FAIL missing carrier database dependency')
+            if args.apply:
+                diff = git(work, 'diff', '--cached', '--binary')
+                subprocess.run(['git', '-C', str(upstream), 'apply', '--index', '-'], input=diff, check=True)
+        finally:
+            git(upstream, 'worktree', 'remove', '--force', str(work))
+    print('PASS pinned Shannon/SIT source ' + ('applied' if args.apply else 'checked without changing target'))
+    print('INFO actual build, modem boot, SIM/data/voice and carrier acceptance remain unverified')
+
+
+if __name__ == '__main__':
+    main()
