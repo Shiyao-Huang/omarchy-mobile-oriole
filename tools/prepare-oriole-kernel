@@ -47,9 +47,13 @@ for patch in "${patches[@]}"; do
   fi
 done
 
+repo=$(cd "$(dirname "$0")/.." && pwd)
+python3 "$repo/tools/prepare-oriole-touch.py" "$work"
+python3 "$repo/tools/prepare-oriole-aoc.py" "$work"
+
 if (( apply )); then
-  echo 'PASS applied 38 Oriole GS101 kernel patches'
+  echo 'PASS applied 38 Oriole GS101 patches and local touch/AoC fixes'
 else
-  echo 'PASS 38 Oriole GS101 kernel patches apply cleanly'
+  echo 'PASS 38 Oriole GS101 patches and local touch/AoC fixes apply cleanly'
   echo 'INFO read-only check; use --apply only in a disposable worktree'
 fi

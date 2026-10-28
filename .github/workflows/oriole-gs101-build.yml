@@ -38,7 +38,10 @@ jobs:
           path: build/nura
 
       - name: Apply the pinned Oriole patch series
-        run: tools/prepare-oriole-kernel --apply "$GITHUB_WORKSPACE/build/nura" "$GITHUB_WORKSPACE/build/kernel"
+        run: |
+          python3 experiments/test-oriole-touch-firmware.py build/kernel/drivers/input/touchscreen/fts_spi
+          python3 experiments/test-oriole-aoc-gcc.py build/kernel
+          tools/prepare-oriole-kernel --apply "$GITHUB_WORKSPACE/build/nura" "$GITHUB_WORKSPACE/build/kernel"
 
       - name: Apply the verified GS101 Panfrost cold-start fix
         working-directory: build/kernel

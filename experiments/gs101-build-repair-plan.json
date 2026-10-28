@@ -45,18 +45,21 @@
         "Pinned GS101 and Nura commits fetched on the Linux builder; all 38 patches applied successfully.",
         "Pinned GS101 panfrost_mmu.c matches G15 baseline SHA-256 57f03c626bdef56726bbe14ea6fd36e1229761688ddfd8da6ec3b5ec2851e1b2.",
         "First configuration trial stopped at the gate: SIMPLE_ONDEMAND resolves to y, so the earlier m requirement was wrong. Corrected fragment and checker to y.",
-        "Second trial passed configuration validation and entered real GCC 11.4 cross-compilation. Kernel/modules completion remains pending."
+        "R2 compiled Image and Wi-Fi/CPIF modules but failed in AoC GCC-incompatible enum syntax and floating assignment.",
+        "R6 complete build passed (82.32 seconds incremental); exact touch/AoC source gates and all five artifact checksums passed.",
+        "Changed touch and AoC targets passed W=1; existing vendor warnings remain. Local touch/AoC patch checkpatch --strict: 0 errors, 0 warnings, 0 checks.",
+        "See gs101-build-r6-evidence.json for hashes and remaining boot gates."
       ]
     }
   },
   "evidence": [
     "Mac4 SSH responds and USB ACM enumerates; both the old phone SSH address and a bounded serial command did not respond on 2026-10-28.",
-    "The existing WSL builder responds, has GNU Make 4.3, cross GCC 11.4 and approximately 698 GB free. A separate source fetch is running."
+    "Linux builder uses cross GCC 11.4 in an isolated source/output directory; no phone partitions modified."
   ],
   "limitations": [
     "Phone responsiveness and its running kernel cannot currently be established",
     "A compiled driver does not prove hardware support, firmware provisioning, SIM registration or captured frames"
   ],
   "exit_gate": "Build and verify the complete kernel/modules output before preparing a recovery image; no unattended radio or PMIC probe on an unresponsive phone.",
-  "status": "linux_build_running_hardware_unverified"
+  "status": "kernel_modules_built_not_boot_validated"
 }

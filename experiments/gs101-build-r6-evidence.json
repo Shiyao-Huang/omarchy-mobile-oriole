@@ -1,0 +1,35 @@
+{
+  "status": "built_not_flash_eligible",
+  "date": "2026-10-28",
+  "source": "850061c79264d018317e9f849701f165e138e20c",
+  "reference": "a74e18dec7598f65cd504f0c75c10b8d7fc4422b",
+  "kernel_release": "7.2.0-rc3-omamobile-oriole-hw-g850061c79264-dirty",
+  "compiler": "aarch64-linux-gnu GCC 11.4",
+  "build_exit": 0,
+  "incremental_seconds": 82.32395005226135,
+  "artifacts": {
+    "Image": "33b1a5b696efd0abc19032c717fb1af137bb43b0d5a3c820a483b8b0ab2ddb02",
+    "gs101-oriole.dtb": "f674d9cdd51b9051afe74ce456975e4f56032c26adcc5c304637a0363cc532ec",
+    "config": "91e3b5f40ab0960407276019b18b7b7e02061900b8b438eba367cb4ce6f487c4",
+    "kernel.release": "d94599acaa40e3d697c6f7e65cfc5722f51058b3ecfde76e93d0d16259ddf233",
+    "modules.tar.gz": "c7667ab675b358e3f725f923304f466c4c265e7f8c4d585e59a040094ce435ac"
+  },
+  "checks": [
+    "all five checksums verified",
+    "exact touch/AoC source transforms verified",
+    "touch/AoC W=1 targets compile; vendor warnings remain",
+    "local touch/AoC checkpatch strict: zero errors/warnings/checks",
+    "public-source suite passed",
+    "AoC original C++ header versus transformed C ABI passed",
+    "actual touch flash refusal functions passed"
+  ],
+  "unmet": [
+    "dt-validate not installed; schema gate outstanding",
+    "base DTB lacks ABL soc_id, symbol stubs and Omarchy bootargs",
+    "guarded initramfs and matching module integration pending",
+    "phone serial/SSH unresponsive, no Fastboot detected",
+    "new kernel physical touch/GPU/Wi-Fi/SIM/camera acceptance not performed",
+    "rear GN1 support remains unverified/unsupported in reference"
+  ],
+  "phone_writes": false
+}

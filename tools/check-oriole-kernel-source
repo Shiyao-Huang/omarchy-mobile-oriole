@@ -58,6 +58,24 @@ options=(
 for option in "${options[@]}"; do
   grep -qx "$option" "$config" || { echo "FAIL config: $option"; exit 5; }
 done
+repo=$(cd "$(dirname "$0")/.." && pwd)
+python3 - "$repo" "$src" <<'PY'
+import importlib.util
+import subprocess
+import sys
+from pathlib import Path
+repo, src = map(Path, sys.argv[1:])
+for name, prefix in [('touch', 'drivers/input/touchscreen/fts_spi/'), ('aoc', '')]:
+    spec = importlib.util.spec_from_file_location(name, repo/('tools/prepare-oriole-' + name + '.py'))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    original = {path: subprocess.check_output(['git', '-C', str(src), 'show', 'HEAD:' + prefix + path], text=True) for path in module.HASHES}
+    expected = module.transform(original)
+    for path, content in expected.items():
+        if (src/prefix/path).read_text() != content:
+            raise SystemExit('FAIL exact local source mismatch: ' + prefix + path)
+    print('PASS exact local ' + name + ' source transform')
+PY
 echo 'PASS main-tree GPU, PCIe and camera config options'
 echo 'INFO external bcmdhd, samsung-iommu and CPIF require separate module builds'
 echo 'PASS Oriole GS101 kernel source check'

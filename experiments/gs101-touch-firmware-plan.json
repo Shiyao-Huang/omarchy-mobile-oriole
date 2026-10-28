@@ -1,0 +1,59 @@
+{
+  "claim": "The GS101 hardware candidate preserves the installed touch-controller firmware during probe and exposes touch input without the vendor maintenance interfaces.",
+  "oracle": "Automatic firmware update is disabled, the two high-level flash entry points return ERROR_OP_NOT_ALLOW, maintenance node registration is excluded, and the actual driver compiles against the new kernel. Physical touch remains a separate acceptance gate.",
+  "validation": {
+    "user_journey": {
+      "scenario": "The phone starts a new kernel after a failed diagnostic boot and the user expects the existing touch firmware and recovery path to remain intact.",
+      "expected": "The driver initializes sensing using the existing controller firmware; it does not auto-upgrade or expose raw maintenance nodes during this bring-up."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Pinned source hashes before patching",
+        "No firmware blob is added",
+        "Input scan and interrupt functions remain unchanged",
+        "No running build source is modified mid-build"
+      ],
+      "gitnexus": [
+        "No GitNexus tool available; inspected fts_probe, fts_init_sensing, flashProcedure and flash_burn directly."
+      ],
+      "ast": [
+        "Compile extracted real flash function bodies with the new constant guard and no hardware stubs; any active hardware reference fails compilation."
+      ]
+    },
+    "unit": {
+      "red": "Pinned fts.h defines FTS_FW_UPDATE and FW_UPDATE_ON_PROBE; fts_probe invokes the updater and registers maintenance interfaces.",
+      "green": "Actual flash function refusal, unchanged sensing bodies, maintenance-registration guards and wrong-source rejection passed locally and on Linux.",
+      "cases": [
+        "mismatched source",
+        "automatic updater gate",
+        "manual high-level burn refused",
+        "maintenance registration excluded",
+        "unchanged sensing body"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "source patch -> actual kernel driver compilation -> staged module load -> evdev -> desktop"
+      ],
+      "faults": [
+        "source mismatch",
+        "compile failure",
+        "probe failure",
+        "no physical touch"
+      ],
+      "evidence": [
+        "R5 complete kernel/modules build passed; R6 W=1 touch targets passed, final rebuilt archive verification pending.",
+        "R6 final complete build exit 0, exact transformed-source checks passed, artifact SHA-256 checks passed; no phone boot performed."
+      ]
+    }
+  },
+  "evidence": [
+    "Current Linux build uses the pinned unmodified touch source and is build-only. No image from it has been flashed.",
+    "Local touch/AoC diff passed checkpatch --strict with 0 errors, 0 warnings and 0 checks."
+  ],
+  "limitations": [
+    "Removing firmware maintenance does not prove that this driver recognizes the board or emits valid physical touches",
+    "The current phone is unresponsive over serial and SSH; hardware validation awaits recovery"
+  ],
+  "exit_gate": "Apply and compile after the active baseline build ends; retain a known recovery image and verify real touch before normal desktop promotion."
+}

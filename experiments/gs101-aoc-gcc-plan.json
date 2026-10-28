@@ -1,0 +1,57 @@
+{
+  "claim": "The pinned AoC module can compile with cross GCC 11 without floating-point instructions or a change to its ramdump wire layout.",
+  "oracle": "The actual ramdump header keeps its 44-byte section size and field offsets; the EQ coefficient transfer copies all 32 bits without floating point; the full external AoC module builds.",
+  "validation": {
+    "user_journey": {
+      "scenario": "A reproducible build supplies matching hardware modules before the phone is recovered and tested.",
+      "expected": "The build completes without silently dropping AoC; audio hardware and voice calls remain separately unverified."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Validate pinned input hashes before edits",
+        "Use fixed u32 storage in firmware-facing fields",
+        "Keep coefficient bytes unchanged",
+        "Do not contact hardware"
+      ],
+      "gitnexus": [
+        "Unavailable; directly inspect header and coefficient assignment."
+      ],
+      "ast": [
+        "Compile real transformed header with static layout assertions",
+        "Inspect AArch64 coefficient-copy assembly"
+      ]
+    },
+    "unit": {
+      "red": "GCC 11 rejects fixed underlying enum syntax and floating assignment under -mgeneral-regs-only.",
+      "green": "Original pinned header compiled as C++ and transformed C (with/without short enums) agree on 44-byte sections and 860-byte header. Bit patterns and cross AArch64 -mgeneral-regs-only compilation passed.",
+      "cases": [
+        "wire layout",
+        "coefficient bit patterns",
+        "source mismatch"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "pinned source -> compatibility transform -> kernel external build -> matching modules"
+      ],
+      "faults": [
+        "source mismatch",
+        "compile error",
+        "unresolved symbols"
+      ],
+      "evidence": [
+        "Baseline build failed in aoc_ramdump_regions.h and aoc_sidetone_eq_set; r3 correctly did not start after the failed baseline.",
+        "R4 unit gate caught incorrect test constants before any kernel source write; corrected against original C++ header (17 sections).",
+        "R5 full kernel/modules build passed with exit 0 in 76.72 seconds; R6 W=1 AoC module build also passed.",
+        "R6 final complete build exit 0, exact transformed-source checks passed, artifact SHA-256 checks passed; no phone boot performed."
+      ]
+    }
+  },
+  "evidence": [
+    "Local touch/AoC diff passed checkpatch --strict with 0 errors, 0 warnings and 0 checks."
+  ],
+  "limitations": [
+    "Compilation does not prove AoC firmware compatibility, sound, sensors, or voice calls."
+  ],
+  "exit_gate": "Pass actual-source layout and bit-copy tests and full kernel/modules compilation before image preparation."
+}

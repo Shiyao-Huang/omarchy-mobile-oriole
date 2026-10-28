@@ -18,6 +18,15 @@ script never fetches firmware, reads modem partitions, changes a phone or
 creates a boot image. The M8 tree's `bcmdhd`, CPIF and camera code still need
 the user's own factory firmware/calibration and separate hardware gates.
 
+Preparation also applies the local input-only touch restriction. The pinned
+ST driver normally defines automatic firmware update on probe. Our candidate
+keeps sensing intact, disables that update, refuses its high-level flash
+entry points and skips maintenance node registration. The build checker
+requires the exact transformed source before compiling a configured tree.
+This does not establish physical touch support. The earlier unmodified
+baseline build is compiler evidence only and must not be used for a phone
+trial; see [the touch firmware plan](../experiments/gs101-touch-firmware-plan.json).
+
 The online source recheck is recorded in
 [`experiments/gs101-online-source-check.json`](../experiments/gs101-online-source-check.json):
 the exact M8 tree and all 38 Nura patches apply cleanly. This remains a source
@@ -47,3 +56,22 @@ LLVM with the same helper. These are separate toolchains and their binaries
 are not expected to match. Neither path creates a flashable Android boot
 image or contacts a phone. Build success still needs serial recovery and
 slot-B image checks before a hardware trial.
+
+The pinned AoC code uses fixed-underlying-type enum syntax and a floating
+assignment which fail under GCC 11 with the kernel's general-register-only
+ABI. Preparation converts the enum constants to C syntax while explicitly
+retaining `u32` fields in firmware-facing structs, and copies the EQ value's
+bits with `memcpy`. `experiments/test-oriole-aoc-gcc.py` compares the original
+header compiled as C++ with the transformed C layout, including short-enum
+builds, and checks bit patterns and AArch64 compilation. See the
+[AoC build contract](../experiments/gs101-aoc-gcc-plan.json).
+
+On 2026-10-28 the isolated GCC build produced Image, the Oriole DTB and matching
+Panfrost, bcmdhd, SysMMU, CPIF, IMX355/IMX386, CSIS and AoC modules; all five
+artifact checksums passed. The local driver patch style check then identified
+three indentation warnings; the follow-up uses compile-time registration gates.
+The final check and rebuilt artifact hashes are recorded in
+[the R6 evidence](../experiments/gs101-build-r6-evidence.json). None of
+these outputs has been booted on the phone. The base DTB still needs the ABL
+`soc_id`/bootargs integration, and the initramfs must include matching modules
+and guarded startup before any flashable bundle can be promoted.
