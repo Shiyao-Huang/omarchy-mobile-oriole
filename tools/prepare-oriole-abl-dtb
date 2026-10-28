@@ -1,0 +1,23 @@
+#!/bin/bash
+# SPDX-License-Identifier: MIT
+# Offline metadata only. Outputs are not flashable images.
+set -euo pipefail
+repo=$(cd "$(dirname "$0")/.." && pwd)
+src=${1:?compiled DTB required}
+out=${2:?new output directory required}
+python3 - "$src" <<'PY'
+import hashlib,sys
+from pathlib import Path
+expected='f674d9cdd51b9051afe74ce456975e4f56032c26adcc5c304637a0363cc532ec'
+if hashlib.sha256(Path(sys.argv[1]).read_bytes()).hexdigest()!=expected:
+    raise SystemExit('FAIL unknown input DTB; review and revalidate the new build')
+PY
+[[ ! -e "$out" ]] || { echo 'FAIL output already exists'; exit 2; }
+mkdir "$out"
+dtc -@ -I dts -O dtb -o "$out/abl.dtbo" "$repo/device/oriole/overlays/gs101-abl.dtso"
+fdtoverlay -i "$src" -o "$out/oriole-b0.dtb" "$out/abl.dtbo"
+cp "$out/oriole-b0.dtb" "$out/oriole-a0.dtb"
+fdtput -t x "$out/oriole-a0.dtb" / soc_id 09845000 0
+python3 "$repo/experiments/test-oriole-abl-dtb.py" "$src" "$out"
+(cd "$out" && sha256sum oriole-b0.dtb oriole-a0.dtb abl.dtbo > SHA256SUMS)
+echo 'PASS offline ABL metadata; guarded boot image and hardware verification still required'

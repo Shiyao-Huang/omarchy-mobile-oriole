@@ -1,0 +1,58 @@
+{
+  "claim": "Offline ABL metadata preparation makes the pinned GS101 DTB selectable by the Pixel 6 bootloader without altering hardware nodes.",
+  "oracle": "Two variants carry exact a0/b0 soc_id values, Omarchy diagnostic bootargs, /ect and DPM overlay targets; all original hardware properties and reserved memory remain byte-identical.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Boot a guarded diagnostic image on slot B after recovering USB; a failed trial retains known recovery images.",
+      "expected": "ABL can select a DTB and apply its policy overlay; kernel boot remains separately tested."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Exact input DTB hash",
+        "No hardware-node modification",
+        "New output directory only",
+        "No phone command",
+        "No slot-A or calibration access"
+      ],
+      "gitnexus": [
+        "Unavailable; direct inspection of existing Oriole image builder and known booted DT metadata."
+      ],
+      "ast": [
+        "Independent flat-tree comparison permits only enumerated metadata additions."
+      ]
+    },
+    "unit": {
+      "red": "Pinned compiled DTB has no root soc_id and no DPM symbols; bootargs is empty.",
+      "green": "Actual R6 DTB passes both silicon-ID variants, exact diagnostic bootargs, DPM targets, unchanged hardware tree, existing-output rejection and wrong-input rejection.",
+      "cases": [
+        "wrong input",
+        "existing output",
+        "both silicon IDs",
+        "unchanged hardware properties"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "compiled DTB -> overlay application -> two verified variants -> guarded boot image -> real ABL"
+      ],
+      "faults": [
+        "hash mismatch",
+        "overlay failure",
+        "unexpected tree delta",
+        "ABL reject"
+      ],
+      "evidence": [
+        "dtc and fdtoverlay successfully produce ABL variants from the actual compiled R6 DTB; binary-property comparison passes.",
+        "Initial overlay chosen-node warning corrected by targeting /chosen in its own fragment; final compilation has zero stderr warnings."
+      ]
+    }
+  },
+  "evidence": [
+    "Earlier known-booted Oriole tree provides soc_id, chosen bootargs, ect and four DPM labels; GPU/panel state is intentionally not copied."
+  ],
+  "limitations": [
+    "DT metadata preparation cannot prove ABL acceptance, watchdog handoff, USB recovery or hardware drivers."
+  ],
+  "exit_gate": "Exact offline tree checks, guarded initramfs/module integration and recovery readiness before a slot-B hardware trial.",
+  "status": "offline_dtb_passed_not_booted"
+}

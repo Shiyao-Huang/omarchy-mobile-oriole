@@ -75,3 +75,14 @@ The final check and rebuilt artifact hashes are recorded in
 these outputs has been booted on the phone. The base DTB still needs the ABL
 `soc_id`/bootargs integration, and the initramfs must include matching modules
 and guarded startup before any flashable bundle can be promoted.
+
+`tools/prepare-oriole-abl-dtb <R6-DTB> <new-directory>` now prepares the
+bootloader metadata independently of the kernel tree. It accepts the exact
+recorded R6 DTB hash, creates a0/b0 variants and verifies the binary tree delta:
+only the silicon ID, diagnostic bootargs and DPM/ECT targets may change. The
+hardware properties and reserved memory must remain identical. Both variants
+passed against the actual compiled DTB; `dtc` completed without warnings.
+These are **diagnostic DTBs**, with `omamobile.initramfs` set, not bootable image
+bundles or a desktop release. Guarded initramfs/module integration, schema
+validation and real boot/hardware checks remain outstanding. See the
+[ABL contract](../experiments/gs101-abl-plan.json).
