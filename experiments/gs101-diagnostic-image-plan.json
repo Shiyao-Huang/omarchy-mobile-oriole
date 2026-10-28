@@ -44,7 +44,11 @@
       "evidence": [
         "AOSP header-v4 pack and independent unpack passed; boot image 20,197,376 bytes; vendor_boot 6,852,608 bytes; dtbo 4,096 bytes.",
         "Selected rescue init SHA-256: a7673ac5ee3f901ad15b7ddcb6c1743652534fb378311fd3eaf4bcb3ac036b56.",
-        "Private image outputs include the local SSH authorization material and are not published."
+        "Private image outputs include the local SSH authorization material and are not published.",
+        "Recovered the real phone over USB IPv4 with the previously pinned SSH identity. Before reboot: kernel 7.3.0-rc6-omamobile-oriole-m1, modules_disabled=1, loaded Panfrost and experimental touch, only lo/usb0 and no video nodes.",
+        "Copied all ten selected partitions off-device read-only; before-copy, received-file and after-copy SHA-256 checks matched. Protected calibration contents and hashes remain private.",
+        "One orderly systemctl reboot with bootloader argument was accepted, but returned to the old Linux initramfs, not Fastboot. USB serial and pinned-key SSH both work in that initramfs. No new image has been flashed.",
+        "Isolated project flasher, candidate images and verified rollback images are staged. A temporary touch-stage-continue wait is present in the old initramfs; it is not in the candidate read-only rescue stage."
       ]
     }
   },
@@ -54,5 +58,5 @@
     "This diagnostic image deliberately does not start the Omarchy desktop or activate external radio/camera modules."
   ],
   "exit_gate": "Offline integrity checks plus recovered device state and verified recovery/backup gates before a hardware trial.",
-  "status": "offline_images_verified_not_flash_eligible"
+  "status": "offline_images_ready_live_fastboot_pending"
 }
