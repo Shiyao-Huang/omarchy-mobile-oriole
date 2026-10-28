@@ -44,18 +44,20 @@ options=(
   'CONFIG_DRM_GS101=m'
   'CONFIG_DRM_PANFROST=m'
   'CONFIG_PM_DEVFREQ=y'
-  'CONFIG_DEVFREQ_GOV_SIMPLE_ONDEMAND=m'
+  'CONFIG_DEVFREQ_GOV_SIMPLE_ONDEMAND=y'
   'CONFIG_PCIE_GS101=y'
-  'CONFIG_BCMDHD=m'
-  'CONFIG_BCMDHD_PCIE=y'
   'CONFIG_VIDEO_GS101_MIPI_CSIS=m'
   'CONFIG_VIDEO_IMX355=m'
   'CONFIG_VIDEO_IMX386=m'
-  'CONFIG_EXYNOS_MODEM_IF=m'
-  'CONFIG_SHM_IPC=m'
+  'CONFIG_DRM_PANEL_SAMSUNG_S6E3FC3=m'
+  'CONFIG_PHY_EXYNOS_MIPI_CSIS_GS101=m'
+  'CONFIG_REGULATOR_SLG51000=m'
+  'CONFIG_GPIO_S2MPG1X=m'
+  'CONFIG_CMA_SIZE_MBYTES=384'
 )
 for option in "${options[@]}"; do
   grep -qx "$option" "$config" || { echo "FAIL config: $option"; exit 5; }
 done
-echo 'PASS GPU, Wi-Fi, modem and camera config options'
+echo 'PASS main-tree GPU, PCIe and camera config options'
+echo 'INFO external bcmdhd, samsung-iommu and CPIF require separate module builds'
 echo 'PASS Oriole GS101 kernel source check'

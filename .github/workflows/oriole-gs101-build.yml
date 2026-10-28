@@ -10,7 +10,7 @@ jobs:
   kernel:
     name: Build pinned GS101 kernel
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    timeout-minutes: 90
     steps:
       - name: Check out this repository
         uses: actions/checkout@v4
@@ -21,7 +21,7 @@ jobs:
           sudo apt-get install --no-install-recommends -y \
             bc bison flex libelf-dev libssl-dev \
             gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu \
-            python3 rsync cpio clang
+            python3 rsync cpio clang llvm lld kmod
 
       - name: Check out the exact GS101 source
         uses: actions/checkout@v4
@@ -45,24 +45,17 @@ jobs:
         run: |
           mmu=drivers/gpu/drm/panfrost/panfrost_mmu.c
           python3 "$GITHUB_WORKSPACE/experiments/test-gpu-g15-mmu.py" "$mmu"
-          tmp=$(mktemp)
-          python3 "$GITHUB_WORKSPACE/experiments/apply-gpu-g15.py" "$mmu" "$tmp"
-          mv "$tmp" "$mmu"
+          tmp=$(mktemp -d)
+          trap 'rm -rf "$tmp"' EXIT
+          python3 "$GITHUB_WORKSPACE/experiments/apply-gpu-g15.py" "$mmu" "$tmp/mmu.c"
+          mv "$tmp/mmu.c" "$mmu"
           sha256sum "$mmu" | tee "$GITHUB_WORKSPACE/panfrost-mmu-g15.sha256"
 
-      - name: Merge the Oriole kernel configuration
-        working-directory: build/kernel
+      - name: Build the reference configuration and all external hardware modules
         run: |
-          make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- LLVM=1 defconfig
-          scripts/kconfig/merge_config.sh -m .config \
-            "$GITHUB_WORKSPACE/kernel/configs/oriole-gs101-mainline.fragment"
-          make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- LLVM=1 olddefconfig
-
-      - name: Build Image, modules and device trees
-        working-directory: build/kernel
-        run: |
-          make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- LLVM=1 -j"$(nproc)" \
-            Image modules dtbs 2>&1 | tee "$GITHUB_WORKSPACE/kernel-build.log"
+          LLVM=1 JOBS="$(nproc)" tools/build-oriole-kernel \
+            "$GITHUB_WORKSPACE/build/nura" "$GITHUB_WORKSPACE/build/kernel" \
+            "$GITHUB_WORKSPACE/build/artifacts" 2>&1 | tee "$GITHUB_WORKSPACE/kernel-build.log"
 
       - name: Upload non-sensitive build evidence
         if: always()
@@ -73,5 +66,9 @@ jobs:
           path: |
             kernel-build.log
             panfrost-mmu-g15.sha256
-            build/kernel/arch/arm64/boot/Image
-            build/kernel/arch/arm64/boot/dts/exynos/google/gs101-oriole.dtb
+            build/artifacts/config
+            build/artifacts/kernel.release
+            build/artifacts/Image
+            build/artifacts/gs101-oriole.dtb
+            build/artifacts/modules.tar.gz
+            build/artifacts/SHA256SUMS

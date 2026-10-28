@@ -1,5 +1,6 @@
 #!/bin/sh
 set -eu
+python3 experiments/test-oriole-reference-config.py
 python3 experiments/test-boot-b1-decode.py
 cc -O2 -Wall -Wextra -Werror experiments/boot-b2/omamobile-bootctl.c -o "${TMPDIR:-/tmp}/omamobile-bootctl-public"
 python3 experiments/test-boot-b2-write.py "${TMPDIR:-/tmp}/omamobile-bootctl-public"

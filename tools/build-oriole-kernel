@@ -1,0 +1,64 @@
+#!/bin/bash
+# SPDX-License-Identifier: MIT
+# Build only; never contacts a phone. Use a disposable prepared GS101 tree.
+# Usage: build-oriole-kernel NURA_CHECKOUT PREPARED_KERNEL OUTPUT_DIRECTORY
+# Default compiler: GCC cross toolchain. Set LLVM=1 to use LLVM instead.
+set -euo pipefail
+repo=$(cd "$(dirname "$0")/.." && pwd)
+nura=$(cd "${1:?Nura checkout required}" && pwd)
+src=$(cd "${2:?prepared kernel checkout required}" && pwd)
+out=${3:?new output directory required}
+[[ ! -e "$out" ]] || { echo 'FAIL output directory already exists'; exit 2; }
+mkdir -p "$out"
+out=$(cd "$out" && pwd)
+[[ ! -e "$src/.config" ]] || { echo 'FAIL use a fresh prepared kernel tree'; exit 2; }
+"$repo/tools/check-oriole-kernel-source" "$src" "$out/not-configured"
+args=(ARCH=arm64 CROSS_COMPILE="${CROSS_COMPILE:-aarch64-linux-gnu-}")
+[[ ${LLVM:-0} != 1 ]] || args+=(LLVM=1)
+jobs=${JOBS:-4}
+[[ $jobs =~ ^[1-9][0-9]*$ ]] || { echo 'FAIL invalid JOBS'; exit 2; }
+python3 "$repo/tools/oriole-reference-config.py" "$nura" base "$src/.config"
+cd "$src"
+scripts/kconfig/merge_config.sh -m .config "$repo/kernel/configs/oriole-gs101-mainline.fragment"
+make "${args[@]}" olddefconfig
+"$repo/tools/check-oriole-kernel-source" "$src" .config
+cp .config "$out/config"
+make "${args[@]}" -j"$jobs" Image modules dtbs
+make "${args[@]}" INSTALL_MOD_PATH="$out/modules" modules_install
+# These vendor-derived directories are NOT sourced by the main Kconfig.
+# Pass their literal settings to each external-module build and install.
+external() {
+    local name=$1 block=$2 line
+    local opts=()
+    shift 2
+    if [[ -n $block ]]; then
+        local settings
+        settings=$(python3 "$repo/tools/oriole-reference-config.py" "$nura" "$block")
+        while IFS= read -r line; do opts+=("$line"); done <<< "$settings"
+    fi
+    make "${args[@]}" M="$src/$name" "${opts[@]}" "$@" -j"$jobs" modules
+    make "${args[@]}" M="$src/$name" "${opts[@]}" "$@" INSTALL_MOD_PATH="$out/modules" modules_install
+}
+external bcmdhd '' BCMDHD_ROOT="$src/bcmdhd"
+external samsung-iommu _iommu_config
+external modem _modem_config
+external gps _gps_config
+external trusty _audio_config
+external gsa _audio_config
+external aoc _audio_config "KBUILD_EXTRA_SYMBOLS=$src/trusty/Module.symvers $src/gsa/Module.symvers"
+external cs35l41dna _audio_config
+release=$(cat include/config/kernel.release)
+depmod -b "$out/modules" "$release"
+for module in bcmdhd samsung_iommu samsung-iommu-group cpif; do
+    find "$out/modules/lib/modules/$release" -name "$module.ko*" | grep . >/dev/null || {
+        echo "FAIL missing external module: $module"; exit 3;
+    }
+done
+cp arch/arm64/boot/Image "$out/Image"
+cp arch/arm64/boot/dts/exynos/google/gs101-oriole.dtb "$out/gs101-oriole.dtb"
+cp include/config/kernel.release "$out/kernel.release"
+# Avoid dangling source/build paths in a distributable module archive.
+rm -f "$out/modules/lib/modules/$release/build" "$out/modules/lib/modules/$release/source"
+tar -C "$out/modules" -czf "$out/modules.tar.gz" lib
+(cd "$out" && sha256sum Image gs101-oriole.dtb config kernel.release modules.tar.gz > SHA256SUMS)
+echo 'PASS kernel and external modules built; hardware validation still required'

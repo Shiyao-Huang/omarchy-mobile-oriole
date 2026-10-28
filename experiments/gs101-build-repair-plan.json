@@ -1,0 +1,62 @@
+{
+  "claim": "The pinned GS101 build produces the kernel plus the external Wi-Fi, SysMMU and CPIF modules required by the Pixel 6 hardware journey.",
+  "oracle": "A Linux build resolves the Nura-based configuration, compiles Image and the Oriole DTB, builds bcmdhd.ko, samsung-iommu.ko and cpif.ko, installs their matching module tree and records hashes. No hardware-ready claim follows from this build alone.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Recover the unresponsive diagnostic phone, then boot a matching kernel/modules set into Omarchy and exercise GPU, Wi-Fi, SIM and cameras.",
+      "expected": "No missing-driver regression; staged hardware checks and slot-A recovery remain required."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Use exact pinned kernel and Nura commits",
+        "Parse the reference configuration as data, never source APKBUILD",
+        "External modules are built explicitly; olddefconfig does not retain their unrelated Kconfig symbols",
+        "No firmware, credentials or device partitions enter the build"
+      ],
+      "gitnexus": [
+        "Unavailable in this session; direct inspection of APKBUILD prepare/build/package and the CI workflow establishes the call boundaries."
+      ],
+      "ast": [
+        "G15 output must not pre-exist; unknown MMU content must be rejected."
+      ]
+    },
+    "unit": {
+      "red": "The old workflow gives apply-gpu-g15 an existing mktemp file, starts from arm64 defconfig and omits all external-module builds.",
+      "green": "Literal config/parser merge tests, public-source suite and G15 actual-C failure injection passed; CLI output preservation also passed.",
+      "cases": [
+        "missing or changed reference revision",
+        "malformed config assignment",
+        "existing patch output",
+        "missing external module"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "pinned sources -> 38 patches -> configuration -> compiler -> installed module tree"
+      ],
+      "faults": [
+        "network interruption",
+        "source hash mismatch",
+        "configuration drop",
+        "compiler failure",
+        "missing artifact"
+      ],
+      "evidence": [
+        "Pinned GS101 and Nura commits fetched on the Linux builder; all 38 patches applied successfully.",
+        "Pinned GS101 panfrost_mmu.c matches G15 baseline SHA-256 57f03c626bdef56726bbe14ea6fd36e1229761688ddfd8da6ec3b5ec2851e1b2.",
+        "First configuration trial stopped at the gate: SIMPLE_ONDEMAND resolves to y, so the earlier m requirement was wrong. Corrected fragment and checker to y.",
+        "Second trial passed configuration validation and entered real GCC 11.4 cross-compilation. Kernel/modules completion remains pending."
+      ]
+    }
+  },
+  "evidence": [
+    "Mac4 SSH responds and USB ACM enumerates; both the old phone SSH address and a bounded serial command did not respond on 2026-10-28.",
+    "The existing WSL builder responds, has GNU Make 4.3, cross GCC 11.4 and approximately 698 GB free. A separate source fetch is running."
+  ],
+  "limitations": [
+    "Phone responsiveness and its running kernel cannot currently be established",
+    "A compiled driver does not prove hardware support, firmware provisioning, SIM registration or captured frames"
+  ],
+  "exit_gate": "Build and verify the complete kernel/modules output before preparing a recovery image; no unattended radio or PMIC probe on an unresponsive phone.",
+  "status": "linux_build_running_hardware_unverified"
+}

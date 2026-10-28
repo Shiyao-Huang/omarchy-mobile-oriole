@@ -100,3 +100,14 @@ except ValueError:
     print('PASS reset behavior preserved; unexpected source refused')
 else:
     raise AssertionError('Source guard failed')
+
+# Match the workflow's output-file contract, including non-overwrite behavior.
+with tempfile.TemporaryDirectory() as td:
+    output = Path(td) / 'mmu.c'
+    command = [sys.executable, str(Path(__file__).with_name('apply-gpu-g15.py')), sys.argv[1], str(output)]
+    subprocess.run(command, check=True)
+    before = output.read_bytes()
+    run = subprocess.run(command, capture_output=True, text=True)
+    assert run.returncode != 0 and 'FileExistsError' in run.stderr
+    assert output.read_bytes() == before
+    print('PASS new output succeeds; existing output refused and preserved')
