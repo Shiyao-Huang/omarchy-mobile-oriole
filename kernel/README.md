@@ -86,3 +86,12 @@ These are **diagnostic DTBs**, with `omamobile.initramfs` set, not bootable imag
 bundles or a desktop release. Guarded initramfs/module integration, schema
 validation and real boot/hardware checks remain outstanding. See the
 [ABL contract](../experiments/gs101-abl-plan.json).
+
+A private diagnostic image set has also passed independent AOSP pack/unpack
+checks with the existing inspected read-only rescue initramfs. It contains no
+external modules, writable-partition allowlist or register-probe markers and
+retains the diagnostic command line. This is ready for live preflight, **not**
+for unattended flashing: device state, partition sizes, protected-partition
+backups and recovery still need validation. Its local SSH authorization data
+is not published. See the
+[diagnostic image contract](../experiments/gs101-diagnostic-image-plan.json).

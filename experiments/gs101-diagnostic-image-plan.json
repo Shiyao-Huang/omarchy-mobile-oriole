@@ -1,0 +1,58 @@
+{
+  "claim": "A private diagnostic boot-image set carries the verified R6 kernel and ABL DTBs with the previously inspected read-only rescue initramfs.",
+  "oracle": "Independent AOSP unpacking recovers the exact kernel, DTBs and ramdisk; the ramdisk has no writable-partition allowlist, register-probe marker, display-trigger marker or modules; the command line keeps it in diagnostic initramfs.",
+  "validation": {
+    "user_journey": {
+      "scenario": "Recover phone control and boot a single diagnostic candidate while keeping slot A and the existing Omarchy root recoverable.",
+      "expected": "USB serial/SSH and read-only partition inspection become available before any driver activation or root filesystem migration."
+    },
+    "code_reasoning": {
+      "invariants": [
+        "Build and unpack offline only",
+        "No userdata image",
+        "No flash command",
+        "No firmware or credentials published",
+        "Use existing inspected rescue init rather than changing storage guard"
+      ],
+      "gitnexus": [
+        "Unavailable; inspected storage guard, conditional probe and switch_root paths directly."
+      ],
+      "ast": [
+        "Verified no writable allowlist or auto-load modules in selected rescue stage."
+      ]
+    },
+    "unit": {
+      "red": "R6 kernel/module outputs are not Android boot images.",
+      "green": "Offline pack/unpack passed: recovered kernel, concatenated ABL DTBs and rescue ramdisk match byte-for-byte. No allowlist, register probes, display trigger or external modules are present.",
+      "cases": [
+        "artifact hashes",
+        "empty allowlist",
+        "no probes",
+        "matching unpacked content"
+      ]
+    },
+    "end_to_end": {
+      "boundaries": [
+        "kernel plus DTBs and rescue stage -> AOSP pack -> independent unpack -> real phone"
+      ],
+      "faults": [
+        "pack mismatch",
+        "unexpected stage files",
+        "partition size mismatch",
+        "boot refusal"
+      ],
+      "evidence": [
+        "AOSP header-v4 pack and independent unpack passed; boot image 20,197,376 bytes; vendor_boot 6,852,608 bytes; dtbo 4,096 bytes.",
+        "Selected rescue init SHA-256: a7673ac5ee3f901ad15b7ddcb6c1743652534fb378311fd3eaf4bcb3ac036b56.",
+        "Private image outputs include the local SSH authorization material and are not published."
+      ]
+    }
+  },
+  "evidence": [],
+  "limitations": [
+    "Offline packing is not permission to flash: current partition sizes, rollback headers, calibration backups, runtime watchdog and USB recovery still need verification.",
+    "This diagnostic image deliberately does not start the Omarchy desktop or activate external radio/camera modules."
+  ],
+  "exit_gate": "Offline integrity checks plus recovered device state and verified recovery/backup gates before a hardware trial.",
+  "status": "offline_images_verified_not_flash_eligible"
+}
