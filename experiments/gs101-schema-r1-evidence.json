@@ -1,0 +1,81 @@
+{
+  "tool_version": "2026.9",
+  "status": "schema_diagnostics_present",
+  "counts": {
+    "base": 690,
+    "a0": 691,
+    "b0": 691
+  },
+  "base_schema_counts": {
+    "http://devicetree.org/schemas/root-node.yaml": 1,
+    "http://devicetree.org/schemas/mfd/samsung,s2mpg10-pmic.yaml": 1,
+    "http://devicetree.org/schemas/gpio/gpio-consumer.yaml": 2,
+    "http://devicetree.org/schemas/mfd/samsung,s2mpg11-pmic.yaml": 1,
+    "http://devicetree.org/schemas/dt-core.yaml": 614,
+    "http://devicetree.org/schemas/gpio/gpio-consumer-common.yaml": 1,
+    "http://devicetree.org/schemas/regulator/dlg,slg51000.yaml": 1,
+    "http://devicetree.org/schemas/pinctrl/samsung,pinctrl.yaml": 3,
+    "http://devicetree.org/schemas/soc/samsung/exynos-usi.yaml": 10,
+    "http://devicetree.org/schemas/spi/samsung,spi.yaml": 9,
+    "http://devicetree.org/schemas/spi/spi-controller.yaml": 5,
+    "http://devicetree.org/schemas/vendor-prefixes.yaml": 35,
+    "http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml": 1,
+    "http://devicetree.org/schemas/power/supply/maxim,max17042.yaml": 1,
+    "http://devicetree.org/schemas/mfd/maxim,max77759.yaml": 1,
+    "http://devicetree.org/schemas/serial/samsung_uart.yaml": 1,
+    "http://devicetree.org/schemas/net/bluetooth/brcm,bluetooth.yaml": 2,
+    "http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml": 1
+  },
+  "abl_delta": {
+    "a0": {
+      "added": [
+        {
+          "compatible": "google,gs101-oriole",
+          "level": "error",
+          "message": "b'\\t\\x84P\\x00\\x00\\x00\\x00\\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'",
+          "node": "/",
+          "property_path": [
+            "soc_id"
+          ],
+          "schema": "http://devicetree.org/schemas/dt-core.yaml",
+          "schema_path": [
+            "then",
+            "patternProperties",
+            "^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$",
+            "type"
+          ],
+          "type": "validation"
+        }
+      ],
+      "removed": []
+    },
+    "b0": {
+      "added": [
+        {
+          "compatible": "google,gs101-oriole",
+          "level": "error",
+          "message": "b'\\t\\x84P\\x01\\x00\\x00\\x00\\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'",
+          "node": "/",
+          "property_path": [
+            "soc_id"
+          ],
+          "schema": "http://devicetree.org/schemas/dt-core.yaml",
+          "schema_path": [
+            "then",
+            "patternProperties",
+            "^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$",
+            "type"
+          ],
+          "type": "validation"
+        }
+      ],
+      "removed": []
+    }
+  },
+  "date": "2026-10-28",
+  "source": "850061c79264d018317e9f849701f165e138e20c",
+  "schema_source": "The prepared GS101 kernel Documentation/devicetree/bindings plus dtschema core schemas",
+  "method": "dt-mk-schema -j, then dt-validate --json-output on the actual R6 DTB and both ABL variants. Diagnostics compared with paths stripped, preserving multiplicity.",
+  "interpretation": "Exit code 0 did not mean clean validation. Both ABL variants retain all 690 baseline diagnostics and add only the untyped soc_id diagnostic. No hardware validation follows.",
+  "phone_writes": false
+}

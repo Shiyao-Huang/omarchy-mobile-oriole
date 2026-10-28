@@ -95,3 +95,12 @@ for unattended flashing: device state, partition sizes, protected-partition
 backups and recovery still need validation. Its local SSH authorization data
 is not published. See the
 [diagnostic image contract](../experiments/gs101-diagnostic-image-plan.json).
+
+The full schema check has now run using dtschema 2026.9 and the actual R6
+artifacts. It is **not clean**: 690 diagnostics occur in the base tree, and
+both ABL variants retain all of them plus one for the untyped root `soc_id`.
+The validator returned zero despite those diagnostics; its JSON output, not
+just its exit status, is the gate. Most entries concern downstream properties
+without type bindings, but GPU compatible, PMIC, camera GPIO and other binding
+differences also need review. No hardware property was removed to silence a
+validator. See the [schema evidence](../experiments/gs101-schema-r1-evidence.json).

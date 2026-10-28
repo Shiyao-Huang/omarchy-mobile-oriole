@@ -43,7 +43,8 @@
       ],
       "evidence": [
         "dtc and fdtoverlay successfully produce ABL variants from the actual compiled R6 DTB; binary-property comparison passes.",
-        "Initial overlay chosen-node warning corrected by targeting /chosen in its own fragment; final compilation has zero stderr warnings."
+        "Initial overlay chosen-node warning corrected by targeting /chosen in its own fragment; final compilation has zero stderr warnings.",
+        "dtschema 2026.9 checked the actual R6 base and both ABL variants. Base has 690 diagnostics; each variant retains those and adds one untyped root soc_id diagnostic. Exit code 0 did not mean clean validation. See gs101-schema-r1-evidence.json."
       ]
     }
   },
@@ -51,8 +52,9 @@
     "Earlier known-booted Oriole tree provides soc_id, chosen bootargs, ect and four DPM labels; GPU/panel state is intentionally not copied."
   ],
   "limitations": [
-    "DT metadata preparation cannot prove ABL acceptance, watchdog handoff, USB recovery or hardware drivers."
+    "DT metadata preparation cannot prove ABL acceptance, watchdog handoff, USB recovery or hardware drivers.",
+    "The whole-tree schema gate remains failing: inherited vendor bindings and the added soc_id metadata need review. No hardware fields were changed to silence diagnostics."
   ],
   "exit_gate": "Exact offline tree checks, guarded initramfs/module integration and recovery readiness before a slot-B hardware trial.",
-  "status": "offline_dtb_passed_not_booted"
+  "status": "binary_dtb_delta_passed_schema_diagnostics_open_not_booted"
 }

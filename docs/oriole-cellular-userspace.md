@@ -39,7 +39,7 @@ changing the target. See the [validation contract](../experiments/gs101-modemman
 | --- | --- | --- |
 | GS101 CPIF | Matching kernel module compiled in R6 | Guarded probe, firmware handover, stable CP online state |
 | CP boot daemon and remote file service | Existing Pixel 7 implementation uses stock cbd/rfsd and RAM copies of NV; GS101-specific review required | Own Pixel 6 firmware, exact GS101 ABI and power sequence; protected partitions stay read-only |
-| Shannon ModemManager | Exact licensed source prepared; ARM64 build underway | Daemon/plugin builds and tests, live SIM registration and bearer traffic |
+| Shannon ModemManager | ARM64 daemon/plugin built; 22 core/generic/stub tests passed | Guarded integration, live SIM registration and bearer traffic |
 | VoLTE/voice audio | Nura describes separate AoC PCM helper, UCM routing and callaudiod | IMS registration and actual two-way call audio on China Mobile |
 
 The reference's tinycbd package explicitly describes its pinned source as
@@ -48,10 +48,14 @@ cbd/rfsd extraction path is a candidate for using the owner's own factory image;
 it is not yet validated for this Pixel 6. Pixel 7 S5300 assumptions must not be
 substituted for Pixel 6 S5123 board data.
 
-The first actual ARM64 configure attempt stopped on missing development
-packages. A separate dependency image now includes bash-completion, polkit and GObject
-introspection plus libxslt/DocBook for generated headers; the ARM64 rebuild
-retains strict polkit authorization.
+The initial configure attempts stopped on missing build dependencies. The
+completed ARM64 build includes the required code generators and retains
+strict polkit authorization. The first test runs exposed missing Python
+GObject and D-Bus modules in the test environment; after adding both, all 22
+core/generic/stub tests passed without changing the prepared source. Independent
+ELF-header checks confirm AArch64 for the daemon, CLI, GLib client library and
+Shannon plugin; `mmcli --version` reports 1.25.95. Compiler warnings remain.
+See the [build evidence](../experiments/gs101-modemmanager-build-evidence.json).
 No ModemManager or CP boot service has been installed or started on the phone
 by this preparation step.
 
@@ -69,3 +73,36 @@ a licensed reference or the owner's stock behavior, add consistent mode
 selection/reporting, and observe actual NR registration and bearer traffic.
 SA, NSA and LTE fallback must be distinguished; a hardware-capability bit or
 an LTE bearer cannot be used to claim 5G acceptance.
+
+## ARM64 build recipe
+
+Use a disposable native aarch64 Arch Linux ARM environment, or an aarch64
+container under QEMU. The local build used GCC 16.1.1 and Meson 1.12.1. In
+addition to the compiler and Ninja, it needs GLib development/codegen tools,
+gudev, SQLite, systemd, polkit, D-Bus, gettext, bash-completion,
+GObject introspection, libxslt and DocBook. The stub service test also needs
+`python-gobject` and `python-dbus`; C introspection headers alone do not supply
+those Python modules. Keep the prepared source mounted read-only and use a
+separate writable output directory.
+
+The tested configure/build invocation, with `/src` as the exact prepared
+source and `/out` as the disposable output, is:
+
+```sh
+meson setup /out/build /src --prefix=/usr --buildtype=debugoptimized \
+  -Dauto_features=disabled -Dplugin_shannon=enabled -Dplugin_generic=enabled \
+  -Dqmi=false -Dmbim=false -Dqrtr=false -Dgtk_doc=false -Dman=false \
+  -Dtests=true -Dpolkit=strict \
+  -Dsystemdsystemunitdir=/usr/lib/systemd/system \
+  -Ddbus_policy_dir=/usr/share/dbus-1/system.d
+meson compile -C /out/build -j4
+meson test -C /out/build --no-rebuild --print-errorlogs --num-processes 2
+DESTDIR=/out/stage meson install -C /out/build --no-rebuild
+```
+
+Staging is only permitted after the tests succeed. It does not install onto
+the phone or start a modem service. Core/generic tests cannot establish that
+the Shannon SIT protocol, carrier database, 5G mode selection or voice audio
+works on the actual SIM. The plugin also needs the owner's modem `cfg.db`
+carrier data in its runtime layout; that proprietary data is not supplied by
+this source build.

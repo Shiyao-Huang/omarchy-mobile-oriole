@@ -31,5 +31,11 @@
     "new kernel physical touch/GPU/Wi-Fi/SIM/camera acceptance not performed",
     "rear GN1 support remains unverified/unsupported in reference"
   ],
-  "phone_writes": false
+  "phone_writes": false,
+  "followup_evidence": {
+    "schema": "gs101-schema-r1-evidence.json: validator available, schema diagnostics remain open",
+    "abl": "gs101-abl-plan.json: metadata variants built and binary delta verified",
+    "images": "gs101-diagnostic-image-plan.json: private diagnostic images packed/unpacked; candidate not booted",
+    "phone": "Recovered pinned IPv4 SSH and USB serial in old Linux initramfs; physical Fastboot still pending"
+  }
 }

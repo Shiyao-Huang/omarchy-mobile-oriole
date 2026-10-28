@@ -1,0 +1,68 @@
+{
+  "status": "arm64_built_core_tests_passed_not_installed_on_phone",
+  "date": "2026-10-28",
+  "upstream_commit": "7f0bf17ab518cd78925cf7e53cc0d5c42f88b41a",
+  "nura_commit": "a74e18dec7598f65cd504f0c75c10b8d7fc4422b",
+  "upstream_cached_patch_sha256": "f19050b7b3492dee173a8d109a13cc85a561d83fd72aead3b1e68377bd35c3d1",
+  "build_tasks": 390,
+  "test_passed": 22,
+  "test_failed": 0,
+  "test_names": [
+    "ModemManager:test-qcdm",
+    "ModemManager:test-common-helpers",
+    "ModemManager:test-pco",
+    "ModemManager:test-location-gps-nmea",
+    "ModemManager:test-udev-rules",
+    "ModemManager:test-keyfiles",
+    "daemon - ModemManager:test-at-serial-port",
+    "daemon - ModemManager:test-cbm-part",
+    "daemon - ModemManager:test-charsets",
+    "daemon - ModemManager:test-error-helpers",
+    "daemon - ModemManager:test-kernel-device-helpers",
+    "daemon - ModemManager:test-location-cache",
+    "daemon - ModemManager:test-modem-helpers",
+    "ModemManager:test-plugin-generic",
+    "daemon - ModemManager:test-sms-part-3gpp",
+    "daemon - ModemManager:test-sms-part-cdma",
+    "daemon - ModemManager:test-sms-list",
+    "daemon - ModemManager:test-udev-rules",
+    "daemon - ModemManager:test-port-scheduler",
+    "daemon - ModemManager:test-qcdm-serial-port",
+    "ModemManager:test-stub",
+    "daemon - ModemManager:test-base-call"
+  ],
+  "strict_polkit": true,
+  "artifacts": {
+    "usr/sbin/ModemManager": {
+      "sha256": "55fc562889e450b4a647f39eb94ba5a76352d4949ffcfece4b95972c60710a07",
+      "size": 5430152,
+      "machine": "AArch64"
+    },
+    "usr/bin/mmcli": {
+      "sha256": "a9c703ae984240b507fbcd2615431256db93fdef1fb7ea6b87322dff6cc0e995",
+      "size": 1018424,
+      "machine": "AArch64"
+    },
+    "usr/lib/ModemManager/libmm-plugin-shannon.so": {
+      "sha256": "4f678a547f477b6c6376b6a1042e066f196bcc2ab2c0bfcda65d7f86af0d4e84",
+      "size": 557488,
+      "machine": "AArch64"
+    },
+    "usr/lib/libmm-glib.so.0.11.0": {
+      "sha256": "594ccb0348d3a7e4e61c19275b14e8baa4095c5891916ead2e4040f608302967",
+      "size": 4528056,
+      "machine": "AArch64"
+    }
+  },
+  "stage_archive_sha256": "3e0ef15ae08e8468fde90fd9228da0ee501b4c8eb3c6ba0a1908d817718a7994",
+  "stage_archive_bytes": 4703436,
+  "test_toolchain_image": "sha256:f69368f87f3a12beb456678bcb883246373aa460008b641327770e59a59c9023",
+  "version_smoke": "mmcli 1.25.95",
+  "limitations": [
+    "Core/generic/stub tests do not exercise real Shannon SIT, SIM, IMS, network registration or voice audio.",
+    "Compiler warnings remain; this is not a warning-free build.",
+    "No modem firmware or cfg.db is included.",
+    "No phone installation, modem activation, 4G/5G or camera/GPU acceptance follows."
+  ],
+  "phone_writes": false
+}

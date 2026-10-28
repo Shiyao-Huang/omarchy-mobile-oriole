@@ -47,7 +47,11 @@
         "Official upstream pinned commit fetched successfully; three pinned Nura patches applied in isolated worktree.",
         "Native aarch64 Arch container configured compiler and GLib/SQLite/gudev; initial configure stopped on missing bash-completion. Dependency image extension also includes missing polkit and introspection development packages.",
         "Dependency extension succeeded with signature/integrity checks; new isolated ARM64 build launched retaining strict polkit and introspection.",
-        "Second configure passed polkit and introspection dependency checks, then found missing xsltproc used for generated headers. Added libxslt and DocBook in a second isolated layer; third ARM64 build launched."
+        "Second configure passed polkit and introspection dependency checks, then found missing xsltproc used for generated headers. Added libxslt and DocBook in a second isolated layer; third ARM64 build launched.",
+        "Added glib2-devel for gdbus-codegen; all 390 ARM64 build tasks completed with compiler warnings.",
+        "Initial stub test failed for missing Python gi, then dbus. Added python-gobject and python-dbus to an isolated dependency image and preserved failed logs.",
+        "Retested the same binaries: 22 core/generic/stub tests passed. Strict polkit remains enabled. Staged installation and independent AArch64 ELF checks passed; mmcli reports 1.25.95.",
+        "Read-only installed-package inspection on the old phone rootfs finds matching GLib 2.90.1, polkit 128 and SQLite 3.54.0 versions; this does not yet prove target runtime linking."
       ]
     }
   },
@@ -57,8 +61,10 @@
   "limitations": [
     "tinycbd is described as having no license at the pinned reference; it is not copied into the public project.",
     "This work does not boot the CP, provision an APN, enable VoLTE, or demonstrate China Mobile 4G/5G support.",
-    "Pinned plugin hardcodes preferred network type 9 and NR mode 1 while supported/current masks omit 5G; consistent mode selection and actual NR acceptance remain required."
+    "Pinned plugin hardcodes preferred network type 9 and NR mode 1 while supported/current masks omit 5G; consistent mode selection and actual NR acceptance remain required.",
+    "The 22 upstream/core tests do not exercise the live Shannon transport or validate China Mobile registration, 5G or IMS.",
+    "The staged output is not installed on the phone. Runtime dependencies, modem cfg.db and GS101 CP boot service remain separate integration gates."
   ],
   "exit_gate": "Exact source preparation and actual build/test before guarded device activation; cellular data and two-way call audio require independent live acceptance.",
-  "status": "source_prepared_arm64_build_running"
+  "status": "arm64_built_core_tests_passed_live_integration_pending"
 }
